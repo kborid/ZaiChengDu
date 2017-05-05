@@ -1,0 +1,124 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_background"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="@drawable/balance_inquire_bg"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/title_height" >
+
+            <TextView
+                android:id="@+id/tv_left_title"
+                android:layout_width="60dp"
+                android:layout_height="fill_parent"
+                android:drawableLeft="@drawable/m_back"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dip"
+                android:paddingRight="5dip"
+                android:textColor="@color/second_level_title_color"
+                android:textSize="@dimen/title_left_reight_text_size" />
+
+            <TextView
+                android:id="@+id/tv_center_title"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="余额查询"
+                android:textColor="@color/second_level_title_color"
+                android:textSize="@dimen/title_center_text_size" />
+
+            <TextView
+                android:id="@+id/tv_right_title"
+                android:layout_width="70dp"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dip"
+                android:paddingRight="16dip"
+                android:text="银行卡"
+                android:textColor="@color/second_level_title_color"
+                android:textSize="@dimen/title_left_reight_text_size" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="我的余额"
+                android:textColor="#584908"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:paddingBottom="15dp"
+                android:paddingTop="10dp"
+                android:singleLine="true"
+                android:textColor="#493F03"
+                android:textSize="21sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:pullToRefresh="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="14dp"
+        android:layout_weight="1"
+        android:background="#fff"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        pullToRefresh:ptrAnimationStyle="flip"
+        pullToRefresh:ptrHeaderTextColor="@color/headerTextColor"
+        pullToRefresh:ptrMode="pullFromStart"
+        pullToRefresh:ptrShowIndicator="false" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/emptyView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:paddingTop="90dp"
+            android:text="暂无数据记录"
+            android:textColor="@color/item_key_color"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_cashing"
+        style="@style/blue_button_style"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="-4dp"
+        android:layout_marginRight="-4dp"
+        android:minHeight="46dp"
+        android:text="提  现" />
+
+</LinearLayout>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent95_"
+    android:scrollbars="none" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="24dp" >
+
+        <ImageView
+            android:id="@+id/iv_photo"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/def_photo_b" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="13dp"
+            android:singleLine="true"
+            android:textColor="#565656"
+            android:textSize="13sp" />
+
+        <!-- <RelativeLayout
+            android:id="@+id/rl_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center" >
+
+            <com.common.widget.custom.DrawableCenterTextView
+                android:id="@+id/tv_balance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/common_blue_selector_bg"
+                android:drawableLeft="@drawable/menu_yue"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:paddingRight="28dp"
+                android:singleLine="true"
+                android:text="余额查询"
+                android:textColor="@color/menu_text_color"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/common_blue_selector_bg"
+                android:gravity="center_vertical"
+                android:paddingLeft="19dp"
+                android:paddingRight="23dp"
+                android:src="@drawable/accessory" />
+        </RelativeLayout> -->
+
+        <TextView
+            android:id="@+id/tv_userinfo"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/common_blue_selector_bg"
+            android:drawableLeft="@drawable/menu_btn_userinfo_sel_bg"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/accessory"
+            android:gravity="center_vertical"
+            android:paddingLeft="19dp"
+            android:paddingRight="23dp"
+            android:text="资料编辑"
+            android:textColor="@color/menu_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_account"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/common_blue_selector_bg"
+            android:drawableLeft="@drawable/menu_btn_account_sel_bg"
+            android:drawablePadding="5dp"
+            android:drawableRight="@drawable/accessory"
+            android:gravity="center_vertical"
+            android:paddingLeft="19dp"
+            android:paddingRight="23dp"
+            android:text="账户安全"
+            android:textColor="@color/menu_text_color"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="16dp"
+            android:background="#C6C6C6" />
+
+        <!-- <TextView
+            android:id="@+id/tv_order"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/common_blue_selector_bg"
+            android:drawableLeft="@drawable/menu_btn_order_sel_bg"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="19dp"
+            android:paddingRight="23dp"
+            android:text="订单列表"
+            android:textColor="@color/menu_text_color"
+            android:textSize="15sp" /> -->
+
+        <TextView
+            android:id="@+id/tv_qa"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/common_blue_selector_bg"
+            android:drawableLeft="@drawable/menu_btn_qa_sel_bg"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="19dp"
+            android:paddingRight="23dp"
+            android:text="我的问答"
+            android:textColor="@color/menu_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/common_blue_selector_bg"
+            android:drawableLeft="@drawable/menu_btn_address_sel_bg"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="19dp"
+            android:paddingRight="23dp"
+            android:text="地址管理"
+            android:textColor="@color/menu_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_invite"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/common_blue_selector_bg"
+            android:drawableLeft="@drawable/menu_btn_invite_sel_bg"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="19dp"
+            android:paddingRight="23dp"
+            android:text="邀请好友"
+            android:textColor="@color/menu_text_color"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="16dp"
+            android:background="#C6C6C6" />
+
+        <TextView
+            android:id="@+id/tv_problem"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/common_blue_selector_bg"
+            android:drawableLeft="@drawable/menu_btn_problem_sel_bg"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="19dp"
+            android:paddingRight="23dp"
+            android:text="常见问题"
+            android:textColor="@color/menu_text_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/common_blue_selector_bg"
+            android:drawableLeft="@drawable/menu_btn_about_sel_bg"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="19dp"
+            android:paddingRight="23dp"
+            android:text="关于我们"
+            android:textColor="@color/menu_text_color"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</ScrollView>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="${version}" >
+
+    <property
+        name="citybuild"
+        location="../citybuild" />
+
+    <!-- 1、建立一个临时目录 -->
+
+    <delete dir="${citybuild}" />
+
+    <mkdir dir="${citybuild}" />
+    <!-- 2、把需要的资源文件、build文件、java文件copy到临时目录 -->
+
+    <copy todir="${citybuild}/assets" >
+
+        <fileset dir="./assets" />
+    </copy>
+
+    <copy
+        overwrite="true"
+        todir="${citybuild}/assets" >
+
+        <fileset dir="./OtherCitys/${version}/assets" />
+    </copy>
+
+    <copy todir="${citybuild}/libs" >
+
+        <fileset dir="./libs" />
+    </copy>
+
+    <copy todir="${citybuild}/res" >
+
+        <fileset dir="./res" />
+    </copy>
+
+    <copy
+        overwrite="true"
+        todir="${citybuild}/res" >
+
+        <fileset dir="./OtherCitys/${version}/res" />
+    </copy>
+
+    <copy todir="${citybuild}/src" >
+
+        <fileset dir="./src" />
+    </copy>
+
+    <copy
+        file="./AndroidManifest.xml"
+        tofile="${citybuild}/AndroidManifest.xml" />
+
+    <copy
+        file="./ant.properties"
+        tofile="${citybuild}/ant.properties" />
+
+    <copy
+        file="./build.xml"
+        tofile="${citybuild}/build.xml" />
+
+    <copy
+        file="./lint.xml"
+        tofile="${citybuild}/lint.xml" />
+
+    <copy
+        file="./local.properties"
+        tofile="${citybuild}/local.properties" />
+
+    <copy
+        file="./proguard-project.txt"
+        tofile="${citybuild}/proguard-project.txt" />
+
+    <copy
+        file="./proguard.cfg"
+        tofile="${citybuild}/proguard.cfg" />
+
+    <copy
+        file="./project.properties"
+        tofile="${citybuild}/project.properties" />
+
+    <copy
+        file="./z012v4_single.keystore"
+        tofile="${citybuild}/z012v4_single.keystore" />
+
+    <loadproperties srcFile="./OtherCitys/${version}/city.properties" />
+
+    <!-- 修改编译工程名 -->
+
+    <replaceregexp
+        byline="true"
+        encoding="utf-8"
+        file="${citybuild}/build.xml"
+        flags="s"
+        match="project name=&quot;AtChengDu&quot;"
+        replace="project name=&quot;${CD.apkName}&quot;" />
+
+    <!-- 修改混淆文件 -->
+
+    <replaceregexp
+        byline="true"
+        encoding="utf-8"
+        file="${citybuild}/proguard.cfg"
+        flags="s"
+        match="com.z012.chengdu.sc"
+        replace="${CD.package}" />
+
+    <!-- 3、修改AndroidManifest.xml文件 -->
+    <!-- 修改包名 -->
+
+    <replaceregexp
+        byline="true"
+        encoding="utf-8"
+        file="${citybuild}/AndroidManifest.xml"
+        flags="s"
+        match="package=&quot;([^&quot;]+)&quot;"
+        replace="package=&quot;${CD.package}&quot;" />
+
+    <replaceregexp
+        byline="true"
+        encoding="utf-8"
+        file="${citybuild}/AndroidManifest.xml"
+        match="com.z012.chengdu.sc"
+        replace="${CD.package}" />
+
+    <!-- 修改版本号和版本名 -->
+
+    <replaceregexp
+        encoding="utf-8"
+        file="${citybuild}/AndroidManifest.xml"
+        flags="s"
+        match="android:versionCode=&quot;([^&quot;]+)&quot;.+android:versionName=&quot;([^&quot;]+)&quot;"
+        replace="android:versionCode=&quot;${CD.versionCode}&quot; android:versionName=&quot;${CD.versionName}&quot;" />
+
+    <!-- 修改目标工程mate-data -->
+
+    <replaceregexp
+        encoding="utf-8"
+        file="${citybuild}/AndroidManifest.xml"
+        flags="s"
+        match="android:name=&quot;PROJECT_BY&quot;.+android:value=&quot;chengdu&quot;"
+        replace="android:name=&quot;PROJECT_BY&quot; android:value=&quot;${CD.project_by}&quot;" />
+
+    <!--
+         <replaceregexp
+        encoding="utf-8"
+        file="${citybuild}/AndroidManifest.xml"
+        flags="s"
+        match='android:name="UMENG_CHANNEL".+android:value="Develop_Test"'
+		replace='android:name="UMENG_CHANNEL" android:value="${CD.channelName}"' />
+    -->
+
+
+    <!-- 4、修改java文件 -->
+    <!-- 替换工程中出现的包名和import引用 -->
+
+    <replaceregexp
+        byline="true"
+        encoding="utf-8"
+        flags="s"
+        match="com.z012.chengdu.sc"
+        replace="${CD.package}" >
+
+        <fileset
+            dir="${citybuild}/src"
+            includes="**/*.java" />
+    </replaceregexp>
+
+</project>

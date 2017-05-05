@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- umeng 分享申请的key -->
+    <string name="umeng_appkey">552cb9acfd98c5a40b000185</string>
+    <!-- 微信平台id -->
+    <string name="wx_appid">wx56df8b6cbfaabfa6</string>
+    <string name="wx_appsecret">b71094f85341913752c553e843cce81f</string>
+    <string name="wx_partnerId">1329791501</string>
+    <string name="wx_privateKey">ai5qrTrUJV4LV3aEyWzfoTMwKHLqam5x</string>
+    <!-- qq平台 -->
+    <string name="qq_appid">1104669696</string>
+    <string name="qq_appkey">iMmRSTY9K2Gu3isg</string>
+    <string name="qq_scheme">tencent1104669696</string>
+    <!-- 百度定位key -->
+    <string name="baidu_location_appkey">s2lmgmoiG2NGegGowH1qXK8c</string>
+    <!-- 极光推送 -->
+    <string name="jpush_appkey"> <!-- db50f76f457b631c2b15c23a -->fe3d5f1a2fd863f39b616e89</string>
+
+    <!-- 支付宝平台ParternId、PrivateKey、SellerId -->
+    <string name="parternId">2088121743533360</string>
+    <string name="privateKey">MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAOkLygEyCDxKoh2ZoeyGBWxGLdibb0fRxXqIThBIUK6jj7A23kUAYwxzyZfZlFtznJrr4ZJMH0Uks/FQigZxDVe+ULrDSEnxG93WEuCDfXYWyUvkd6NEXMXHe/7DgZZhd8jPJBPJlz3rAf6Nsj+4zNnbzy0fWEiDnbu+v1dvKwVPAgMBAAECgYBAu4GU62zWMnTte+s6Y8/Fz4iUjjhO3rnX21yzsSKYH96dt9/tkrnwj4kDoPBQpsBtV/AETxiwgA1rjk+IkoZ9vTEDZi0blhboHV4cbGDFisAEbgPmcxCM5ZkcV2o6mF9XekHuYRlIZ9W2ubeA/mXOxGcCS/eOElGBi+VyjP0yIQJBAPYiI9j58VelivEFhEckHmEUCNIMwXJpl42mPkmOYhCDCEZLEbNuP7eoYxuZcGUcfGwt1H+/N1VSZjvX842VS2sCQQDyY1hRofeTvunQNTejKOIYS3b2n+utvPRs8HGpKj8GDuk88dy/0atwaMJSyjBHDJnRpsO9jcnFgP/u66/mFqqtAkBHvX+xWHit0USEJ9V8Xtyz8wD3KFyiGoDf+pqhGe0fXvHkezD3maTcxSnN+5U1A26IoXsUmQlpxxChVLpahC9tAkAHiKj1GJiuYe+4hf7ttlaYtLfE4KGdq9LZE/wkaui8kngTad0XpTez7b2kfx5TBwQ87PcGjEKqPeE2luLHvwqdAkArGELkOH1J+4t17qcWZwtS2qLMjbxfL4vzGyVFYxZkeMXuYQKMOa9Kv4S19EtgSBxHGeYHIHN6C7aqI/PtqY4E</string>
+    <string name="sellerId">finance@zaichongqing.com</string>
+
+    <!-- 设置默认城市信息 -->
+    <string name="areaCode">500000</string>
+    <string name="areaName">重庆</string>
+    <string name="cityId">CN101040100</string>
+    <string name="appId">ARD-023-0001</string>
+    <string name="appKey">84934ae8d1e384b1b058147a95cdb0c9d1e384b1b058147a</string>
+    <!-- 服务器地址 -->
+    <string name="uattest_server">http://uat.zaichongqing.com:7878/</string>
+    <string name="offical_server">http://www.zaichongqing.com/</string>
+    <string name="local_server">http://192.168.1.222/</string>
+    <!-- portal -->
+    <string name="portal">cq_portal/</string>
+    <string name="portal_server">cq_portal/service/</string>
+
+</resources>

@@ -1,0 +1,94 @@
+{
+  "city": [
+    {
+      "name": "成都",
+      "code": "CN101270101",
+      "py": "chengdu",
+	  "fl":"C"
+    },
+    {
+      "name": "龙泉驿",
+      "code": "CN101270102",
+      "py": "longquanyi",
+	  "fl":"L"
+    },
+    {
+      "name": "新都",
+      "code": "CN101270103",
+      "py": "xindu",
+	  "fl":"X"
+    },
+    {
+      "name": "温江",
+      "code": "CN101270104",
+      "py": "wenjiang",
+	  "fl":"W"
+    },
+    {
+      "name": "金堂",
+      "code": "CN101270105",
+      "py": "jintang",
+	  "fl":"J"
+    },
+    {
+      "name": "双流",
+      "code": "CN101270106",
+      "py": "shuangliu",
+	  "fl":"S"
+    },
+    {
+      "name": "郫县",
+      "code": "CN101270107",
+      "py": "pixian",
+	  "fl":"P"
+    },
+    {
+      "name": "大邑",
+      "code": "CN101270108",
+      "py": "dayi",
+	  "fl":"D"
+    },
+    {
+      "name": "蒲江",
+      "code": "CN101270109",
+      "py": "pujiang",
+	  "fl":"P"
+    },
+    {
+      "name": "新津",
+      "code": "CN101270110",
+      "py": "xinjin",
+	  "fl":"X"
+    },
+    {
+      "name": "都江堰",
+      "code": "CN101270111",
+      "py": "dujiangyan",
+	  "fl":"D"
+    },
+    {
+      "name": "彭州",
+      "code": "CN101270112",
+      "py": "pengzhou",
+	  "fl":"P"
+    },
+    {
+      "name": "邛崃",
+      "code": "CN101270113",
+      "py": "qionglai",
+	  "fl":"Q"
+    },
+    {
+      "name": "崇州",
+      "code": "CN101270114",
+      "py": "chongzhou",
+	  "fl":"C"
+    },
+    {
+      "name": "青白江",
+      "code": "CN101270115",
+      "py": "qingbaijiang",
+	  "fl":"Q"
+    }
+  ]
+}

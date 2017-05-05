@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/listview_item_hight"
+    android:background="@drawable/common_item_selector"
+    android:orientation="horizontal"
+    android:paddingBottom="3dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="6dp"
+    android:paddingTop="3dp" >
+
+    <FrameLayout
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="center" >
+
+        <com.common.widget.custom.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/circleImageView"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            app:border_color="@color/transparent"
+            app:border_width="0dp" />
+
+        <TextView
+            android:id="@+id/tv_circle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="17sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:paddingLeft="20dp"
+        android:singleLine="true"
+        android:textColor="@color/input_text_color"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="right|center"
+        android:scaleType="centerInside"
+        android:src="@drawable/accessory" />
+
+</LinearLayout>

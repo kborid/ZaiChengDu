@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/viewPager" >
+
+    <include layout="@layout/comm_title" />
+    <!-- 问 -->
+
+    <ListView
+        android:id="@+id/mListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:dividerHeight="14dp"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never" />
+
+    <include layout="@layout/lv_qa_ask_footerview" />
+
+</LinearLayout>
