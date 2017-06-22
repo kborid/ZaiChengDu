@@ -177,6 +177,9 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 	public void setHeadPortrait(String url) {
 		// imgPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.def_photo_b));
 		if (url != null && url.length() > 0) {
+			if (!url.startsWith("http")) {
+				url = NetURL.API_LINK + url;
+			}
 			ImageLoader.getInstance().loadBitmap(new ImageCallback() {
 				@Override
 				public void imageCallback(Bitmap bm, String url, String imageTag) {

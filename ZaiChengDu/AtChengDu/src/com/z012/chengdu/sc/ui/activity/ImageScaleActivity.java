@@ -20,6 +20,7 @@ import com.common.widget.scale.GestureImageView;
 import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.ThumbnailUtil;
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.adapter.ViewPagerAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
@@ -96,6 +97,9 @@ public class ImageScaleActivity extends BaseActivity implements
 			if (imgUrl != null && imgUrl.size() > 0) {
 				for (int i = 0; i < imgUrl.size(); i++) {
 					String url = imgUrl.get(i);
+					if (!url.startsWith("http")) {
+						url = NetURL.API_LINK + url;
+					}
 					GestureImageView view = new GestureImageView(this);
 					view.setTag(url);
 					mView.add(view);

@@ -422,7 +422,7 @@ public class IdentityVerificationActivity extends BaseActivity implements DataCa
 	 */
 	public void loadBitmap(final ImageView v, String url) {
 		if (url != null && url.length() > 0) {
-			if (!url.contains("http://")) {// 如果返回数据不是全路径，就拼接
+			if (!url.startsWith("http")) {
 				url = NetURL.API_LINK + url;
 			}
 

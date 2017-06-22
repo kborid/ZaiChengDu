@@ -254,6 +254,10 @@ public class Tab1HomeFragment extends BaseFragment implements DataCallback,
 			if (SessionContext.isLogin()) {
 				String url = SessionContext.mUser.USERBASIC.getHeadphotourl();
 				if (url != null && url.length() > 0) {
+					if (!url.startsWith("http")) {
+						url = NetURL.API_LINK + url;
+					}
+					
 					ImageLoader.getInstance().loadBitmap(new ImageCallback() {
 						@Override
 						public void imageCallback(Bitmap bm, String url,
@@ -729,7 +733,9 @@ public class Tab1HomeFragment extends BaseFragment implements DataCallback,
 		// 图片绑定
 		String tag;
 		if (url != null) {
-			url = NetURL.API_LINK + url;
+			if (!url.startsWith("http")) {
+				url = NetURL.API_LINK + url;
+			}
 			tag = url + position;
 
 			Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);

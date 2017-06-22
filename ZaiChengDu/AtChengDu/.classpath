@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="D:/android-sdk_r24.4.1-windows/android-sdk-windows/platforms/android-21/android.jar" sourcepath="D:/迅雷下载/android-sdk_r24.4.1-windows/android-sdk-windows/sources/android-21">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/D:/迅雷下载/android-sdk_r24.4.1-windows/android-sdk-windows/docs/reference"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/ACDPullToRefresh"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/AtChengDuSDK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_92"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -10,11 +10,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.dc.statistic.StatisticProxy;
-import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.LogUtil;
 import com.umeng.analytics.MobclickAgent;
-import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
 
 /**
@@ -127,37 +124,24 @@ public abstract class BaseFragment extends Fragment implements OnClickListener {
 	 */
 	public void onVisibilityChangedToUser(boolean isVisibleToUser,
 			boolean isHappenedInSetUserVisibleHintMethod) {
-		try {
-			if (isVisibleToUser) {
-				isVisible = true;
-				onVisible();
-				MobclickAgent.onPageStart(this.getClass().getName());
-				// 平台埋点
-				String tt = getClass().getSimpleName();
-				String userId = "";
-				if (SessionContext.isLogin()) {
-					userId = SessionContext.mUser.USERBASIC.id;
-				}
-				StatisticProxy.getInstance().onPageViews(getActivity(), "m99",
-						SessionContext.getAreaInfo(1), AppContext.getVersion(),
-						"", userId, tt, tt, System.currentTimeMillis());
-
-				LogUtil.d(
-						tt,
-						" - display - "
-								+ (isHappenedInSetUserVisibleHintMethod ? "setUserVisibleHint"
-										: "onResume"));
-			} else {
-				isVisible = false;
-				onInvisible();
-				MobclickAgent.onPageEnd(this.getClass().getName());
-				LogUtil.d(
-						getClass().getSimpleName(),
-						" - hidden - "
-								+ (isHappenedInSetUserVisibleHintMethod ? "setUserVisibleHint"
-										: "onPause"));
-			}
-		} catch (Exception e) {
+		if (isVisibleToUser) {
+			isVisible = true;
+			onVisible();
+			MobclickAgent.onPageStart(this.getClass().getName());
+			LogUtil.d(
+					getClass().getSimpleName(),
+					" - display - "
+							+ (isHappenedInSetUserVisibleHintMethod ? "setUserVisibleHint"
+							: "onResume"));
+		} else {
+			isVisible = false;
+			onInvisible();
+			MobclickAgent.onPageEnd(this.getClass().getName());
+			LogUtil.d(
+					getClass().getSimpleName(),
+					" - hidden - "
+							+ (isHappenedInSetUserVisibleHintMethod ? "setUserVisibleHint"
+							: "onPause"));
 		}
 	}
 

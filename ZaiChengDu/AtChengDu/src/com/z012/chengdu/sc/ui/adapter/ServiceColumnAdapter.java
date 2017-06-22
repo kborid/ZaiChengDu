@@ -104,6 +104,10 @@ public class ServiceColumnAdapter extends BaseAdapter {
 	 * 图片绑定
 	 */
 	public void loadBandImage(ImageView iView, String url, String tag) {
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;
+		}
+		
 		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
 		if (bm != null) {
 			iView.setImageBitmap(BitmapUtils.getAlphaBitmap(bm, 0xff000000));//替换颜色

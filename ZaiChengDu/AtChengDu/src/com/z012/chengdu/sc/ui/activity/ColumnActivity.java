@@ -131,6 +131,9 @@ public class ColumnActivity extends BaseActivity {
 	}
 
 	public void setHeadImg(String url) {
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;
+		}
 		mImgView.setImageResource(R.drawable.loading);
 		if (url != null && url.length() > 0) {
 			ImageLoader.getInstance().loadBitmap(new ImageCallback() {

@@ -24813,11 +24813,11 @@ com.z012.chengdu.sc.app.CrashHandler: java.lang.String TAG
 com.z012.chengdu.sc.app.CrashHandler: com.z012.chengdu.sc.app.CrashHandler getInstance()
 com.z012.chengdu.sc.app.CrashHandler: void init(android.content.Context)
 com.z012.chengdu.sc.app.CrashHandler: void uncaughtException(java.lang.Thread,java.lang.Throwable)
-com.z012.chengdu.sc.app.PRJAppplcation
-com.z012.chengdu.sc.app.PRJAppplcation: PRJAppplcation()
-com.z012.chengdu.sc.app.PRJAppplcation: void onCreate()
-com.z012.chengdu.sc.app.PRJAppplcation: void onLowMemory()
-com.z012.chengdu.sc.app.PRJAppplcation: void onTerminate()
+com.z012.chengdu.sc.app.PRJApplication
+com.z012.chengdu.sc.app.PRJApplication: PRJAppplcation()
+com.z012.chengdu.sc.app.PRJApplication: void onCreate()
+com.z012.chengdu.sc.app.PRJApplication: void onLowMemory()
+com.z012.chengdu.sc.app.PRJApplication: void onTerminate()
 com.z012.chengdu.sc.app.SessionContext: com.z012.chengdu.sc.net.bean.UserInfo mUser
 com.z012.chengdu.sc.app.SessionContext: SessionContext()
 com.z012.chengdu.sc.app.SessionContext: java.lang.String getAreaInfo(int)

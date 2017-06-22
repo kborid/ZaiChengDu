@@ -21,6 +21,7 @@ import com.prj.sdk.util.StringUtil;
 import com.prj.sdk.util.ThumbnailUtil;
 import com.prj.sdk.util.Utils;
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.SelectBankBean;
 import com.z012.chengdu.sc.ui.activity.CashingActivity;
 
@@ -179,6 +180,9 @@ public class SelectBankAdapter extends BaseAdapter {
 	 * 图片绑定
 	 */
 	public void loadImage(ImageView iView, String url, String tag) {
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;
+		}
 		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
 		if (bm != null) {
 			iView.setImageBitmap(ThumbnailUtil.getRoundImage(bm));

@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="D:\workspace_com\ZaiChengDu_Android\ZaiChengDu\AtChengDu\src\androidTest\assets"/><source path="D:\workspace_com\ZaiChengDu_Android\ZaiChengDu\AtChengDu\build\generated\assets\shaders\androidTest\chongqing\debug"/></dataSet><dataSet config="chongqing"><source path="D:\workspace_com\ZaiChengDu_Android\ZaiChengDu\AtChengDu\src\androidTestChongqing\assets"/></dataSet></merger>

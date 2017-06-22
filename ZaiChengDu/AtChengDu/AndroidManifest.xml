@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.z012.chengdu.sc"
-    android:versionCode="64"
-    android:versionName="4.0.4" >
+    package="com.z012.chengdu.sc">
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -16,12 +14,12 @@
         android:smallScreens="true" />
 
     <application
-        android:name=".app.PRJAppplcation"
+        android:name=".app.PRJApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".ui.activity.WelcomeActivity"
             android:label="@string/app_name"
@@ -33,9 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.Tab1Activity"
-            android:screenOrientation="portrait" /> <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->
         <!-- 我的问答 -->
         <activity
             android:name=".ui.activity.MyQAActivity"
@@ -131,10 +126,6 @@
         <!-- 发表问答 -->
         <activity
             android:name=".ui.activity.QAISayActivity"
-            android:screenOrientation="portrait" />
-        <!-- 天气信息 -->
-        <activity
-            android:name=".ui.activity.WeatherInfoActivity"
             android:screenOrientation="portrait" />
         <!-- 图片浏览 -->
         <activity
@@ -293,7 +284,7 @@
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="com.z012.chengdu.sc" /> <!-- 应用包名 -->
+                <category android:name="${AppPackageName}" /> <!-- 应用包名 -->
             </intent-filter>
         </activity>
         <!-- Required  SDK核心功能 -->
@@ -325,7 +316,7 @@
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
 
-                <category android:name="com.z012.chengdu.sc" /> <!-- 应用包名 -->
+                <category android:name="${AppPackageName}" /> <!-- 应用包名 -->
             </intent-filter>
         </service>
 
@@ -336,7 +327,7 @@
             android:exported="false" >
             <intent-filter android:priority="1000" >
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" /> <!-- Required  显示通知栏 -->
-                <category android:name="com.z012.chengdu.sc" /> <!-- 应用包名 -->
+                <category android:name="${AppPackageName}" /> <!-- 应用包名 -->
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -367,7 +358,7 @@
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" /> <!-- Required  用户打开自定义通知栏的intent -->
                 <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" /> <!-- Optional 用户接受Rich Push Javascript 回调函数的intent -->
                 <action android:name="cn.jpush.android.intent.CONNECTION" /> <!-- 接收网络变化 连接/断开 since 1.6.3 -->
-                <category android:name="com.z012.chengdu.sc" /> <!-- 应用包名 -->
+                <category android:name="${AppPackageName}" /> <!-- 应用包名 -->
             </intent-filter>
         </receiver>
 
@@ -442,7 +433,6 @@
     <!-- lbs -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.ACCESS_ASSISTED_GPS" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
@@ -496,11 +486,10 @@
     <!-- ##########   极光推送     ########### -->
     <!-- Required 自定义用来收发消息的相关权限 -->
     <permission
-        android:name="com.z012.chengdu.sc.permission.JPUSH_MESSAGE"
+        android:name="${AppPackageName}.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
     <!-- Required  一些系统要求的权限，如访问网络等 -->
-    <uses-permission android:name="com.z012.chengdu.sc.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />

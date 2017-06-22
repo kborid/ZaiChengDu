@@ -1,0 +1,79 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_background"
+    android:orientation="vertical" >
+
+    <include layout="@layout/comm_title" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginTop="14dp"
+                android:hint="绑定的银行卡"
+                android:visibility="gone"
+                android:paddingLeft="15dp" />
+
+            <com.common.widget.custom.MyListViewWidget
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="#00000000"
+                android:divider="@color/title_line"
+                android:dividerHeight="1dp"
+                android:overScrollMode="never" />
+
+            <!-- 支护宝 -->
+
+            <TextView
+                android:id="@+id/tv_ali"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:layout_marginTop="14dp"
+                android:hint="绑定的支付宝"
+                android:visibility="gone"
+                android:paddingLeft="15dp" />
+
+            <com.common.widget.custom.MyListViewWidget
+                android:id="@+id/ali_listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="#00000000"
+                android:divider="@color/title_line"
+                android:dividerHeight="1dp"
+                android:overScrollMode="never" />
+
+            <TextView
+                android:id="@+id/tv_bind_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center" 
+                android:paddingTop="50dp"
+                android:text="请绑定支付宝或银行卡账户"/>
+
+            <Button
+                android:id="@+id/btn_add_other"
+                style="@style/blue_button_style"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
+                android:text="添加绑定" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

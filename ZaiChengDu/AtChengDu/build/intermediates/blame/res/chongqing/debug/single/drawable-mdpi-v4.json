@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-mdpi-v4\\default_ptr_rotate.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\ACDPullToRefresh\\unspecified\\res\\drawable-mdpi-v4\\default_ptr_rotate.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-mdpi-v4\\ic_launcher.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\AtChengDuSDK\\unspecified\\res\\drawable-mdpi-v4\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-mdpi-v4\\progressbar.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\ACDPullToRefresh\\unspecified\\res\\drawable-mdpi-v4\\progressbar.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-mdpi-v4\\default_ptr_flip.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\ACDPullToRefresh\\unspecified\\res\\drawable-mdpi-v4\\default_ptr_flip.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-mdpi-v4\\indicator_arrow.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\ACDPullToRefresh\\unspecified\\res\\drawable-mdpi-v4\\indicator_arrow.png"
+    }
+]

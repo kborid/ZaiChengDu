@@ -190,8 +190,11 @@ public class BalanceInquireActivity extends BaseActivity implements DataCallback
 
 					@Override
 					public void leftBtn(CustomDialogUtil dialog) {
-						Intent intent = new Intent(BalanceInquireActivity.this, IdentityVerificationActivity.class);
-						startActivity(intent);
+//						Intent intent = new Intent(BalanceInquireActivity.this, IdentityVerificationActivity.class);
+						Intent mIntent = new Intent(BalanceInquireActivity.this, HtmlActivity.class);
+						mIntent.putExtra("title", "实名认证");
+						mIntent.putExtra("path", NetURL.IDENTITY_H5);
+						startActivity(mIntent);
 						dialog.dismiss();
 					}
 				});

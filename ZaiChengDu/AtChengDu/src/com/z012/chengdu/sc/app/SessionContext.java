@@ -72,6 +72,9 @@ public class SessionContext {
 		} else {
 			mWeatherInfo.clear();
 		}
+		if (list.size() >= 7) {
+			list = list.subList(0, 7);
+		}
 		mWeatherInfo.addAll(list);
 	}
 

@@ -29268,7 +29268,7 @@ com.z012.chengdu.sc.app.CrashHandler -> com.z012.chengdu.sc.app.a:
     44:47:void init(android.content.Context) -> init
     54:68:void uncaughtException(java.lang.Thread,java.lang.Throwable) -> uncaughtException
     71:73:void clearNotification(android.content.Context) -> a
-com.z012.chengdu.sc.app.PRJAppplcation -> com.z012.chengdu.sc.app.PRJAppplcation:
+com.z012.chengdu.sc.app.PRJApplication -> com.z012.chengdu.sc.app.PRJApplication:
     26:39:void onCreate() -> onCreate
     43:44:void onLowMemory() -> onLowMemory
     48:50:void onTerminate() -> onTerminate

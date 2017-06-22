@@ -56,13 +56,13 @@
 -keep class com.common.widget.custom.CircleImageView { <init>(...); }
 
 # view res/layout/ui_city_hot.xml #generated:20
-# view res/layout/ui_web_act.xml #generated:129
+# view res/layout/ui_web_act.xml #generated:115
 -keep class com.common.widget.custom.CommonLoadingWidget { <init>(...); }
 
 # view res/layout/fragment_tab1_main.xml #generated:70
 -keep class com.common.widget.custom.MyGridViewWidget { <init>(...); }
 
-# view res/layout/fragment_tab1_main.xml #generated:99
+# view res/layout/fragment_tab1_main.xml #generated:100
 # view res/layout/ui_cityselect_act.xml #generated:66
 # view res/layout/ui_select_bank_card_act.xml #generated:30
 # view res/layout/ui_select_bank_card_act.xml #generated:51
@@ -126,7 +126,7 @@
 -keep class com.umeng.update.net.DownloadingService { <init>(...); }
 
 # view AndroidManifest.xml #generated:18
--keep class com.z012.chengdu.sc.app.PRJAppplcation { <init>(...); }
+-keep class com.z012.chengdu.sc.app.PRJApplication { <init>(...); }
 
 # view AndroidManifest.xml #generated:144
 -keep class com.z012.chengdu.sc.ui.activity.AboutActivity { <init>(...); }

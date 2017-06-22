@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class WebChromeClientCompat extends WebChromeClient {
 	private ChooserFileController	mCtrl;
 	private Context					mContext;
-	private TextView				mTitleView;
+//	private TextView				mTitleView;
 
 	public WebChromeClientCompat(Context context, ChooserFileController mCtrl) {
 		this.mCtrl = mCtrl;
@@ -30,7 +30,7 @@ public class WebChromeClientCompat extends WebChromeClient {
 	public WebChromeClientCompat(Context context, ChooserFileController mCtrl,TextView view) {
 		this.mCtrl = mCtrl;
 		this.mContext = context;
-		this.mTitleView = view;
+//		this.mTitleView = view;
 	}
 	
 	// 提示对话框
@@ -84,9 +84,9 @@ public class WebChromeClientCompat extends WebChromeClient {
 	@Override
 	public void onReceivedTitle(WebView view, String title) {
 		super.onReceivedTitle(view, title);
-		if(mTitleView != null){
-			mTitleView.setText(title);
-		}
+//		if(mTitleView != null){
+//			mTitleView.setText(title);
+//		}
 	}
 
 	public void onGeolocationPermissionsHidePrompt() {

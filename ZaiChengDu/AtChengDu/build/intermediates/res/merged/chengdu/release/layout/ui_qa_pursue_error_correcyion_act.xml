@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/viewPager" >
+
+    <include layout="@layout/comm_title" />
+
+    <EditText
+        android:id="@+id/et_content"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:background="#fff"
+        android:gravity="left"
+        android:hint="如对答案存在疑问，请在此处填写我们会尽快解决"
+        android:padding="15dp"
+        android:textColor="#a9a9a9"
+        android:textColorHint="#bababa"
+        android:textSize="14sp" />
+
+</LinearLayout>

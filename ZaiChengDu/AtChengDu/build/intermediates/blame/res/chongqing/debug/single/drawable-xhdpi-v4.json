@@ -1,0 +1,782 @@
+[
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\accessory.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\accessory.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\t3_csxxs.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\t3_csxxs.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\list_hr_bg.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\list_hr_bg.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_share_weixin.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_share_weixin.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_about.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_about.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\more.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\more.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\address_edit.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\address_edit.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_service_2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_service_2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_top_story.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_top_story.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\password.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\password.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\default_ptr_rotate.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\ACDPullToRefresh\\unspecified\\res\\drawable-xhdpi-v4\\default_ptr_rotate.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\service_select.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\service_select.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\balance_inquire_bg.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\balance_inquire_bg.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\add_img.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\add_img.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\tab2_asking.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\tab2_asking.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\round_loading.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\round_loading.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_praise.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_praise.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_shower.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_shower.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_index.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_index.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\username.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\username.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_logo.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_logo.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_wx_circle.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_wx_circle.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_update_btn_check_off_focused_holo_light.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_update_btn_check_off_focused_holo_light.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\second_back.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\second_back.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\address_checked.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\address_checked.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\img_item_bg.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\img_item_bg.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_certificate_pic.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_certificate_pic.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_ask.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_ask.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_service_colunm_bg.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_service_colunm_bg.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\pull_ico.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\pull_ico.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\icon_more_service.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\icon_more_service.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\user_guide_3.jpg",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\user_guide_3.jpg"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_list_item_def.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_list_item_def.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_update_btn_check_on_pressed_holo_light.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_update_btn_check_on_pressed_holo_light.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_haze_day.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_haze_day.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_share_music.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_share_music.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\tab2_status_b.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\tab2_status_b.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_invite2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_invite2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_logo_text.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\src\\chongqing\\res\\drawable-xhdpi\\ic_logo_text.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_login_wx.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_login_wx.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_list_item_hover.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_list_item_hover.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\wo2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\wo2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_ywbd.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_ywbd.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_progressbar.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\src\\chongqing\\res\\drawable-xhdpi\\ic_progressbar.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_hail.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_hail.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_service_4.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_service_4.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\is_open.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\is_open.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_pwd_show.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_pwd_show.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\m_refresh.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\m_refresh.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_launcher.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_bind_wb.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_bind_wb.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_bind_qq.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_bind_qq.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\search.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\search.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\tab3_footprint.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\tab3_footprint.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_pwd_t.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_pwd_t.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_cloudy_partly.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_cloudy_partly.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_snow.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_snow.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\icon_location_blue.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\icon_location_blue.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\photo.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\photo.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_share_qq.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_share_qq.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_snow_heavy.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_snow_heavy.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_hot.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_hot.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_unionpay.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_unionpay.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\address_delete.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\address_delete.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_menu_refresh.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_menu_refresh.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\def_photo_b.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\def_photo_b.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_sina.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_sina.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_update_btn_check_off_holo_light.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_update_btn_check_off_holo_light.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_zhaq.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_zhaq.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_shrink_b_1.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_shrink_b_1.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_update_close_bg_tap.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_update_close_bg_tap.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_bind_wx.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_bind_wx.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_zhaq2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_zhaq2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_snow.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_snow.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\search_service.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\search_service.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_wx.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_wx.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\phone.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\phone.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_snow_storm.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_snow_storm.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_problem2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_problem2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_foggy.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_foggy.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\search_service2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\search_service2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_sms_off.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_sms_off.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_share_video.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_share_video.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\gradient_bg.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\gradient_bg.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\error.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\error.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_zhihubao.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_zhihubao.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_snow_moderate.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_snow_moderate.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_update_close_bg_normal.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_update_close_bg_normal.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\tab2_edit.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\tab2_edit.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_start_up_logo.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\src\\chongqing\\res\\drawable-xhdpi\\ic_start_up_logo.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_answer.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_answer.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_snow_night.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_snow_night.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_problem.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_problem.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_cloudy.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_cloudy.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_service.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_service.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\img_list.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\img_list.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_invite.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_invite.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\progressbar.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\ACDPullToRefresh\\unspecified\\res\\drawable-xhdpi-v4\\progressbar.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_service_3.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_service_3.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\wo.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\wo.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_pwd_hide.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_pwd_hide.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_storm.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_storm.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_save.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_save.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_oauth_check_off.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_oauth_check_off.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_menu_save.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_menu_save.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\icon_input_cancel.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\icon_input_cancel.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_cloudy_day.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_cloudy_day.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_address.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_address.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\index_search.9.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\index_search.9.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_order.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_order.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_service2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_service2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\icon_address.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\icon_address.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\tab3_sc.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\tab3_sc.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_delete.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_delete.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\tab2_status_a.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\tab2_status_a.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\checked.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\checked.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\check.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\check.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\search_bg.9.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\search_bg.9.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_more.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_more.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_share_pic.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_share_pic.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_service_bg.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_service_bg.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_overcast.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_overcast.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_menu_copy.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_menu_copy.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_invite.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_invite.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_heavy.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_heavy.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_service_1.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_service_1.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_update_btn_check_off_pressed_holo_light.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_update_btn_check_off_pressed_holo_light.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_user.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_user.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\t3_sys_set.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\t3_sys_set.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_nwwd.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_nwwd.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_message_alert.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_message_alert.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_oauth_check_on.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_oauth_check_on.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_order2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_order2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_snow_small.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_snow_small.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_update_btn_check_on_focused_holo_light.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_update_btn_check_on_focused_holo_light.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_sms_on.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_sms_on.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_small.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_small.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_qq.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_qq.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\address_add.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\address_add.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\list_ico.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\list_ico.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_search.9.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_search.9.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_index2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_index2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\logo_icon.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\src\\chongqing\\res\\drawable-xhdpi\\logo_icon.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_zlbj2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_zlbj2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\bianji.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\bianji.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_nav_bar_bg_pad.9.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_nav_bar_bg_pad.9.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\service_colunm_bg.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\service_colunm_bg.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_loading.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_loading.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_answer2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_answer2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\address_check.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\address_check.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\anquan.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\anquan.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_shrink_a_1.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_shrink_a_1.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_socialize_light_bar_bg_pad.9.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_socialize_light_bar_bg_pad.9.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\indicator_arrow.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\ACDPullToRefresh\\unspecified\\res\\drawable-xhdpi-v4\\indicator_arrow.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\user_guide_1.jpg",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\user_guide_1.jpg"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\umeng_update_btn_check_on_holo_light.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\umeng_update_btn_check_on_holo_light.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_haze_night.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_haze_night.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_about2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_about2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\user_guide_2.jpg",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\user_guide_2.jpg"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\loading.9.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\loading.9.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_zlbj.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_zlbj.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\login_bg.jpg",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\login_bg.jpg"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\icon.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\src\\chongqing\\res\\drawable-xhdpi\\icon.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\tab2_answer.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\tab2_answer.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\m_back.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\m_back.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_login_sina.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_login_sina.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\img_bg.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\img_bg.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_login_qq.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_login_qq.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_alipay.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_alipay.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_qa2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_qa2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_night.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_night.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_cloudy_night.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_cloudy_night.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_menu_fout.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_menu_fout.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_qa.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_qa.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_ask_question.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_ask_question.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\login_close.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\login_close.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_yue.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_yue.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_qa.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_qa.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\default_ptr_flip.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\exploded-aar\\ZaiChengDu\\ACDPullToRefresh\\unspecified\\res\\drawable-xhdpi-v4\\default_ptr_flip.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\icon_location_yellow.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\icon_location_yellow.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_more2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_more2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\sousuo.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\sousuo.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_qr.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_qr.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_thunder.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_thunder.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_text.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\src\\chongqing\\res\\drawable-xhdpi\\ic_text.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_moderate.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_moderate.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\iv_share_sms.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\iv_share_sms.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_qa2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_qa2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\menu_address2.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\menu_address2.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\address_default.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\address_default.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_rain_thunder.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_rain_thunder.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_sunny_day.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_sunny_day.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\location.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\location.png"
+    },
+    {
+        "merged": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\build\\intermediates\\res\\merged\\chongqing\\debug\\drawable-xhdpi-v4\\ic_sunny_night.png",
+        "source": "D:\\workspace_com\\ZaiChengDu_Android\\ZaiChengDu\\AtChengDu\\res\\drawable-xhdpi\\ic_sunny_night.png"
+    }
+]

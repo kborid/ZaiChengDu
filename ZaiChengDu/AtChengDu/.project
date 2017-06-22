@@ -3,6 +3,8 @@
 	<name>WelcomeActivity</name>
 	<comment></comment>
 	<projects>
+		<project>ACDPullToRefresh</project>
+		<project>AtChengDuSDK</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

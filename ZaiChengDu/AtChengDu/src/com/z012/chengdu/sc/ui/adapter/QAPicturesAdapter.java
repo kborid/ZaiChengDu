@@ -20,6 +20,7 @@ import com.prj.sdk.net.image.ImageLoader.ImageCallback;
 import com.prj.sdk.util.DisplayUtil;
 import com.prj.sdk.util.StringUtil;
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.activity.ImageScaleActivity;
 import com.z012.chengdu.sc.ui.activity.QADetailsActivity;
 
@@ -201,6 +202,9 @@ public class QAPicturesAdapter extends BaseAdapter {
 	public void setImgView(final ImageView view, String url) {
 		if (StringUtil.empty(url)) {
 			return;
+		}
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;
 		}
 		view.setImageResource(R.drawable.loading);
 		ImageLoader.getInstance().loadBitmap(new ImageCallback() {

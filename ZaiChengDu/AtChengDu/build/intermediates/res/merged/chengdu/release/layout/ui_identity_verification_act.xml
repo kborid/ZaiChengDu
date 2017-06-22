@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_background"
+    android:orientation="vertical" >
+
+    <include layout="@layout/comm_title" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height"
+        android:background="@color/second_level_title_bg"
+        android:gravity="center"
+        android:text="认证审核中..."
+        android:textColor="#fff"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="#ffffff"
+                android:orientation="vertical"
+                android:stretchColumns="1" >
+
+                <TableRow android:padding="15dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:singleLine="true"
+                        android:text="真实姓名"
+                        android:textColor="@color/item_value_color"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/et_userName"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="left"
+                        android:hint="填写您的真实姓名"
+                        android:paddingLeft="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/item_key_color"
+                        android:textSize="15sp" />
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/title_line" />
+
+                <TableRow android:padding="15dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:text="身份证号"
+                        android:textColor="@color/item_value_color"
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/et_idcardcode"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:gravity="left"
+                        android:hint="填写您的18位身份证号码"
+                        android:maxLength="18"
+                        android:paddingLeft="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/item_key_color"
+                        android:textSize="15sp" />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_photo_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="10dp"
+                    android:text="身份证照片"
+                    android:textColor="@color/item_key_color"
+                    android:textSize="12sp" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="11dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="11dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="正面照片"
+                        android:textColor="@color/item_value_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_front_certificate_pic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:gravity="right"
+                        android:maxWidth="158dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_certificate_pic" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@color/title_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#ffffff"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="11dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="11dp" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="背面照片"
+                        android:textColor="@color/item_value_color"
+                        android:textSize="15sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_back_certificate_pic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:adjustViewBounds="true"
+                        android:gravity="right"
+                        android:maxWidth="158dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_certificate_pic" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="15dp" >
+
+                    <CheckBox
+                        android:id="@+id/checkBox"
+                        style="@style/checkBox_style"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:checked="true"
+                        android:text="我已阅读并同意"
+                        android:textColor="@color/item_value_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_agreement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:text="《实名认证协议》"
+                        android:textColor="@color/titlecolor"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_submit"
+                    style="@style/blue_button_style"
+                    android:layout_margin="20dp"
+                    android:text="提交认证" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

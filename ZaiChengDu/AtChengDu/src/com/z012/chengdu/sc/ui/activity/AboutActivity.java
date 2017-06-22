@@ -13,6 +13,7 @@ import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.AppConst;
+import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 /**
@@ -64,6 +65,9 @@ public class AboutActivity extends BaseActivity {
 
 		String url = SharedPreferenceUtil.getInstance().getString(
 				AppConst.ABOUT_ICON, "", true);
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;
+		}
 		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
 		if (bm != null) {
 			about_icon.setImageBitmap(bm);

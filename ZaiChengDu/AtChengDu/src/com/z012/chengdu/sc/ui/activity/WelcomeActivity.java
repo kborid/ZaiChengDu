@@ -82,7 +82,6 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		initViews();
 		initParams();
 		initListeners();
-		initStatistical();
 	}
 
 	@Override
@@ -543,7 +542,9 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	 * 加载广告图片
 	 */
 	public void loadImage(final ImageView iView, String url) {
-		url = NetURL.API_LINK + url;// 拼接广告图片路径
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;// 拼接广告图片路径
+		}
 		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
 		if (bm != null) {
 			iv_advertisement.setTag("Y");// 设置标记
@@ -575,50 +576,4 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 
 		return super.onKeyDown(keyCode, event);
 	}
-
-	/**
-	 * 初始化北京平台埋点
-	 */
-	private void initStatistical() {
-		try {
-			PackageManager manager = this.getPackageManager();
-			PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
-			String version = info.versionName;
-			String cityId = SessionContext.getAreaInfo(1);
-
-			InitParameter param = new InitParameter();
-			param.setUrl("http://uas.scity.cn/analy/upload");// http://uas.scity.com/analy/upload
-			param.setDl("AndroidServer");// 预先在后台定义的下载渠道
-			// String dirPath =
-			// Environment.getExternalStorageDirectory().getAbsolutePath() +
-			// "/dcStatistic/" + getPackageName();
-			param.setLogDirPath(Utils.getFolderDir("dcStatistic"));// 离线日志存储目录
-			param.setMfv(version);// 主框架版本
-			param.setStaAppkey("lctz" + SessionContext.getAreaInfo(1));// 平台埋点key
-
-			StatisticProxy.init(this.getApplicationContext(), param);
-			StatisticProxy.getInstance().enableRealTimeUpload(true);// 开启/关闭实时上传功能
-			StatisticProxy.getInstance().setLog(LogUtil.isDebug());// 开启或关闭日志功能
-
-			SharedPreferences sp = this.getSharedPreferences(
-					"dc_smart_city_statistical", MODE_PRIVATE);
-			boolean isFirst = sp.getBoolean("dc_smart_city_statistical_first",
-					true);
-			if (isFirst) {
-				StatisticProxy.getInstance().onFirst(this, "first-categoryId",
-						cityId);// 发送首次访问分析事件，应用在首次启动时调用。
-				SharedPreferences.Editor editor = sp.edit();
-				editor.putBoolean("dc_smart_city_statistical_first", false);
-				editor.commit();
-			} else {
-				StatisticProxy.getInstance().onLaunch(this,
-						"launch-categoryId", cityId);// 发送除首次外应用启动的访问分析事件，在每次（除首次）应用启动时调用
-			}
-
-			StatisticProxy.getInstance().postClientFileDatas();// 上传统计分析日志，在系统需要上传本地统计分析日志时调用。
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 }

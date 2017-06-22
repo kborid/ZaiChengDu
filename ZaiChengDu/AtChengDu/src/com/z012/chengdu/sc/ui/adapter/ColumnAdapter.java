@@ -222,6 +222,9 @@ public class ColumnAdapter extends BaseAdapter implements DownCallback, ZipExtra
 		if (url == null || url.length() == 0) {
 			return;
 		}
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;
+		}
 		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
 		if (bm != null) {
 			iView.setImageBitmap(bm);

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/viewPager"
+    android:background="@drawable/share_bg" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_height" >
+
+        <TextView
+            android:id="@+id/tv_left_title"
+            android:layout_width="60dp"
+            android:layout_height="fill_parent"
+            android:drawableLeft="@drawable/m_back"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dip"
+            android:paddingRight="5dip"
+            android:textColor="@color/second_level_title_color"
+            android:textSize="@dimen/title_left_reight_text_size" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="42dp"
+                android:paddingTop="16dp"
+                android:src="@drawable/logo_icon" />
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/search_bg"
+                android:orientation="vertical"
+                android:stretchColumns="1" >
+
+                <TableRow
+                    android:gravity="center_vertical"
+                    android:minHeight="50dp"
+                    android:padding="10dp" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="20dp"
+                        android:src="@drawable/phone" />
+
+                    <EditText
+                        android:id="@+id/et_phone"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="手机号码"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:singleLine="true"
+                        android:textColor="#1a1a1a"
+                        android:textColorHint="@color/item_key_color" >
+                    </EditText>
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/item_line" />
+
+                <TableRow
+                    android:gravity="center_vertical"
+                    android:minHeight="50dp"
+                    android:padding="10dp" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="20dp"
+                        android:singleLine="true"
+                        android:src="@drawable/iv_qr" />
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <EditText
+                            android:id="@+id/et_yzm"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:hint="手机验证码"
+                            android:maxLength="10"
+                            android:paddingBottom="8dp"
+                            android:paddingTop="8dp"
+                            android:singleLine="true"
+                            android:textColor="#1a1a1a"
+                            android:textColorHint="@color/item_key_color" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="20dp"
+                            android:gravity="right|center" >
+
+                            <Button
+                                android:id="@+id/btn_getYZM"
+                                android:layout_width="72dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/common_blue_rounded_btn_bg"
+                                android:padding="3dp"
+                                android:text="获取验证码"
+                                android:textColor="#fff"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </TableRow>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/item_line" />
+
+                <TableRow
+                    android:gravity="center_vertical"
+                    android:minHeight="50dp"
+                    android:padding="10dp" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="20dp"
+                        android:src="@drawable/password" />
+
+                    <EditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="输入密码"
+                        android:inputType="textPassword"
+                        android:paddingBottom="8dp"
+                        android:paddingTop="8dp"
+                        android:singleLine="true"
+                        android:textColor="#1a1a1a"
+                        android:textColorHint="@color/item_key_color" />
+                </TableRow>
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center|left"
+                android:paddingLeft="36dp" >
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    style="@style/checkBox_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:checked="true" />
+
+                <TextView
+                    android:id="@+id/tv_agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="6dp"
+                    android:singleLine="true"
+                    android:text="@string/agree"
+                    android:textColor="#dedede"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_register"
+                style="@style/blue_button_style"
+                android:layout_marginBottom="25dp"
+                android:layout_marginLeft="25dip"
+                android:layout_marginRight="25dip"
+                android:layout_marginTop="20dp"
+                android:text="@string/register" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

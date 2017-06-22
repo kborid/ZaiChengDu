@@ -164,6 +164,9 @@ public class QADetailsActivity extends BaseActivity implements DataCallback, Tag
 	 */
 	public void initPhoto(String url) {
 		if (StringUtil.notEmpty(url)) {
+			if (!url.startsWith("http")) {
+				url = NetURL.API_LINK + url;
+			}
 			ImageLoader.getInstance().loadBitmap(new ImageCallback() {
 				@Override
 				public void imageCallback(Bitmap bm, String url, String imageTag) {

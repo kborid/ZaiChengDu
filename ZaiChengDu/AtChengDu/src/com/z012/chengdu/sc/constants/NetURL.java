@@ -65,6 +65,7 @@ public final class NetURL {
 //	public static final String		PROBLEM					= "http://m.scity.cn/appstore/html/510100_Faq.html";					// 常见问题
 //	public static final String		REGISTER_AGEMENNT		= "http://m.scity.cn/appstore/html/510100_RegisterProtocol.html";		// 注册协议
 //	public static final String		IDENTITY_PROTOCOL		= "http://m.scity.cn/appstore/html/510100_IdentityProtocol.html";		// 实名认证协议
+	public static final String		IDENTITY_H5				= "http://www.cdwh.org/ht/ident/html/index.html";						// 实名认证H5
 
 	public static final String		VERIFY_PWD				= PORTAL_SERVICE + "CW9014";											// 验证用户登录密码
 	public static final String		GET_YZM					= PORTAL_SERVICE + "CW9003";											// 获取验证码

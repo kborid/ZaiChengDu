@@ -21,6 +21,7 @@ import com.prj.sdk.net.image.ImageLoader.ImageCallback;
 import com.prj.sdk.util.StringUtil;
 import com.prj.sdk.util.ThumbnailUtil;
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.QAListBean;
 import com.z012.chengdu.sc.ui.activity.QADetailsActivity;
 
@@ -174,6 +175,9 @@ public class QAListAdapter extends BaseAdapter {
 	 * 图片绑定
 	 */
 	public void loadImage(ImageView iView, String url, String tag) {
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;
+		}
 		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
 		if (bm != null) {
 			iView.setImageBitmap(ThumbnailUtil.getRoundImage(bm));

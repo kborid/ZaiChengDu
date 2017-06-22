@@ -300,7 +300,9 @@ public class DataLoader {
 										callback.notifyMessage(request, response);
 									} else {
 										response.code = code;// 将错误code赋值给code，方便使用
-										response.data = mJson.getString("rtnMsg");// 将错误描述赋值给data，方便调用
+										if (mJson.has("rtnMsg")) {
+											response.data = mJson.getString("rtnMsg");// 将错误描述赋值给data，方便调用
+										}
 										if (code != null && (code.equals("900902") || code.equals("310001"))) {// 900902 票据失效
 											Intent intent = new Intent(Const.UNLOGIN_ACTION);
 											intent.putExtra(Const.IS_SHOW_TIP_DIALOG, true);

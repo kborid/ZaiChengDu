@@ -50,13 +50,13 @@ public class Tab2ServiceFragment extends BaseFragment implements DataCallback, O
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_tab2_service, container, false);
+		initViews(view);
+		initParams();
+		initListeners();
 		return view;
 	}
 
 	protected void onInits() {
-		initViews(getView());
-		initParams();
-		initListeners();
 	}
 
 	protected void onVisible() {
