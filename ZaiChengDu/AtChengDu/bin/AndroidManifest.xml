@@ -33,9 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.Tab1Activity"
-            android:screenOrientation="portrait" /> <!-- android:theme="@android:style/Theme.NoTitleBar.Fullscreen" -->
         <!-- 我的问答 -->
         <activity
             android:name=".ui.activity.MyQAActivity"
@@ -131,10 +128,6 @@
         <!-- 发表问答 -->
         <activity
             android:name=".ui.activity.QAISayActivity"
-            android:screenOrientation="portrait" />
-        <!-- 天气信息 -->
-        <activity
-            android:name=".ui.activity.WeatherInfoActivity"
             android:screenOrientation="portrait" />
         <!-- 图片浏览 -->
         <activity

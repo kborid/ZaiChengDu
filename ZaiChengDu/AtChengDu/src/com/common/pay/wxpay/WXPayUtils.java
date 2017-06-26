@@ -345,13 +345,13 @@ public class WXPayUtils {
 	 */
 	public boolean isSupport() {
 		if (!msgApi.isWXAppInstalled()) {
-			Toast toast = Toast.makeText(mActivity, "没有安装微信", 0);
+			Toast toast = Toast.makeText(mActivity, "没有安装微信", Toast.LENGTH_SHORT);
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			toast.show();
 			return false;
 		}
 		if (msgApi.getWXAppSupportAPI() < Build.PAY_SUPPORTED_SDK_INT) {
-			Toast toast = Toast.makeText(mActivity, "当前版本不支持支付功能", 0);
+			Toast toast = Toast.makeText(mActivity, "当前版本不支持支付功能", Toast.LENGTH_SHORT);
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			toast.show();
 			return false;
