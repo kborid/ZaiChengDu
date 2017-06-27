@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="statistical_android">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AtChengDu/libs/statistical_android.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

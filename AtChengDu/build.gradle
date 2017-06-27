@@ -1,0 +1,90 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "23.0.3"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+            jniLibs.srcDirs = ['libs']
+        }
+
+        // Move the tests to tests/java, tests/res, etc...
+        instrumentTest.setRoot('tests')
+
+        // Move the build types to build-types/<type>
+        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
+        // This moves them out of them default location under src/<type>/... which would
+        // conflict with src/ being used by the main source set.
+        // Adding new build types or product flavors should be accompanied
+        // by a similar customization.
+        debug.setRoot('build-types/debug')
+        release.setRoot('build-types/release')
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("./z012v4_single.keystore")
+            storePassword "z012v4single"
+            keyAlias "z012v4"
+            keyPassword "z012v4single"
+        }
+    }
+
+    productFlavors {
+
+        chengdu {
+            applicationId "com.z012.chengdu.sc"
+            versionCode 64
+            versionName "4.0.4"
+        }
+
+        chongqing {
+            applicationId "com.z012.chongqing.sc"
+            versionCode 62
+            versionName "4.0.5"
+        }
+    }
+
+    productFlavors.all { flavor ->
+        manifestPlaceholders.put("AppPackageName",applicationId)
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            zipAlignEnabled true
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    debugCompile project(path: ':ACDPullToRefresh', configuration: 'debug')
+    releaseCompile project(path: ':ACDPullToRefresh', configuration: 'release')
+    debugCompile project(path: ':AtChengDuSDK', configuration: 'debug')
+    releaseCompile project(path: ':AtChengDuSDK', configuration: 'release')
+}
