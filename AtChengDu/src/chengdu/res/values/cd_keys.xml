@@ -29,7 +29,7 @@
     <string name="appId">ARD-028-0002</string>
     <string name="appKey">9184a293402e8127346e32f4b074a137402e8127346e32f4</string>
     <!-- 服务器地址 -->
-    <string name="uattest_server">http://uat.zaichengdu.com/</string>
+    <string name="uattest_server">http://uat.zaichengdu.com:7878/</string>
     <string name="offical_server">http://www.zaichengdu.com/</string>
     <string name="local_server">http://192.168.1.222/</string>
     <!-- portal -->
