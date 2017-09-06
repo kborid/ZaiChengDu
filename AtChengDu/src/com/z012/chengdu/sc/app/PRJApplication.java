@@ -1,10 +1,9 @@
 package com.z012.chengdu.sc.app;
 
-import java.util.Collections;
-
 import android.app.Application;
 import android.content.IntentFilter;
-import cn.jpush.android.api.JPushInterface;
+import android.os.Build;
+import android.webkit.WebView;
 
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.net.data.DataLoader;
@@ -16,6 +15,10 @@ import com.z012.chengdu.sc.action.LocationManagerBD;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+
+import java.util.Collections;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 应用全文
@@ -51,6 +54,13 @@ public class PRJApplication extends Application {
 		intentFilter.addAction(UnLoginBroadcastReceiver.ACTION_NAME);
 		receiver = new UnLoginBroadcastReceiver();
 		registerReceiver(receiver, intentFilter);
+
+		// Debug模式下打开webview debug开关
+		if (AppConst.ISDEVELOP) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+				WebView.setWebContentsDebuggingEnabled(true);
+			}
+		}
 	}
 
 	@Override
