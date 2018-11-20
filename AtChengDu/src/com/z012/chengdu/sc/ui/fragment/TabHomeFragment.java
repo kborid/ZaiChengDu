@@ -66,11 +66,11 @@ import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
 import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
 
 /**
- * Tab1 首页
+ * 首页
  * 
- * @author LiaoBo
+ * @author kborid
  */
-public class Tab1HomeFragment extends BaseFragment implements DataCallback,
+public class TabHomeFragment extends BaseFragment implements DataCallback,
 		OnPageChangeListener, OnRefreshListener2<ScrollView> {
 
 	private TextView tv_news;

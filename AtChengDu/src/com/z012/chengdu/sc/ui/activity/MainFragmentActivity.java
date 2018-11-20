@@ -20,8 +20,8 @@ import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.ui.adapter.MainFragmentAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragmentActivity;
-import com.z012.chengdu.sc.ui.fragment.Tab1HomeFragment;
-import com.z012.chengdu.sc.ui.fragment.Tab2ServiceFragment;
+import com.z012.chengdu.sc.ui.fragment.TabHomeFragment;
+import com.z012.chengdu.sc.ui.fragment.TabServerFragment;
 import com.z012.chengdu.sc.ui.fragment.TabUserFragment;
 
 import java.util.ArrayList;
@@ -92,8 +92,8 @@ public class MainFragmentActivity extends BaseFragmentActivity implements OnPage
      */
     private void initFragmentView() {
         List<Fragment> mList = new ArrayList<>();
-        mList.add(new Tab1HomeFragment());
-        mList.add(new Tab2ServiceFragment());
+        mList.add(new TabHomeFragment());
+        mList.add(new TabServerFragment());
         mList.add(new TabUserFragment());
         MainFragmentAdapter mAdapter = new MainFragmentAdapter(getSupportFragmentManager(), mList);
         viewPager.setOffscreenPageLimit(mList.size());

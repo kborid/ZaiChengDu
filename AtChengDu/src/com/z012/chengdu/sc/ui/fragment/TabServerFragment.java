@@ -32,11 +32,11 @@ import com.z012.chengdu.sc.ui.adapter.ServiceListAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
 
 /**
- * TAB2服务
+ * 服务
  * 
- * @author LiaoBo
+ * @author kborid
  */
-public class Tab2ServiceFragment extends BaseFragment implements DataCallback, OnItemClickListener {
+public class TabServerFragment extends BaseFragment implements DataCallback, OnItemClickListener {
 
 	private TextView					tv_search;
 	private ListView					listViewLeft, listViewRight;

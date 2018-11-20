@@ -38,11 +38,11 @@ import com.z012.chengdu.sc.ui.adapter.QAListAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
 
 /**
- * TAB3 问答
+ * 问答
  * 
- * @author LiaoBo
+ * @author kborid
  */
-public class Tab3QAFragment extends BaseFragment implements DataCallback, OnRefreshListener2<ListView> {
+public class TabQAFragment extends BaseFragment implements DataCallback, OnRefreshListener2<ListView> {
 	private PullToRefreshListView			listView;
 	private QAListAdapter						mAdapter;
 	private ArrayList<QAListBean.Result>	mBean	= new ArrayList<QAListBean.Result>();

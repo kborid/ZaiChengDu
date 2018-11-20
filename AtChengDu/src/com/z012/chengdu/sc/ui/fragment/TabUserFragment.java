@@ -44,6 +44,8 @@ import com.z012.chengdu.sc.ui.base.BaseFragment;
 import java.util.Date;
 
 /**
+ * 用户
+ *
  * @author kborid
  */
 public class TabUserFragment extends BaseFragment implements DataCallback {
