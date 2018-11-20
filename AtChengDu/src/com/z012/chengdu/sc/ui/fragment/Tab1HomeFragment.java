@@ -56,7 +56,6 @@ import com.z012.chengdu.sc.net.bean.WeatherForHomeBean;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
 import com.z012.chengdu.sc.tools.WeatherInfoController;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
-import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.activity.WeatherActivity;
 import com.z012.chengdu.sc.ui.adapter.BannerImageAdapter;
@@ -104,7 +103,7 @@ public class Tab1HomeFragment extends BaseFragment implements DataCallback,
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.fragment_tab1_main, container,
+		View view = inflater.inflate(R.layout.fragment_tab_home, container,
 				false);
 		initViews(view);
 		initParams();
@@ -299,7 +298,6 @@ public class Tab1HomeFragment extends BaseFragment implements DataCallback,
 			}
 			break;
 		case R.id.tv_right_title_layout:
-			((MainFragmentActivity) getActivity()).openDrawer();
 			break;
 		case R.id.weather_lay:
 			if (weatherbean != null) {

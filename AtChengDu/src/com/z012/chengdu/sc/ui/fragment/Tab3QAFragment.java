@@ -52,8 +52,7 @@ public class Tab3QAFragment extends BaseFragment implements DataCallback, OnRefr
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.fragment_tab3_qa, container, false);
-		return view;
+		return inflater.inflate(R.layout.fragment_tab_question, container, false);
 	}
 
 	protected void onInits() {

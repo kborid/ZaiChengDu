@@ -29,9 +29,11 @@ import cn.jpush.android.api.JPushInterface;
 public class PRJApplication extends Application {
 	
 	private UnLoginBroadcastReceiver receiver;
+	private static PRJApplication mInstance = null;
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		mInstance = this;
 		AppContext.init(this);
 		CrashHandler.getInstance().init(this);
 		MobclickAgent.setDebugMode(false);// 普通测试流程，打开调试模式
@@ -69,6 +71,10 @@ public class PRJApplication extends Application {
 		ActivityTack.getInstanse().exit();
 		unregisterReceiver(receiver);
 		DataLoader.getInstance().clearRequests();
+	}
+
+	public static PRJApplication getInstance() {
+		return mInstance;
 	}
 
 }
