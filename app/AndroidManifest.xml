@@ -136,13 +136,6 @@
             android:name=".ui.activity.AboutActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <!--
-             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="wx46e281333fdc2f62"/>
-            </intent-filter>
-        -->
         <!-- 邀请好友 -->
         <activity
             android:name=".ui.activity.InviteActivity"
