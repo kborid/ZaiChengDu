@@ -23,7 +23,13 @@
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowNoTitle">true</item>
-    	<item name="android:windowBackground">@drawable/launch_bg</item>
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <!--act theme-->
+    <style name="ActTheme" parent="AppBaseTheme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/launch_bg</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
