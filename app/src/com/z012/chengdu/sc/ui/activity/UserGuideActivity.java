@@ -24,7 +24,7 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 /**
  * 用户引导页面
  * 
- * @author LiaoBo
+ * @author kborid
  * 
  */
 public class UserGuideActivity extends BaseActivity implements

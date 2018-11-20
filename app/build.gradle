@@ -81,6 +81,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     debugCompile project(path: ':ACDPullToRefresh', configuration: 'debug')
     releaseCompile project(path: ':ACDPullToRefresh', configuration: 'release')
-    debugCompile project(path: ':AtChengDuSDK', configuration: 'debug')
-    releaseCompile project(path: ':AtChengDuSDK', configuration: 'release')
+    debugCompile project(configuration: 'debug', path: ':library')
+    releaseCompile project(configuration: 'release', path: ':library')
 }

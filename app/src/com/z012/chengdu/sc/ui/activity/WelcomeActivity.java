@@ -1,17 +1,8 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.lang.reflect.Field;
-import java.net.ConnectException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -22,12 +13,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
-import cn.jpush.android.api.JPushInterface;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.dc.statistic.StatisticProxy;
-import com.dc.statistic.bean.InitParameter;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
@@ -36,7 +24,6 @@ import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.net.image.ImageLoader.ImageCallback;
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.DateUtil;
-import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
 import com.prj.sdk.util.Utils;
@@ -54,16 +41,21 @@ import com.z012.chengdu.sc.net.bean.AppOtherInfoBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.lang.reflect.Field;
+import java.net.ConnectException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 欢迎页面
  * 
- * @author Liao
+ * @author kborid
  * 
  */
 public class WelcomeActivity extends BaseActivity implements DataCallback {
-	/**
-	 * 控制变量
-	 */
 	private long start = 0; // 记录启动时间
 	private final long LOADING_TIME = 1500;
 	private final long AD_TIME = 3000; // 等待广告加载时间
@@ -87,20 +79,13 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		JPushInterface.onResume(this);// 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在
-										// Portal 上展示给开发者
+		JPushInterface.onResume(this);// 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在Portal 上展示给开发者
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		JPushInterface.onPause(this);// 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在
-										// Portal 上展示给开发者
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+		JPushInterface.onPause(this);// 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在Portal 上展示给开发者
 	}
 
 	@Override
@@ -115,8 +100,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	public void initParams() {
 		super.initParams();
 		SessionContext.initUserInfo();
-		SessionContext.setAreaCode(getString(R.string.areaCode),
-				getString(R.string.areaName));
+		SessionContext.setAreaCode(getString(R.string.areaCode), getString(R.string.areaName));
 		Utils.initScreenSize(this);// 设置手机屏幕大小
 		loadCacheData();
 		loadAppList();
