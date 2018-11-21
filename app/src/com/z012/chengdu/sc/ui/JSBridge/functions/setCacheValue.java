@@ -1,6 +1,6 @@
 package com.z012.chengdu.sc.ui.JSBridge.functions;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.StringUtil;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
@@ -18,8 +18,7 @@ public class setCacheValue implements com.z012.chengdu.sc.ui.JSBridge.WVJBWebVie
 			return;
 		}
 		try {
-			Gson gson = new Gson();
-			Bean mJson = gson.fromJson(data.toString(), Bean.class);
+			Bean mJson = JSON.parseObject(data.toString(), Bean.class);
 			AppContext.mMemoryMap.put(mJson.key, mJson.value);
 		} catch (Exception e) {
 			e.printStackTrace();

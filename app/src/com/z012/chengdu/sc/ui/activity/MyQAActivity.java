@@ -1,8 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +35,9 @@ import com.z012.chengdu.sc.net.bean.QAListBean;
 import com.z012.chengdu.sc.ui.adapter.QAListAdapter;
 import com.z012.chengdu.sc.ui.adapter.ViewPagerAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
+
+import java.net.ConnectException;
+import java.util.ArrayList;
 
 /**
  * 我的问答

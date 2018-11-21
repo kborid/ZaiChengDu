@@ -2,135 +2,191 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent95_"
     android:scrollbars="none" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="24dp" >
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_photo"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_gravity="center"
-            android:scaleType="centerCrop"
-            android:src="@drawable/def_photo_b" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:background="@drawable/bg_user"
+            android:gravity="center_vertical"
+            android:padding="20dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/iv_def_photo" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="重庆欢迎您"/>
+                <TextView
+                    android:id="@+id/tv_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="1dp"
+                    android:paddingBottom="1dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_rectangle_white_6dp"
+                    android:singleLine="true"
+                    android:textColor="@color/mainColor"
+                    android:textSize="11sp"
+                    android:text="马上登录"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingTop="13dp"
-            android:singleLine="true"
-            android:textColor="#565656"
-            android:textSize="13sp" />
+            android:orientation="vertical"
+            android:background="@color/white">
+            <TextView
+                android:id="@+id/tv_userinfo"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:drawableLeft="@drawable/menu_btn_userinfo_sel_bg"
+                android:drawablePadding="15dp"
+                android:drawableRight="@drawable/accessory"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp"
+                android:text="资料编辑"
+                android:textColor="#333333"
+                android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/tv_userinfo"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/common_blue_selector_bg"
-            android:drawableLeft="@drawable/menu_btn_userinfo_sel_bg"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/accessory"
-            android:gravity="center_vertical"
-            android:paddingLeft="19dp"
-            android:paddingRight="23dp"
-            android:text="资料编辑"
-            android:textColor="@color/menu_text_color"
-            android:textSize="15sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="25dp"
+                android:background="#e0e0e0" />
 
-        <TextView
-            android:id="@+id/tv_account"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@drawable/common_blue_selector_bg"
-            android:drawableLeft="@drawable/menu_btn_account_sel_bg"
-            android:drawablePadding="5dp"
-            android:drawableRight="@drawable/accessory"
-            android:gravity="center_vertical"
-            android:paddingLeft="19dp"
-            android:paddingRight="23dp"
-            android:text="账户安全"
-            android:textColor="@color/menu_text_color"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_account"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:drawableLeft="@drawable/menu_btn_account_sel_bg"
+                android:drawablePadding="15dp"
+                android:drawableRight="@drawable/accessory"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp"
+                android:text="账户安全"
+                android:textColor="#333333"
+                android:textSize="17sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="16dp"
-            android:background="#C6C6C6" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="25dp"
+                android:background="#e0e0e0" />
 
-        <TextView
-            android:id="@+id/tv_address"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@drawable/common_blue_selector_bg"
-            android:drawableLeft="@drawable/menu_btn_address_sel_bg"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="19dp"
-            android:paddingRight="23dp"
-            android:text="地址管理"
-            android:textColor="@color/menu_text_color"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:drawableLeft="@drawable/menu_btn_address_sel_bg"
+                android:drawableRight="@drawable/accessory"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp"
+                android:text="地址管理"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_invite"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@drawable/common_blue_selector_bg"
-            android:drawableLeft="@drawable/menu_btn_invite_sel_bg"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="19dp"
-            android:paddingRight="23dp"
-            android:text="邀请好友"
-            android:textColor="@color/menu_text_color"
-            android:textSize="15sp" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="@color/white">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginTop="16dp"
-            android:background="#C6C6C6" />
+            <TextView
+                android:id="@+id/tv_invite"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:drawableLeft="@drawable/menu_btn_invite_sel_bg"
+                android:drawableRight="@drawable/accessory"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp"
+                android:text="邀请好友"
+                android:textColor="#333333"
+                android:textSize="17sp" />
 
-        <TextView
-            android:id="@+id/tv_problem"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@drawable/common_blue_selector_bg"
-            android:drawableLeft="@drawable/menu_btn_problem_sel_bg"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="19dp"
-            android:paddingRight="23dp"
-            android:text="常见问题"
-            android:textColor="@color/menu_text_color"
-            android:textSize="15sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="25dp"
+                android:background="#e0e0e0" />
 
-        <TextView
-            android:id="@+id/tv_about"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="@drawable/common_blue_selector_bg"
-            android:drawableLeft="@drawable/menu_btn_about_sel_bg"
-            android:drawablePadding="5dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="19dp"
-            android:paddingRight="23dp"
-            android:text="关于我们"
-            android:textColor="@color/menu_text_color"
-            android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_problem"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:drawableLeft="@drawable/menu_btn_problem_sel_bg"
+                android:drawableRight="@drawable/accessory"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp"
+                android:text="常见问题"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="25dp"
+                android:background="#e0e0e0" />
+
+            <TextView
+                android:id="@+id/tv_about"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:drawableLeft="@drawable/menu_btn_about_sel_bg"
+                android:drawableRight="@drawable/accessory"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="20dp"
+                android:text="关于我们"
+                android:textColor="#333333"
+                android:textSize="17sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

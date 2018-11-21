@@ -6,9 +6,10 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.prj.sdk.constants.InfoType;
 import com.prj.sdk.util.StringUtil;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.okhttp.ResponseBody;
+
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * http请求封装类 增加代理处理 URL验证 超时控制等
@@ -18,9 +19,9 @@ import com.squareup.okhttp.ResponseBody;
 public class HttpHelper {
 	private static final String	TAG	= HttpHelper.class.getName();
 
-	private Request				request;
-    private Response            response;
-   
+	private Request request;
+    private Response response;
+
 	public HttpHelper() {
 	}
 
@@ -37,7 +38,7 @@ public class HttpHelper {
 				if(mResponseBody != null) {
 					mResponseBody.close();
 				}
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -122,7 +123,7 @@ public class HttpHelper {
 
 	public void disconnect() {
 		try {
-			OkHttpClientUtil.getInstance().getOkHttpClient().cancel(request);
+			OkHttpClientUtil.getInstance().getOkHttpClient().dispatcher().cancelAll();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

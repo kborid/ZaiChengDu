@@ -184,7 +184,7 @@ public class QAListAdapter extends BaseAdapter {
 			iView.setTag(null);
 			iView.setTag(R.id.image_url, null);
 		} else {
-			iView.setImageResource(R.drawable.def_photo_b);
+			iView.setImageResource(R.drawable.iv_def_photo);
 			iView.setTag(tag);
 			iView.setTag(R.id.image_url, url);
 			if (!mBusy) {

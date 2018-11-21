@@ -1,9 +1,5 @@
 package com.z012.chengdu.sc.ui.fragment;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +26,11 @@ import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.ServiceColumnAdapter;
 import com.z012.chengdu.sc.ui.adapter.ServiceListAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
+import com.z012.chengdu.sc.ui.tablayout.TabLayout;
+
+import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 服务
@@ -38,10 +39,11 @@ import com.z012.chengdu.sc.ui.base.BaseFragment;
  */
 public class TabServerFragment extends BaseFragment implements DataCallback, OnItemClickListener {
 
-	private TextView					tv_search;
-	private ListView					listViewLeft, listViewRight;
-	private ServiceColumnAdapter		mServiceColumnAdapter;
-	private ServiceListAdapter			mServiceListAdapter;
+	private TextView tv_search;
+	private TabLayout tabs;
+	private ListView listViewLeft, listViewRight;
+	private ServiceColumnAdapter mServiceColumnAdapter;
+	private ServiceListAdapter mServiceListAdapter;
 	private List<AllServiceColumnBean>	mCatalogBean	= new ArrayList<AllServiceColumnBean>();
 	private List<AppList>				mAppBean		= new ArrayList<AppList>();
 	private boolean						isFail;													// 是否是加载失败
@@ -70,6 +72,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback, OnI
 		super.initViews(view);
 		// showProgressDialog(getString(R.string.loading), false);
 		tv_search = (TextView) view.findViewById(R.id.tv_search);
+		tabs = (TabLayout) view.findViewById(R.id.tabs);
 		listViewLeft = (ListView) view.findViewById(R.id.listViewLeft);
 		listViewRight = (ListView) view.findViewById(R.id.listViewRight);
 	}
@@ -148,8 +151,20 @@ public class TabServerFragment extends BaseFragment implements DataCallback, OnI
 			mAppBean.clear();
 			mAppBean.addAll(app.applist);
 			mServiceListAdapter.notifyDataSetChanged();
+
+			refreshTabLayout(temp);
 		}
 	}
+
+	private void refreshTabLayout(List<AllServiceColumnBean> temp) {
+	    if (null == temp) {
+	        return;
+        }
+        tabs.removeAllTabs();
+        for (int i = 0; i < temp.size(); i++) {
+            tabs.addTab(tabs.newTab().setText(temp.get(i).catalogname));
+        }
+    }
 
 	@Override
 	public void preExecute(ResponseData request) {

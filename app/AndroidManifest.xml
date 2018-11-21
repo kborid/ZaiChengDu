@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.z012.chengdu.sc">
-
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="23" />
 
     <supports-screens
         android:anyDensity="true"
@@ -19,7 +16,8 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        tools:replace="android:theme,android:allowBackup,android:name">
         <activity
             android:name=".ui.activity.WelcomeActivity"
             android:label="@string/app_name"

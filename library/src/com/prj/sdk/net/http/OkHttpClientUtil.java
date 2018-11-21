@@ -1,5 +1,9 @@
 package com.prj.sdk.net.http;
 
+import android.text.TextUtils;
+
+import com.alibaba.fastjson.JSONObject;
+
 import java.io.File;
 import java.net.FileNameMap;
 import java.net.URLConnection;
@@ -7,37 +11,36 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import com.alibaba.fastjson.JSONObject;
-import com.prj.sdk.util.StringUtil;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Headers;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.MultipartBuilder;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.RequestBody;
-import com.squareup.okhttp.Response;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * OkHttp 封装类
- * 
+ *
  * @author LiaoBo
  */
 public class OkHttpClientUtil {
-	private static final String		TAG	= "OkHttpClientUtil";
-	private static final int DEFAULT_READ_TIMEOUT_MILLIS = 20 * 1000; // 20s
-	private static final int DEFAULT_WRITE_TIMEOUT_MILLIS = 20 * 1000; // 20s
-	private static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 15 * 1000; // 15s
-	  
-	private static OkHttpClientUtil	mInstance;
-	private OkHttpClient			mOkHttpClient;
+	private static final String TAG = "OkHttpClientUtil";
+	private static final int DEFAULT_READ_TIMEOUT_MILLIS = 10 * 1000; // 10s
+	private static final int DEFAULT_WRITE_TIMEOUT_MILLIS = 10 * 1000; // 10s
+	private static final int DEFAULT_CONNECT_TIMEOUT_MILLIS = 10 * 1000; // 10s
+
+	private static OkHttpClientUtil mInstance;
+	private OkHttpClient mOkHttpClient;
 
 	private OkHttpClientUtil() {
-		mOkHttpClient = new OkHttpClient();
-		mOkHttpClient.setConnectTimeout(DEFAULT_CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-		mOkHttpClient.setReadTimeout(DEFAULT_READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
-		mOkHttpClient.setWriteTimeout(DEFAULT_WRITE_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+		OkHttpClient.Builder builder = new OkHttpClient.Builder();
+		builder.connectTimeout(DEFAULT_CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+		builder.readTimeout(DEFAULT_READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+		builder.writeTimeout(DEFAULT_WRITE_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+		mOkHttpClient = builder.build();
 	}
 
 	public static OkHttpClientUtil getInstance() {
@@ -53,7 +56,7 @@ public class OkHttpClientUtil {
 
 	/**
 	 * 获取OkHttpClient对象
-	 * 
+	 *
 	 * @return
 	 */
 	public OkHttpClient getOkHttpClient() {
@@ -62,7 +65,7 @@ public class OkHttpClientUtil {
 
 	/**
 	 * 同步请求
-	 * 
+	 *
 	 * @param request
 	 * @return
 	 */
@@ -71,13 +74,14 @@ public class OkHttpClientUtil {
 			Response response = mOkHttpClient.newCall(request).execute();
 			return response;
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
 
 	/**
 	 * 异步请求
-	 * 
+	 *
 	 * @param request
 	 * @param responseCallback
 	 */
@@ -98,7 +102,7 @@ public class OkHttpClientUtil {
 		Map<String, String> temp = new HashMap<String, String>();
 		if (header != null) {
 			for (String key : header.keySet()) {
-				if (StringUtil.empty(key) || StringUtil.empty(String.valueOf(header.get(key)))) {
+				if (TextUtils.isEmpty(key) || TextUtils.isEmpty(String.valueOf(header.get(key)))) {
 					continue;
 				}
 
@@ -138,11 +142,11 @@ public class OkHttpClientUtil {
 		Request request = new Request.Builder().url(url).headers(dealHeaders(header)).post(requestBody).build();
 		return request;
 	}
-	
+
 	public Request buildPostFormRequest(String url, Map<String, Object> header, JSONObject mJson) {
-		FormEncodingBuilder builder = new FormEncodingBuilder();
+		FormBody.Builder builder = new FormBody.Builder();
 		for (String key : mJson.keySet()) {
-			if (StringUtil.empty(key) || StringUtil.empty(mJson.getString(key))) {
+			if (TextUtils.isEmpty(key) || TextUtils.isEmpty(mJson.getString(key))) {
 				continue;
 			}
 
@@ -155,9 +159,9 @@ public class OkHttpClientUtil {
 	}
 
 	public Request buildPostMultipartFormRequest(String url, Map<String, Object> header, JSONObject mJson) {
-		MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
+		MultipartBody.Builder builder = new MultipartBody.Builder()/*.type(MultipartBuilder.FORM)*/;
 		for (String key : mJson.keySet()) {
-			if (StringUtil.empty(key)) {
+			if (TextUtils.isEmpty(key)) {
 				continue;
 			}
 
@@ -170,7 +174,7 @@ public class OkHttpClientUtil {
 				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + key + "\"; filename=\"" + mFile.getName() + "\""), fileBody);
 			} else {
 				String value = mJson.getString(key);
-				if (StringUtil.empty(value)) {
+				if (TextUtils.isEmpty(value)) {
 					continue;
 				}
 
@@ -190,7 +194,7 @@ public class OkHttpClientUtil {
 		Request request = buildPostRequest(url, header, data);
 		return sync(request);
 	}
-	
+
 	public Response post(String url, Map<String, Object> header, JSONObject mJson) {
 		Request request = buildPostFormRequest(url, header, mJson);
 		return sync(request);
@@ -210,7 +214,7 @@ public class OkHttpClientUtil {
 		Request request = buildPostRequest(url, header, data);
 		async(request, responseCallback);
 	}
-	
+
 	public void postAsyn(String url, Map<String, Object> header, JSONObject mJson, Callback responseCallback) {
 		Request request = buildPostFormRequest(url, header, mJson);
 		async(request, responseCallback);
@@ -251,11 +255,11 @@ public class OkHttpClientUtil {
 		Request request = new Request.Builder().url(url).headers(dealHeaders(header)).put(requestBody).build();
 		return request;
 	}
-	
+
 	public Request buildPutFormRequest(String url, Map<String, Object> header, JSONObject mJson) {
-		FormEncodingBuilder builder = new FormEncodingBuilder();
+		FormBody.Builder builder = new FormBody.Builder();
 		for (String key : mJson.keySet()) {
-			if (StringUtil.empty(key) || StringUtil.empty(mJson.getString(key))) {
+			if (TextUtils.isEmpty(key) || TextUtils.isEmpty(mJson.getString(key))) {
 				continue;
 			}
 
@@ -268,9 +272,9 @@ public class OkHttpClientUtil {
 	}
 
 	public Request buildPutMultipartFormRequest(String url, Map<String, Object> header, JSONObject mJson) {
-		MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
+		MultipartBody.Builder builder = new MultipartBody.Builder();/*.type(MultipartBody.Builder.FORM);*/
 		for (String key : mJson.keySet()) {
-			if (StringUtil.empty(key)) {
+			if (TextUtils.isEmpty(key)) {
 				continue;
 			}
 
@@ -283,7 +287,7 @@ public class OkHttpClientUtil {
 				builder.addPart(Headers.of("Content-Disposition", "form-data; name=\"" + key + "\"; filename=\"" + mFile.getName() + "\""), fileBody);
 			} else {
 				String value = mJson.getString(key);
-				if (StringUtil.empty(value)) {
+				if (TextUtils.isEmpty(value)) {
 					continue;
 				}
 
@@ -303,7 +307,7 @@ public class OkHttpClientUtil {
 		Request request = buildPutRequest(url, header, data);
 		return sync(request);
 	}
-	
+
 	public Response put(String url, Map<String, Object> header, JSONObject mJson) {
 		Request request = buildPutFormRequest(url, header, mJson);
 		return sync(request);
@@ -323,7 +327,7 @@ public class OkHttpClientUtil {
 		Request request = buildPutRequest(url, header, data);
 		async(request, responseCallback);
 	}
-	
+
 	public void putAsyn(String url, Map<String, Object> header, JSONObject mJson, Callback responseCallback) {
 		Request request = buildPutFormRequest(url, header, mJson);
 		async(request, responseCallback);

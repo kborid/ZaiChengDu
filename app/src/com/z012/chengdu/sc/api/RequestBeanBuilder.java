@@ -1,11 +1,8 @@
 package com.z012.chengdu.sc.api;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Intent;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import com.prj.sdk.algo.MD5Tool;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.constants.InfoType;
@@ -17,6 +14,9 @@ import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.tools.Algorithm3DES;
 import com.z012.chengdu.sc.tools.AlgorithmData;
 import com.z012.chengdu.sc.tools.Base64;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 构建请求处理
@@ -69,7 +69,7 @@ public class RequestBeanBuilder {
 		AlgorithmData data = new AlgorithmData();
 		try {
 			// 先对body进行base64
-			String bodyText = new Gson().toJson(body);
+			String bodyText = JSON.toJSONString(body);
 			// 对报文进行BASE64编码，避免中文处理问题
 			String base64Text = new String(Base64.encodeBase64(
 					(AppConst.APPID + bodyText).getBytes("utf-8"), false));
@@ -94,8 +94,7 @@ public class RequestBeanBuilder {
 		String destText = "";
 		try {
 
-			String srcText = new Gson().toJson(body);
-
+			String srcText = JSON.toJSONString(body);
 			String base64Text = new String(Base64.encodeBase64((AppConst.APPID
 					+ srcText + AppConst.APPKEY).getBytes("utf-8"), false));
 
@@ -125,7 +124,7 @@ public class RequestBeanBuilder {
 		head.put("version", AppConst.VERSION);
 		head.put("siteid", SessionContext.getAreaInfo(1));
 		head.put("appversion", AppContext.getVersion());
-		return new Gson().toJson(json);
+		return JSON.toJSONString(json);
 	}
 
 	/**

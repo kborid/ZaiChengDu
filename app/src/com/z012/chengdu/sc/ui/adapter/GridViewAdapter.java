@@ -120,7 +120,7 @@ public class GridViewAdapter extends BaseAdapter implements DownCallback, ZipExt
 
 		// 图片绑定
 		if (temp.appurls.equals("ShowAllService")) {
-			holder.imageView.setImageResource(R.drawable.icon_more_service);
+			holder.imageView.setImageResource(R.drawable.iv_service_all);
 		} else {
 			String url = null, tag;
 			if (temp.imgurls != null) {

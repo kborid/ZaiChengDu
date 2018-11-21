@@ -58,7 +58,7 @@
                         android:layout_toLeftOf="@id/iv_accessory"
                         android:gravity="center_vertical"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/def_photo_b" />
+                        android:src="@drawable/iv_def_photo" />
                 </RelativeLayout>
 
                 <View

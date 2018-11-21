@@ -21,12 +21,6 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/img_photo"
-        style="@style/round_photo_style"
-        android:src="@drawable/def_photo_b"
-        android:visibility="gone" />
-
-    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

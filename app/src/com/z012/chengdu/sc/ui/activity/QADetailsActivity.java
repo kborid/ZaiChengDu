@@ -177,7 +177,7 @@ public class QADetailsActivity extends BaseActivity implements DataCallback, Tag
 
 			}, new StringBuilder().append(NetURL.API_LINK).append(url).toString());
 		} else {
-			iv_photo.setImageResource(R.drawable.def_photo_b);
+			iv_photo.setImageResource(R.drawable.iv_def_photo);
 		}
 	}
 

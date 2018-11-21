@@ -1,6 +1,6 @@
 package com.z012.chengdu.sc.ui.JSBridge.functions;
 
-import com.google.gson.Gson;
+import com.alibaba.fastjson.JSON;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
@@ -23,13 +23,12 @@ public class loadRequest implements com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewC
 			return;
 		}
 		// 解析请求参数
-		Gson gson = new Gson();
-		Bean mJson = gson.fromJson(data.toString(), Bean.class);
+		Bean bean = JSON.parseObject(data.toString(), Bean.class);
 		// 封装请求
 		ResponseData request = new ResponseData();
-		request.path = mJson.url;
-		request.type = mJson.type;
-		request.data = mJson.params;
+		request.path = bean.url;
+		request.type = bean.type;
+		request.data = bean.params;
 		request.isLocal = true;
 
 		DataLoader.getInstance().loadData(new DataCallback() {

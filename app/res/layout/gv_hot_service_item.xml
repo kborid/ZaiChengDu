@@ -10,29 +10,18 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:scaleType="fitXY" >
-    </ImageView>
-
-    <!--
-         <LinearLayout
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#55000000"
-        android:orientation="horizontal" >
-    -->
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:singleLine="true"
-        android:textColor="@color/item_value_color"
-        android:textSize="12sp" />
-    <!-- </LinearLayout> -->
+        android:textColor="@color/textColor"
+        android:textSize="13sp" />
 
-</LinearLayout><!-- </FrameLayout> -->
+</LinearLayout>

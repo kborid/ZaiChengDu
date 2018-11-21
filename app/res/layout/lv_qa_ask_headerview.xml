@@ -31,7 +31,7 @@
             android:layout_marginLeft="1dp"
             android:layout_marginTop="6dp"
             android:scaleType="centerInside"
-            android:src="@drawable/def_photo_b" />
+            android:src="@drawable/iv_def_photo" />
 
         <com.common.widget.tagcloudview.TagCloudView
             xmlns:app="http://schemas.android.com/apk/res-auto"

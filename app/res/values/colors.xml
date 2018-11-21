@@ -183,10 +183,15 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
 
+    <!--main color-->
+    <color name="defaultBg">#f4f4f4</color>
+    <color name="mainColor">#308dff</color>
+    <color name="textColor">#333333</color>
+
     <!-- other -->
     <color name="translucence">#e0000000</color>
-    <color name="titlecolor">#ff5056cd</color><!-- 2380e3 -->
-    <color name="second_level_title_bg">#ff5056cd</color>
+    <color name="titlecolor">@color/mainColor</color><!-- 2380e3 -->
+    <color name="second_level_title_bg">@color/mainColor</color>
     <color name="second_level_title_color">#FFFFFF</color>
     <color name="page_background">#f0f0f0</color>
     <!-- listview item -->
@@ -199,7 +204,7 @@
     <color name="home_page_font">#ff0879D7</color>
     <color name="home_tab_bg">#FFFFFF</color>
     <color name="home_tab_text_def">#8e8e8e</color>
-    <color name="home_tab_text_checked">#5056cd</color>
+    <color name="home_tab_text_checked">@color/mainColor</color>
     <!-- dialog -->
     <color name="dialog_text_checked">#ff2380e3</color>
     <color name="dialog_text_unchecked">#ff5056cd</color>

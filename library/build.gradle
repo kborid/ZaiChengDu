@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
-dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-}
-
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 25
     useLibrary("org.apache.http.legacy")
+    defaultConfig {
+        minSdkVersion 14
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
 
     sourceSets {
         main {
@@ -19,9 +19,6 @@ android {
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
         }
-
-        // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
 
         // Move the build types to build-types/<type>
         // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
@@ -38,7 +35,15 @@ android {
     }
 
     publishNonDefault true
+    buildToolsVersion = '25.0.2'
 }
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+    compile 'com.alibaba:fastjson:1.2.10'
+}
+
 configurations {
     debug
     release

@@ -50,18 +50,19 @@ import java.util.Date;
  */
 public class TabUserFragment extends BaseFragment implements DataCallback {
     private ImageView iv_photo;
-    private TextView tv_name, tv_userinfo, tv_account, tv_address, tv_invite, tv_problem, tv_about;
+    private TextView tv_name, tv_login, tv_userinfo, tv_account, tv_address, tv_invite, tv_problem, tv_about;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		return inflater.inflate(R.layout.fragment_tab_user, container, false);
+		View view = inflater.inflate(R.layout.fragment_tab_user, container, false);
+        initViews(view);
+        initParams();
+        initListeners();
+		return view;
 	}
 
 	protected void onInits() {
-		initViews(getView());
-		initParams();
-		initListeners();
 	}
 
 	public void onVisible() {
@@ -72,8 +73,9 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
 	protected void initViews(View view) {
 		super.initViews(view);
         iv_photo = (ImageView) view.findViewById(R.id.iv_photo);
-        tv_userinfo = (TextView) view.findViewById(R.id.tv_userinfo);
         tv_name = (TextView) view.findViewById(R.id.tv_name);
+        tv_login = (TextView) view.findViewById(R.id.tv_login);
+        tv_userinfo = (TextView) view.findViewById(R.id.tv_userinfo);
         tv_account = (TextView) view.findViewById(R.id.tv_account);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
         tv_invite = (TextView) view.findViewById(R.id.tv_invite);
@@ -124,7 +126,6 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
     public void updateDynamicUserInfo() {
         try {
             if (SessionContext.isLogin()) {
-                tv_name.setOnClickListener(null);
                 String url = SessionContext.mUser.USERBASIC.getHeadphotourl();
 
                 if (url != null && url.length() > 0) {
@@ -147,11 +148,11 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
                 tv_name.setText(StringUtil.doEmpty(
                         SessionContext.mUser.USERBASIC.nickname,
                         SessionContext.mUser.USERBASIC.username));
+                tv_login.setVisibility(View.GONE);
             } else {
-                iv_photo.setImageResource(R.drawable.def_photo_b);
-                tv_name.setText("登录/注册");
-                tv_name.setTextSize(15);
-                tv_name.setOnClickListener(this);
+                iv_photo.setImageResource(R.drawable.iv_def_photo);
+                tv_name.setText("重庆欢迎您");
+                tv_login.setVisibility(View.VISIBLE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,6 +167,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
 	@Override
 	public void initListeners() {
 		super.initListeners();
+		tv_login.setOnClickListener(this);
         tv_userinfo.setOnClickListener(this);
         tv_account.setOnClickListener(this);
         tv_address.setOnClickListener(this);
@@ -178,7 +180,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
 	public void onClick(View v) {
         Intent mIntent = null;
 		switch (v.getId()) {
-            case R.id.tv_name:
+            case R.id.tv_login:
                 if (!SessionContext.isLogin()) {
                     getActivity().sendBroadcast(new Intent(
                             UnLoginBroadcastReceiver.ACTION_NAME));

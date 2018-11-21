@@ -3,7 +3,7 @@
 
     <!-- 标题配置 -->
     <dimen name="title_center_text_size">20sp</dimen>
-    <dimen name="title_height">56dp</dimen>
+    <dimen name="title_height">50dp</dimen>
     <dimen name="title_left_reight_text_size">16sp</dimen>
 
     <!-- 主页tab字体 -->
