@@ -1,4 +1,4 @@
-package com.z012.chengdu.sc.ui.banner;
+package com.z012.chengdu.sc.ui.widge.banner;
 
 import android.content.Context;
 import android.content.Intent;

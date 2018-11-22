@@ -3,7 +3,7 @@
     android:id="@+id/comm_title_rl"
     android:layout_width="match_parent"
     android:layout_height="@dimen/title_height"
-    android:background="@color/second_level_title_bg" >
+    android:background="@color/mainColor" >
 
     <!-- 捕获焦点 -->
 

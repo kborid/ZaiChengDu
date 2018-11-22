@@ -7,7 +7,6 @@
     <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/page_background"
         android:fadingEdge="none"
         android:overScrollMode="never"
         android:scrollbars="none" >

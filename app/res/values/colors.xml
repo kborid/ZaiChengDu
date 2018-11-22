@@ -188,12 +188,8 @@
     <color name="mainColor">#308dff</color>
     <color name="textColor">#333333</color>
 
-    <!-- other -->
-    <color name="translucence">#e0000000</color>
     <color name="titlecolor">@color/mainColor</color><!-- 2380e3 -->
-    <color name="second_level_title_bg">@color/mainColor</color>
     <color name="second_level_title_color">#FFFFFF</color>
-    <color name="page_background">#f0f0f0</color>
     <!-- listview item -->
     <color name="item_key_color">#888888</color>
     <color name="item_value_color">#565656</color>

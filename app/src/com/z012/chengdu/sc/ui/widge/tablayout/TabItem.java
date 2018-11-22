@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.z012.chengdu.sc.ui.tablayout;
+package com.z012.chengdu.sc.ui.widge.tablayout;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

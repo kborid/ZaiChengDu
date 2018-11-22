@@ -26,7 +26,7 @@ import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.ServiceColumnAdapter;
 import com.z012.chengdu.sc.ui.adapter.ServiceListAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
-import com.z012.chengdu.sc.ui.tablayout.TabLayout;
+import com.z012.chengdu.sc.ui.widge.tablayout.TabLayout;
 
 import java.net.ConnectException;
 import java.util.ArrayList;

@@ -10,8 +10,9 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/userHeader_lay"
             android:layout_width="match_parent"
-            android:layout_height="190dp"
+            android:layout_height="200dp"
             android:background="@drawable/bg_user"
             android:gravity="center_vertical"
             android:padding="20dp"

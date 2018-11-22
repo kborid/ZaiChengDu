@@ -47,7 +47,7 @@
     </LinearLayout>
 
     <!--选项卡-->
-    <com.z012.chengdu.sc.ui.tablayout.TabLayout
+    <com.z012.chengdu.sc.ui.widge.tablayout.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="45dp"

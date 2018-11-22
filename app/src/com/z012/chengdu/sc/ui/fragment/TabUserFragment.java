@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.prj.sdk.app.AppContext;
@@ -24,6 +25,7 @@ import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
 import com.prj.sdk.util.ThumbnailUtil;
+import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
@@ -49,6 +51,8 @@ import java.util.Date;
  * @author kborid
  */
 public class TabUserFragment extends BaseFragment implements DataCallback {
+
+    private LinearLayout userHeader_lay;
     private ImageView iv_photo;
     private TextView tv_name, tv_login, tv_userinfo, tv_account, tv_address, tv_invite, tv_problem, tv_about;
 
@@ -72,6 +76,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
 	@Override
 	protected void initViews(View view) {
 		super.initViews(view);
+        userHeader_lay = (LinearLayout) view.findViewById(R.id.userHeader_lay);
         iv_photo = (ImageView) view.findViewById(R.id.iv_photo);
         tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_login = (TextView) view.findViewById(R.id.tv_login);
@@ -101,11 +106,18 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
                 AppContext.mMainContext.sendBroadcast(intent);// 发送登录广播
             }
         }
+
+        //更新用户信息
         updateDynamicUserInfo();
         // 注册刷新广播
         IntentFilter mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(AppConst.ACTION_DYNAMIC_USER_INFO);
         LocalBroadcastManager.getInstance(PRJApplication.getInstance()).registerReceiver(mBroadcastReceiver, mIntentFilter);
+
+        LinearLayout.LayoutParams llp = (LinearLayout.LayoutParams) userHeader_lay.getLayoutParams();
+        llp.width = Utils.mScreenWidth;
+        llp.height = (int) ((float) llp.width / 375 * 200);
+        userHeader_lay.setLayoutParams(llp);
 	}
 
     /**

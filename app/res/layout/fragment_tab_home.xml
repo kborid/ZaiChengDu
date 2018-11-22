@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_background" >
+    android:layout_height="match_parent" >
 
     <com.handmark.pulltorefresh.library.PullToRefreshScrollView
         xmlns:pullToRefresh="http://schemas.android.com/apk/res-auto"
@@ -23,7 +22,7 @@
             android:layout_height="wrap_content"
             android:clipChildren="false">
 
-            <com.z012.chengdu.sc.ui.banner.CommonBannerLayout
+            <com.z012.chengdu.sc.ui.widge.banner.CommonBannerLayout
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"/>
@@ -63,14 +62,11 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/iv_news" />
 
-                    <TextView
-                        android:id="@+id/tv_news"
+                    <com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView
+                        android:id="@+id/marqueeView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="30dp"
-                        android:singleLine="true"
-                        android:textColor="@color/textColor"
-                        android:textSize="14sp" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp" />
                 </LinearLayout>
             </LinearLayout>
 

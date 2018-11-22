@@ -1,10 +1,9 @@
 package com.z012.chengdu.sc.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +24,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
-import com.prj.sdk.net.image.ImageLoader;
-import com.prj.sdk.net.image.ImageLoader.ImageCallback;
+import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
@@ -40,15 +38,20 @@ import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.net.bean.WeatherForHomeBean;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
+import com.z012.chengdu.sc.tools.WeatherInfoController;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.GridViewAdapter;
-import com.z012.chengdu.sc.ui.banner.CommonBannerLayout;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
 import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
 import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+import com.z012.chengdu.sc.ui.widge.banner.CommonBannerLayout;
+import com.z012.chengdu.sc.ui.widge.maqueue.IUPMarqueeListener;
+import com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeBean;
+import com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView;
 
 import java.net.ConnectException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -60,14 +63,15 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 
     private LinearLayout ll_title_panel;
     private TextView tv_center_title;
+    private LinearLayout weather_lay;
+    private ImageView iv_weather_icon;
+    private TextView tv_weather_temp, tv_weather_air;
     private PullToRefreshScrollView mPullToRefreshScrollView;
     private CommonBannerLayout banner_lay;
     public GridView mGridView;
     private GridViewAdapter mGridAdapter;
-	private TextView tv_news;
-	private String mNewsTargeturl, mNewsTargeturlId;
+	private UPMarqueeView marqueeView;
     private boolean isRefresh;
-	@SuppressLint("UseSparseArrays")
     private SparseIntArray mTag = new SparseIntArray(); // 全部请求结束标记
 
 	@Override
@@ -101,11 +105,15 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 		super.initViews(view);
 		ll_title_panel = (LinearLayout) view.findViewById(R.id.ll_title_panel);
 		showProgressDialog(getString(R.string.loading), false);
-		tv_news = (TextView) view.findViewById(R.id.tv_news);
+        marqueeView = (UPMarqueeView) view.findViewById(R.id.marqueeView);
 		mGridView = (GridView) view.findViewById(R.id.gridview);
 		tv_center_title = (TextView) view.findViewById(R.id.tv_center_title);
 		mPullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.scroll_view);
         banner_lay = (CommonBannerLayout) view.findViewById(R.id.banner);
+        weather_lay = (LinearLayout) view.findViewById(R.id.weather_lay);
+        iv_weather_icon = (ImageView) view.findViewById(R.id.iv_weather);
+        tv_weather_temp = (TextView) view.findViewById(R.id.tv_temp);
+        tv_weather_air = (TextView) view.findViewById(R.id.tv_air);
 	}
 
 	@Override
@@ -116,6 +124,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         requestWeather();
         requestNews();
         requestHotService();
+
         RelativeLayout.LayoutParams weatherRlp = (RelativeLayout.LayoutParams) banner_lay.getLayoutParams();
         weatherRlp.width = Utils.mScreenWidth;
         weatherRlp.height = (int) ((float) weatherRlp.width / 375 * 200);
@@ -144,30 +153,28 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		tv_news.setOnClickListener(this);
 		tv_center_title.setOnClickListener(this);
 		mPullToRefreshScrollView.setOnRefreshListener(this);
+		marqueeView.setUPMarqueeListener(new IUPMarqueeListener() {
+            @Override
+            public void callback(UPMarqueeBean bean) {
+                if (null != bean && !TextUtils.isEmpty(bean.getUrl())) {
+                    Intent intent = new Intent(getActivity(), HtmlActivity.class);
+                    intent.putExtra("path", bean.getUrl());
+                    intent.putExtra("title", "今日头条");
+                    intent.putExtra("id", bean.getId());
+                    startActivity(intent);
+                }
+            }
+        });
 	}
 
 	@Override
 	public void onClick(View v) {
-		// super.onClick(v);
-		Intent intent = null;
 		switch (v.getId()) {
 		case R.id.tv_center_title:
-			intent = new Intent(getActivity(), SearchActivity.class);
+			Intent intent = new Intent(getActivity(), SearchActivity.class);
 			startActivity(intent);
-			break;
-		case R.id.tv_news:
-			if (mNewsTargeturl != null) {
-				intent = new Intent(getActivity(), HtmlActivity.class);
-				intent.putExtra("path", mNewsTargeturl);
-				// intent.putExtra("path",
-				// "http://192.168.1.99/smpay/payment/service/YiwtPay.topay.do");
-				intent.putExtra("title", "今日头条");
-				intent.putExtra("id", mNewsTargeturlId);
-				startActivity(intent);
-			}
 			break;
 		default:
 			break;
@@ -322,9 +329,16 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 			String json = mJson.getString("hotnewstodaylist");
 			List<NewsBean> temp = JSON.parseArray(json, NewsBean.class);
 			if (temp != null && !temp.isEmpty()) {
-				mNewsTargeturl = temp.get(0).targeturl;
-				tv_news.setText(temp.get(0).text);
-				mNewsTargeturlId = temp.get(0).id;
+                List<UPMarqueeBean> beans = new ArrayList<>();
+				for (int i = 0; i < temp.size(); i++) {
+				    UPMarqueeBean bean = new UPMarqueeBean(temp.get(i));
+				    beans.add(bean);
+                }
+                if (beans.size() > 1 && beans.size() % 2 == 1) {
+                    beans.addAll(beans);
+                }
+                marqueeView.setViews(beans);
+				marqueeView.startAnimal(beans.size());
 			}
 		} else if (request.flag == 4) {// 气温，日期，天气
 			mTag.put(request.flag, request.flag);
@@ -335,9 +349,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 			List<WeatherFutureInfoBean> futureInfo = JSON.parseArray(future,
 					WeatherFutureInfoBean.class);
 			SessionContext.setWeatherInfo(futureInfo);
-//			if (weatherbean != null) {
-//				setWeather(weatherbean);
-//			}
+			setWeather(weatherbean);
 		} else if (request.flag == 1) {// //热门服务
 			mTag.put(request.flag, request.flag);
 			JSONObject mJson = JSON.parseObject(response.body.toString());
@@ -390,7 +402,6 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 				isRefresh = false;
 				CustomToast.show("更新成功", 0);
 			}
-			System.gc();
 		}
 
 	}
@@ -406,7 +417,6 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 			message = getString(R.string.dialog_tip_net_error);
 			CustomToast.show(message, Toast.LENGTH_LONG);
 		} else {
-			// message = getString(R.string.dialog_tip_null_error);
 			if (request.flag == 3 || request.flag == 4 || request.flag == 5
 					|| request.flag == 6) {
 				isRefresh = false;
@@ -421,36 +431,26 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	/**
 	 * 设置天气
 	 */
-//	private void setWeather(WeatherForHomeBean temp) {
-//		if (StringUtil.notEmpty(temp.limitnumber)) {
-//			limit_lay.setVisibility(View.VISIBLE);
-//			String[] tmp = temp.limitnumber.split("\\|");
-//			tv_limit1.setText(tmp[0]);
-//			tv_limit2.setText(tmp[1]);
-//		} else {
-//			limit_lay.setVisibility(View.GONE);
-//		}
-//
-//		tv_temp.setText(temp.temperature2 + "º" + " - " + temp.temperature1
-//				+ "º");
-//		String week = DateUtil.dateToWeek(DateUtil.str2Date(
-//				temp.savedate_weather, "yyyy-MM-dd"));
+	private void setWeather(WeatherForHomeBean temp) {
+	    if (null == temp) {
+            weather_lay.setVisibility(View.GONE);
+            return;
+        }
+		tv_weather_temp.setText(temp.temperature1 + "ºC");
+//		String week = DateUtil.dateToWeek(DateUtil.str2Date(temp.savedate_weather, "yyyy-MM-dd"));
 //		tv_date.setText(temp.savedate_weather.replace("-", ".") + " " + week);
-//		int weatherRes = 0;
-//		if (DateUtil.getDayOrNight()) {
-//			weatherRes = WeatherInfoController
-//					.getWeatherResForNight(temp.status2);
-//		} else {
-//			weatherRes = WeatherInfoController
-//					.getWeatherResForDay(temp.status1);
-//		}
-//		iv_weather.setImageResource(weatherRes);
+		int weatherRes = 0;
+		if (DateUtil.getDayOrNight()) {
+			weatherRes = WeatherInfoController.getWeatherResForNight(temp.status2);
+		} else {
+			weatherRes = WeatherInfoController.getWeatherResForDay(temp.status1);
+		}
+		iv_weather_icon.setImageResource(weatherRes);
 //		tv_weather.setText(temp.status1);
-//		weather_lay.setBackgroundResource(WeatherInfoController
-//				.getWeatherInfoBg(temp.status1, temp.status2));
-//
-//		tv_pm.setText(temp.pmdata + temp.pmdesc);
-//
+//		weather_lay.setBackgroundResource(WeatherInfoController.getWeatherInfoBg(temp.status1, temp.status2));
+
+		tv_weather_air.setText("空气" + temp.pmdesc);
+
 //		try {
 //			int n = Integer.parseInt(temp.pmdata);
 //			if (n < 100) {// 优
@@ -463,44 +463,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-//
-//	}
-
-	/**
-	 * 加载图片
-	 * 
-	 * @param position
-	 * @param url
-	 * @param imageView
-	 */
-	public void loadImg(int position, String url, final ImageView imageView) {
-		// 图片绑定
-		String tag;
-		if (url != null) {
-			if (!url.startsWith("http")) {
-				url = NetURL.API_LINK + url;
-			}
-			tag = url + position;
-
-			Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
-			if (bm != null) {
-				imageView.setImageBitmap(bm);
-				imageView.setTag(R.id.image_url, null);
-			} else {
-				imageView.setBackgroundResource(R.drawable.loading);
-				imageView.setTag(R.id.image_url, url);
-				ImageLoader.getInstance().loadBitmap(new ImageCallback() {
-					@Override
-					public void imageCallback(Bitmap bm, String url,
-							String imageTag) {
-						if (bm != null) {
-							imageView.setImageBitmap(bm);
-						}
-					}
-
-				}, url, tag, 480, 320, -1);
-			}
-		}
+        weather_lay.setVisibility(View.VISIBLE);
 	}
 
 	/**
