@@ -41,6 +41,7 @@ import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
+import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.prj.sdk.widget.webview.ChooserFileController;
@@ -137,7 +138,7 @@ public class HtmlActivity extends BaseActivity implements
                     SharedPreferenceUtil.getInstance().setInt(AppConst.APPTYPE,
                             Integer.parseInt(URL));// 保存切换地址类型
 
-                    AppContext.mMainHandler.postDelayed(new Runnable() {
+                    UIHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             SessionContext.cleanUserInfo();

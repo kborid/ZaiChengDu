@@ -5,8 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.text.TextUtils;
+import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +27,9 @@ import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.net.image.ImageLoader.ImageCallback;
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.DateUtil;
+import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
-import com.prj.sdk.util.StringUtil;
+import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.umeng.analytics.MobclickAgent;
@@ -38,14 +42,13 @@ import com.z012.chengdu.sc.net.bean.AdvertisementBean;
 import com.z012.chengdu.sc.net.bean.AppInfoBean;
 import com.z012.chengdu.sc.net.bean.AppListBean;
 import com.z012.chengdu.sc.net.bean.AppOtherInfoBean;
+import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.lang.reflect.Field;
 import java.net.ConnectException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -59,7 +62,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	private long start = 0; // 记录启动时间
 	private final long LOADING_TIME = 1500;
 	private final long AD_TIME = 3000; // 等待广告加载时间
-	private Map<Integer, Object> mTag = new HashMap<Integer, Object>(); // 请求结束标记，目的是判断是否显示广告
+	private SparseIntArray mTag = new SparseIntArray(); // 请求结束标记，目的是判断是否显示广告
 	private ImageView iv_advertisement;
 	private FrameLayout layoutAd;
 	private Button btn_skip;
@@ -102,11 +105,26 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		SessionContext.initUserInfo();
 		SessionContext.setAreaCode(getString(R.string.areaCode), getString(R.string.areaName));
 		Utils.initScreenSize(this);// 设置手机屏幕大小
-		loadCacheData();
-		loadAppList();
-		loadAppInfo();
-		loadAppAdvertisement();
-		loadAllProcotol();
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                loadCacheData();
+            }
+        });
+
+		if (NetworkUtil.isNetworkAvailable()) {
+			loadAppList();
+			loadAppInfo();
+			loadAppAdvertisement();
+			loadAllProcotol();
+		} else {
+		    UIHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    intentActivity();
+                }
+            }, 1000);
+        }
 	}
 
 	@Override
@@ -125,8 +143,6 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			break;
 		case R.id.iv_advertisement:
 			isBreak = true;
-			// Utils.startWebView(WelcomeActivity.this,
-			// mAdvertBean.linkaddress);
 			Intent mIntent = new Intent(this, HtmlActivity.class);
 			mIntent.putExtra("id", mAdvertBean.Id);
 			mIntent.putExtra("title", mAdvertBean.adName);
@@ -146,86 +162,65 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	/**
 	 * 预加载首页缓存数据
 	 */
-	public void loadCacheData() {
+	private void loadCacheData() {
 		try {
 
-			byte[] pushService = DataLoader.getInstance().getCacheData(
-					NetURL.PUSH_SERVICE_);
+		    //首页热门服务缓存
+			byte[] pushService = DataLoader.getInstance().getCacheData(NetURL.PUSH_SERVICE_);
 			if (pushService != null) {
 				String json = new String(pushService, "UTF-8");
-				ResponseData response = JSON.parseObject(json,
-						ResponseData.class);
+				ResponseData response = JSON.parseObject(json, ResponseData.class);
 				if (response != null && response.body != null) {
-					String mJson = JSON.parseObject(response.body.toString())
-							.getString("datalist");
-					List<PushAppBean> temp = JSON.parseArray(mJson,
-							PushAppBean.class);
-					if (temp.size() >= 8) {
-						temp = temp.subList(0, 8);
-						PushAppBean bean = new PushAppBean();
-						bean.appname = "更多";
-						bean.appurls = "ShowAllService";
-						temp.add(bean);
-					}
-					SessionContext.addAppItem(temp);
+					String mJson = JSON.parseObject(response.body.toString()).getString("datalist");
+					List<PushAppBean> temp = JSON.parseArray(mJson, PushAppBean.class);
+					SessionContext.setAppList(temp);
 				}
 			}
 
-			byte[] pushColunn = DataLoader.getInstance().getCacheData(
-					NetURL.PUSH_MORE_SERVICE);
-			if (pushColunn != null) {
-				String json = new String(pushColunn, "UTF-8");
-				ResponseData response = JSON.parseObject(json,
-						ResponseData.class);
-				if (response != null && response.body != null) {
-					String mJson = JSON.parseObject(response.body.toString())
-							.getString("datalist");
-					List<AppListBean> temp = JSON.parseArray(mJson,
-							AppListBean.class);
-					SessionContext.getPushColumn().clear();
-					SessionContext.setPushColumn(temp);
-				}
-			}
+			//首页新闻缓存
+            byte[] news = DataLoader.getInstance().getCacheData(NetURL.NEWS);
+			if (null != news) {
+			    String json = new String(news, "UTF-8");
+			    ResponseData response = JSON.parseObject(json, ResponseData.class);
+                JSONObject mJson = JSON.parseObject(response.body.toString());
+                String mJsonString = mJson.getString("hotnewstodaylist");
+                List<NewsBean> temp = JSON.parseArray(mJsonString, NewsBean.class);
+                SessionContext.setNewsList(temp);
+            }
 
-			byte[] allApp = DataLoader.getInstance().getCacheData(
-					NetURL.ALL_APP);
+//			byte[] pushColunn = DataLoader.getInstance().getCacheData(NetURL.PUSH_MORE_SERVICE);
+//			if (pushColunn != null) {
+//				String json = new String(pushColunn, "UTF-8");
+//				ResponseData response = JSON.parseObject(json, ResponseData.class);
+//				if (response != null && response.body != null) {
+//					String mJson = JSON.parseObject(response.body.toString()).getString("datalist");
+//					List<AppListBean> temp = JSON.parseArray(mJson, AppListBean.class);
+//					SessionContext.getPushColumn().clear();
+//					SessionContext.setPushColumn(temp);
+//				}
+//			}
+
+            //获取所有服务缓存
+			byte[] allApp = DataLoader.getInstance().getCacheData(NetURL.ALL_APP);
 			if (allApp != null) {
 				String json = new String(allApp, "UTF-8");
-				ResponseData response = JSON.parseObject(json,
-						ResponseData.class);
+				ResponseData response = JSON.parseObject(json, ResponseData.class);
 				if (response != null && response.body != null) {
-					String mJson = JSON.parseObject(response.body.toString())
-							.getString("datalist");
-					List<AppListBean> temp = JSON.parseArray(mJson,
-							AppListBean.class);
+					String mJson = JSON.parseObject(response.body.toString()).getString("datalist");
+					List<AppListBean> temp = JSON.parseArray(mJson, AppListBean.class);
 					SessionContext.getAllAppList().clear();
 					SessionContext.setAllAppItem(temp);
 				}
 			}
-			// 获取广告
-			String ad = SharedPreferenceUtil.getInstance().getString(
-					AppConst.ADVERTISEMENT_INFO, "", false);
-			if (StringUtil.notEmpty(ad)) {
+
+			// 获取广告缓存
+			String ad = SharedPreferenceUtil.getInstance().getString(AppConst.ADVERTISEMENT_INFO, "", false);
+			if (!TextUtils.isEmpty(ad)) {
 				mAdvertBean = JSON.parseObject(ad, AdvertisementBean.class);
 				loadImage(iv_advertisement, mAdvertBean.picture);
 			}
-			// int version =
-			// SharedPreferenceUtil.getInstance().getInt(AppConst.CURRENT_VERSION,
-			// 0);// 获取版本号
-			// PackageManager manager = this.getPackageManager();
-			// PackageInfo info = manager.getPackageInfo(this.getPackageName(),
-			// 0);
-			// int currentVersion = info.versionCode;
-			// if (version < currentVersion) {
-			// SharedPreferenceUtil.getInstance().setInt(AppConst.CURRENT_VERSION,
-			// currentVersion);// 缓存版本号
-			// DataLoader.getInstance().removeCacheData(NetURL.PUSH_COLUMN);//
-			// 删除首页推荐栏目及应用数据
-			// DataLoader.getInstance().removeCacheData(NetURL.WG_ALL);//
-			// 删除围观缓存数据
-			// }
-
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -287,15 +282,10 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		requestID = DataLoader.getInstance().loadData(this, d);
 	}
 
-	// @Override
-	// public void onWindowFocusChanged(boolean hasFocus) {
-	// super.onWindowFocusChanged(hasFocus);
-	// }
-
 	/**
 	 * 跳转到相应Activity
 	 */
-	public void intentActivity() {
+	private void intentActivity() {
 		if (isBreak) {
 			return;
 		}
@@ -332,11 +322,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	 */
 	private boolean isShowAdvert() {
 		// 数据初始化完成 并且有广告图片，显示广告
-		if (mTag != null && mTag.get(1) != null && mTag.get(2) != null
-				&& iv_advertisement.getTag() != null) {
-			return true;
-		}
-		return false;
+		return mTag != null && mTag.get(1) != 1 && mTag.get(2) != 2 && iv_advertisement.getTag() != null;
 	}
 
 	/**
@@ -350,16 +336,14 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 				layoutAd.setVisibility(View.VISIBLE);
 			}
 		} else {
-			AppContext.mMainHandler.postDelayed(new Runnable() {// 延迟加载，显示LOADING_TIME时长的加载页
-
-						@Override
-						public void run() {
-							if (isShowAdvert()) {// 显示隐藏广告界面
-								layoutAd.setVisibility(View.VISIBLE);
-							}
-						}
-
-					}, LOADING_TIME - (end - start));
+            UIHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (isShowAdvert()) {// 显示隐藏广告界面
+                        layoutAd.setVisibility(View.VISIBLE);
+                    }
+                }
+            }, LOADING_TIME - (end - start));
 		}
 	}
 
@@ -376,19 +360,17 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 
 		if (end - start < LOADING_TIME) {
 			// 延迟加载
-			AppContext.mMainHandler.postDelayed(new Runnable() {
+			UIHandler.postDelayed(new Runnable() {
 
 				@Override
 				public void run() {
-
-					AppContext.mMainHandler.postDelayed(new Runnable() {// 延迟加载3s，主要是做显示广告
+					UIHandler.postDelayed(new Runnable() {// 延迟加载3s，主要是做显示广告
 
 								@Override
 								public void run() {
 									intentActivity();
 								}
 							}, AD_TIME);
-
 				}
 
 			}, LOADING_TIME - (end - start));
@@ -403,67 +385,66 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	}
 
 	@Override
-	public void notifyMessage(ResponseData request, ResponseData response)
-			throws Exception {
+	public void notifyMessage(final ResponseData request, final ResponseData response) throws Exception {
 		if (request.flag == 1) {
-			mTag.put(request.flag, request.flag);// 记录请求成功状态
-			SessionContext.getAllAppList().clear();
-			JSONObject mJson = JSON.parseObject(response.body.toString());
-			String json = mJson.getString("datalist");
-			List<AppListBean> temp = JSON.parseArray(json, AppListBean.class);
-			SessionContext.setAllAppItem(temp);
+            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+                @Override
+                public void run() {
+                    mTag.put(request.flag, request.flag);// 记录请求成功状态
+                    SessionContext.getAllAppList().clear();
+                    JSONObject mJson = JSON.parseObject(response.body.toString());
+                    String json = mJson.getString("datalist");
+                    List<AppListBean> temp = JSON.parseArray(json, AppListBean.class);
+                    SessionContext.setAllAppItem(temp);
+                }
+            });
 		} else if (request.flag == 2) {
-			AppInfoBean mAppInfo = JSON.parseObject(response.body.toString(),
-					AppInfoBean.class);
-			if (mAppInfo.isforce == 1
-					&& AppContext.compareVersion(mAppInfo.vsid,
-							AppContext.getVersion()) > 0) {// 是否强制升级 0 是 1 否 并且
-															// 服务器版本大于当前版本
-				showUpdateDialog(mAppInfo.apkurls, mAppInfo.updesc);
-			} else {
-				mTag.put(request.flag, request.flag);// 记录请求成功状态
-			}
-			// 缓存APP信息
-			SharedPreferenceUtil.getInstance().setString(AppConst.APP_INFO,
-					response.body.toString(), false);
-
+            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+                @Override
+                public void run() {
+                    AppInfoBean mAppInfo = JSON.parseObject(response.body.toString(), AppInfoBean.class);
+                    if (mAppInfo.isforce == 1 && AppContext.compareVersion(mAppInfo.vsid, AppContext.getVersion()) > 0) {// 是否强制升级 0 是 1 否 并且服务器版本大于当前版本
+                        showUpdateDialog(mAppInfo.apkurls, mAppInfo.updesc);
+                    } else {
+                        mTag.put(request.flag, request.flag);// 记录请求成功状态
+                    }
+                    // 缓存APP信息
+                    SharedPreferenceUtil.getInstance().setString(AppConst.APP_INFO, response.body.toString(), false);
+                }
+            });
 		} else if (request.flag == 3) {
-			mAdvertBean = JSON.parseObject(response.body.toString(),
-					AdvertisementBean.class);
-			loadImage(iv_advertisement, mAdvertBean.picture);
-			SharedPreferenceUtil.getInstance().setString(
-					AppConst.ADVERTISEMENT_INFO, response.body.toString(),
-					false);
+            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+                @Override
+                public void run() {
+                    mAdvertBean = JSON.parseObject(response.body.toString(), AdvertisementBean.class);
+                    loadImage(iv_advertisement, mAdvertBean.picture);
+                    SharedPreferenceUtil.getInstance().setString(AppConst.ADVERTISEMENT_INFO, response.body.toString(), false);
+                }
+            });
 		} else if (request.flag == 4) {
-			AppOtherInfoBean bean = JSON.parseObject(response.body.toString(),
-					AppOtherInfoBean.class);
-			SharedPreferenceUtil.getInstance().setString(AppConst.ABOUT_ICON,
-					bean.AboutImage, true);
-			SharedPreferenceUtil.getInstance().setString(AppConst.ABOUT_US,
-					bean.AboutInfoURL, true);
-			SharedPreferenceUtil.getInstance().setString(
-					AppConst.REGISTER_AGEMENT, bean.RegisterProtocolURL, true);
-			SharedPreferenceUtil.getInstance().setString(AppConst.PROBLEM,
-					bean.FaqURL, true);
-			SharedPreferenceUtil.getInstance().setString(
-					AppConst.IDENTITY_PROTOCOL, bean.IdentityProtocolURL, true);
+		    AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+                @Override
+                public void run() {
+                    AppOtherInfoBean bean = JSON.parseObject(response.body.toString(), AppOtherInfoBean.class);
+                    SharedPreferenceUtil.getInstance().setString(AppConst.ABOUT_ICON, bean.AboutImage, true);
+                    SharedPreferenceUtil.getInstance().setString(AppConst.ABOUT_US, bean.AboutInfoURL, true);
+                    SharedPreferenceUtil.getInstance().setString(AppConst.REGISTER_AGEMENT, bean.RegisterProtocolURL, true);
+                    SharedPreferenceUtil.getInstance().setString(AppConst.PROBLEM, bean.FaqURL, true);
+                    SharedPreferenceUtil.getInstance().setString(AppConst.IDENTITY_PROTOCOL, bean.IdentityProtocolURL, true);
+                }
+            });
 		}
 		goToNextActivity();
 	}
 
 	@Override
-	public void notifyError(ResponseData request, ResponseData response,
-			Exception e) {
+	public void notifyError(ResponseData request, ResponseData response, Exception e) {
 		removeProgressDialog();
 		String message;
-		if (e != null && e instanceof ConnectException) {
+		if (e instanceof ConnectException) {
 			message = getString(R.string.dialog_tip_net_error);
 			CustomToast.show(message, Toast.LENGTH_LONG);
 		}
-		// else {
-		// message = response != null && response.data != null ?
-		// response.data.toString() : getString(R.string.dialog_tip_null_error);
-		// }
 
 		if (request.flag == 1) {
 			if (SessionContext.getAllAppList().isEmpty()) {// 如果请求失败比且没有缓存数据就重连，必须有数据才能进入
@@ -480,7 +461,6 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			return;
 		}
 		goToNextActivity();
-
 	}
 
 	/**
@@ -501,9 +481,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			public void onClick(DialogInterface dialog, int which) {
 				Utils.startWebView(WelcomeActivity.this, url);
 				try {// 控制弹框的关闭
-
-					Field field = dialog.getClass().getSuperclass()
-							.getDeclaredField("mShowing");
+					Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
 					field.setAccessible(true);
 					field.set(dialog, false);// true表示要关闭
 				} catch (Exception e) {

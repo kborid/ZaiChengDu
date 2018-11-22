@@ -1,16 +1,17 @@
 package com.z012.chengdu.sc.app;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.alibaba.fastjson.JSON;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.net.bean.AppListBean;
+import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.net.bean.UserInfo;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 缓存全局数据
@@ -24,7 +25,7 @@ public class SessionContext {
 	private static List<PushAppBean>	mAppList;			// 首页推荐应用
 	private static List<AppListBean>	mPushColumnBean;	// 推荐栏目及下级应用
 	private static List<AppListBean>	mAllAppList;		// 所有应用
-	
+	private static List<NewsBean> mNewsList;                // 新闻缓存
 	private static List<WeatherFutureInfoBean> mWeatherInfo; // 未来天气信息
 
 	private static String				mTicket;
@@ -91,12 +92,7 @@ public class SessionContext {
 	}
 
 	public static void setPushColumn(List<AppListBean> list) {
-		if (mPushColumnBean == null) {
-			mPushColumnBean = new ArrayList<AppListBean>();
-		} else {
-			mPushColumnBean.clear();
-		}
-		mPushColumnBean.addAll(list);
+		mPushColumnBean = list;
 	}
 
 	public static void addPushColumnItem(AppListBean bean) {
@@ -113,18 +109,13 @@ public class SessionContext {
 	 */
 	public static List<AppListBean> getAllAppList() {
 		if (mAllAppList == null) {
-			mAllAppList = new ArrayList<AppListBean>();
+			mAllAppList = new ArrayList<>();
 		}
 		return mAllAppList;
 	}
 
-	public static void setAllAppItem(List<AppListBean> item) {
-		if (mAllAppList == null) {
-			mAllAppList = new ArrayList<AppListBean>();
-		} else {
-			mAllAppList.clear();
-		}
-		SessionContext.mAllAppList.addAll(item);
+	public static void setAllAppItem(List<AppListBean> list) {
+		mAllAppList = list;
 	}
 
 	/**
@@ -134,7 +125,7 @@ public class SessionContext {
 	 */
 	public static List<PushAppBean> getAppList() {
 		if (mAppList == null) {
-			mAppList = new ArrayList<PushAppBean>();
+			mAppList = new ArrayList<>();
 		}
 
 		return mAppList;
@@ -143,22 +134,22 @@ public class SessionContext {
 	/**
 	 * 添加首页推荐的7个应用（最多7）
 	 * 
-	 * @param bean
+	 * @param list
 	 */
-	public static void addAppItem(List<PushAppBean> bean) {
-		if (mAppList == null) {
-			mAppList = new ArrayList<PushAppBean>();
-		} else {
-			mAppList.clear();
-		}
-		mAppList.addAll(bean);
+	public static void setAppList(List<PushAppBean> list) {
+		mAppList = list;
 	}
-	public static void addAppItem(PushAppBean bean) {
-		if (mAppList == null) {
-			mAppList = new ArrayList<PushAppBean>();
-		}
-		mAppList.add(bean);
-	}
+
+	public static void setNewsList(List<NewsBean> list) {
+	    mNewsList = list;
+    }
+
+    public static List<NewsBean> getNewsList() {
+	    if (null == mNewsList) {
+	        mNewsList = new ArrayList<>();
+        }
+        return mNewsList;
+    }
 
 	/**
 	 * 是否登录
@@ -225,6 +216,9 @@ public class SessionContext {
 			mPushColumnBean.clear();
 		if (mAllAppList != null)
 			mAllAppList.clear();
+		if (null != mNewsList) {
+		    mNewsList.clear();
+        }
 	}
 
 }

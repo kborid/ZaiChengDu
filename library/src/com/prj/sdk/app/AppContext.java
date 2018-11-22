@@ -1,20 +1,18 @@
 package com.prj.sdk.app;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 
 import com.prj.sdk.db.DBManager;
 import com.prj.sdk.net.data.DataLoader;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 记录应用全局信息
@@ -24,7 +22,6 @@ import com.prj.sdk.net.data.DataLoader;
  */
 public final class AppContext {
 
-	public static final Handler mMainHandler = new Handler(Looper.getMainLooper()); // 公共Handler
 	public static Map<String, Object> mMemoryMap = null; // 提供调用memory存取值
 	public static DBManager mDBManager = null;
 	public static String PROJECT;

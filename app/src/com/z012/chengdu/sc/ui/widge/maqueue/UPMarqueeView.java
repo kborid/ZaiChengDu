@@ -21,7 +21,7 @@ public class UPMarqueeView extends ViewFlipper {
     /**时间间隔*/
     private int interval = 3000;
     /**动画时间 */
-    private int animDuration = 500;
+    private int animDuration = 800;
     public UPMarqueeView(Context context) {
         this(context, null);
     }

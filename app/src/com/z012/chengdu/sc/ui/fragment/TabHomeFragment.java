@@ -68,9 +68,10 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
     private TextView tv_weather_temp, tv_weather_air;
     private PullToRefreshScrollView mPullToRefreshScrollView;
     private CommonBannerLayout banner_lay;
-    public GridView mGridView;
-    private GridViewAdapter mGridAdapter;
+    private GridView mHotServiceGridView;
+    private GridViewAdapter mHotServiceAdapter;
 	private UPMarqueeView marqueeView;
+
     private boolean isRefresh;
     private SparseIntArray mTag = new SparseIntArray(); // 全部请求结束标记
 
@@ -104,9 +105,8 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	protected void initViews(View view) {
 		super.initViews(view);
 		ll_title_panel = (LinearLayout) view.findViewById(R.id.ll_title_panel);
-		showProgressDialog(getString(R.string.loading), false);
         marqueeView = (UPMarqueeView) view.findViewById(R.id.marqueeView);
-		mGridView = (GridView) view.findViewById(R.id.gridview);
+        mHotServiceGridView = (GridView) view.findViewById(R.id.gridview);
 		tv_center_title = (TextView) view.findViewById(R.id.tv_center_title);
 		mPullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.scroll_view);
         banner_lay = (CommonBannerLayout) view.findViewById(R.id.banner);
@@ -120,10 +120,15 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	protected void initParams() {
 		super.initParams();
 		setNetworkMethod();
-        requestBanner();
-        requestWeather();
-        requestNews();
-        requestHotService();
+        setAppItem();
+        updateNewsInfo();
+        if (NetworkUtil.isNetworkAvailable()) {
+            showProgressDialog(getString(R.string.loading), false);
+            requestBanner();
+            requestWeather();
+            requestNews();
+            requestHotService();
+        }
 
         RelativeLayout.LayoutParams weatherRlp = (RelativeLayout.LayoutParams) banner_lay.getLayoutParams();
         weatherRlp.width = Utils.mScreenWidth;
@@ -185,13 +190,12 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	 * 设置推荐app应用
 	 */
 	public void setAppItem() {
-		if (mGridAdapter == null) {
-			mGridAdapter = new GridViewAdapter(getActivity(),
-					SessionContext.getAppList());
-			mGridView.setAdapter(mGridAdapter);
+		if (mHotServiceAdapter == null) {
+            mHotServiceAdapter = new GridViewAdapter(getActivity(), SessionContext.getAppList());
+            mHotServiceGridView.setAdapter(mHotServiceAdapter);
 		}
 
-		mGridAdapter.notifyDataSetChanged();
+        mHotServiceAdapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -328,18 +332,8 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 			JSONObject mJson = JSON.parseObject(response.body.toString());
 			String json = mJson.getString("hotnewstodaylist");
 			List<NewsBean> temp = JSON.parseArray(json, NewsBean.class);
-			if (temp != null && !temp.isEmpty()) {
-                List<UPMarqueeBean> beans = new ArrayList<>();
-				for (int i = 0; i < temp.size(); i++) {
-				    UPMarqueeBean bean = new UPMarqueeBean(temp.get(i));
-				    beans.add(bean);
-                }
-                if (beans.size() > 1 && beans.size() % 2 == 1) {
-                    beans.addAll(beans);
-                }
-                marqueeView.setViews(beans);
-				marqueeView.startAnimal(beans.size());
-			}
+			SessionContext.setNewsList(temp);
+			updateNewsInfo();
 		} else if (request.flag == 4) {// 气温，日期，天气
 			mTag.put(request.flag, request.flag);
 			String res = response.body.toString();
@@ -362,7 +356,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 				bean.appurls = "ShowAllService";
 				temp.add(bean);
 			}
-			SessionContext.addAppItem(temp);
+			SessionContext.setAppList(temp);
 
 			setAppItem();
 
@@ -427,6 +421,22 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 		}
 
 	}
+
+	private void updateNewsInfo() {
+	    List<NewsBean> temp = SessionContext.getNewsList();
+        if (temp != null && !temp.isEmpty()) {
+            List<UPMarqueeBean> beans = new ArrayList<>();
+            for (int i = 0; i < temp.size(); i++) {
+                UPMarqueeBean bean = new UPMarqueeBean(temp.get(i));
+                beans.add(bean);
+            }
+            if (beans.size() > 1 && beans.size() % 2 == 1) {
+                beans.addAll(beans);
+            }
+            marqueeView.setViews(beans);
+            marqueeView.startAnimal(beans.size());
+        }
+    }
 
 	/**
 	 * 设置天气

@@ -1,8 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,12 +15,12 @@ import com.common.widget.custom.MyListViewWidget;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
-import com.prj.sdk.app.AppContext;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.StringUtil;
+import com.prj.sdk.util.UIHandler;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.app.SessionContext;
@@ -34,6 +31,9 @@ import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
 import com.z012.chengdu.sc.tools.WeatherInfoController;
 import com.z012.chengdu.sc.ui.adapter.WeatherAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class WeatherActivity extends BaseActivity implements DataCallback {
 
@@ -153,7 +153,7 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
         if (!weatherCityCode.equals(tempCityCode)) {
             if (tempCityCode != null) {
                 weatherCityCode = tempCityCode;
-                AppContext.mMainHandler.postDelayed(new Runnable() {
+                UIHandler.postDelayed(new Runnable() {
 
                     @Override
                     public void run() {
