@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/viewPager"
-    android:background="#fff">
+    style="@style/viewPager">
 
     <TextView
         android:layout_width="match_parent"
@@ -52,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         app:tabIndicatorColor="@color/mainColor"
+        android:background="#fff"
         app:tabGravity="fill"
         app:tabIndicatorHeight="3dp"
         app:tabLineOffset="14dp"

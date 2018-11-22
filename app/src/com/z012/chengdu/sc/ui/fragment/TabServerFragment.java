@@ -23,6 +23,7 @@ import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.UIHandler;
+import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
@@ -49,7 +50,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 	private TabLayout tabs;
 	private ScrollView mScrollView;
 	private LinearLayout service_lay;
-	private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<AllServiceColumnBean>();
+	private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
 	private boolean isFail; // 是否是加载失败
     private int mCurrentPosition = 0;
     private boolean tabInterceptTouchEventTag = true;
@@ -206,7 +207,13 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         for (int i = 0; i < mCatalogBean.size(); i++) {
             tabs.addTab(tabs.newTab().setText(mCatalogBean.get(i).catalogname));
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.lv_service_item, null);
-            service_lay.addView(view);
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            if (i == mCatalogBean.size() - 1) {
+                llp.bottomMargin = Utils.dip2px(5);
+            } else {
+                llp.bottomMargin = 0;
+            }
+            service_lay.addView(view, llp);
             TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
             GridView gridview = (GridView) view.findViewById(R.id.gridview);
             tv_name.setText(mCatalogBean.get(i).catalogname);

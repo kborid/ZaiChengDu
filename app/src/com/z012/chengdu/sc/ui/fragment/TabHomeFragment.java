@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
@@ -33,6 +34,7 @@ import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.net.bean.AllServiceColumnBean;
 import com.z012.chengdu.sc.net.bean.HomeBannerInfoBean;
 import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
@@ -42,6 +44,7 @@ import com.z012.chengdu.sc.tools.WeatherInfoController;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.GridViewAdapter;
+import com.z012.chengdu.sc.ui.adapter.ServiceHomeAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
 import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
 import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
@@ -72,6 +75,8 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
     private GridViewAdapter mHotServiceAdapter;
     private List<PushAppBean> mServiceApp = new ArrayList<>();
 	private UPMarqueeView marqueeView;
+	private LinearLayout service_lay;
+    private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
 
     private boolean isRefresh;
     private SparseIntArray mTag = new SparseIntArray(); // 全部请求结束标记
@@ -115,6 +120,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         iv_weather_icon = (ImageView) view.findViewById(R.id.iv_weather);
         tv_weather_temp = (TextView) view.findViewById(R.id.tv_temp);
         tv_weather_air = (TextView) view.findViewById(R.id.tv_air);
+        service_lay = (LinearLayout) view.findViewById(R.id.service_lay);
 	}
 
 	@Override
@@ -137,7 +143,50 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         banner_lay.setLayoutParams(weatherRlp);
         banner_lay.setIndicatorLayoutMarginBottom(Utils.dip2px(30));
         banner_lay.setIndicatorLayoutMarginLeft(Utils.dip2px(20));
+
+        refreshServiceLayout();
 	}
+
+	private void refreshServiceLayout() {
+        try {
+            byte[] data = DataLoader.getInstance().getCacheData(NetURL.ALL_SERVICE_COLUMN);
+            if (data != null) {
+                String json = new String(data, "UTF-8");
+                ResponseData response = JSON.parseObject(json, ResponseData.class);
+                if (response != null && response.body != null) {
+                    JSONObject mJson = JSON.parseObject(response.body.toString());
+                    String jsonString = mJson.getString("list_catalog");
+                    mCatalogBean = JSON.parseArray(jsonString, AllServiceColumnBean.class);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        service_lay.removeAllViews();
+        for (int i = 0; i < mCatalogBean.size(); i++) {
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.lv_service_home_item, null);
+            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            if (i == mCatalogBean.size() - 1) {
+                llp.bottomMargin = Utils.dip2px(5);
+            } else {
+                llp.bottomMargin = 0;
+            }
+            service_lay.addView(view, llp);
+
+            //更新内容
+            ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
+            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+            GridView gridview = (GridView) view.findViewById(R.id.gridview);
+
+            AllServiceColumnBean bean = mCatalogBean.get(i);
+            String imgUrl = NetURL.API_LINK + bean.imgurls1;
+            Glide.with(getActivity()).load(imgUrl).into(iv_icon);
+            tv_name.setText(bean.catalogname);
+            ServiceHomeAdapter adapter = new ServiceHomeAdapter(getActivity(), bean.applist);
+            gridview.setAdapter(adapter);
+        }
+    }
 
 	/**
 	 * 加载banner
