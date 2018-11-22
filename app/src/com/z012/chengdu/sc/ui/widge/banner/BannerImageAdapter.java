@@ -59,10 +59,10 @@ public class BannerImageAdapter extends PagerAdapter {
 
             @Override
             public void onClick(View v) {
-                String intentUrl = bean.linkurls;
-                if (!TextUtils.isEmpty(intentUrl)) {
+                String url = bean.linkurls;
+                if (!TextUtils.isEmpty(url) && !url.contains("Weather.getWeatherInfo.do")) {
                     Intent intent = new Intent(context, HtmlActivity.class);
-                    intent.putExtra("path", intentUrl);
+                    intent.putExtra("path", url);
                     intent.putExtra("title", bean.bnname);
                     context.startActivity(intent);
                 }

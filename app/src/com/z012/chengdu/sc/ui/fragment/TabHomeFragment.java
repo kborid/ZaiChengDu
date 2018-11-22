@@ -70,6 +70,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
     private CommonBannerLayout banner_lay;
     private GridView mHotServiceGridView;
     private GridViewAdapter mHotServiceAdapter;
+    private List<PushAppBean> mServiceApp = new ArrayList<>();
 	private UPMarqueeView marqueeView;
 
     private boolean isRefresh;
@@ -190,11 +191,20 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	 * 设置推荐app应用
 	 */
 	public void setAppItem() {
-		if (mHotServiceAdapter == null) {
-            mHotServiceAdapter = new GridViewAdapter(getActivity(), SessionContext.getAppList());
+	    if (null == mHotServiceAdapter) {
+	        mHotServiceAdapter = new GridViewAdapter(getActivity(), mServiceApp);
             mHotServiceGridView.setAdapter(mHotServiceAdapter);
-		}
-
+        }
+        List<PushAppBean> temp = SessionContext.getAppList();
+        if (temp.size() >= 7) {
+            temp = temp.subList(0, 7);
+            PushAppBean bean = new PushAppBean();
+            bean.appname = "全部";
+            bean.appurls = "ShowAllService";
+            temp.add(bean);
+        }
+        mServiceApp.clear();
+        mServiceApp.addAll(temp);
         mHotServiceAdapter.notifyDataSetChanged();
 	}
 
@@ -349,15 +359,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 			JSONObject mJson = JSON.parseObject(response.body.toString());
 			String json = mJson.getString("datalist");
 			List<PushAppBean> temp = JSON.parseArray(json, PushAppBean.class);
-			if (temp.size() >= 7) {
-				temp = temp.subList(0, 7);
-				PushAppBean bean = new PushAppBean();
-				bean.appname = "全部";
-				bean.appurls = "ShowAllService";
-				temp.add(bean);
-			}
 			SessionContext.setAppList(temp);
-
 			setAppItem();
 
 //		} else if (request.flag == 2) {// 有问必答
@@ -379,12 +381,12 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 			JSONObject mJson = JSON.parseObject(response.body.toString());
 			String json = mJson.getString("datalist");
 			List<HomeBannerInfoBean> temp = JSON.parseArray(json, HomeBannerInfoBean.class);
-			if (null != temp && temp.size() > 0) {
-			    temp.remove(0);
-			    for (int i = 0; i < 4; i++) {
-			        temp.add(new HomeBannerInfoBean());
-                }
-            }
+//			if (null != temp && temp.size() > 0) {
+//			    temp.remove(0);
+//			    for (int i = 0; i < 4; i++) {
+//			        temp.add(new HomeBannerInfoBean());
+//                }
+//            }
             banner_lay.setImageResource(temp);
 		}
 

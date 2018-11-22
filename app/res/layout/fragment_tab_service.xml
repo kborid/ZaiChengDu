@@ -58,43 +58,23 @@
         app:tabMode="scrollable"
         app:tabSelectedTextColor="@color/mainColor"
         app:tabTextAppearance="@style/tabTextAppearance" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="#e0e0e0" />
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal" >
-
-        <ListView
-            android:id="@+id/listViewLeft"
-            android:layout_width="105dp"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:listSelector="@color/transparent"
-            android:fadingEdge="none"
-            android:fillViewport="true"
-            android:overScrollMode="never"
-            android:visibility="gone"
-            android:scrollbars="none" />
-
-        <ListView
-            android:id="@+id/listViewRight"
+        android:fillViewport="true"
+        android:scrollbars="none" >
+        <LinearLayout
+            android:id="@+id/service_lay"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:divider="#e5e5e5"
-            android:visibility="gone"
-            android:dividerHeight="0.5dp"
-            android:fadingEdge="none"
-            android:fillViewport="true"
-            android:overScrollMode="never"
-            android:scrollbars="none" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
 
 </LinearLayout>

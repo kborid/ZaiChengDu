@@ -1,13 +1,9 @@
 package com.z012.chengdu.sc.ui.adapter;
 
-import java.io.File;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,15 +13,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.db.SQLiteTemplate;
 import com.prj.sdk.db.SQLiteTemplate.RowMapper;
 import com.prj.sdk.net.down.DownCallback;
 import com.prj.sdk.net.down.DownLoaderTask;
-import com.prj.sdk.net.image.ImageLoader;
-import com.prj.sdk.net.image.ImageLoader.ImageCallback;
 import com.prj.sdk.util.NetworkUtil;
-import com.prj.sdk.util.ThumbnailUtil;
+import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.prj.sdk.zip.ZipExtractorCallback;
@@ -38,6 +33,9 @@ import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
 import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * 首页推荐应用九宫格展示 适配器
@@ -118,43 +116,22 @@ public class GridViewAdapter extends BaseAdapter implements DownCallback, ZipExt
 			}
 		});
 
-		// 图片绑定
-		if (temp.appurls.equals("ShowAllService")) {
-			holder.imageView.setImageResource(R.drawable.iv_service_all);
-		} else {
-			String url = null, tag;
-			if (temp.imgurls != null) {
-				if (!temp.imgurls.startsWith("http")) {
-					url = NetURL.API_LINK + temp.imgurls;
-				}
-				tag = url + position;
-	
-				Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
-				if (bm != null) {
-					holder.imageView.setImageBitmap(ThumbnailUtil.getRoundImage(bm));
-					holder.imageView.setTag(null);
-					holder.imageView.setTag(R.id.image_url, null);
+		UIHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				if (temp.appurls.equals("ShowAllService")) {
+					Glide.with(mContext).load(R.drawable.iv_service_all).into(holder.imageView);
 				} else {
-					holder.imageView.setImageResource(R.drawable.round_loading);
-					holder.imageView.setTag(tag);
-					holder.imageView.setTag(R.id.image_url, url);
-					// if (!mBusy) {
-					ImageLoader.getInstance().loadBitmap(new ImageCallback() {
-						@Override
-						public void imageCallback(Bitmap bm, String url, String imageTag) {
-							if (bm != null) {
-	//							View mView = ((Activity) mContext).mGridView.findViewWithTag(imageTag);
-	//							if (mView instanceof ImageView) {
-	//								((ImageView) mView).setImageBitmap(ThumbnailUtil.getRoundImage(bm));
-	//							}
-								notifyDataSetChanged();
-							}
+					String url = null;
+					if (temp.imgurls != null) {
+						if (!temp.imgurls.startsWith("http")) {
+							url = NetURL.API_LINK + temp.imgurls;
 						}
-					}, url, tag);
-					// }
+						Glide.with(mContext).load(url).placeholder(R.drawable.round_loading).into(holder.imageView);
+					}
 				}
 			}
-		}
+		});
 
 		return convertView;
 	}

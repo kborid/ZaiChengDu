@@ -27,6 +27,7 @@ import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.net.image.ImageLoader.ImageCallback;
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.DateUtil;
+import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.UIHandler;
@@ -116,7 +117,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			loadAppList();
 			loadAppInfo();
 			loadAppAdvertisement();
-			loadAllProcotol();
+//			loadAllProcotol();
 		} else {
 		    UIHandler.postDelayed(new Runnable() {
                 @Override
@@ -291,24 +292,20 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		}
 		Intent intent = null;
 		// 上次的版本code
-		int last_version = SharedPreferenceUtil.getInstance().getInt(
-				AppConst.LAST_USE_VERSIONCODE, 0);
+		int last_version = SharedPreferenceUtil.getInstance().getInt(AppConst.LAST_USE_VERSIONCODE, 0);
 		// 当前版本code
 		int current = 0;
 		try {
-			current = this.getPackageManager().getPackageInfo(getPackageName(),
-					0).versionCode;
+			current = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
 		if (last_version == 0 || last_version < current) {
-			intent = new Intent(WelcomeActivity.this, UserGuideActivity.class);
+			intent = new Intent(this, UserGuideActivity.class);
 		} else {
-			intent = new Intent(WelcomeActivity.this,
-					MainFragmentActivity.class);
+			intent = new Intent(this, MainFragmentActivity.class);
 			String value = "";
-			if (getIntent().getExtras() != null
-					&& getIntent().getExtras().getString("path") != null) {
+			if (getIntent().getExtras() != null && getIntent().getExtras().getString("path") != null) {
 				value = getIntent().getExtras().getString("path");
 				intent.putExtra("path", value);
 			}
@@ -351,10 +348,10 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	 * 跳转到下一个页面
 	 */
 	private void goToNextActivity() {
-		if (mTag == null || mTag.size() != 2) {// 如果初始化数据没有加载完，就一直停留加载页
+		LogUtil.i("dw", "size = " + mTag.size());
+		if (mTag.size() < 2) {// 如果初始化数据没有加载完，就一直停留加载页
 			return;
 		}
-		mTag.put(4, 4);
 
 		long end = SystemClock.elapsedRealtime();
 
@@ -387,52 +384,32 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	@Override
 	public void notifyMessage(final ResponseData request, final ResponseData response) throws Exception {
 		if (request.flag == 1) {
-            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mTag.put(request.flag, request.flag);// 记录请求成功状态
-                    SessionContext.getAllAppList().clear();
-                    JSONObject mJson = JSON.parseObject(response.body.toString());
-                    String json = mJson.getString("datalist");
-                    List<AppListBean> temp = JSON.parseArray(json, AppListBean.class);
-                    SessionContext.setAllAppItem(temp);
-                }
-            });
+            mTag.put(request.flag, request.flag);// 记录请求成功状态
+            SessionContext.getAllAppList().clear();
+            JSONObject mJson = JSON.parseObject(response.body.toString());
+            String json = mJson.getString("datalist");
+            List<AppListBean> temp = JSON.parseArray(json, AppListBean.class);
+            SessionContext.setAllAppItem(temp);
 		} else if (request.flag == 2) {
-            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-                @Override
-                public void run() {
-                    AppInfoBean mAppInfo = JSON.parseObject(response.body.toString(), AppInfoBean.class);
-                    if (mAppInfo.isforce == 1 && AppContext.compareVersion(mAppInfo.vsid, AppContext.getVersion()) > 0) {// 是否强制升级 0 是 1 否 并且服务器版本大于当前版本
-                        showUpdateDialog(mAppInfo.apkurls, mAppInfo.updesc);
-                    } else {
-                        mTag.put(request.flag, request.flag);// 记录请求成功状态
-                    }
-                    // 缓存APP信息
-                    SharedPreferenceUtil.getInstance().setString(AppConst.APP_INFO, response.body.toString(), false);
-                }
-            });
+            AppInfoBean mAppInfo = JSON.parseObject(response.body.toString(), AppInfoBean.class);
+            if (mAppInfo.isforce == 1 && AppContext.compareVersion(mAppInfo.vsid, AppContext.getVersion()) > 0) {// 是否强制升级 0 是 1 否 并且服务器版本大于当前版本
+                showUpdateDialog(mAppInfo.apkurls, mAppInfo.updesc);
+            } else {
+                mTag.put(request.flag, request.flag);// 记录请求成功状态
+            }
+            // 缓存APP信息
+            SharedPreferenceUtil.getInstance().setString(AppConst.APP_INFO, response.body.toString(), false);
 		} else if (request.flag == 3) {
-            AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-                @Override
-                public void run() {
-                    mAdvertBean = JSON.parseObject(response.body.toString(), AdvertisementBean.class);
-                    loadImage(iv_advertisement, mAdvertBean.picture);
-                    SharedPreferenceUtil.getInstance().setString(AppConst.ADVERTISEMENT_INFO, response.body.toString(), false);
-                }
-            });
+            mAdvertBean = JSON.parseObject(response.body.toString(), AdvertisementBean.class);
+            loadImage(iv_advertisement, mAdvertBean.picture);
+            SharedPreferenceUtil.getInstance().setString(AppConst.ADVERTISEMENT_INFO, response.body.toString(), false);
 		} else if (request.flag == 4) {
-		    AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-                @Override
-                public void run() {
-                    AppOtherInfoBean bean = JSON.parseObject(response.body.toString(), AppOtherInfoBean.class);
-                    SharedPreferenceUtil.getInstance().setString(AppConst.ABOUT_ICON, bean.AboutImage, true);
-                    SharedPreferenceUtil.getInstance().setString(AppConst.ABOUT_US, bean.AboutInfoURL, true);
-                    SharedPreferenceUtil.getInstance().setString(AppConst.REGISTER_AGEMENT, bean.RegisterProtocolURL, true);
-                    SharedPreferenceUtil.getInstance().setString(AppConst.PROBLEM, bean.FaqURL, true);
-                    SharedPreferenceUtil.getInstance().setString(AppConst.IDENTITY_PROTOCOL, bean.IdentityProtocolURL, true);
-                }
-            });
+            AppOtherInfoBean bean = JSON.parseObject(response.body.toString(), AppOtherInfoBean.class);
+            SharedPreferenceUtil.getInstance().setString(AppConst.ABOUT_ICON, bean.AboutImage, true);
+            SharedPreferenceUtil.getInstance().setString(AppConst.ABOUT_US, bean.AboutInfoURL, true);
+            SharedPreferenceUtil.getInstance().setString(AppConst.REGISTER_AGEMENT, bean.RegisterProtocolURL, true);
+            SharedPreferenceUtil.getInstance().setString(AppConst.PROBLEM, bean.FaqURL, true);
+            SharedPreferenceUtil.getInstance().setString(AppConst.IDENTITY_PROTOCOL, bean.IdentityProtocolURL, true);
 		}
 		goToNextActivity();
 	}
