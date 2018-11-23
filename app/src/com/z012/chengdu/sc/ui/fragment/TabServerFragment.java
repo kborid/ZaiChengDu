@@ -56,8 +56,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
     private FrameLayout touchFrame;
     private boolean tabInterceptTouchEventTag = true;
     private int[] gridViewLoc;
-    private int[] itemViewLoc;
-    private int[] itemViewHeight;
+    private int[] itemViewLoc, itemViewHeight;
     private int mScrollViewY;
 
 	@RequiresApi(api = Build.VERSION_CODES.M)

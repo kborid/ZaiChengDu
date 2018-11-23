@@ -1,7 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -20,6 +18,8 @@ import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.ui.adapter.ViewPagerAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
+
+import java.util.ArrayList;
 
 /**
  * 用户引导页面
