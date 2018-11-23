@@ -46,18 +46,28 @@
     </LinearLayout>
 
     <!--选项卡-->
-    <com.z012.chengdu.sc.ui.widge.tablayout.TabLayout
-        android:id="@+id/tabs"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        app:tabIndicatorColor="@color/mainColor"
-        android:background="#fff"
-        app:tabGravity="fill"
-        app:tabIndicatorHeight="3dp"
-        app:tabLineOffset="14dp"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="@color/mainColor"
-        app:tabTextAppearance="@style/tabTextAppearance" />
+        android:layout_height="45dp">
+        <com.z012.chengdu.sc.ui.widge.tablayout.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            app:tabIndicatorColor="@color/mainColor"
+            android:background="#fff"
+            app:tabGravity="fill"
+            app:tabIndicatorHeight="3dp"
+            app:tabLineOffset="14dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/mainColor"
+            app:tabTextAppearance="@style/tabTextAppearance" />
+        <FrameLayout
+            android:id="@+id/touchFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+
 
     <View
         android:layout_width="match_parent"

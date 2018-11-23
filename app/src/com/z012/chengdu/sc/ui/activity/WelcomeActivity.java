@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -18,11 +19,12 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bumptech.glide.Glide;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
+import com.prj.sdk.net.image.ImageLoader;
+import com.prj.sdk.net.image.ImageLoader.ImageCallback;
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.LogUtil;
@@ -229,7 +231,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			String ad = SharedPreferenceUtil.getInstance().getString(AppConst.ADVERTISEMENT_INFO, "", false);
 			if (!TextUtils.isEmpty(ad)) {
 				mAdvertBean = JSON.parseObject(ad, AdvertisementBean.class);
-                Glide.with(this).load(NetURL.API_LINK + mAdvertBean.picture).into(iv_advertisement);
+				loadImage(iv_advertisement, mAdvertBean.picture);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -414,7 +416,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
             SharedPreferenceUtil.getInstance().setString(AppConst.APP_INFO, response.body.toString(), false);
 		} else if (request.flag == 3) {
             mAdvertBean = JSON.parseObject(response.body.toString(), AdvertisementBean.class);
-            Glide.with(this).load(NetURL.API_LINK + mAdvertBean.picture).into(iv_advertisement);
+            loadImage(iv_advertisement, mAdvertBean.picture);
             SharedPreferenceUtil.getInstance().setString(AppConst.ADVERTISEMENT_INFO, response.body.toString(), false);
 		} else if (request.flag == 4) {
             AppOtherInfoBean bean = JSON.parseObject(response.body.toString(), AppOtherInfoBean.class);
@@ -488,6 +490,33 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			}
 		});
 		builder.create().show();
+	}
+
+	/***
+	 * 加载广告图片
+	 */
+	public void loadImage(final ImageView iView, String url) {
+		if (!url.startsWith("http")) {
+			url = NetURL.API_LINK + url;// 拼接广告图片路径
+		}
+		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
+		if (bm != null) {
+			iv_advertisement.setTag("Y");// 设置标记
+			iView.setImageBitmap(bm);
+			showAd();
+		} else {
+			ImageLoader.getInstance().loadBitmap(new ImageCallback() {
+				@Override
+				public void imageCallback(Bitmap bm, String url, String imageTag) {
+					if (bm != null) {
+						iv_advertisement.setImageBitmap(bm);
+						iv_advertisement.setTag("Y");
+						showAd();
+					}
+				}
+
+			}, url);
+		}
 	}
 
 	@Override

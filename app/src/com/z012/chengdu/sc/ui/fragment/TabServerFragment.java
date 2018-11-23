@@ -1,14 +1,15 @@
 package com.z012.chengdu.sc.ui.fragment;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -36,7 +37,6 @@ import com.z012.chengdu.sc.ui.widge.tablayout.TabLayout;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -53,11 +53,15 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 	private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
 	private boolean isFail; // 是否是加载失败
     private int mCurrentPosition = 0;
+    private FrameLayout touchFrame;
     private boolean tabInterceptTouchEventTag = true;
-    private int[] location;
+    private int[] gridViewLoc;
+    private int[] itemViewLoc;
+    private int[] itemViewHeight;
+    private int mScrollViewY;
 
-
-	@Override
+	@RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
 		View view = inflater.inflate(R.layout.fragment_tab_service, container, false);
@@ -83,7 +87,18 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 		tabs = (TabLayout) view.findViewById(R.id.tabs);
         mScrollView = (ScrollView) view.findViewById(R.id.scrollview);
         service_lay = (LinearLayout) view.findViewById(R.id.service_lay);
+        touchFrame = (FrameLayout) view.findViewById(R.id.touchFrame);
 	}
+
+	private View getPlaceHolderView() {
+	    View placeHolderView = new View(getActivity());
+	    placeHolderView.setBackgroundResource(R.color.white);
+	    LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+	    llp.height = Utils.mScreenHeight - mScrollViewY - Utils.dip2px(100);
+	    llp.bottomMargin = Utils.dip2px(5);
+	    placeHolderView.setLayoutParams(llp);
+	    return placeHolderView;
+    }
 
 	@Override
 	protected void initParams() {
@@ -103,10 +118,19 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
                 e.printStackTrace();
             }
         }
+
+        UIHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int[] loc = new int[2];
+                mScrollView.getLocationOnScreen(loc);
+                mScrollViewY = loc[1];
+            }
+        }, 100);
 	}
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("ClickableViewAccessibility")
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
 	public void initListeners() {
 		super.initListeners();
@@ -118,24 +142,29 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 			}
 		});
 
+        touchFrame.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (!tabInterceptTouchEventTag) {
+                    tabInterceptTouchEventTag = true;
+                }
+                return false;
+            }
+        });
+
 		tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(final TabLayout.Tab tab) {
-                tabInterceptTouchEventTag = true;
-                LogUtil.i("dw", "flag = " + tabInterceptTouchEventTag);
+                if(!tabInterceptTouchEventTag){
+                    return;
+                }
+
                 if (isVisible()) {
                     mCurrentPosition = tab.getPosition();
                     UIHandler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            View view = service_lay.getChildAt(mCurrentPosition);
-                            int[] loc = new int[2];
-                            view.getLocationOnScreen(loc);
-                            int[] tabLoc = new int[2];
-                            tabs.getLocationOnScreen(tabLoc);
-                            LogUtil.i("dw", "item = " + Arrays.toString(loc));
-                            LogUtil.i("dw", "tabLoc = " + Arrays.toString(tabLoc));
-                            mScrollView.smoothScrollTo(0, loc[1] - tabLoc[1]);
+                            mScrollView.smoothScrollTo(0, gridViewLoc[mCurrentPosition] - mScrollViewY);
                         }
                     }, 200);
                 }
@@ -155,7 +184,9 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 		mScrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                tabInterceptTouchEventTag = false;
+                if (tabInterceptTouchEventTag) {
+                    tabInterceptTouchEventTag = false;
+                }
                 return false;
             }
         });
@@ -163,7 +194,17 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 		mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                LogUtil.i("dw", "flag = " + tabInterceptTouchEventTag);
+                if (tabInterceptTouchEventTag) {
+                    return;
+                }
+
+                int size = itemViewLoc.length;
+                for (int i = 0; i < size; i++) {
+                    if (scrollY < itemViewLoc[i] + itemViewHeight[i] - mScrollViewY) {
+                        tabs.setScrollPosition(i, 0, true);
+                        break;
+                    }
+                }
             }
         });
 	}
@@ -197,24 +238,41 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 	    if (null == mCatalogBean) {
 	        return;
         }
+
+        itemViewLoc = new int[mCatalogBean.size()];
+        gridViewLoc = new int[mCatalogBean.size()];
+        itemViewHeight = new int[mCatalogBean.size()];
+
         tabs.removeAllTabs();
 	    service_lay.removeAllViews();
         for (int i = 0; i < mCatalogBean.size(); i++) {
             tabs.addTab(tabs.newTab().setText(mCatalogBean.get(i).catalogname));
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.lv_service_item, null);
-            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            if (i == mCatalogBean.size() - 1) {
-                llp.bottomMargin = Utils.dip2px(5);
-            } else {
-                llp.bottomMargin = 0;
-            }
-            service_lay.addView(view, llp);
+            final View view = LayoutInflater.from(getActivity()).inflate(R.layout.lv_service_item, null);
+            service_lay.addView(view);
             TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
-            GridView gridview = (GridView) view.findViewById(R.id.gridview);
+            final GridView gridview = (GridView) view.findViewById(R.id.gridview);
             tv_name.setText(mCatalogBean.get(i).catalogname);
             ServiceDetailAdapter adapter = new ServiceDetailAdapter(getActivity(), mCatalogBean.get(i).applist);
             gridview.setAdapter(adapter);
+
+            final int finalI = i;
+            UIHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    int[] loc = new int[2];
+                    gridview.getLocationOnScreen(loc);
+                    gridViewLoc[finalI] = loc[1];
+                    int[] loc1 = new int[2];
+                    view.getLocationOnScreen(loc1);
+                    itemViewLoc[finalI] = loc1[1];
+                    itemViewHeight[finalI] = view.getMeasuredHeight();
+                    LogUtil.i("dw", "loc = " + loc[1]);
+                    LogUtil.i("dw", "height = " + view.getMeasuredHeight());
+                }
+            }, 100);
         }
+
+        service_lay.addView(getPlaceHolderView());
     }
 
 	@Override
