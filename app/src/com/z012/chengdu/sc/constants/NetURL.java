@@ -126,5 +126,5 @@ public final class NetURL {
 	public static final String		PAYORDER_LIST			= API_LINK + "smpay/public/order/service/PayOrder_list.jsp?userid=";	// 订单列表
 	public static final String		CASHING					= SMPAY_SERVICE + "CW2001";											// 提现
 
-	public static final String[]	CACHE_URL				= {ALL_APP, PUSH_SERVICE_, PUSH_MORE_SERVICE, ALL_SERVICE_COLUMN, NEWS, BANNER};
+	public static final String[]	CACHE_URL				= {ALL_APP, PUSH_SERVICE_, PUSH_MORE_SERVICE, ALL_SERVICE_COLUMN, NEWS, BANNER, MORE_COLUMN};
 }

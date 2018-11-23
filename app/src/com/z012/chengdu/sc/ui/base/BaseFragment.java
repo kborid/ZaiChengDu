@@ -19,7 +19,7 @@ import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
  * 
  * @author LiaoBo
  */
-public abstract class BaseFragment extends Fragment implements OnClickListener {
+public abstract class BaseFragment extends Fragment {
 	private MyProgressDialog mProgressDialog;
 	protected static String requestID;
 	/** Fragment当前状态是否可见 */

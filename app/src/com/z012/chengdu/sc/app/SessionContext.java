@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
 import com.z012.chengdu.sc.constants.AppConst;
+import com.z012.chengdu.sc.net.bean.AppAllServiceInfoBean;
 import com.z012.chengdu.sc.net.bean.AppListBean;
 import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
@@ -23,6 +24,7 @@ public class SessionContext {
 
 	public static UserInfo				mUser;				// 用户信息
 	private static List<PushAppBean>	mAppList;			// 首页推荐应用
+	private static List<AppAllServiceInfoBean>	mHomeAllAppList;	// 首页所有应用
 	private static List<AppListBean>	mPushColumnBean;	// 推荐栏目及下级应用
 	private static List<AppListBean>	mAllAppList;		// 所有应用
 	private static List<NewsBean> mNewsList;                // 新闻缓存
@@ -102,6 +104,17 @@ public class SessionContext {
 		mPushColumnBean.add(bean);
 	}
 
+	public static void setHomeAllAppList(List<AppAllServiceInfoBean> list) {
+		mHomeAllAppList = list;
+	}
+
+	public static List<AppAllServiceInfoBean> getHomeAllAppList() {
+		if (null == mHomeAllAppList) {
+			mHomeAllAppList = new ArrayList<>();
+		}
+		return mHomeAllAppList;
+	}
+
 	/**
 	 * 获取应用列表
 	 * 
@@ -114,7 +127,7 @@ public class SessionContext {
 		return mAllAppList;
 	}
 
-	public static void setAllAppItem(List<AppListBean> list) {
+	public static void setAllAppList(List<AppListBean> list) {
 		mAllAppList = list;
 	}
 

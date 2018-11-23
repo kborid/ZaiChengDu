@@ -1,8 +1,5 @@
 package com.z012.chengdu.sc.ui.fragment;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -36,6 +33,9 @@ import com.z012.chengdu.sc.ui.activity.MyQAActivity;
 import com.z012.chengdu.sc.ui.activity.QAISayActivity;
 import com.z012.chengdu.sc.ui.adapter.QAListAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
+
+import java.net.ConnectException;
+import java.util.ArrayList;
 
 /**
  * 问答
@@ -91,8 +91,27 @@ public class TabQAFragment extends BaseFragment implements DataCallback, OnRefre
 	public void initListeners() {
 		super.initListeners();
 		listView.setOnRefreshListener(this);
-		iv_ask_question.setOnClickListener(this);
-		tv_right_title.setOnClickListener(this);
+		iv_ask_question.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!SessionContext.isLogin()) {
+					getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+					return;
+				}
+				startActivity(new Intent(getActivity(), QAISayActivity.class));
+			}
+		});
+
+		tv_right_title.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (SessionContext.isLogin()) {
+					startActivity(new Intent(getActivity(), MyQAActivity.class));
+				} else {
+					getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+				}
+			}
+		});
 	}
 
 	/**
@@ -129,31 +148,6 @@ public class TabQAFragment extends BaseFragment implements DataCallback, OnRefre
 		}
 		requestID = DataLoader.getInstance().loadData(this, data);
 
-	}
-
-	@Override
-	public void onClick(View v) {
-		Intent intent = null;
-		switch (v.getId()) {
-			case R.id.iv_ask_question :
-				if (!SessionContext.isLogin()) {
-					getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-					return;
-				}
-				intent = new Intent(getActivity(), QAISayActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.tv_right_title :
-				if (SessionContext.isLogin()) {
-					intent = new Intent(getActivity(), MyQAActivity.class);
-					startActivity(intent);
-				} else {
-					getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-				}
-				break;
-			default :
-				break;
-		}
 	}
 
 	@Override

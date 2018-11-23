@@ -54,6 +54,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 	private boolean isFail; // 是否是加载失败
     private int mCurrentPosition = 0;
     private boolean tabInterceptTouchEventTag = true;
+    private int[] location;
 
 
 	@Override
@@ -109,7 +110,13 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
     @Override
 	public void initListeners() {
 		super.initListeners();
-		tv_search.setOnClickListener(this);
+		tv_search.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(getActivity(), SearchActivity.class);
+				startActivity(intent);
+			}
+		});
 
 		tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -161,18 +168,6 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         });
 	}
 
-	@Override
-	public void onClick(View v) {
-		Intent intent = null;
-		switch (v.getId()) {
-			case R.id.tv_search :
-				intent = new Intent(getActivity(), SearchActivity.class);
-				startActivity(intent);
-				break;
-			default :
-				break;
-		}
-	}
 	/**
 	 * 加载所有栏目和服务
 	 */

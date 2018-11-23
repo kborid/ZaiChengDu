@@ -26,15 +26,16 @@ import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.DateUtil;
+import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.app.SessionContext;
-import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.AllServiceColumnBean;
+import com.z012.chengdu.sc.net.bean.AppAllServiceInfoBean;
 import com.z012.chengdu.sc.net.bean.HomeBannerInfoBean;
 import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
@@ -64,6 +65,12 @@ import java.util.List;
  */
 public class TabHomeFragment extends BaseFragment implements DataCallback, OnRefreshListener2<ScrollView> {
 
+    private static final int FLAG_BANNER = 0;
+    private static final int FLAG_NEWS = 1;
+    private static final int FLAG_WEATHER = 2;
+    private static final int FLAG_HOT_SERVICE = 3;
+    private static final int FLAG_ALL_SERVICE = 4;
+
     private LinearLayout ll_title_panel;
     private TextView tv_center_title;
     private LinearLayout weather_lay;
@@ -77,6 +84,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	private UPMarqueeView marqueeView;
 	private LinearLayout service_lay;
     private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
+    private List<AppAllServiceInfoBean> mAllServiceBean = new ArrayList<>();
 
     private boolean isRefresh;
     private SparseIntArray mTag = new SparseIntArray(); // 全部请求结束标记
@@ -90,7 +98,6 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 		initViews(view);
 		initParams();
 		initListeners();
-		tieleShade();
 		return view;
 	}
 
@@ -100,11 +107,13 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	protected void onVisible() {
 		super.onVisible();
         banner_lay.startBanner();
+        marqueeView.startAnimal(SessionContext.getNewsList().size());
 	}
 
 	protected void onInvisible() {
 		super.onInvisible();
 		banner_lay.stopBanner();
+		marqueeView.stopFlipping();
 	}
 
 	@Override
@@ -126,8 +135,10 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	@Override
 	protected void initParams() {
 		super.initParams();
+        titleShadow();
 		setNetworkMethod();
-        setAppItem();
+        refreshHotService();
+        refreshAllService();
         updateNewsInfo();
         if (NetworkUtil.isNetworkAvailable()) {
             showProgressDialog(getString(R.string.loading), false);
@@ -135,6 +146,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
             requestWeather();
             requestNews();
             requestHotService();
+            requestAllService();
         }
 
         RelativeLayout.LayoutParams weatherRlp = (RelativeLayout.LayoutParams) banner_lay.getLayoutParams();
@@ -143,49 +155,60 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         banner_lay.setLayoutParams(weatherRlp);
         banner_lay.setIndicatorLayoutMarginBottom(Utils.dip2px(30));
         banner_lay.setIndicatorLayoutMarginLeft(Utils.dip2px(20));
-
-        refreshServiceLayout();
 	}
 
-	private void refreshServiceLayout() {
-        try {
-            byte[] data = DataLoader.getInstance().getCacheData(NetURL.ALL_SERVICE_COLUMN);
-            if (data != null) {
-                String json = new String(data, "UTF-8");
-                ResponseData response = JSON.parseObject(json, ResponseData.class);
-                if (response != null && response.body != null) {
-                    JSONObject mJson = JSON.parseObject(response.body.toString());
-                    String jsonString = mJson.getString("list_catalog");
-                    mCatalogBean = JSON.parseArray(jsonString, AllServiceColumnBean.class);
+	private void refreshAllService() {
+        service_lay.removeAllViews();
+        mAllServiceBean.clear();
+        mAllServiceBean.addAll(SessionContext.getHomeAllAppList());
+
+        if (null != mAllServiceBean && !mAllServiceBean.isEmpty()) {
+            //分别获取一级菜单
+            List<AppAllServiceInfoBean> firstGradeList = new ArrayList<>();
+            List<AppAllServiceInfoBean> secondGradeList = new ArrayList<>();
+            for (AppAllServiceInfoBean bean : mAllServiceBean) {
+                if (bean.menutype == 1) {
+                    firstGradeList.add(bean);
+                } else if (bean.menutype == 2) {
+                    secondGradeList.add(bean);
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        service_lay.removeAllViews();
-        for (int i = 0; i < mCatalogBean.size(); i++) {
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.lv_service_home_item, null);
-            LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            if (i == mCatalogBean.size() - 1) {
-                llp.bottomMargin = Utils.dip2px(5);
-            } else {
-                llp.bottomMargin = 0;
+            int firstSize = firstGradeList.size();
+            for (int i = 0; i < firstSize; i++) {
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout.lv_service_home_item, null);
+                LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                if (i == firstSize - 1) {
+                    llp.bottomMargin = Utils.dip2px(5);
+                } else {
+                    llp.bottomMargin = 0;
+                }
+                service_lay.addView(view, llp);
+
+                //更新内容
+                ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
+                TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+                GridView gridview = (GridView) view.findViewById(R.id.gridview);
+
+                AppAllServiceInfoBean bean = mAllServiceBean.get(i);
+                String imgUrl = NetURL.API_LINK + bean.imgurls1;
+                Glide.with(getActivity()).load(imgUrl).into(iv_icon);
+                tv_name.setText(bean.name);
+
+                ServiceHomeAdapter adapter = new ServiceHomeAdapter(getActivity(), getColumnApp(bean.id, secondGradeList));
+                gridview.setAdapter(adapter);
             }
-            service_lay.addView(view, llp);
-
-            //更新内容
-            ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
-            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
-            GridView gridview = (GridView) view.findViewById(R.id.gridview);
-
-            AllServiceColumnBean bean = mCatalogBean.get(i);
-            String imgUrl = NetURL.API_LINK + bean.imgurls1;
-            Glide.with(getActivity()).load(imgUrl).into(iv_icon);
-            tv_name.setText(bean.catalogname);
-            ServiceHomeAdapter adapter = new ServiceHomeAdapter(getActivity(), bean.applist);
-            gridview.setAdapter(adapter);
         }
+    }
+
+    private List<AppAllServiceInfoBean> getColumnApp(int id, List<AppAllServiceInfoBean> list) {
+        List<AppAllServiceInfoBean> mBean = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (id == list.get(i).pid) {
+                mBean.add(list.get(i));
+            }
+        }
+        return mBean;
     }
 
 	/**
@@ -201,14 +224,69 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 
 		ResponseData data = builder.syncRequest(builder);
 		data.path = NetURL.BANNER;
-		data.flag = 8;
+		data.flag = FLAG_BANNER;
 		requestID = DataLoader.getInstance().loadData(this, data);
 	}
+
+    /**
+     * 加载今日头条
+     *
+     */
+    private void requestNews() {
+        RequestBeanBuilder builder = RequestBeanBuilder.create(false);
+        ResponseData data = builder.syncRequest(builder);
+        data.path = NetURL.NEWS;
+        data.flag = FLAG_NEWS;
+        requestID = DataLoader.getInstance().loadData(this, data);
+    }
+
+    /**
+     * 加载天气
+     */
+    private void requestWeather() {
+        RequestBeanBuilder b = RequestBeanBuilder.create(false);
+        b.addBody("cityCode", SessionContext.getAreaInfo(1));
+        b.addBody("cityId", getString(R.string.cityId));
+        ResponseData d = b.syncRequest(b);
+        d.path = NetURL.WEATHER_SERVER;
+        d.flag = FLAG_WEATHER;
+        requestID = DataLoader.getInstance().loadData(this, d);
+    }
+
+    /**
+     * 加载首页热门服务
+     */
+    private void requestHotService() {
+        RequestBeanBuilder builder = RequestBeanBuilder.create(false);
+        builder.addBody("getConfForMgr", "YES");
+        ResponseData data = builder.syncRequest(builder);
+        data.path = NetURL.PUSH_SERVICE_;
+        data.flag = FLAG_HOT_SERVICE;
+        requestID = DataLoader.getInstance().loadData(this, data);
+    }
+
+    /**
+     * 加载首页全部服务
+     */
+    private void requestAllService() {
+        RequestBeanBuilder builder = RequestBeanBuilder.create(false);
+        builder.addBody("getConfForMgr", "YES");
+        ResponseData data = builder.syncRequest(builder);
+        data.path = NetURL.MORE_COLUMN;
+        data.flag = FLAG_ALL_SERVICE;
+        requestID = DataLoader.getInstance().loadData(this, data);
+    }
 
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		tv_center_title.setOnClickListener(this);
+		tv_center_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
 		mPullToRefreshScrollView.setOnRefreshListener(this);
 		marqueeView.setUPMarqueeListener(new IUPMarqueeListener() {
             @Override
@@ -216,7 +294,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
                 if (null != bean && !TextUtils.isEmpty(bean.getUrl())) {
                     Intent intent = new Intent(getActivity(), HtmlActivity.class);
                     intent.putExtra("path", bean.getUrl());
-                    intent.putExtra("title", "今日头条");
+                    intent.putExtra("title", "今日重庆");
                     intent.putExtra("id", bean.getId());
                     startActivity(intent);
                 }
@@ -224,22 +302,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         });
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tv_center_title:
-			Intent intent = new Intent(getActivity(), SearchActivity.class);
-			startActivity(intent);
-			break;
-		default:
-			break;
-		}
-	}
-
-	/**
-	 * 设置推荐app应用
-	 */
-	public void setAppItem() {
+	private void refreshHotService() {
 	    if (null == mHotServiceAdapter) {
 	        mHotServiceAdapter = new GridViewAdapter(getActivity(), mServiceApp);
             mHotServiceGridView.setAdapter(mHotServiceAdapter);
@@ -255,76 +318,6 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         mServiceApp.clear();
         mServiceApp.addAll(temp);
         mHotServiceAdapter.notifyDataSetChanged();
-	}
-
-	/**
-	 * 加载推荐app
-	 * 
-	 */
-	public void requestHotService() {
-		RequestBeanBuilder builder = RequestBeanBuilder.create(false);
-		// builder.addBody("areaId", SessionContext.getAreaInfo(1));
-		builder.addBody("getConfForMgr", "YES");
-
-		// Map<String, Object> header = new HashMap<String, Object>();
-		// header.put("Content-Type", "application/json");
-
-		ResponseData data = builder.syncRequest(builder);
-		data.path = NetURL.PUSH_SERVICE_;
-		// data.header = header;
-		data.flag = 1;
-
-		// if (!isProgressShowing())
-		// showProgressDialog(getString(R.string.loading), true);
-		requestID = DataLoader.getInstance().loadData(this, data);
-	}
-
-	/**
-	 * 加载今日头条
-	 * 
-	 */
-	public void requestNews() {
-		RequestBeanBuilder builder = RequestBeanBuilder.create(false);
-
-		// builder.addBody("getConfForMgr", "YES");
-
-		ResponseData data = builder.syncRequest(builder);
-		data.path = NetURL.NEWS;
-		data.flag = 3;
-
-		requestID = DataLoader.getInstance().loadData(this, data);
-	}
-
-	/**
-	 * 加载推荐问答数据
-	 * 
-	 * @return
-	 */
-	private void loadQAData() {
-		RequestBeanBuilder builder = RequestBeanBuilder.create(false);
-		// mark填写firstpage值时接口返回首页热门问答5条列表
-		builder.addBody("PAGE_INDEX", "1")
-				.addBody("PAGE_COUNT", AppConst.COUNT)
-				.addBody("mark", "firstpage");
-
-		ResponseData data = builder.syncRequest(builder);
-		data.path = NetURL.WG_ALL;
-		data.flag = 2;
-		requestID = DataLoader.getInstance().loadData(this, data);
-
-	}
-
-	/**
-	 * 加载天气
-	 */
-	public void requestWeather() {
-		RequestBeanBuilder b = RequestBeanBuilder.create(false);
-		b.addBody("cityCode", SessionContext.getAreaInfo(1));
-		b.addBody("cityId", getString(R.string.cityId));
-		ResponseData d = b.syncRequest(b);
-		d.path = NetURL.WEATHER_SERVER;
-		d.flag = 4;
-		requestID = DataLoader.getInstance().loadData(this, d);
 	}
 
 	/**
@@ -371,6 +364,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 		requestWeather();
 		requestNews();
 		requestHotService();
+        requestAllService();
 	}
 
 	@Override
@@ -386,15 +380,15 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	@Override
 	public void notifyMessage(ResponseData request, ResponseData response)
 			throws Exception {
-		if (request.flag == 3) {// 头条
-			mTag.put(request.flag, request.flag);
+		if (request.flag == FLAG_NEWS) {// 头条
+            mTag.put(FLAG_NEWS, FLAG_NEWS);
 			JSONObject mJson = JSON.parseObject(response.body.toString());
 			String json = mJson.getString("hotnewstodaylist");
 			List<NewsBean> temp = JSON.parseArray(json, NewsBean.class);
 			SessionContext.setNewsList(temp);
 			updateNewsInfo();
-		} else if (request.flag == 4) {// 气温，日期，天气
-			mTag.put(request.flag, request.flag);
+		} else if (request.flag == FLAG_WEATHER) {// 气温，日期，天气
+            mTag.put(FLAG_WEATHER, FLAG_WEATHER);
 			String res = response.body.toString();
 			WeatherForHomeBean weatherbean = JSON.parseObject(res, WeatherForHomeBean.class);
 			JSONObject json = JSON.parseObject(res);
@@ -403,13 +397,13 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 					WeatherFutureInfoBean.class);
 			SessionContext.setWeatherInfo(futureInfo);
 			setWeather(weatherbean);
-		} else if (request.flag == 1) {// //热门服务
-			mTag.put(request.flag, request.flag);
+		} else if (request.flag == FLAG_HOT_SERVICE) {// //热门服务
+            mTag.put(FLAG_HOT_SERVICE, FLAG_HOT_SERVICE);
 			JSONObject mJson = JSON.parseObject(response.body.toString());
 			String json = mJson.getString("datalist");
 			List<PushAppBean> temp = JSON.parseArray(json, PushAppBean.class);
 			SessionContext.setAppList(temp);
-			setAppItem();
+            refreshHotService();
 
 //		} else if (request.flag == 2) {// 有问必答
 //			mTag.put(request.flag, request.flag);
@@ -425,8 +419,8 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 //				mBean.clear();
 //				mBean.addAll(temp.result);
 //			}
-		} else if (request.flag == 8) {// banner
-			mTag.put(request.flag, request.flag);
+		} else if (request.flag == FLAG_BANNER) {// banner
+            mTag.put(FLAG_BANNER, FLAG_BANNER);
 			JSONObject mJson = JSON.parseObject(response.body.toString());
 			String json = mJson.getString("datalist");
 			List<HomeBannerInfoBean> temp = JSON.parseArray(json, HomeBannerInfoBean.class);
@@ -437,9 +431,17 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 //                }
 //            }
             banner_lay.setImageResource(temp);
-		}
+		} else if (request.flag == FLAG_ALL_SERVICE) {
+		    mTag.put(FLAG_ALL_SERVICE, FLAG_ALL_SERVICE);
+            LogUtil.i("dw", response.body.toString());
+		    JSONObject mJson = JSON.parseObject(response.body.toString());
+            String json = mJson.getString("datalist");
+            List<AppAllServiceInfoBean> temp = JSONObject.parseArray(json, AppAllServiceInfoBean.class);
+            SessionContext.setHomeAllAppList(temp);
+            refreshAllService();
+        }
 
-		if (mTag != null && mTag.size() == 4) {// 更新成功标记
+		if (mTag != null && mTag.size() == 5) {// 更新成功标记
 			removeProgressDialog();
 			mPullToRefreshScrollView.onRefreshComplete();
 			ll_title_panel.setVisibility(View.VISIBLE);
@@ -530,7 +532,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	/**
 	 * 使标题栏渐变
 	 */
-	public void tieleShade() {
+	private void titleShadow() {
 		ll_title_panel.getBackground().mutate().setAlpha(0);
 		final int titleHeight = Utils.dip2px(50);
 		mPullToRefreshScrollView

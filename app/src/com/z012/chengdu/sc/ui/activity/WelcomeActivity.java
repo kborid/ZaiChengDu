@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -19,12 +18,11 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
-import com.prj.sdk.net.image.ImageLoader;
-import com.prj.sdk.net.image.ImageLoader.ImageCallback;
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.LogUtil;
@@ -40,6 +38,7 @@ import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.AdvertisementBean;
+import com.z012.chengdu.sc.net.bean.AppAllServiceInfoBean;
 import com.z012.chengdu.sc.net.bean.AppInfoBean;
 import com.z012.chengdu.sc.net.bean.AppListBean;
 import com.z012.chengdu.sc.net.bean.AppOtherInfoBean;
@@ -117,7 +116,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			loadAppList();
 			loadAppInfo();
 			loadAppAdvertisement();
-//			loadAllProcotol();
+			loadAllProcotol();
 		} else {
 		    UIHandler.postDelayed(new Runnable() {
                 @Override
@@ -189,6 +188,19 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
                 SessionContext.setNewsList(temp);
             }
 
+            //获取首页所有服务缓存
+            byte[] data = DataLoader.getInstance().getCacheData(NetURL.MORE_COLUMN);
+            if (data != null) {
+                String json = new String(data, "UTF-8");
+                ResponseData response = JSON.parseObject(json, ResponseData.class);
+                if (response != null && response.body != null) {
+                    JSONObject mJson = JSON.parseObject(response.body.toString());
+                    String jsonString = mJson.getString("datalist");
+                    List<AppAllServiceInfoBean> temp = JSON.parseArray(jsonString, AppAllServiceInfoBean.class);
+                    SessionContext.setHomeAllAppList(temp);
+                }
+            }
+
 //			byte[] pushColunn = DataLoader.getInstance().getCacheData(NetURL.PUSH_MORE_SERVICE);
 //			if (pushColunn != null) {
 //				String json = new String(pushColunn, "UTF-8");
@@ -209,8 +221,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 				if (response != null && response.body != null) {
 					String mJson = JSON.parseObject(response.body.toString()).getString("datalist");
 					List<AppListBean> temp = JSON.parseArray(mJson, AppListBean.class);
-					SessionContext.getAllAppList().clear();
-					SessionContext.setAllAppItem(temp);
+					SessionContext.setAllAppList(temp);
 				}
 			}
 
@@ -218,7 +229,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			String ad = SharedPreferenceUtil.getInstance().getString(AppConst.ADVERTISEMENT_INFO, "", false);
 			if (!TextUtils.isEmpty(ad)) {
 				mAdvertBean = JSON.parseObject(ad, AdvertisementBean.class);
-				loadImage(iv_advertisement, mAdvertBean.picture);
+                Glide.with(this).load(NetURL.API_LINK + mAdvertBean.picture).into(iv_advertisement);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -349,9 +360,11 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	 */
 	private void goToNextActivity() {
 		LogUtil.i("dw", "size = " + mTag.size());
-		if (mTag.size() < 2) {// 如果初始化数据没有加载完，就一直停留加载页
+		if (mTag.size() != 2) {// 如果初始化数据没有加载完，就一直停留加载页
 			return;
 		}
+
+		mTag.put(4, 4);
 
 		long end = SystemClock.elapsedRealtime();
 
@@ -389,7 +402,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
             JSONObject mJson = JSON.parseObject(response.body.toString());
             String json = mJson.getString("datalist");
             List<AppListBean> temp = JSON.parseArray(json, AppListBean.class);
-            SessionContext.setAllAppItem(temp);
+            SessionContext.setAllAppList(temp);
 		} else if (request.flag == 2) {
             AppInfoBean mAppInfo = JSON.parseObject(response.body.toString(), AppInfoBean.class);
             if (mAppInfo.isforce == 1 && AppContext.compareVersion(mAppInfo.vsid, AppContext.getVersion()) > 0) {// 是否强制升级 0 是 1 否 并且服务器版本大于当前版本
@@ -401,7 +414,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
             SharedPreferenceUtil.getInstance().setString(AppConst.APP_INFO, response.body.toString(), false);
 		} else if (request.flag == 3) {
             mAdvertBean = JSON.parseObject(response.body.toString(), AdvertisementBean.class);
-            loadImage(iv_advertisement, mAdvertBean.picture);
+            Glide.with(this).load(NetURL.API_LINK + mAdvertBean.picture).into(iv_advertisement);
             SharedPreferenceUtil.getInstance().setString(AppConst.ADVERTISEMENT_INFO, response.body.toString(), false);
 		} else if (request.flag == 4) {
             AppOtherInfoBean bean = JSON.parseObject(response.body.toString(), AppOtherInfoBean.class);
@@ -475,33 +488,6 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			}
 		});
 		builder.create().show();
-	}
-
-	/***
-	 * 加载广告图片
-	 */
-	public void loadImage(final ImageView iView, String url) {
-		if (!url.startsWith("http")) {
-			url = NetURL.API_LINK + url;// 拼接广告图片路径
-		}
-		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
-		if (bm != null) {
-			iv_advertisement.setTag("Y");// 设置标记
-			iView.setImageBitmap(bm);
-			showAd();
-		} else {
-			ImageLoader.getInstance().loadBitmap(new ImageCallback() {
-				@Override
-				public void imageCallback(Bitmap bm, String url, String imageTag) {
-					if (bm != null) {
-						iv_advertisement.setImageBitmap(bm);
-						iv_advertisement.setTag("Y");
-						showAd();
-					}
-				}
-
-			}, url);
-		}
 	}
 
 	@Override

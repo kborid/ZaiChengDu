@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.net.bean.AllServiceColumnBean;
+import com.z012.chengdu.sc.net.bean.AppAllServiceInfoBean;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 
@@ -18,9 +18,9 @@ import java.util.List;
 
 public class ServiceHomeAdapter extends BaseAdapter {
 	private Context				mContext;
-	private List<AllServiceColumnBean.AppList>	mBeans;
+	private List<AppAllServiceInfoBean>	mBeans;
 
-	public ServiceHomeAdapter(Context context, List<AllServiceColumnBean.AppList> mBeans) {
+	public ServiceHomeAdapter(Context context, List<AppAllServiceInfoBean> mBeans) {
 		this.mBeans = mBeans;
 		this.mContext = context;
 	}
@@ -46,7 +46,7 @@ public class ServiceHomeAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		final ViewHolder holder;
-		final AllServiceColumnBean.AppList temp = mBeans.get(position);
+		final AppAllServiceInfoBean temp = mBeans.get(position);
 		if (convertView == null) {
 			convertView = LayoutInflater.from(mContext).inflate(R.layout.gv_home_service_item, null);
 			holder = new ViewHolder();
@@ -56,16 +56,16 @@ public class ServiceHomeAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.tv_title.setText(temp.appname);
+		holder.tv_title.setText(temp.name);
 
 		convertView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				if (!temp.appurls.equals("ShowAllService")) {
+				if (!temp.linkurls.equals("ShowAllService")) {
 					Intent mIntent = new Intent(mContext, HtmlActivity.class);
-					mIntent.putExtra("title", temp.appname);
-					mIntent.putExtra("path", temp.appurls);
+					mIntent.putExtra("title", temp.name);
+					mIntent.putExtra("path", temp.linkurls);
 					mIntent.putExtra("id", temp.id);
 					mContext.startActivity(mIntent);
 				} else {

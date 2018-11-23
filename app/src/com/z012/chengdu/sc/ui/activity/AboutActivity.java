@@ -1,19 +1,15 @@
 package com.z012.chengdu.sc.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.prj.sdk.app.AppContext;
-import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.AppConst;
-import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 /**
@@ -22,7 +18,6 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
  * @author LiaoBo
  */
 public class AboutActivity extends BaseActivity {
-	private ImageView about_icon;
 	private Button btnAbout, btn_develop;
 	private TextView tv_version;
 
@@ -39,7 +34,6 @@ public class AboutActivity extends BaseActivity {
 	@Override
 	public void initViews() {
 		super.initViews();
-		about_icon = (ImageView) findViewById(R.id.about_icon);
 		btnAbout = (Button) findViewById(R.id.btn_about);
 		tv_version = (TextView) findViewById(R.id.tv_version);
 		tv_center_title.setText("关于");
@@ -62,27 +56,6 @@ public class AboutActivity extends BaseActivity {
 					AppContext.getAppMetaData(this, "UMENG_CHANNEL"));
 		}
 		tv_version.setText(sb);// 设置版本
-
-		String url = SharedPreferenceUtil.getInstance().getString(
-				AppConst.ABOUT_ICON, "", true);
-		if (!url.startsWith("http")) {
-			url = NetURL.API_LINK + url;
-		}
-		Bitmap bm = ImageLoader.getInstance().getCacheBitmap(url);
-		if (bm != null) {
-			about_icon.setImageBitmap(bm);
-		} else {
-			ImageLoader.getInstance().loadBitmap(
-					new ImageLoader.ImageCallback() {
-						@Override
-						public void imageCallback(Bitmap bm, String url,
-								String imageTag) {
-							if (bm != null) {
-								about_icon.setImageBitmap(bm);
-							}
-						}
-					}, url, url);
-		}
 	}
 
 	@Override
@@ -109,12 +82,6 @@ public class AboutActivity extends BaseActivity {
 			mIntent = new Intent(this, HtmlActivity.class);
 			mIntent.putExtra("ISDEVELOP", AppConst.ISDEVELOP);
 			startActivity(mIntent);
-
-			// AlipayUtil ali = new AlipayUtil(this);
-			// ali.pay(ali.getOrderInfo("android测试启动支护宝", "测试信息", "0.01"));
-			// WXPayUtil wx = new WXPayUtil(this);
-			// wx.initData("1", "android test",
-			// String.valueOf(System.currentTimeMillis()));
 			break;
 		default:
 			break;

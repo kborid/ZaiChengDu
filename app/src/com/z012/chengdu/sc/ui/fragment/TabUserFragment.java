@@ -50,7 +50,7 @@ import java.util.Date;
  *
  * @author kborid
  */
-public class TabUserFragment extends BaseFragment implements DataCallback {
+public class TabUserFragment extends BaseFragment implements DataCallback, View.OnClickListener {
 
     private LinearLayout userHeader_lay;
     private ImageView iv_photo;
