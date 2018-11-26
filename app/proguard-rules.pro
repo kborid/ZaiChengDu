@@ -96,6 +96,17 @@
 -dontwarn com.google.zxing.**
 -keep class com.google.zxing.** { *; }
 
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+#Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
 #友盟统计sdk
 -keepclassmembers class * {
    public <init>(org.json.JSONObject);
