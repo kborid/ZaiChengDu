@@ -102,20 +102,21 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 	@Override
 	protected void initParams() {
 		super.initParams();
+
+        try {
+            byte[] data = DataLoader.getInstance().getCacheData(NetURL.ALL_SERVICE_COLUMN);
+            if (data != null) {
+                String json = new String(data, "UTF-8");
+                ResponseData response = JSON.parseObject(json, ResponseData.class);
+                if (response != null && response.body != null)
+                    refreshData(response.body.toString());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 		if (NetworkUtil.isNetworkAvailable()) {
 		    loadData();
-        } else {
-            try {
-                byte[] data = DataLoader.getInstance().getCacheData(NetURL.ALL_SERVICE_COLUMN);
-                if (data != null) {
-                    String json = new String(data, "UTF-8");
-                    ResponseData response = JSON.parseObject(json, ResponseData.class);
-                    if (response != null && response.body != null)
-                        refreshData(response.body.toString());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         UIHandler.postDelayed(new Runnable() {
@@ -201,6 +202,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
                 for (int i = 0; i < size; i++) {
                     if (scrollY < itemViewLoc[i] + itemViewHeight[i] - mScrollViewY) {
                         tabs.setScrollPosition(i, 0, true);
+//                        tabs.getTabAt(i).select();
                         break;
                     }
                 }

@@ -81,6 +81,15 @@ android {
         abortOnError false
     }
     flavorDimensions "city"
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'armeabi'
+            universalApk true
+        }
+    }
 }
 
 dependencies {

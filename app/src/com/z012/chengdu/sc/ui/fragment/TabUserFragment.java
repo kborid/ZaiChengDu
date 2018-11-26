@@ -80,7 +80,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
         iv_photo = (ImageView) view.findViewById(R.id.iv_photo);
         tv_name = (TextView) view.findViewById(R.id.tv_name);
         tv_login = (TextView) view.findViewById(R.id.tv_login);
-        tv_userinfo = (TextView) view.findViewById(R.id.tv_userinfo);
+//        tv_userinfo = (TextView) view.findViewById(R.id.tv_userinfo);
         tv_account = (TextView) view.findViewById(R.id.tv_account);
         tv_address = (TextView) view.findViewById(R.id.tv_address);
         tv_invite = (TextView) view.findViewById(R.id.tv_invite);
@@ -179,8 +179,9 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
 	@Override
 	public void initListeners() {
 		super.initListeners();
+        iv_photo.setOnClickListener(this);
 		tv_login.setOnClickListener(this);
-        tv_userinfo.setOnClickListener(this);
+//        tv_userinfo.setOnClickListener(this);
         tv_account.setOnClickListener(this);
         tv_address.setOnClickListener(this);
         tv_invite.setOnClickListener(this);
@@ -199,7 +200,8 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                     updateDynamicUserInfo();
                 }
                 break;
-            case R.id.tv_userinfo:// 编辑资料
+            case R.id.iv_photo:
+//            case R.id.tv_userinfo:// 编辑资料
                 if (!SessionContext.isLogin()) {
                     getActivity().sendBroadcast(new Intent(
                             UnLoginBroadcastReceiver.ACTION_NAME));

@@ -66,9 +66,9 @@ public class UserGuideActivity extends BaseActivity implements
 		final int[] resIds = { R.drawable.user_guide_1,
 				R.drawable.user_guide_2, R.drawable.user_guide_3 };
 		ArrayList<View> list = new ArrayList<View>();
-		for (int i = 0; i < resIds.length; i++) {
+		for (int resId : resIds) {
 			ImageView view = new ImageView(this);
-			view.setBackgroundResource(resIds[i]);
+			view.setBackgroundResource(resId);
 			list.add(view);
 		}
 		mAdapter = new ViewPagerAdapter(list);
