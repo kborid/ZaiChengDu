@@ -66,7 +66,7 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
 	@Override
 	public void initParams() {
 		super.initParams();
-//		btn_next.setEnabled(!checkParamsEmpty());
+		btn_next.setEnabled(!checkParamsEmpty());
 	}
 
 	@Override
@@ -172,7 +172,7 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            btn_next.setEnabled(!checkParamsEmpty());
+            btn_next.setEnabled(!checkParamsEmpty());
         }
 
         @Override

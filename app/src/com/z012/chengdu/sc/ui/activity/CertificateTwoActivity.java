@@ -20,6 +20,7 @@ import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.tools.CountDownTimerImpl;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.net.ConnectException;
@@ -37,7 +38,7 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
 	private Button btn_next;
 
 	private String mPhone = null;
-    private CountDownTimer mCountDownTimer;
+    private CountDownTimerImpl mCountDownTimer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,21 +65,17 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
 	@Override
 	public void initParams() {
 		super.initParams();
-        setCountDownTimer(60 * 1000, 1000);
 		btn_next.setEnabled(false);
 		Bundle bundle = getIntent().getExtras();
 		if (null != bundle) {
 		    mPhone = bundle.getString("phone");
             tv_phone.setText(Utils.convertHiddenPhoneStars(mPhone, 3, 8));
         }
-	}
 
-    private void setCountDownTimer(long millisInFuture, long countDownInterval) {
-        mCountDownTimer = new CountDownTimer(millisInFuture, countDownInterval) {
-
+        mCountDownTimer = new CountDownTimerImpl(60, new CountDownTimerImpl.CountDownTimerListener() {
             @Override
-            public void onTick(long millisUntilFinished) {
-                tv_yzm.setText((millisUntilFinished / 1000) + "s后重试");
+            public void onTick(long time) {
+                tv_yzm.setText(String.format("%1$s后重试", time / CountDownTimerImpl.SEC));
             }
 
             @Override
@@ -86,8 +83,8 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
                 tv_yzm.setEnabled(true);
                 tv_yzm.setText("获取验证码");
             }
-        };
-    }
+        });
+	}
 
     @Override
 	public void initListeners() {
@@ -125,6 +122,15 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
             }
         });
 	}
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != mCountDownTimer) {
+            mCountDownTimer.stop();
+            mCountDownTimer = null;
+        }
+    }
 
     private void loadYZM() {
         RequestBeanBuilder builder = RequestBeanBuilder.create(false);

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.tools.CountDownTimerImpl;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 /**
@@ -21,6 +22,8 @@ public class CertificateThreeActivity extends BaseActivity {
     private ImageView iv_icon;
 	private TextView tv_ret, tv_tipsTime;
 	private Button btn_next;
+
+	private CountDownTimerImpl countDownTimer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,19 @@ public class CertificateThreeActivity extends BaseActivity {
 	@Override
 	public void initParams() {
 		super.initParams();
+		countDownTimer = new CountDownTimerImpl(5, new CountDownTimerImpl.CountDownTimerListener() {
+            @Override
+            public void onTick(long time) {
+                tv_tipsTime.setText(String.format("银行卡认证已经通过(%1$ss)", time / CountDownTimerImpl.SEC));
+            }
+
+            @Override
+            public void onFinish() {
+                btn_next.performClick();
+            }
+        });
+
+		countDownTimer.start();
 	}
 
 	@Override
@@ -61,4 +77,13 @@ public class CertificateThreeActivity extends BaseActivity {
             }
         });
 	}
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != countDownTimer) {
+            countDownTimer.stop();
+            countDownTimer = null;
+        }
+    }
 }
