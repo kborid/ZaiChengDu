@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.LogUtil;
+import com.prj.sdk.widget.CustomToast;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.z012.chengdu.sc.R;
@@ -69,13 +70,18 @@ public class MainFragmentActivity extends BaseFragmentActivity implements OnPage
     @Override
     public void dealIntent() {
         super.dealIntent();
-        if (getIntent().getExtras() != null
-                && getIntent().getExtras().getString("path") != null) {
-            LogUtil.d("JPush", "main value = "
-                    + getIntent().getExtras().getString("path"));
-            Intent intent = new Intent(this, HtmlActivity.class);
-            intent.putExtra("path", getIntent().getExtras().getString("path"));
-            startActivity(intent);
+        Bundle bundle = getIntent().getExtras();
+        if (null != bundle) {
+            if (bundle.getString("path") != null) {
+                LogUtil.d("JPush", "main value = " + bundle.getString("path"));
+                Intent intent = new Intent(this, HtmlActivity.class);
+                intent.putExtra("path", bundle.getString("path"));
+                startActivity(intent);
+            }
+
+            if (bundle.getString("certRet") != null) {
+                CustomToast.show(bundle.getString("certRet"), Toast.LENGTH_SHORT);
+            }
         }
     }
 

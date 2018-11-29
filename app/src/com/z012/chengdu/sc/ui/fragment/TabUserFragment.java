@@ -195,16 +195,14 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
 		switch (v.getId()) {
             case R.id.tv_login:
                 if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(
-                            UnLoginBroadcastReceiver.ACTION_NAME));
+                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
                 }
                 break;
             case R.id.iv_photo:
 //            case R.id.tv_userinfo:// 编辑资料
                 if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(
-                            UnLoginBroadcastReceiver.ACTION_NAME));
+                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
                     return;
                 }
@@ -213,8 +211,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 break;
             case R.id.tv_account:// 帐号安全
                 if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(
-                            UnLoginBroadcastReceiver.ACTION_NAME));
+                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
                     return;
                 }
@@ -224,8 +221,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 break;
             case R.id.tv_address:
                 if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(
-                            UnLoginBroadcastReceiver.ACTION_NAME));
+                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
                     return;
                 }
@@ -242,8 +238,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 break;
             case R.id.tv_invite:
                 if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(
-                            UnLoginBroadcastReceiver.ACTION_NAME));
+                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
                     return;
                 }

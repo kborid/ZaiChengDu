@@ -186,8 +186,10 @@
     <!--main color-->
     <color name="defaultBg">#f4f4f4</color>
     <color name="mainColor">#308dff</color>
+    <color name="mainColorDisEnable">#4d308dff</color>
     <color name="textColor">#333333</color>
     <color name="lineColor">#e8e8e8</color>
+    <color name="hintColor">#c7c7c7</color>
 
     <color name="titlecolor">@color/mainColor</color><!-- 2380e3 -->
     <color name="second_level_title_color">#FFFFFF</color>

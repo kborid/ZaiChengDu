@@ -115,8 +115,12 @@
             android:screenOrientation="portrait" />
         <!-- 实名认证 -->
         <activity
-            android:name=".ui.activity.IdentityVerificationActivity"
+            android:name=".ui.activity.CertificateOneActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.activity.CertificateTwoActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.activity.CertificateThreeActivity"
+            android:screenOrientation="portrait"/>
         <!-- 发表问答 -->
         <activity
             android:name=".ui.activity.QAISayActivity"

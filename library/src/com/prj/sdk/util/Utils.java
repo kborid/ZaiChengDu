@@ -20,6 +20,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.view.Display;
 import android.view.inputmethod.InputMethodManager;
 
@@ -414,6 +415,25 @@ public class Utils {
             return cardId.charAt(cardId.length() - 1) == bit;
         }
         return false;
+    }
+
+    public static String convertHiddenPhoneStars(String phone, int start, int end) {
+        if (!TextUtils.isEmpty(phone)) {
+            if (start < 0 || end > 11 || end <= start) {
+                return phone;
+            }
+
+            StringBuilder str = new StringBuilder();
+            for (int i = 0; i < phone.length(); i++) {
+                if (i < start || i > end) {
+                    str.append(phone.charAt(i));
+                } else {
+                    str.append("*");
+                }
+            }
+            return str.toString();
+        }
+        return phone;
     }
 
     /**
