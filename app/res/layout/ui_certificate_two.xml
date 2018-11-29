@@ -36,6 +36,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        android:focusableInTouchMode="true"
+        android:focusable="false"
         android:stretchColumns="2" >
 
         <TableRow
