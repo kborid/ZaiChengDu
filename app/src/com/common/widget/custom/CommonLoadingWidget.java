@@ -38,7 +38,7 @@ public class CommonLoadingWidget extends LinearLayout {
 	}
 
 	private void initViews() {
-		waitting_layout = (LinearLayout) findViewById(R.id.waitting_layout);
+		waitting_layout = (LinearLayout) findViewById(R.id.dialog_view);
 		retry_layout = (LinearLayout) findViewById(R.id.retry_layout_bg);
 		tv_retry_msg = (TextView) findViewById(R.id.tv_retry_msg);
 		btn_refersh= (Button) findViewById(R.id.btn_refersh);
