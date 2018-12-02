@@ -37,6 +37,7 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.common.widget.wheel.adapters.WheelViewAdapter;
+import com.prj.sdk.util.Utils;
 import com.z012.chengdu.sc.R;
 
 /**
@@ -47,12 +48,7 @@ import com.z012.chengdu.sc.R;
 public class WheelView extends View {
 
 	/** Top and bottom shadows colors */
-	/*/ Modified by wulianghuan 2014-11-25
-	private int[] SHADOWS_COLORS = new int[] { 0xFF111111,
-			0x00AAAAAA, 0x00AAAAAA };
-	//*/
-	private int[] SHADOWS_COLORS = new int[] { 0xefE9E9E9,
-			0xcfE9E9E9, 0x3fE9E9E9 };
+	private int[] SHADOWS_COLORS = new int[] { 0xefE9E9E9, 0xcfE9E9E9, 0x3fE9E9E9 };
 
 	/** Top and bottom items offset (to hide that) */
 	private static final int ITEM_OFFSET_PERCENT = 0;
@@ -123,16 +119,14 @@ public class WheelView extends View {
 	 * Constructor
 	 */
 	public WheelView(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		initData(context);
+		this(context, attrs, 0);
 	}
 
 	/**
 	 * Constructor
 	 */
 	public WheelView(Context context) {
-		super(context);
-		initData(context);
+		this(context, null);
 	}
 
 	/**
@@ -509,7 +503,9 @@ public class WheelView extends View {
 	private int getDesiredHeight(LinearLayout layout) {
 		if (layout != null && layout.getChildAt(0) != null) {
 			itemHeight = layout.getChildAt(0).getMeasuredHeight();
-		}
+		} else {
+		    return Utils.dip2px(200);
+        }
 
 		int desired = itemHeight * visibleItems - itemHeight * ITEM_OFFSET_PERCENT / 50;
 

@@ -1,19 +1,10 @@
 package com.z012.chengdu.sc.ui.dialog;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Gravity;
@@ -25,9 +16,20 @@ import android.widget.TextView;
 import com.common.widget.wheel.OnWheelChangedListener;
 import com.common.widget.wheel.WheelView;
 import com.common.widget.wheel.adapters.ArrayWheelAdapter;
+import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 区域选择滚轮列表展示对话框
@@ -87,23 +89,14 @@ public class AreaWheelDialog extends Dialog implements OnWheelChangedListener, V
 
     private AreaWheelCallback mAreaWheelCallback;
 
-    //	private Map<String, String>		mPId					= new HashMap<String, String>();
-//	private Map<String, String>		mCId					= new HashMap<String, String>();
-//	private Map<String, String>		mAId					= new HashMap<String, String>();
-    private Handler mHandler;
-
-    public AreaWheelDialog(Context context) {
-        this(context, null);
-    }
-
     public AreaWheelDialog(Context context, AreaWheelCallback mAreaWheelCallback) {
         super(context);
         ((BaseActivity) context).showProgressDialog("正在获取，请稍候...", false);
         this.mContext = context;
         this.mAreaWheelCallback = mAreaWheelCallback;
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.setContentView(R.layout.wheel_view);
-        this.getWindow().setBackgroundDrawable(new ColorDrawable(0));// 去除窗口透明部分显示的黑色
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.wheel_view);
+        getWindow().setBackgroundDrawable(new ColorDrawable(0));// 去除窗口透明部分显示的黑色
         LayoutParams p = getWindow().getAttributes(); // 获取对话框当前的参数值
         p.width = (int) (Utils.mScreenWidth);
         getWindow().setAttributes(p);
@@ -117,7 +110,7 @@ public class AreaWheelDialog extends Dialog implements OnWheelChangedListener, V
     /**
      * 初始化ui
      */
-    private final void initViews() {
+    private void initViews() {
         mProvince = (WheelView) findViewById(R.id.id_province);
         mCity = (WheelView) findViewById(R.id.id_city);
         mArea = (WheelView) findViewById(R.id.id_district);
@@ -129,34 +122,29 @@ public class AreaWheelDialog extends Dialog implements OnWheelChangedListener, V
      * 初始化参数
      */
     @SuppressLint("HandlerLeak")
-    public final void initParams() {
-        mHandler = new Handler() {
+    private void initParams() {
+
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                mProvince.setViewAdapter(new ArrayWheelAdapter<String>(mContext, mProvinceDatas));
-                mProvince.setVisibleItems(7);
-                mCity.setVisibleItems(7);
-                mArea.setVisibleItems(7);
-                updateCities();
-                updateAreas();
-                ((BaseActivity) mContext).removeProgressDialog();
+            public void run() {
+                initJsonData();
+                initDatas();
+
+                UIHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mProvince.setViewAdapter(new ArrayWheelAdapter<String>(mContext, mProvinceDatas));
+                        mProvince.setVisibleItems(7);
+                        mCity.setVisibleItems(7);
+                        mArea.setVisibleItems(7);
+                        updateCities();
+                        updateAreas();
+                        ((BaseActivity) mContext).removeProgressDialog();
+                    }
+                });
             }
-        };
-        mHandler.post(runnable);
-
+        });
     }
-
-    Runnable runnable = new Runnable() {
-
-        @Override
-        public void run() {
-            initJsonData();
-            initDatas();
-            Message msg = mHandler.obtainMessage();
-            mHandler.sendMessage(msg);
-        }
-    };
 
     public final void initListeners() {
         tv_cancel.setOnClickListener(this);
@@ -289,7 +277,7 @@ public class AreaWheelDialog extends Dialog implements OnWheelChangedListener, V
             InputStreamReader inputReader = new InputStreamReader(mContext.getResources().getAssets().open("shortArea.json"));
             BufferedReader bufReader = new BufferedReader(inputReader);
             String line = "";
-            StringBuffer result = new StringBuffer();
+            StringBuilder result = new StringBuilder();
             while ((line = bufReader.readLine()) != null) {
                 result.append(line);
             }
