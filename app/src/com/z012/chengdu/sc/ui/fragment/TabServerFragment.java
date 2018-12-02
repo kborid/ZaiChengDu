@@ -21,7 +21,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
-import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
@@ -267,8 +266,6 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
                     view.getLocationOnScreen(loc1);
                     itemViewLoc[finalI] = loc1[1];
                     itemViewHeight[finalI] = view.getMeasuredHeight();
-                    LogUtil.i("dw", "loc = " + loc[1]);
-                    LogUtil.i("dw", "height = " + view.getMeasuredHeight());
                 }
             }, 100);
         }

@@ -15,30 +15,27 @@ import com.z012.chengdu.sc.R;
 /**
  * 定制一个对话框，统一项目各个页面的对话框风格样式和属性,方便调用
  * 
- * @author LiaoBo
+ * @author kborid
  */
-public class CustomDialogUtil extends Dialog {
+public class CustomDialog extends Dialog {
 
-	private Button	tip_left, tip_right;
+	private Button tip_left, tip_right;
+	private View tip_line;
+	private TextView tip_title, tip_content;
 
-	private View	tip_line;
-	private TextView	tip_title, tip_content;
-
-	public CustomDialogUtil(Context context) {
+	public CustomDialog(Context context) {
 		this(context, null);
 	}
 
 	/**
-	 * @param context
-	 *            上下文
-	 * @param title
-	 *            窗口标题
+	 * @param context 上下文
+	 * @param title 窗口标题
 	 */
-	public CustomDialogUtil(Context context, String title) {
+	public CustomDialog(Context context, String title) {
 		super(context);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		this.setContentView(R.layout.tip_dialog_view);
-		this.getWindow().setBackgroundDrawable(new ColorDrawable(0));// 去除窗口透明部分显示的黑色
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.tip_dialog_view);
+		getWindow().setBackgroundDrawable(new ColorDrawable(0));// 去除窗口透明部分显示的黑色
 		LayoutParams p = getWindow().getAttributes(); // 获取对话框当前的参数值
 		p.width = (int) (Utils.mScreenWidth * 0.89);
 		p.height = (int) (p.width * 0.57);
@@ -52,7 +49,7 @@ public class CustomDialogUtil extends Dialog {
 	/**
 	 * 初始化ui
 	 */
-	private final void initViews() {
+	private void initViews() {
 		tip_line = findViewById(R.id.tip_line);
 		tip_left = (Button) findViewById(R.id.tip_left);
 		tip_right = (Button) findViewById(R.id.tip_right);
@@ -78,14 +75,14 @@ public class CustomDialogUtil extends Dialog {
 		tip_left.setOnClickListener(new android.view.View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mCallBackListener.leftBtn(CustomDialogUtil.this);
+				mCallBackListener.leftBtn(CustomDialog.this);
 
 			}
 		});
 		tip_right.setOnClickListener(new android.view.View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mCallBackListener.rightBtn(CustomDialogUtil.this);
+				mCallBackListener.rightBtn(CustomDialog.this);
 			}
 		});
 	}
@@ -93,7 +90,7 @@ public class CustomDialogUtil extends Dialog {
 	/**
 	 * 是否显示标题栏
 	 * 
-	 * @param isTitle
+	 * @param mTitle
 	 */
 	public void setTitle(String mTitle) {
 		if (null == mTitle || "".equals(mTitle)) {
@@ -149,14 +146,12 @@ public class CustomDialogUtil extends Dialog {
 
 	/**
 	 * ui层 点击事件 回调
-	 * 
-	 * @author LiaoBo
 	 */
 	public interface onCallBackListener {
 
-		public void leftBtn(CustomDialogUtil dialog);
+		public void leftBtn(CustomDialog dialog);
 
-		public void rightBtn(CustomDialogUtil dialog);
+		public void rightBtn(CustomDialog dialog);
 	}
 
 }

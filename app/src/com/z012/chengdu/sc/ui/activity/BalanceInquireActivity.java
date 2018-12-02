@@ -32,8 +32,8 @@ import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.BalanceInquireBean;
 import com.z012.chengdu.sc.ui.adapter.BalanceInquireAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 
 /**
  * 余额查询
@@ -178,18 +178,18 @@ public class BalanceInquireActivity extends BaseActivity implements DataCallback
 			}
 
 			if (!"03".equals(SessionContext.mUser.USERBASIC.levelstatus)) {// 如果没有实名认证
-				CustomDialogUtil dialog = new CustomDialogUtil(this);
+				CustomDialog dialog = new CustomDialog(this);
 				dialog.setBtnText("去认证", "取消");
 				dialog.show("为了您的帐号安全，提现操作需要进行实名认证");
 				dialog.setListeners(new onCallBackListener() {
 
 					@Override
-					public void rightBtn(CustomDialogUtil dialog) {
+					public void rightBtn(CustomDialog dialog) {
 						dialog.dismiss();
 					}
 
 					@Override
-					public void leftBtn(CustomDialogUtil dialog) {
+					public void leftBtn(CustomDialog dialog) {
 //						Intent intent = new Intent(BalanceInquireActivity.this, IdentityVerificationActivity.class);
 						Intent mIntent = new Intent(BalanceInquireActivity.this, HtmlActivity.class);
 						mIntent.putExtra("title", "实名认证");

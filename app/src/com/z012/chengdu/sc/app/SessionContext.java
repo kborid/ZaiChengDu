@@ -6,6 +6,7 @@ import com.prj.sdk.util.StringUtil;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.net.bean.AppAllServiceInfoBean;
 import com.z012.chengdu.sc.net.bean.AppListBean;
+import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.net.bean.UserInfo;
@@ -22,6 +23,7 @@ import java.util.List;
  */
 public class SessionContext {
 
+	public static CertUserAuth mCertUserAuth;
 	public static UserInfo				mUser;				// 用户信息
 	private static List<PushAppBean>	mAppList;			// 首页推荐应用
 	private static List<AppAllServiceInfoBean>	mHomeAllAppList;	// 首页所有应用

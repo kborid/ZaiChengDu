@@ -47,8 +47,8 @@ import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.GridViewAdapter;
 import com.z012.chengdu.sc.ui.adapter.ServiceHomeAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 import com.z012.chengdu.sc.ui.widge.banner.CommonBannerLayout;
 import com.z012.chengdu.sc.ui.widge.maqueue.IUPMarqueeListener;
 import com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeBean;
@@ -325,11 +325,11 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	 */
 	private void setNetworkMethod() {
 		if (!NetworkUtil.isNetworkAvailable()) {// 判断网络是否可用
-			CustomDialogUtil mTip = new CustomDialogUtil(getActivity());
+			CustomDialog mTip = new CustomDialog(getActivity());
 			mTip.setBtnText("设置", "取消");
 			mTip.show("网络连接不可用,是否进行设置?");
 			mTip.setListeners(new onCallBackListener() {
-				public void leftBtn(CustomDialogUtil dialog) {
+				public void leftBtn(CustomDialog dialog) {
 					Intent intent = null;
 					// 判断手机系统的版本 即API大于10 就是3.0或以上版本
 					if (android.os.Build.VERSION.SDK_INT > 10) {
@@ -347,7 +347,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 					dialog.dismiss();
 				}
 
-				public void rightBtn(CustomDialogUtil dialog) {
+				public void rightBtn(CustomDialog dialog) {
 					dialog.dismiss();
 				}
 			});

@@ -2,7 +2,6 @@ package com.z012.chengdu.sc.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -99,9 +98,7 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
 		btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadData();
-                Intent intent = new Intent(CertificateTwoActivity.this, CertificateThreeActivity.class);
-                startActivity(intent);
+                checkYZM();
             }
         });
 
@@ -144,8 +141,19 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
         requestID = DataLoader.getInstance().loadData(this, data);
     }
 
-    private void loadData() {
+    private void checkYZM() {
+	    RequestBeanBuilder builder = RequestBeanBuilder.create(false);
+	    builder.addBody("code", et_yzm.getText().toString());
 
+	    ResponseData d = builder.syncRequest(builder);
+	    d.path = "";
+	    d.flag = 2;
+
+	    if (!isProgressShowing()) {
+	        showProgressDialog("", false);
+        }
+
+        requestID = DataLoader.getInstance().loadData(this, d);
     }
 
 	@Override
@@ -161,7 +169,8 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
             tv_yzm.setEnabled(false);
             mCountDownTimer.start();// 启动倒计时
         } else if (request.flag == 2) {
-
+            Intent intent = new Intent(CertificateTwoActivity.this, CertificateThreeActivity.class);
+            startActivity(intent);
         }
 	}
 

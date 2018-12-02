@@ -6,14 +6,12 @@ import java.text.DecimalFormat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.prj.sdk.app.AppContext;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
@@ -24,12 +22,11 @@ import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
-import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.SelectBankBean;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 
 /**
  * 提现-验证码提交页面
@@ -195,19 +192,19 @@ public class CashingVerificationCodeActivity extends BaseActivity implements Dat
 	 * 操作成功，到账时间提示对话框
 	 */
 	public void showTipDialog() {
-		CustomDialogUtil dialog = new CustomDialogUtil(this);
+		CustomDialog dialog = new CustomDialog(this);
 		dialog.setBtnText("确定", null);
 		dialog.setCanceled(false);
 		dialog.show("您的提现操作已成功，预计1-2个工作日到账！");
 		dialog.setListeners(new onCallBackListener() {
 
 			@Override
-			public void rightBtn(CustomDialogUtil dialog) {
+			public void rightBtn(CustomDialog dialog) {
 				dialog.dismiss();
 			}
 
 			@Override
-			public void leftBtn(CustomDialogUtil dialog) {
+			public void leftBtn(CustomDialog dialog) {
 				Intent mIntent = new Intent(CashingVerificationCodeActivity.this, BalanceInquireActivity.class);
 				mIntent.putExtra("isCashingSucc", true);
 				mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -48,8 +48,8 @@ import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.AppListBean;
 import com.z012.chengdu.sc.net.bean.DownInfoBean;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 
 /**
  * 栏目列表适配器
@@ -375,20 +375,20 @@ public class ColumnAdapter extends BaseAdapter implements DownCallback, ZipExtra
 					downTask.execute();
 				} else {
 					downTask = new DownLoaderTask(mContext, url, appid, true, this);
-					CustomDialogUtil mTip = new CustomDialogUtil(mContext);
+					CustomDialog mTip = new CustomDialog(mContext);
 					mTip.setBtnText("取消", "确定");
 					mTip.show(mContext.getResources().getText(R.string.dialog_tip).toString());
 					mTip.setCanceledOnTouchOutside(false);
 					mTip.setListeners(new onCallBackListener() {
 
 						@Override
-						public void rightBtn(CustomDialogUtil dialog) {
+						public void rightBtn(CustomDialog dialog) {
 							dialog.dismiss();
 							downTask.execute();
 						}
 
 						@Override
-						public void leftBtn(CustomDialogUtil dialog) {
+						public void leftBtn(CustomDialog dialog) {
 							dialog.dismiss();
 							downTask.cancel(true);
 						}

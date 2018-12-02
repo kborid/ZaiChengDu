@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- dialog -->
-    <color name="dialog_text_checked">#4D971D</color>
-    <color name="dialog_text_unchecked">#8BB871</color>
-
-</resources>

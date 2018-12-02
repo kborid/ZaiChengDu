@@ -12,7 +12,7 @@ import com.prj.sdk.util.GUIDGenerator;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.constants.AppConst;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 
 /**
  * 获取图片对话框，包括相机和图库2中方式选择
@@ -21,7 +21,7 @@ import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
  */
 public class GetPicDialog {
 	private Activity			mAct;
-	private CustomDialogUtil	mTip;
+	private CustomDialog mTip;
 	private File				mCameraFile;
 
 	public GetPicDialog(Activity context) {
@@ -36,7 +36,7 @@ public class GetPicDialog {
 	 */
 	public GetPicDialog(Activity context, String imgName) {
 		this.mAct = context;
-		mTip = new CustomDialogUtil(mAct);
+		mTip = new CustomDialog(mAct);
 		if (imgName == null || imgName.length() == 0) {
 			mCameraFile = new File(Utils.getFolderDir("pic"), GUIDGenerator.generate() + ".jpg");
 		} else {
@@ -66,7 +66,7 @@ public class GetPicDialog {
 		mTip.setBtnText("图库", "相机");
 		mTip.show("请选择图片获取方式");
 		mTip.setListeners(new onCallBackListener() {
-			public void rightBtn(CustomDialogUtil dialog) {
+			public void rightBtn(CustomDialog dialog) {
 				if (Utils.isSDCardEnable()) {
 					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 					intent.putExtra(MediaStore.EXTRA_OUTPUT, getPicPathUri());
@@ -79,7 +79,7 @@ public class GetPicDialog {
 
 			}
 
-			public void leftBtn(CustomDialogUtil dialog) {
+			public void leftBtn(CustomDialog dialog) {
 				if (Utils.isSDCardEnable()) {
 					Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					i.setType("image/*");

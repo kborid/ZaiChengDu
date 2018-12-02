@@ -10,8 +10,8 @@ import com.prj.sdk.constants.Const;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.ui.activity.LoginActivity;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 
 /**
  * 未登录广播
@@ -54,20 +54,20 @@ public class UnLoginBroadcastReceiver extends BroadcastReceiver {
 		// 注销登录状态
 		SessionContext.cleanUserInfo();
 
-		CustomDialogUtil dlg = new CustomDialogUtil(context);
+		CustomDialog dlg = new CustomDialog(context);
 		dlg.setBtnText("取消", "登录");
 		dlg.show(msg);
 		dlg.setCanceled(false);
 		dlg.setListeners(new onCallBackListener() {
 
 			@Override
-			public void rightBtn(CustomDialogUtil dialog) {
+			public void rightBtn(CustomDialog dialog) {
 				intentLogin(context);
 				dialog.dismiss();
 			}
 
 			@Override
-			public void leftBtn(CustomDialogUtil dialog) {
+			public void leftBtn(CustomDialog dialog) {
 				Intent mIntent = new Intent(AppConst.ACTION_DYNAMIC_USER_INFO);
 				LocalBroadcastManager.getInstance(AppContext.mMainContext).sendBroadcast(mIntent);
 				dialog.dismiss();

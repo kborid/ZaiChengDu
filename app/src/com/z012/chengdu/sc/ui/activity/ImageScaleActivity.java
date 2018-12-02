@@ -23,8 +23,8 @@ import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.adapter.ViewPagerAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil;
-import com.z012.chengdu.sc.ui.dialog.CustomDialogUtil.onCallBackListener;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog;
+import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 
 /***
  * 图片缩放预览
@@ -45,7 +45,7 @@ public class ImageScaleActivity extends BaseActivity implements
 	private LinearLayout mIndicatorLayout, tv_right_title_layout;
 	private int lastPositon;
 	private boolean isModify;
-	private CustomDialogUtil mTip;
+	private CustomDialog mTip;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +92,7 @@ public class ImageScaleActivity extends BaseActivity implements
 	public void initParams() {
 		super.initParams();
 		dealIntent();
-		mTip = new CustomDialogUtil(this);
+		mTip = new CustomDialog(this);
 		try {
 			if (imgUrl != null && imgUrl.size() > 0) {
 				for (int i = 0; i < imgUrl.size(); i++) {
@@ -180,12 +180,12 @@ public class ImageScaleActivity extends BaseActivity implements
 			mTip.setListeners(new onCallBackListener() {
 
 				@Override
-				public void rightBtn(CustomDialogUtil dialog) {
+				public void rightBtn(CustomDialog dialog) {
 					dialog.dismiss();
 				}
 
 				@Override
-				public void leftBtn(CustomDialogUtil dialog) {
+				public void leftBtn(CustomDialog dialog) {
 					try {
 						isModify = true;
 						listUriToString.add(imgUri.get(lastPositon).toString());// 记录删除的图集

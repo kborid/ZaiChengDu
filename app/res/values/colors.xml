@@ -204,9 +204,6 @@
     <color name="home_tab_bg">#FFFFFF</color>
     <color name="home_tab_text_def">#8e8e8e</color>
     <color name="home_tab_text_checked">@color/mainColor</color>
-    <!-- dialog -->
-    <color name="dialog_text_checked">#ff2380e3</color>
-    <color name="dialog_text_unchecked">#ff5056cd</color>
 
     <color name="headerTextColor">#a9a9a9</color>
     <!--H5应用标题下面的线条颜色  -->
