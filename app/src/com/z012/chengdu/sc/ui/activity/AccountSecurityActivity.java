@@ -1,13 +1,10 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.HashMap;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,8 +25,13 @@ import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.net.bean.ThirdPartyBindListBean;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
+
+import java.net.ConnectException;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 账户安全
@@ -73,41 +75,24 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 	@Override
 	public void initParams() {
 		super.initParams();
+		CertUserAuth auth = SessionContext.mCertUserAuth;
+		if (null == auth || !auth.isAuth) {
+			tv_certification.setText("未认证");
+		} else {
+			tv_certification.setText("已认证");
+		}
+
+		String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
+		if (!TextUtils.isEmpty(data)) {
+			setThirdPartyBind(data, false);
+		}
 		loadThirdPartyBindList();
+		requestCertResult();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		try {
-			if (SessionContext.isLogin()) {
-				String level = SessionContext.mUser.USERBASIC.levelstatus;
-				if ("04".equals(level)) {
-					tv_certification.setText("已驳回");
-				} else if ("02".equals(level)) {
-					tv_certification.setText("认证审核中...");
-				} else if ("03".equals(level)) {
-					tv_certification.setText("已认证");
-				} else {
-					tv_certification.setText("未认证");
-				}
-				// tv_phone_number.setText(StringUtil.doEmpty(SessionContext.mUser.USERAUTH.mobilenum));
-				String phone = SessionContext.mUser.USERAUTH.mobilenum;
-				if (StringUtil.notEmpty(phone)) {
-					tv_phone_number.setText(phone.substring(0, phone.length() - (phone.substring(3)).length()) + "****" + phone.substring(7));
-				}
-				// tv_email.setText(StringUtil.doEmpty(SessionContext.mUser.USERAUTH.email, "未绑定"));
-				String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
-				if (StringUtil.notEmpty(data)) {
-					setThirdPartyBind(data, false);
-				}
-			} else {
-				finish();
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	@Override
 	public void initListeners() {
@@ -203,6 +188,21 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 
 	}
 
+	private void requestCertResult() {
+		RequestBeanBuilder b = RequestBeanBuilder.create(true);
+		b.addBody("uid", SessionContext.mUser.LOCALUSER.id);
+
+		ResponseData d = b.syncRequest(b);
+		d.path = NetURL.CERT_STATUS_BY_UID;
+		d.flag = 3;
+
+		if (!isProgressShowing()) {
+			showProgressDialog("正在加载，请稍候...", true);
+		}
+
+		requestID = DataLoader.getInstance().loadData(this, d);
+	}
+
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		DataLoader.getInstance().clear(requestID);
@@ -217,13 +217,23 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 
 	@Override
 	public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
-		removeProgressDialog();
-		if (request.flag == 1) {
-			logout();
-		} else {
-			setThirdPartyBind(response.body.toString(), true);
-		}
-	}
+        if (request.flag == 1) {
+            removeProgressDialog();
+            logout();
+        } else if (request.flag == 2) {
+            removeProgressDialog();
+            setThirdPartyBind(response.body.toString(), true);
+        } else if (request.flag == 3) {
+            removeProgressDialog();
+            if (null != response && response.body != null) {
+                System.out.println(response.body.toString());
+                CertUserAuth auth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
+                SessionContext.mCertUserAuth = auth;
+                tv_certification.setText(auth.isAuth ? "已认证" : "未认证");
+            }
+        }
+
+    }
 
 	@Override
 	public void notifyError(ResponseData request, ResponseData response, Exception e) {
@@ -241,29 +251,32 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		}
 	}
 
-	/**
-	 * 设置三方绑定
-	 * 
-	 * @param data
-	 * @param isSave
-	 */
-	public void setThirdPartyBind(String data, boolean isSave) {
-		List<ThirdPartyBindListBean> temp = JSON.parseArray(data, ThirdPartyBindListBean.class);
-		if (temp != null && !temp.isEmpty()) {
-			for (int i = 0; i < temp.size(); i++) {
-				if ("01".equals(temp.get(i).platform)) {
-					iv_wb.setVisibility(View.VISIBLE);
-				} else if ("02".equals(temp.get(i).platform)) {
-					iv_qq.setVisibility(View.VISIBLE);
-				} else {
-					iv_wx.setVisibility(View.VISIBLE);
-				}
+    /**
+     * 设置三方绑定
+     *
+     * @param data
+     * @param isSave
+     */
+    public void setThirdPartyBind(String data, boolean isSave) {
+        if (!TextUtils.isEmpty(data) && !"[]".equals(data)) {
+            List<ThirdPartyBindListBean> temp = JSON.parseArray(data, ThirdPartyBindListBean.class);
+            if (temp != null && !temp.isEmpty()) {
+                for (ThirdPartyBindListBean bean : temp) {
+                    if ("01".equals(bean.platform)) {
+                        iv_wb.setVisibility(View.VISIBLE);
+                    } else if ("02".equals(bean.platform)) {
+                        iv_qq.setVisibility(View.VISIBLE);
+                    } else {
+                        iv_wx.setVisibility(View.VISIBLE);
+                    }
 
-			}
-			if (isSave)
-				SharedPreferenceUtil.getInstance().setString(AppConst.THIRDPARTYBIND, data, false);
-		}
-	}
+                }
+            }
+        }
+
+        if (isSave)
+            SharedPreferenceUtil.getInstance().setString(AppConst.THIRDPARTYBIND, data, false);
+    }
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
