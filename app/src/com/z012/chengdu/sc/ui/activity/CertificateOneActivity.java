@@ -232,6 +232,7 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
     }
 
     private void requestCertificateInfo() {
+	    //mock data
 	    String uid = "001";
 	    String bankCardNo = "6212262201014284237";
 	    String mobileNo = "13701717175";
@@ -239,14 +240,13 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
 	    String idType = "I";
 	    String name = "张三";
 
-	    RequestBeanBuilder b = RequestBeanBuilder.create(true);
-//	    b.addBody("uid", SessionContext.mUser.LOCALUSER.id);
-//	    b.addBody("bankCardNo", et_card.getText().toString());
-//	    b.addBody("mobileNo", et_phone.getText().toString());
-//	    b.addBody("idNo", et_id.getText().toString());
-//	    b.addBody("idType", "I");
-//	    b.addBody("name", et_name.getText().toString());
+	    uid = SessionContext.mUser.LOCALUSER.id;
+	    bankCardNo = et_card.getText().toString();
+	    mobileNo = et_phone.getText().toString();
+	    idNo = et_id.getText().toString();
+        name = et_name.getText().toString();
 
+	    RequestBeanBuilder b = RequestBeanBuilder.create(true);
         b.addBody("uid", uid);
         b.addBody("bankCardNo", bankCardNo);
         b.addBody("mobileNo", mobileNo);
@@ -255,7 +255,7 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
         b.addBody("name", name);
 
 	    ResponseData d = b.syncRequest(b);
-	    d.path = NetURL.CERT;
+	    d.path = NetURL.CERT_INFO;
 	    d.flag = 3;
 
 	    if (!isProgressShowing()) {
@@ -381,8 +381,10 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
                 removeProgressDialog();
                 System.out.println(response.body.toString());
                 CertUserAuth auth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
-                if (null == auth || !auth.isAuth) {
-                    CustomToast.show("认证失败", Toast.LENGTH_SHORT);
+                boolean isAuth = (null != auth && auth.isAuth);
+                if (!isAuth) {
+                    Intent intent = new Intent(CertificateOneActivity.this, CertificateThreeActivity.class);
+                    startActivity(intent);
                 } else {
                     intentNextActivity();
                 }

@@ -130,7 +130,8 @@ public final class NetURL {
 	public static final String CERT_TIMES = PORTAL_SERVICE + "PA10001"; //认证次数查询
     public static final String CERT_STATUS_BY_UID = PORTAL_SERVICE + "PA10002"; //根据用户id查询认证结果
     public static final String CERT_STATUS_BY_CID = PORTAL_SERVICE + "PA10003"; //根据身份证查询认证结果
-    public static final String CERT = PORTAL_SERVICE + "PA10004"; //认证
+    public static final String CERT_INFO = PORTAL_SERVICE + "PA10004"; //认证信息
+	public static final String CERT = PORTAL_SERVICE + "PA10005"; //认证
 
 	public static final String[]	CACHE_URL				= {ALL_APP, PUSH_SERVICE_, PUSH_MORE_SERVICE, ALL_SERVICE_COLUMN, NEWS, BANNER, MORE_COLUMN};
 }

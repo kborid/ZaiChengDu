@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
@@ -18,7 +19,9 @@ import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
+import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.tools.CountDownTimerImpl;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
@@ -98,7 +101,11 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
 		btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkYZM();
+                if (TextUtils.isEmpty(et_yzm.getText().toString())) {
+                    CustomToast.show("请输入验证码", Toast.LENGTH_SHORT);
+                    return;
+                }
+                requestCert();
             }
         });
 
@@ -138,19 +145,26 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
         data.path = NetURL.GET_YZM;
         data.flag = 1;
 
+        if (!isProgressShowing()) {
+            showProgressDialog("", true);
+        }
+
         requestID = DataLoader.getInstance().loadData(this, data);
     }
 
-    private void checkYZM() {
-	    RequestBeanBuilder builder = RequestBeanBuilder.create(false);
-	    builder.addBody("code", et_yzm.getText().toString());
+    private void requestCert() {
+	    RequestBeanBuilder builder = RequestBeanBuilder.create(true);
+	    builder.addBody("uid", SessionContext.mUser.LOCALUSER.id);
+	    builder.addBody("BUSINESSTYPE", "40658");
+        builder.addBody("MOBILENUM", mPhone);
+	    builder.addBody("VCODE", et_yzm.getText().toString());
 
 	    ResponseData d = builder.syncRequest(builder);
-	    d.path = "";
+	    d.path = NetURL.CERT;
 	    d.flag = 2;
 
 	    if (!isProgressShowing()) {
-	        showProgressDialog("", false);
+	        showProgressDialog("", true);
         }
 
         requestID = DataLoader.getInstance().loadData(this, d);
@@ -169,8 +183,18 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
             tv_yzm.setEnabled(false);
             mCountDownTimer.start();// 启动倒计时
         } else if (request.flag == 2) {
+            removeProgressDialog();
+            System.out.println(response.body.toString());
+            CertUserAuth auth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
+            boolean isAuth = (null != auth && auth.isAuth);
             Intent intent = new Intent(CertificateTwoActivity.this, CertificateThreeActivity.class);
+            intent.putExtra("isAuth", isAuth);
             startActivity(intent);
+            if (null != mCountDownTimer) {
+                mCountDownTimer.stop();
+            }
+            tv_yzm.setEnabled(true);
+            tv_yzm.setText("获取验证码");
         }
 	}
 

@@ -23,6 +23,7 @@ public class CertificateThreeActivity extends BaseActivity {
 	private TextView tv_ret, tv_tipsTime;
 	private Button btn_next;
 
+	private boolean mAuth = false;
 	private CountDownTimerImpl countDownTimer;
 
 	@Override
@@ -30,8 +31,18 @@ public class CertificateThreeActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ui_certificate_three);
 		initViews();
+		dealIntent();
 		initParams();
 		initListeners();
+	}
+
+	@Override
+	public void dealIntent() {
+		super.dealIntent();
+		Bundle bundle = getIntent().getExtras();
+		if (null != bundle) {
+		    mAuth = bundle.getBoolean("isAuth");
+        }
 	}
 
 	@Override
@@ -50,19 +61,27 @@ public class CertificateThreeActivity extends BaseActivity {
 	@Override
 	public void initParams() {
 		super.initParams();
-		countDownTimer = new CountDownTimerImpl(5, new CountDownTimerImpl.CountDownTimerListener() {
-            @Override
-            public void onTick(long time) {
-                tv_tipsTime.setText(String.format("银行卡认证已经通过(%1$ss)", time / CountDownTimerImpl.SEC));
-            }
+		if (mAuth) {
+		    iv_icon.setImageResource(R.drawable.iv_cert_succ);
+            tv_ret.setText("认证成功");
+            countDownTimer = new CountDownTimerImpl(5, new CountDownTimerImpl.CountDownTimerListener() {
+                @Override
+                public void onTick(long time) {
+                    tv_tipsTime.setText(String.format("银行卡认证已经通过(%1$ss)", time / CountDownTimerImpl.SEC));
+                }
 
-            @Override
-            public void onFinish() {
-                btn_next.performClick();
-            }
-        });
+                @Override
+                public void onFinish() {
+                    btn_next.performClick();
+                }
+            });
 
-		countDownTimer.start();
+            countDownTimer.start();
+        } else {
+		    iv_icon.setImageResource(R.drawable.iv_cert_fail);
+            tv_ret.setText("认证失败");
+            tv_tipsTime.setText("银行卡认证未通过");
+        }
 	}
 
 	@Override
@@ -71,9 +90,13 @@ public class CertificateThreeActivity extends BaseActivity {
 		btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CertificateThreeActivity.this, MainFragmentActivity.class);
-                intent.putExtra("certRet", "认证成功");
-                startActivity(intent);
+                if (mAuth) {
+                    Intent intent = new Intent(CertificateThreeActivity.this, MainFragmentActivity.class);
+                    intent.putExtra("certRet", "认证成功");
+                    startActivity(intent);
+                } else {
+                    finish();
+                }
             }
         });
 	}
