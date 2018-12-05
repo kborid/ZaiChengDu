@@ -18,6 +18,7 @@ import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
+import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
@@ -81,6 +82,11 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		} else {
 			tv_certification.setText("已认证");
 		}
+
+        String phone = SessionContext.mUser.USERAUTH.mobilenum;
+        if (StringUtil.notEmpty(phone)) {
+            tv_phone_number.setText(Utils.convertHiddenPhoneStars(phone, 3, 8));
+        }
 
 		String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
 		if (!TextUtils.isEmpty(data)) {
