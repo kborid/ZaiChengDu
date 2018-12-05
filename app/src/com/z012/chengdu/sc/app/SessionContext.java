@@ -212,6 +212,7 @@ public class SessionContext {
 	public static void cleanUserInfo() {
 		mUser = null;
 		mTicket = null;
+		mCertUserAuth = null;
 		SharedPreferenceUtil.getInstance().setString(AppConst.LAST_LOGIN_DATE, "", false);// 置空登录时间
 		SharedPreferenceUtil.getInstance().setString(AppConst.USER_INFO, "", false);
 		SharedPreferenceUtil.getInstance().setString(AppConst.ACCESS_TICKET, "", true);

@@ -10,15 +10,23 @@ import android.view.KeyEvent;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.prj.sdk.net.bean.ResponseData;
+import com.prj.sdk.net.data.DataCallback;
+import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.LogUtil;
+import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.widget.CustomToast;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.app.PRJApplication;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
+import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.ui.adapter.MainFragmentAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragmentActivity;
 import com.z012.chengdu.sc.ui.fragment.TabHomeFragment;
@@ -33,7 +41,7 @@ import java.util.List;
  *
  * @author kborid
  */
-public class MainFragmentActivity extends BaseFragmentActivity implements OnPageChangeListener {
+public class MainFragmentActivity extends BaseFragmentActivity implements OnPageChangeListener, DataCallback {
     public static final int PAGE_HOME = 0;
     public static final int PAGE_SERVER = 1;
     public static final int PAGE_USER = 2;
@@ -65,6 +73,9 @@ public class MainFragmentActivity extends BaseFragmentActivity implements OnPage
         super.initParams();
         initFragmentView();
         UmengUpdateAgent.update(this);// 友盟渠道版本更新
+        if (NetworkUtil.isNetworkAvailable() && SessionContext.isLogin()) {
+            requestCertResult();
+        }
     }
 
     @Override
@@ -188,5 +199,35 @@ public class MainFragmentActivity extends BaseFragmentActivity implements OnPage
     @Override
     public void onPageSelected(int arg0) {
         radioGroup.getChildAt(arg0).performClick();
+    }
+
+    private void requestCertResult() {
+        LogUtil.i("dw", "requestCertResult()");
+        RequestBeanBuilder b = RequestBeanBuilder.create(true);
+        b.addBody("uid", SessionContext.mUser.LOCALUSER.id);
+
+        ResponseData d = b.syncRequest(b);
+        d.path = NetURL.CERT_STATUS_BY_UID;
+        d.flag = 11;
+
+        DataLoader.getInstance().loadData(this, d);
+    }
+
+    @Override
+    public void preExecute(ResponseData request) {
+    }
+
+    @Override
+    public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
+        if (request.flag == 11) {
+            if (null != response && response.body != null) {
+                LogUtil.i("dw", response.body.toString());
+                SessionContext.mCertUserAuth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
+            }
+        }
+    }
+
+    @Override
+    public void notifyError(ResponseData request, ResponseData response, Exception e) {
     }
 }

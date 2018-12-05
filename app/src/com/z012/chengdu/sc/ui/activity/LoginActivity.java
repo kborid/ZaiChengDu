@@ -1,9 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.HashMap;
-import java.util.Map;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.jpush.android.api.JPushInterface;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -31,6 +26,7 @@ import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.DateUtil;
+import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
 import com.prj.sdk.widget.CustomToast;
@@ -55,9 +51,16 @@ import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.net.bean.UserInfo;
 import com.z012.chengdu.sc.tools.SHA1;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
+
+import java.net.ConnectException;
+import java.util.HashMap;
+import java.util.Map;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * 登录
@@ -444,12 +447,21 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 	 */
 	private void getUserInfo(String ticket) {
 		RequestBeanBuilder builder = RequestBeanBuilder.create(true);
-
 		ResponseData data = builder.syncRequest(builder);
 		data.path = NetURL.GET_USER_INFO;
 		data.flag = 2;
 		requestID = DataLoader.getInstance().loadData(this, data);
 	}
+
+    private void requestCertResult() {
+        LogUtil.i("dw", "requestCertResult()");
+        RequestBeanBuilder b = RequestBeanBuilder.create(true);
+        b.addBody("uid", SessionContext.mUser.LOCALUSER.id);
+        ResponseData d = b.syncRequest(b);
+        d.path = NetURL.CERT_STATUS_BY_UID;
+        d.flag = 11;
+        DataLoader.getInstance().loadData(this, d);
+    }
 
 	@Override
 	public void preExecute(ResponseData request) {
@@ -514,7 +526,8 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 			if (mCancelLogin != null) {
 				mCancelLogin.isCancelLogin(false);
 			}
-			this.finish();
+
+			requestCertResult();
 			// 添加友盟自定义事件
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("userId", SessionContext.mUser.USERBASIC.id);
@@ -540,7 +553,13 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 				intent.putExtra("usertoken", usertoken);
 				startActivity(intent);
 			}
-		}
+		} else if (request.flag == 11) {
+            if (null != response && response.body != null) {
+                LogUtil.i("dw", response.body.toString());
+                SessionContext.mCertUserAuth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
+            }
+            this.finish();
+        }
 	}
 
 	@Override
@@ -593,7 +612,7 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 	/**
 	 * 设置登录状态监听
 	 * 
-	 * @param mCancelLogin
+	 * @param cancelLogin
 	 */
 	public static final void setCancelLogin(onCancelLoginListener cancelLogin) {
 		mCancelLogin = cancelLogin;

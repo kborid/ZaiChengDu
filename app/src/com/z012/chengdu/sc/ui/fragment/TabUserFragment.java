@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.constants.Const;
 import com.prj.sdk.net.bean.ResponseData;
@@ -23,7 +22,6 @@ import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.LogUtil;
-import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
 import com.prj.sdk.util.ThumbnailUtil;
@@ -36,7 +34,6 @@ import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
-import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.ui.activity.AboutActivity;
 import com.z012.chengdu.sc.ui.activity.AccountSecurityActivity;
 import com.z012.chengdu.sc.ui.activity.AddressManageActivity;
@@ -74,10 +71,18 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
 
 	public void onVisible() {
 		super.onVisible();
-        if (NetworkUtil.isNetworkAvailable() && SessionContext.isLogin()) {
-            requestCertResult();
+		if (SessionContext.isLogin()) {
+            updateInfoForCert();
         }
 	}
+
+	private void updateInfoForCert() {
+	    LogUtil.i("dw", "updateInfoForCert()");
+        boolean isAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth && null != SessionContext.mCertUserAuth.userAuth;
+        if (isAuth) {
+            tv_name.setText(SessionContext.mCertUserAuth.userAuth.name);
+        }
+    }
 
 	@Override
 	protected void initViews(View view) {
@@ -125,17 +130,6 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
         llp.height = (int) ((float) llp.width / 375 * 200);
         userHeader_lay.setLayoutParams(llp);
 	}
-
-    private void requestCertResult() {
-        RequestBeanBuilder b = RequestBeanBuilder.create(true);
-        b.addBody("uid", SessionContext.mUser.LOCALUSER.id);
-
-        ResponseData d = b.syncRequest(b);
-        d.path = NetURL.CERT_STATUS_BY_UID;
-        d.flag = 11;
-
-        requestID = DataLoader.getInstance().loadData(this, d);
-    }
 
     /**
      * 加载验证票据是否失效
@@ -298,12 +292,6 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
 
 	@Override
 	public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
-        if (request.flag == 11) {
-            if (null != response && response.body != null) {
-                System.out.println(response.body.toString());
-                SessionContext.mCertUserAuth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
-            }
-        }
 	}
 
 	@Override
