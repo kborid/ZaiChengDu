@@ -74,7 +74,7 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
 	public void initParams() {
 		super.initParams();
         CertUserAuth auth = SessionContext.mCertUserAuth;
-        if (null != auth) {
+        if (null != auth && null != auth.userAuth) {
             et_name.setText(auth.userAuth.name);
             et_phone.setText(auth.userAuth.mobileNo);
             et_card.setText(auth.userAuth.bankCardNo);
