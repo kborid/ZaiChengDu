@@ -476,12 +476,7 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 			}
 			SessionContext.mUser = JSON.parseObject(response.body.toString(),
 					UserInfo.class);
-			System.out.println("url = "
-					+ SessionContext.mUser.USERBASIC.headphotourl);
-			System.out.println("url = "
-					+ SessionContext.mUser.USERBASIC.getHeadphotourl());
-			if (SessionContext.mUser == null
-					|| StringUtil.empty(SessionContext.mUser.USERBASIC)) {
+			if (SessionContext.mUser == null || StringUtil.empty(SessionContext.mUser.USERBASIC)) {
 				CustomToast.show("获取用户信息失败，请重试", 0);
 				return;
 			}
@@ -515,24 +510,7 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 			LocalBroadcastManager.getInstance(AppContext.mMainContext)
 					.sendBroadcast(mIntent);
 			JPushInterface.setAlias(AppContext.mMainContext,
-					SessionContext.mUser.USERAUTH.mobilenum, null/*
-																 * new
-																 * TagAliasCallback
-																 * () {
-																 * 
-																 * @Override
-																 * public void
-																 * gotResult(int
-																 * arg0, String
-																 * arg1,
-																 * Set<String>
-																 * arg2) { //
-																 * TODO
-																 * Auto-generated
-																 * method stub }
-																 * 
-																 * }
-																 */);
+					SessionContext.mUser.USERAUTH.mobilenum, null);
 			if (mCancelLogin != null) {
 				mCancelLogin.isCancelLogin(false);
 			}

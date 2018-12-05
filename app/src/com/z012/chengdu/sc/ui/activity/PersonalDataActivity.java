@@ -1,9 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.app.AlertDialog.Builder;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
@@ -13,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -45,6 +42,10 @@ import com.z012.chengdu.sc.ui.dialog.AreaWheelDialog;
 import com.z012.chengdu.sc.ui.dialog.AreaWheelDialog.AreaWheelCallback;
 import com.z012.chengdu.sc.ui.dialog.GetPicDialog;
 
+import java.net.ConnectException;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * 个人资料
  * 
@@ -57,6 +58,9 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 	private int			mYear	= 1990, mMonth = 1, mDay = 1;
 	private ImageView	iv_photo;
 	private Uri			mCameraFile;
+
+	private boolean mIsAuth = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,45 +87,41 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 	@Override
 	public void initParams() {
 		super.initParams();
-		try {
-			setHeadPortrait(SessionContext.mUser.USERBASIC.getHeadphotourl());
-			et_nickname.setText(StringUtil.doEmpty(SessionContext.mUser.USERBASIC.nickname,SessionContext.mUser.USERBASIC.username));
-			String birthday = SessionContext.mUser.USERBASIC.birthday;
-			if (StringUtil.notEmpty(birthday)) {
-				tv_birthday.setText(DateUtil.getY_M_D(birthday));
-			}
+		mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
 
-			if (SessionContext.mUser.LOCALUSER != null && SessionContext.mUser.LOCALUSER.residence != null) {
-				tv_address.setText(StringUtil.doEmpty(SessionContext.mUser.LOCALUSER.residence));
-			} else {
-				SessionContext.mUser.LOCALUSER = new UserInfo.LocalUser();
-			}
-			if ("01".equals(SessionContext.mUser.USERBASIC.sex)) {
-				tv_sex.setText("男");
-			} else if ("02".equals(SessionContext.mUser.USERBASIC.sex)) {
-				tv_sex.setText("女");
-			}
-			if ("01".equals(SessionContext.mUser.USERBASIC.marry)) {
-				tv_marriage.setText("已婚");// 婚姻 01：已婚，02：未婚，03：保密
-			} else if ("02".equals(SessionContext.mUser.USERBASIC.marry)) {
-				tv_marriage.setText("未婚");
-			} else if ("03".equals(SessionContext.mUser.USERBASIC.marry)) {
-				tv_marriage.setText("保密");
-			}
+		setHeadPortrait(SessionContext.mUser.USERBASIC.getHeadphotourl());
 
-			// if (StringUtil.notEmpty(SessionContext.mUser.USERAUTH.mobilenum)) {// 屏蔽手机号中间位数
-			// char[] t = SessionContext.mUser.USERAUTH.mobilenum.toCharArray();
-			// for (int i = 3; i < t.length - 4; i++) {
-			// t[i] = '*';
-			// }
-			// tv_mobilenum.setText(String.valueOf(t));
-			// } else {
-			// tv_mobilenum.setText("--");
-			// }
-			// tv_email.setText(StringUtil.doEmpty(SessionContext.mUser.USERAUTH.email));
+		String birthday = SessionContext.mUser.USERBASIC.birthday;
+		if (StringUtil.notEmpty(birthday)) {
+			tv_birthday.setText(DateUtil.getY_M_D(birthday));
+		}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		if (SessionContext.mUser.LOCALUSER != null && SessionContext.mUser.LOCALUSER.residence != null) {
+			tv_address.setText(StringUtil.doEmpty(SessionContext.mUser.LOCALUSER.residence));
+		} else {
+			SessionContext.mUser.LOCALUSER = new UserInfo.LocalUser();
+		}
+
+		if (mIsAuth && null != SessionContext.mCertUserAuth.userAuth) {
+            et_nickname.setText(SessionContext.mCertUserAuth.userAuth.name);
+            et_nickname.setEnabled(false);
+        } else {
+            et_nickname.setText(!TextUtils.isEmpty(SessionContext.mUser.USERBASIC.nickname) ? SessionContext.mUser.USERBASIC.nickname : SessionContext.mUser.USERBASIC.username);
+            et_nickname.setEnabled(true);
+        }
+
+        if ("01".equals(SessionContext.mUser.USERBASIC.sex)) {
+            tv_sex.setText("男");
+        } else if ("02".equals(SessionContext.mUser.USERBASIC.sex)) {
+            tv_sex.setText("女");
+        }
+
+		if ("01".equals(SessionContext.mUser.USERBASIC.marry)) {
+			tv_marriage.setText("已婚");// 婚姻 01：已婚，02：未婚，03：保密
+		} else if ("02".equals(SessionContext.mUser.USERBASIC.marry)) {
+			tv_marriage.setText("未婚");
+		} else if ("03".equals(SessionContext.mUser.USERBASIC.marry)) {
+			tv_marriage.setText("保密");
 		}
 	}
 
@@ -132,7 +132,7 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 		tv_address.setOnClickListener(this);
 		tv_marriage.setOnClickListener(this);
 		tv_birthday.setOnClickListener(this);
-		tv_sex.setOnClickListener(this);
+		tv_sex.setOnClickListener(mIsAuth ? null : this);
 	}
 
 	@Override
