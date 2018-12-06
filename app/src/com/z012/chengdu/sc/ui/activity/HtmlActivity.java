@@ -286,8 +286,10 @@ public class HtmlActivity extends BaseActivity implements
             String versionName = this.getPackageManager().getPackageInfo(
                     pkName, 0).versionName;
             sb.append(webSetting.getUserAgentString()).append(" Android/")
-                    .append(pkName).append("/").append(versionName);// 名字+包名+版本号
+                    .append(pkName).append("/").append(versionName)// 名字+包名+版本号
+                    .append(" ").append("CQSMT_ANDROID/1.0");
             webSetting.setUserAgentString(sb.toString());// 追加修改ua特征标识（名字+包名+版本号）使得web端正确判断
+            LogUtil.i("dw", "ua = " + webSetting.getUserAgentString());
         } catch (Exception e) {
         }
         if (Build.VERSION.SDK_INT >= 19) { // 控制图片加载处理，提高view加载速度

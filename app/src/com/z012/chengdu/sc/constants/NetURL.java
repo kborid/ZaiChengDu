@@ -1,8 +1,8 @@
 package com.z012.chengdu.sc.constants;
 
-import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.app.PRJApplication;
 
 /**
  * 接口常量地址
@@ -16,20 +16,20 @@ public final class NetURL {
 
 		if (AppConst.ISDEVELOP) {
 			int status = SharedPreferenceUtil.getInstance().getInt(AppConst.APPTYPE, 0);
-			return AppContext.mMainContext.getString(SERVER_USRS[status]);
+			return PRJApplication.getInstance().getString(SERVER_USRS[status]);
 		} else {
-			return AppContext.mMainContext.getString(SERVER_USRS[1]);
+			return PRJApplication.getInstance().getString(SERVER_USRS[1]);
 		}
 
 	}
 
 	public static String			API_LINK				= getApi();
 
-	public static final String		PORTAL_SERVICE			= API_LINK + AppContext.mMainContext.getString(R.string.portal_server);										// portal地址
+	public static final String		PORTAL_SERVICE			= API_LINK + PRJApplication.getInstance().getString(R.string.portal_server);										// portal地址
 	public static final String		SMPAY_SERVICE			= API_LINK + "smpay/service/";											// smpay地址
 	public static final String		SSO_SERVICE				= API_LINK + "sso/service/";
 
-	public static final String		APPSTORE				= API_LINK + AppContext.mMainContext.getString(R.string.portal) + "appstoreserver/service/CW0001";
+	public static final String		APPSTORE				= API_LINK + PRJApplication.getInstance().getString(R.string.portal) + "appstoreserver/service/CW0001";
 	public static final String		APP_SCITY_CN			= "http://app.scity.cn";
 	public static final String		AVATAR					= APP_SCITY_CN + "image/get/system/avatar/";							// +userid.jpg
 																																	// 获取有问必答中用户头像
@@ -132,6 +132,10 @@ public final class NetURL {
     public static final String CERT_STATUS_BY_CID = PORTAL_SERVICE + "PA10003"; //根据身份证查询认证结果
     public static final String CERT_INFO = PORTAL_SERVICE + "PA10004"; //认证信息
 	public static final String CERT = PORTAL_SERVICE + "PA10005"; //认证
+
+	public static final String REGISTER_URL = "http://www.zaichongqing.com/cq_portal/portal/public/common/register.jsp";
+	public static final String ABOUT_URL = "http://www.zaichongqing.com/cq_portal/portal/public/common/aboutus.jsp";
+
 
 	public static final String[]	CACHE_URL				= {ALL_APP, PUSH_SERVICE_, PUSH_MORE_SERVICE, ALL_SERVICE_COLUMN, NEWS, BANNER, MORE_COLUMN};
 }

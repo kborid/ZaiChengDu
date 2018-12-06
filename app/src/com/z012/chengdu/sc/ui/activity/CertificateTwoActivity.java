@@ -77,7 +77,7 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
         mCountDownTimer = new CountDownTimerImpl(60, new CountDownTimerImpl.CountDownTimerListener() {
             @Override
             public void onTick(long time) {
-                tv_yzm.setText(String.format("%1$s后重试", time / CountDownTimerImpl.SEC));
+                tv_yzm.setText(String.format("%1$ss后重试", time / CountDownTimerImpl.SEC));
             }
 
             @Override

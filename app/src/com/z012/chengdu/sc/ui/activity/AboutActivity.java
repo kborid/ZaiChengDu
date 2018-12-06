@@ -7,9 +7,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.prj.sdk.app.AppContext;
-import com.prj.sdk.util.SharedPreferenceUtil;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.AppConst;
+import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 /**
@@ -72,9 +72,7 @@ public class AboutActivity extends BaseActivity {
 		switch (v.getId()) {
 		case R.id.btn_about:
 			mIntent = new Intent(this, WebViewActivity.class);
-			String url = SharedPreferenceUtil.getInstance().getString(
-					AppConst.ABOUT_US, "", true);
-			mIntent.putExtra("path", url);
+			mIntent.putExtra("path", NetURL.ABOUT_URL);
 			mIntent.putExtra("title", "关于我们");
 			startActivity(mIntent);
 			break;
