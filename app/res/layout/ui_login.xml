@@ -1,227 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/viewPager"
-    android:background="@drawable/share_bg" >
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height" >
 
-        <TextView
-            android:id="@+id/tv_left_title"
-            android:layout_width="60dp"
-            android:layout_height="fill_parent"
-            android:drawableLeft="@drawable/m_back"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dip"
-            android:paddingRight="5dip"
-            android:textColor="@color/second_level_title_color"
-            android:textSize="@dimen/title_left_reight_text_size" />
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/iv_close"
+            android:gravity="center_vertical" />
     </LinearLayout>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="30dp"
         android:layout_gravity="center_horizontal"
-        android:paddingBottom="42dp"
-        android:paddingTop="16dp"
         android:src="@drawable/logo_icon" />
 
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:gravity="center"
-        android:singleLine="true"
-        android:textColor="#fff"
-        android:textSize="18sp"
-        android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/policy_login_lay"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"/>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="29dp"
-        android:layout_marginRight="29dp"
-        android:background="@drawable/search_bg"
-        android:gravity="center"
-        android:orientation="vertical" >
-
+        android:orientation="vertical">
         <LinearLayout
-            android:id="@+id/login_phone_ll"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="45dp"
-            android:orientation="horizontal"
-            android:paddingLeft="8dp" >
-
-            <EditText
-                android:id="@+id/login_phone_ed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:drawableLeft="@drawable/username"
-                android:drawablePadding="8dp"
-                android:hint="用户名"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
-                android:singleLine="true"
-                android:textColor="#1a1a1a"
-                android:textColorHint="@color/item_key_color" />
-
-            <CheckBox
-                android:id="@+id/cb_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/icon_input_cancel"
-                android:gravity="center|right"
-                android:padding="5dp" />
-        </LinearLayout>
-
-        <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/item_line" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="50dp"
+                android:layout_height="0.5dp"
+                android:background="#d8d8d8"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="第三方登录"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColor="#8d8d8d"
+                android:textSize="14sp" />
+            <View
+                android:layout_width="50dp"
+                android:layout_height="0.5dp"
+                android:background="#d8d8d8"/>
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/login_pwd_ll"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="45dp"
             android:orientation="horizontal"
-            android:paddingLeft="8dp" >
+            android:gravity="center">
 
-            <EditText
-                android:id="@+id/login_pwd"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tv_wx"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:drawableLeft="@drawable/password"
-                android:drawablePadding="8dp"
-                android:hint="密码"
-                android:inputType="textPassword"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
-                android:singleLine="true"
-                android:textColor="#1a1a1a"
-                android:textColorHint="@color/item_key_color" />
-
-            <CheckBox
-                android:id="@+id/checkBox"
-                style="@style/login_checkBox_style"
-                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:drawablePadding="5dp"
+                android:textSize="12sp"
+                android:drawableTop="@drawable/iv_login_wx"
+                android:textColor="#8d8d8d"
+                android:text="微信"/>
+            <TextView
+                android:id="@+id/tv_qq"
+                android:layout_width="55dp"
                 android:layout_height="wrap_content"
-                android:gravity="center|right"
-                android:padding="5dp" />
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                android:textSize="12sp"
+                android:drawableTop="@drawable/iv_login_qq"
+                android:textColor="#8d8d8d"
+                android:text="QQ" />
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:paddingBottom="10dp"
-        android:paddingTop="5dp" >
 
         <TextView
-            android:id="@+id/tv_forget_pwd"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_tips"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="19dp"
+            android:textColor="#8d8d8d"
             android:padding="10dp"
-            android:text="忘记密码?"
-            android:textColor="#bbc3f0"
-            android:textSize="12sp" />
+            android:gravity="center"
+            android:textSize="12sp"
+            android:text="登录即表示同意《在重庆服务协议》"/>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_login"
-        style="@style/blue_button_style"
-        android:layout_marginLeft="29dp"
-        android:layout_marginRight="29dp"
-        android:text="登 录" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingTop="15dp" >
-
-        <TextView
-            android:id="@+id/tv_reigster"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:text="立即注册"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-    </LinearLayout>
-    <!-- 3方登录 -->
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal|bottom"
-        android:orientation="vertical"
-        android:paddingBottom="20dp" >
-
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="使用第三方账号登录"
-            android:textColor="#fff"
-            android:textSize="12sp" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal|bottom"
-            android:orientation="horizontal"
-            android:paddingTop="10dp" >
-
-            <ImageView
-                android:id="@+id/iv_qq"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:src="@drawable/iv_login_qq"
-                android:textColor="#fff" />
-
-            <ImageView
-                android:id="@+id/iv_sina"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:src="@drawable/iv_login_sina"
-                android:textColor="#fff" />
-
-            <ImageView
-                android:id="@+id/iv_zhihubao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:src="@drawable/iv_zhihubao"
-                android:textColor="#fff"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/iv_weixin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:src="@drawable/iv_login_wx"
-                android:textColor="#fff" />
-        </LinearLayout>
-    </LinearLayout>
-
 </LinearLayout>

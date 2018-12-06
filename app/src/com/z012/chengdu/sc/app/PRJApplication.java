@@ -42,12 +42,12 @@ public class PRJApplication extends Application {
 		MobclickAgent.updateOnlineConfig(this);// 友盟统计发送策略，在线参数如配置时间、开关等
 		MobclickAgent.openActivityDurationTrack(false); // 禁止默认的页面统计方式
 		UmengUpdateAgent.setUpdateOnlyWifi(false);// 允许在非wifi下检查更新
-		boolean mEnable = SharedPreferenceUtil.getInstance().getBoolean(
-				AppConst.PUSH_ENABLE, true);
-		if (mEnable) {
-			JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
-			JPushInterface.init(this); // 初始化 JPush
-		}
+//		boolean mEnable = SharedPreferenceUtil.getInstance().getBoolean(
+//				AppConst.PUSH_ENABLE, true);
+//		if (mEnable) {
+//			JPushInterface.setDebugMode(false); // 设置开启日志,发布时请关闭日志
+//			JPushInterface.init(this); // 初始化 JPush
+//		}
 		
 		LocationManagerBD.getIns().initBaiduLocation(this);
 

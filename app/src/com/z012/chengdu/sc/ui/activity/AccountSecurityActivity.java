@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TableRow;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +18,6 @@ import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
-import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
@@ -37,13 +36,13 @@ import java.util.List;
 /**
  * 账户安全
  * 
- * @author LiaoBo
+ * @author kborid
  */
 public class AccountSecurityActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
-	private TextView	tv_certification, tv_phone_number, tv_email, tv_change_password;
-	private Button		btn_logout;
-	private TableRow	tr_certification, tr_phone_number, tr_email, tr_third_party, tr_change_password;
+	private TextView	tv_cert, tv_face;
+	private LinearLayout cert_lay, face_lay, modify_lay, third_lay;
 	private ImageView	iv_qq, iv_wx, iv_wb;
+	private Button		btn_logout;
 	private final int	MODIFY_THIRD_PARTY	= 100;
 	private boolean mIsAuth = false;
 	@Override
@@ -59,16 +58,13 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 	public void initViews() {
 		super.initViews();
 		tv_center_title.setText("账户安全");
-		tv_certification = (TextView) findViewById(R.id.tv_certification);
-		tv_phone_number = (TextView) findViewById(R.id.tv_phone_number);
-		tv_email = (TextView) findViewById(R.id.tv_email);
-		tv_change_password = (TextView) findViewById(R.id.tv_change_password);
+		tv_cert = (TextView) findViewById(R.id.tv_cert);
+		tv_face = (TextView) findViewById(R.id.tv_face);
+		cert_lay = (LinearLayout) findViewById(R.id.cert_lay);
+		face_lay = (LinearLayout) findViewById(R.id.face_lay);
+		modify_lay = (LinearLayout) findViewById(R.id.modify_lay);
+		third_lay = (LinearLayout) findViewById(R.id.thrid_lay);
 		btn_logout = (Button) findViewById(R.id.btn_logout);
-		tr_certification = (TableRow) findViewById(R.id.tr_certification);
-		tr_phone_number = (TableRow) findViewById(R.id.tr_phone_number);
-		tr_email = (TableRow) findViewById(R.id.tr_email);
-		tr_third_party = (TableRow) findViewById(R.id.tr_third_party);
-		tr_change_password = (TableRow) findViewById(R.id.tr_change_password);
 		iv_qq = (ImageView) findViewById(R.id.iv_qq);
 		iv_wx = (ImageView) findViewById(R.id.iv_wx);
 		iv_wb = (ImageView) findViewById(R.id.iv_wb);
@@ -79,24 +75,19 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		super.initParams();
 		CertUserAuth auth = SessionContext.mCertUserAuth;
 		if (null == auth || !auth.isAuth) {
-			tv_certification.setText("未认证");
-		} else {
-			tv_certification.setText("已认证");
-		}
-
-        String phone = SessionContext.mUser.USERAUTH.mobilenum;
-        if (StringUtil.notEmpty(phone)) {
-            tv_phone_number.setText(Utils.convertHiddenPhoneStars(phone, 3, 8));
+            tv_cert.setText("未认证");
+        } else {
+            tv_cert.setText("已认证");
         }
 
-		String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
-		if (!TextUtils.isEmpty(data)) {
-			setThirdPartyBind(data, false);
-		}
+        String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
+        if (!TextUtils.isEmpty(data)) {
+            setThirdPartyBind(data, false);
+        }
 		loadThirdPartyBindList();
 
 		mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
-		tv_certification.setText(mIsAuth ? "已认证" : "未认证");
+		tv_cert.setText(mIsAuth ? "已认证" : "未认证");
 	}
 
 	@Override
@@ -106,12 +97,11 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 	@Override
 	public void initListeners() {
 		super.initListeners();
-
-		tr_certification.setOnClickListener(mIsAuth ? null : this);
-		tr_phone_number.setOnClickListener(this);
-		tr_email.setOnClickListener(this);
-		tr_third_party.setOnClickListener(this);
-		tr_change_password.setOnClickListener(this);
+        cert_lay.setOnClickListener(mIsAuth ? null : this);
+        cert_lay.setClickable(!mIsAuth);
+//		face_lay.setOnClickListener(this);
+		modify_lay.setOnClickListener(this);
+		third_lay.setOnClickListener(this);
 		btn_logout.setOnClickListener(this);
 	}
 
@@ -120,24 +110,23 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		Intent mIntent = null;
 		super.onClick(v);
 		switch (v.getId()) {
-			case R.id.tr_certification :// 实名认证
+			case R.id.cert_lay :// 实名认证
 				mIntent = new Intent(this, CertificateOneActivity.class);
 				startActivity(mIntent);
 				break;
-			case R.id.tr_phone_number :
-				mIntent = new Intent(this, ChangePhoneNoActivity.class);
-				mIntent.putExtra("num", tv_phone_number.getText().toString());
-				startActivity(mIntent);
-				break;
-			case R.id.tr_email :
-
-				break;
-			case R.id.tr_third_party :
+            case R.id.face_lay:
+                break;
+//			case R.id.modify_lay :
+//				mIntent = new Intent(this, ChangePhoneNoActivity.class);
+//				mIntent.putExtra("num", tv_phone_number.getText().toString());
+//				startActivity(mIntent);
+//				break;
+			case R.id.thrid_lay :
 				mIntent = new Intent(this, BindThirdPartyActivity.class);
 				startActivityForResult(mIntent, MODIFY_THIRD_PARTY);
 				break;
-			case R.id.tr_change_password :
-				mIntent = new Intent(this, UpdataLoginPwdActivity.class);
+			case R.id.modify_lay :
+				mIntent = new Intent(this, ForgetPwdActivity.class);
 				startActivity(mIntent);
 				break;
 			case R.id.btn_logout :
@@ -188,7 +177,7 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		RequestBeanBuilder builder = RequestBeanBuilder.create(true);
 
 		ResponseData data = builder.syncRequest(builder);
-		data.path = NetURL.BIND_LIST;// "http://192.168.1.64:8880/cd_portal/service/CW1013";//
+		data.path = NetURL.BIND_LIST;
 		data.flag = 2;
 
 		if (!isProgressShowing()) {
@@ -228,7 +217,7 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 			logout();
 		} else {
 			String message;
-			if (e != null && e instanceof ConnectException) {
+			if (e instanceof ConnectException) {
 				message = getString(R.string.dialog_tip_net_error);
 			} else {
 				message = response != null && response.data != null ? response.data.toString() : getString(R.string.dialog_tip_null_error);
@@ -237,14 +226,14 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		}
 	}
 
-    /**
-     * 设置三方绑定
-     *
-     * @param data
-     * @param isSave
-     */
-    public void setThirdPartyBind(String data, boolean isSave) {
-        if (!TextUtils.isEmpty(data) && !"[]".equals(data)) {
+	/**
+	 * 设置三方绑定
+	 *
+	 * @param data
+	 * @param isSave
+	 */
+	public void setThirdPartyBind(String data, boolean isSave) {
+	    if (!TextUtils.isEmpty(data) && !"[]".equals(data)) {
             List<ThirdPartyBindListBean> temp = JSON.parseArray(data, ThirdPartyBindListBean.class);
             if (temp != null && !temp.isEmpty()) {
                 for (ThirdPartyBindListBean bean : temp) {
@@ -262,7 +251,7 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 
         if (isSave)
             SharedPreferenceUtil.getInstance().setString(AppConst.THIRDPARTYBIND, data, false);
-    }
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {

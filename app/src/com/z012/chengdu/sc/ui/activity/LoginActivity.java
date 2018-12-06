@@ -4,17 +4,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,15 +32,12 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.bean.HandlerRequestCode;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
-import com.umeng.socialize.controller.listener.SocializeListeners.SocializeClientListener;
 import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener;
 import com.umeng.socialize.controller.listener.SocializeListeners.UMDataListener;
 import com.umeng.socialize.exception.SocializeException;
-import com.umeng.socialize.sso.SinaSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
@@ -53,8 +48,13 @@ import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.net.bean.UserInfo;
+import com.z012.chengdu.sc.tools.CustomClickableSpan;
 import com.z012.chengdu.sc.tools.SHA1;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
+import com.z012.chengdu.sc.ui.widge.login.ILoginListener;
+import com.z012.chengdu.sc.ui.widge.login.LoginLayout;
+import com.z012.chengdu.sc.ui.widge.login.PasswordLoginLayout;
+import com.z012.chengdu.sc.ui.widge.login.SmsCodeLoginLayout;
 
 import java.net.ConnectException;
 import java.util.HashMap;
@@ -65,27 +65,22 @@ import cn.jpush.android.api.JPushInterface;
 /**
  * 登录
  * 
- * @author LiaoBo
+ * @author kborid
  * 
  */
-public class LoginActivity extends BaseActivity implements DataCallback,
-		DialogInterface.OnCancelListener, OnCheckedChangeListener {
+public class LoginActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
 
-	private EditText et_phone, et_pwd;
-	private Button btn_login;
-	private String phoneStr, password;
-	private TextView tv_forget_pwd, tv_reigster;
+    private ImageView iv_close;
+    private TextView tv_tips;
 	private static onCancelLoginListener mCancelLogin;
-	private CheckBox checkBox, cb_cancel;
+	private LinearLayout policy_login_lay;
+	private LoginLayout loginLayout = null;
+
 	// 整个平台的Controller, 负责管理整个SDK的配置、操作等处理
-	private UMSocialService mController = UMServiceFactory
-			.getUMSocialService("com.umeng.login");
-	private String usertoken;
-	// （01-新浪微博，02-腾讯QQ，03-微信，04-支付宝）
-	private String mPlatform;
-	private String thirdpartusername, thirdpartuserheadphotourl, openid,
-			unionid;
-	private ImageView iv_qq, iv_sina, iv_zhihubao, iv_weixin;
+	private UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.login");
+    //（01-新浪微博，02-腾讯QQ，03-微信，04-支付宝）
+	private String usertoken, mPlatform, thirdpartusername, thirdpartuserheadphotourl, openid, unionid;
+	private TextView tv_qq, tv_wx;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,30 +94,24 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 	@Override
 	public void initViews() {
 		super.initViews();
-		et_phone = (EditText) findViewById(R.id.login_phone_ed);
-		et_pwd = (EditText) findViewById(R.id.login_pwd);
-		btn_login = (Button) findViewById(R.id.btn_login);
-		tv_forget_pwd = (TextView) findViewById(R.id.tv_forget_pwd);
-		tv_reigster = (TextView) findViewById(R.id.tv_reigster);
-		checkBox = (CheckBox) findViewById(R.id.checkBox);
-		cb_cancel = (CheckBox) findViewById(R.id.cb_cancel);
+		iv_close = (ImageView) findViewById(R.id.iv_close);
+        policy_login_lay = (LinearLayout) findViewById(R.id.policy_login_lay);
+        policy_login_lay.removeAllViews();
+		loginLayout = new PasswordLoginLayout(this);
+		loginLayout.setLoginListener(passwordLoginListener);
+		policy_login_lay.addView(loginLayout);
 
-		iv_qq = (ImageView) findViewById(R.id.iv_qq);
-		iv_sina = (ImageView) findViewById(R.id.iv_sina);
-		iv_zhihubao = (ImageView) findViewById(R.id.iv_zhihubao);
-		iv_weixin = (ImageView) findViewById(R.id.iv_weixin);
+		tv_qq = (TextView) findViewById(R.id.tv_qq);
+		tv_wx = (TextView) findViewById(R.id.tv_wx);
+
+        tv_tips = (TextView) findViewById(R.id.tv_tips);
+        tv_tips.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
 		SessionContext.cleanUserInfo();
-		String name = SharedPreferenceUtil.getInstance().getString(
-				AppConst.USERNAME, "", true);
-		if (StringUtil.notEmpty(name)) {
-			et_phone.setText(name);// 设置默认用户名
-			// tv_username.setText(name);
-		}
 		// String photoUrl =
 		// SharedPreferenceUtil.getInstance().getString(AppConst.USER_PHOTO_URL,
 		// "", false);
@@ -132,116 +121,126 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 		// img_photo.setImageBitmap(ThumbnailUtil.getRoundImage(bm));// 设置头像
 		// }
 		// }
+        final String tips = tv_tips.getText().toString();
+        SpannableString ss = new SpannableString(tips);
+		ss.setSpan(new CustomClickableSpan(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(LoginActivity.this, WebViewActivity.class);
+                mIntent.putExtra("title", "服务协议");
+                mIntent.putExtra("path", NetURL.REGISTER_URL);
+                startActivity(mIntent);
+            }
+        }), 7, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.mainColor)), 7, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		tv_tips.setText(ss);
+
 		addQQQZonePlatform();
 		addWXPlatform();
 		// 设置新浪SSO handler
-		mController.getConfig().setSsoHandler(new SinaSsoHandler());
+//		mController.getConfig().setSsoHandler(new SinaSsoHandler());
 	}
+
+	private ILoginListener passwordLoginListener = new ILoginListener() {
+        @Override
+        public void onLogin() {
+            requestLogin();
+            LogUtil.i("dw", "password login in LoginActivity");
+        }
+
+        @Override
+        public void onChange() {
+            LogUtil.i("dw", "password change layout in LoginActivity()");
+            loginLayout.destroy();
+            policy_login_lay.removeAllViews();
+            loginLayout = new SmsCodeLoginLayout(LoginActivity.this);
+            loginLayout.setLoginListener(smsCodeLoginListener);
+            loginLayout.setProcessListener(LoginActivity.this);
+            policy_login_lay.addView(loginLayout);
+        }
+    };
+
+	private ILoginListener smsCodeLoginListener = new ILoginListener() {
+        @Override
+        public void onLogin() {
+            LogUtil.i("dw", "code login in LoginActivity");
+        }
+
+        @Override
+        public void onChange() {
+            LogUtil.i("dw", "code change layout in LoginActivity()");
+            loginLayout.destroy();
+            policy_login_lay.removeAllViews();
+            loginLayout = new PasswordLoginLayout(LoginActivity.this);
+            loginLayout.setLoginListener(passwordLoginListener);
+            policy_login_lay.addView(loginLayout);
+        }
+    };
 
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		btn_login.setOnClickListener(this);
-		tv_forget_pwd.setOnClickListener(this);
-		tv_reigster.setOnClickListener(this);
-		checkBox.setOnCheckedChangeListener(this);
-		cb_cancel.setOnClickListener(this);
-		iv_qq.setOnClickListener(this);
-		iv_sina.setOnClickListener(this);
-		iv_zhihubao.setOnClickListener(this);
-		iv_weixin.setOnClickListener(this);
+		iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCancelLogin != null) {
+                    mCancelLogin.isCancelLogin(true);
+                }
+                finish();
+            }
+        });
+
+		tv_wx.setOnClickListener(this);
+		tv_qq.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		// super.onClick(v);
 		switch (v.getId()) {
-		case R.id.tv_left_title:
-			if (mCancelLogin != null) {
-				mCancelLogin.isCancelLogin(true);
-			}
-			this.finish();
-			break;
-		case R.id.btn_login:
-			loadData();
-			break;
-		case R.id.tv_reigster:
-			Intent intent = new Intent();
-			intent.setClass(this, RegisterActivity.class);
-			startActivity(intent);
-			break;
-		case R.id.tv_forget_pwd:
-			Intent intent2 = new Intent();
-			intent2.setClass(this, ForgetPwdActivity.class);
-			startActivity(intent2);
-			break;
-		case R.id.cb_cancel:// 置空
-			et_phone.setText("");
-			break;
-		case R.id.iv_qq:
-			login(SHARE_MEDIA.QQ);
-			break;
-		case R.id.iv_sina:
-			login(SHARE_MEDIA.SINA);
-			break;
-		case R.id.iv_zhihubao:
-			// TODO 支护宝的登录方式
-			break;
-		case R.id.iv_weixin:
-			if (WXAPIFactory.createWXAPI(this, null).isWXAppInstalled()) {
-				login(SHARE_MEDIA.WEIXIN);
-			} else {
-				CustomToast.show("没有安装微信", 0);
-			}
-			break;
-		}
+            case R.id.tv_qq:
+                login(SHARE_MEDIA.QQ);
+                break;
+            case R.id.tv_wx:
+                if (WXAPIFactory.createWXAPI(this, null).isWXAppInstalled()) {
+                    login(SHARE_MEDIA.WEIXIN);
+                } else {
+                    CustomToast.show("没有安装微信", 0);
+                }
+                break;
+            }
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		if (SessionContext.isLogin()) {
 			this.finish();
 		}
 	}
 
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-			// 设置为明文显示
-			et_pwd.setTransformationMethod(HideReturnsTransformationMethod
-					.getInstance());
-		} else {
-			// 设置为密文显示
-			et_pwd.setTransformationMethod(PasswordTransformationMethod
-					.getInstance());
-		}
-		et_pwd.setSelection(et_pwd.getText().length());// 设置光标位置
-	}
-
-	/**
-	 * 注销本次登录</br>
-	 */
-	private void logout(final SHARE_MEDIA platform) {
-		mController.deleteOauth(this, platform, new SocializeClientListener() {
-
-			@Override
-			public void onStart() {
-
-			}
-
-			@Override
-			public void onComplete(int status, SocializeEntity entity) {
-				String showText = "解除" + platform.toString() + "平台授权成功";
-				if (status != StatusCode.ST_CODE_SUCCESSED) {
-					showText = "解除" + platform.toString() + "平台授权失败[" + status
-							+ "]";
-				}
-				CustomToast.show(showText, Toast.LENGTH_SHORT);
-			}
-		});
-	}
+//	/**
+//	 * 注销本次登录</br>
+//	 */
+//	private void logout(final SHARE_MEDIA platform) {
+//		mController.deleteOauth(this, platform, new SocializeClientListener() {
+//
+//			@Override
+//			public void onStart() {
+//
+//			}
+//
+//			@Override
+//			public void onComplete(int status, SocializeEntity entity) {
+//				String showText = "解除" + platform.toString() + "平台授权成功";
+//				if (status != StatusCode.ST_CODE_SUCCESSED) {
+//					showText = "解除" + platform.toString() + "平台授权失败[" + status
+//							+ "]";
+//				}
+//				CustomToast.show(showText, Toast.LENGTH_SHORT);
+//			}
+//		});
+//	}
 
 	/**
 	 * 授权。如果授权成功，则获取用户信息</br>
@@ -305,7 +304,7 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 			public void onComplete(int status, Map<String, Object> info) {
 				if (status == StatusCode.ST_CODE_SUCCESSED && info != null) {
 					try {
-						if (platform == SHARE_MEDIA.SINA) { // 新浪微博
+						/*if (platform == SHARE_MEDIA.SINA) { // 新浪微博
 							mPlatform = "01";
 							thirdpartuserheadphotourl = info.get(
 									"profile_image_url").toString();
@@ -314,7 +313,7 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 							if (StringUtil.empty(usertoken)) {// 通过web方式登录，需要从用户信息中获取access_token
 								usertoken = info.get("access_token").toString();
 							}
-						} else if (platform == SHARE_MEDIA.QQ) { // QQ
+						} else */if (platform == SHARE_MEDIA.QQ) { // QQ
 							mPlatform = "02";
 							thirdpartuserheadphotourl = info.get(
 									"profile_image_url").toString();
@@ -358,13 +357,10 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 		// qqSsoHandler.setTargetUrl("http://www.umeng.com");
 		qqSsoHandler.addToSocialSDK();
 		// 添加QZone平台
-		// QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(this, appId,
-		// appKey);
+		// QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(this, appId, appKey);
 		// qZoneSsoHandler.addToSocialSDK();
-		if (!mController.getConfig()
-				.getSsoHandler(HandlerRequestCode.QQ_REQUEST_CODE)
-				.isClientInstalled()) {
-			iv_qq.setVisibility(View.GONE);// 没有安装QQ，隐藏QQ
+		if (!mController.getConfig().getSsoHandler(HandlerRequestCode.QQ_REQUEST_CODE).isClientInstalled()) {
+			tv_qq.setVisibility(View.GONE);// 没有安装QQ，隐藏QQ
 		}
 	}
 
@@ -373,7 +369,7 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 	 */
 	private void addWXPlatform() {
 		if (!WXAPIFactory.createWXAPI(this, null).isWXAppInstalled()) {
-			iv_weixin.setVisibility(View.GONE);// 没有安装微信，隐藏微信
+			tv_wx.setVisibility(View.GONE);// 没有安装微信，隐藏微信
 			return;
 		}
 		String appId = getString(R.string.wx_appid);
@@ -385,29 +381,22 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 		wxHandler.addToSocialSDK();
 	}
 
-	/**
-	 * 加载数据
-	 */
-	private void loadData() {
-
-		phoneStr = et_phone.getText().toString().trim();
-		password = et_pwd.getText().toString().trim();
-		if (StringUtil.empty(phoneStr)) {
+	private void requestLogin() {
+        String phone = loginLayout.getPhone();
+        String pwd = loginLayout.getPassword();
+		if (TextUtils.isEmpty(phone)) {
 			CustomToast.show("用户名不能为空", Toast.LENGTH_SHORT);
 			return;
 		}
-		if (StringUtil.empty(password)) {
+		if (TextUtils.isEmpty(pwd)) {
 			CustomToast.show("密码不能为空", Toast.LENGTH_SHORT);
 			return;
 		}
 
 		RequestBeanBuilder builder = RequestBeanBuilder.create(false);
 		SHA1 sha1 = new SHA1();
-		String pwd = sha1.getDigestOfString(password.getBytes());
-
-		// builder.addBody("username", phoneStr);
-		// builder.addBody("password", pwd);
-		builder.addBody("LOGIN", phoneStr);
+		pwd = sha1.getDigestOfString(pwd.getBytes());
+		builder.addBody("LOGIN", phone);
 		builder.addBody("USER_PWD", pwd);
 
 		ResponseData data = builder.syncRequest(builder);
@@ -474,55 +463,40 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 			JSONObject mJson = JSON.parseObject(response.body.toString());
 			String ticket = mJson.getString("accessTicket");
 			// 记录登录ticket
-			SharedPreferenceUtil.getInstance().setString(
-					AppConst.ACCESS_TICKET, ticket, true);
+			SharedPreferenceUtil.getInstance().setString(AppConst.ACCESS_TICKET, ticket, true);
 			SessionContext.setTicket(ticket);
 			getUserInfo(ticket);
 
 		} else if (request.flag == 2) {
 			removeProgressDialog();
-			if (StringUtil.empty(response.body.toString())
-					|| response.body.toString().equals("{}")) {
+			if (StringUtil.empty(response.body.toString()) || response.body.toString().equals("{}")) {
 				CustomToast.show("获取用户信息失败，请重试", 0);
 				return;
 			}
-			SessionContext.mUser = JSON.parseObject(response.body.toString(),
-					UserInfo.class);
+			SessionContext.mUser = JSON.parseObject(response.body.toString(), UserInfo.class);
+			System.out.println("url = " + SessionContext.mUser.USERBASIC.headphotourl);
+			System.out.println("url = " + SessionContext.mUser.USERBASIC.getHeadphotourl());
 			if (SessionContext.mUser == null || StringUtil.empty(SessionContext.mUser.USERBASIC)) {
 				CustomToast.show("获取用户信息失败，请重试", 0);
 				return;
 			}
 
-			SharedPreferenceUtil.getInstance().setString(AppConst.USERNAME,
-					phoneStr, true);// 保存用户名
-			SharedPreferenceUtil.getInstance().setString(
-					AppConst.LAST_LOGIN_DATE, DateUtil.getCurDateStr(null),
-					false);// 保存登录时间
-			if (StringUtil
-					.notEmpty(SessionContext.mUser.USERBASIC.headphotourl)) {
-				SharedPreferenceUtil.getInstance()
-						.setString(
-								AppConst.USER_PHOTO_URL,
-								SessionContext.mUser.USERBASIC
-										.getHeadphotourl(), false);
+			SharedPreferenceUtil.getInstance().setString(AppConst.USERNAME, loginLayout.getPhone(), true);// 保存用户名
+			SharedPreferenceUtil.getInstance().setString(AppConst.LAST_LOGIN_DATE, DateUtil.getCurDateStr(null), false);// 保存登录时间
+			if (!TextUtils.isEmpty(SessionContext.mUser.USERBASIC.headphotourl)) {
+				SharedPreferenceUtil.getInstance().setString(AppConst.USER_PHOTO_URL, SessionContext.mUser.USERBASIC.getHeadphotourl(), false);
 			} else {
-				SharedPreferenceUtil.getInstance().setString(
-						AppConst.USER_PHOTO_URL, "", false);
-				ImageLoader.getInstance().removeMem(
-						SessionContext.mUser.USERBASIC.getHeadphotourl());
-				ImageLoader.getInstance().removeDisk(
-						SessionContext.mUser.USERBASIC.getHeadphotourl());
+				SharedPreferenceUtil.getInstance().setString(AppConst.USER_PHOTO_URL, "", false);
+				ImageLoader.getInstance().removeMem(SessionContext.mUser.USERBASIC.getHeadphotourl());
+				ImageLoader.getInstance().removeDisk(SessionContext.mUser.USERBASIC.getHeadphotourl());
 			}
-			SharedPreferenceUtil.getInstance().setString(AppConst.USER_INFO,
-					response.body.toString(), true);
+			SharedPreferenceUtil.getInstance().setString(AppConst.USER_INFO, response.body.toString(), true);
 			// SharedPreferenceUtil.getInstance().setString(AppConst.THIRDPARTYBIND,
 			// "", false);//置空第三方绑定信息，需要在详情页面重新获取
 			CustomToast.show("登录成功", 0);
 			Intent mIntent = new Intent(AppConst.ACTION_DYNAMIC_USER_INFO);
-			LocalBroadcastManager.getInstance(AppContext.mMainContext)
-					.sendBroadcast(mIntent);
-			JPushInterface.setAlias(AppContext.mMainContext,
-					SessionContext.mUser.USERAUTH.mobilenum, null);
+			LocalBroadcastManager.getInstance(AppContext.mMainContext).sendBroadcast(mIntent);
+			JPushInterface.setAlias(AppContext.mMainContext, SessionContext.mUser.USERAUTH.mobilenum, null);
 			if (mCancelLogin != null) {
 				mCancelLogin.isCancelLogin(false);
 			}
@@ -538,15 +512,13 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 			int flag = mJson.getInteger("flag");
 			if (flag == 1) {// flag:0-未绑定 ，1-已绑定，当flag=1时，还返回accessTicket
 				String accessTicket = mJson.getString("accessTicket");
-				SharedPreferenceUtil.getInstance().setString(
-						AppConst.ACCESS_TICKET, accessTicket, true);// 保存ticket
+				SharedPreferenceUtil.getInstance().setString(AppConst.ACCESS_TICKET, accessTicket, true);// 保存ticket
 				SessionContext.setTicket(accessTicket);
 				getUserInfo(accessTicket);
 			} else {
 				Intent intent = new Intent(this, BindPhoneActivity.class);
 				intent.putExtra("thirdpartusername", thirdpartusername);
-				intent.putExtra("thirdpartuserheadphotourl",
-						thirdpartuserheadphotourl);
+				intent.putExtra("thirdpartuserheadphotourl", thirdpartuserheadphotourl);
 				intent.putExtra("openid", openid);
 				intent.putExtra("unionid", unionid);
 				intent.putExtra("platform", mPlatform);
@@ -570,8 +542,7 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 		if (e != null && e instanceof ConnectException) {
 			message = getString(R.string.dialog_tip_net_error);
 		} else {
-			message = response != null && response.data != null ? response.data
-					.toString() : getString(R.string.dialog_tip_null_error);
+			message = response != null && response.data != null ? response.data.toString() : getString(R.string.dialog_tip_null_error);
 		}
 		CustomToast.show(message, Toast.LENGTH_LONG);
 	}
@@ -587,8 +558,7 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent event) {
-		if (event.getAction() == KeyEvent.ACTION_DOWN
-				&& event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+		if (event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
 			if (mCancelLogin != null) {
 				mCancelLogin.isCancelLogin(true);
 			}
@@ -622,11 +592,9 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		/** 使用SSO授权必须添加如下代码 */
-		UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(
-				requestCode);
+		UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode);
 		if (ssoHandler != null) {
 			ssoHandler.authorizeCallBack(requestCode, resultCode, data);
 		}
 	}
-
 }

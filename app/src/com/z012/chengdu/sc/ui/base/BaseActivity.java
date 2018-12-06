@@ -14,6 +14,7 @@ import com.prj.sdk.util.ActivityTack;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
+import com.z012.chengdu.sc.ui.widge.login.IProcessListener;
 
 /**
  * 基类提供一些共有属性操作
@@ -21,10 +22,11 @@ import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
  * @author LiaoBo
  * 
  */
-public abstract class BaseActivity extends Activity implements OnClickListener {
+public abstract class BaseActivity extends Activity implements OnClickListener, IProcessListener {
 
 	private MyProgressDialog mProgressDialog;
 	protected TextView tv_left_title, tv_center_title, tv_right_title;
+	protected View title_line;
 	protected static String requestID;
 
 	@Override
@@ -76,6 +78,7 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 		tv_left_title = (TextView) findViewById(R.id.tv_left_title);
 		tv_center_title = (TextView) findViewById(R.id.tv_center_title);
 		tv_right_title = (TextView) findViewById(R.id.tv_right_title);
+		title_line = findViewById(R.id.title_line);
 	}
 
 	public void dealIntent() {
