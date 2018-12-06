@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
+import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
@@ -369,7 +370,7 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
                 }
                 checkOverCertCount();
             } else if (request.flag == 2) {
-                System.out.println(response.body.toString());
+                LogUtil.i("dw", response.body.toString());
                 CertUserAuth auth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
                 if (null != auth && auth.isAuth) {
                     removeProgressDialog();
@@ -379,13 +380,14 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
                 }
             } else if (request.flag == 3) {
                 removeProgressDialog();
-                System.out.println(response.body.toString());
+                LogUtil.i("dw", response.body.toString());
                 CertUserAuth auth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
                 boolean isAuth = (null != auth && auth.isAuth);
                 if (!isAuth) {
                     Intent intent = new Intent(CertificateOneActivity.this, CertificateThreeActivity.class);
                     startActivity(intent);
                 } else {
+                    SessionContext.mCertUserAuth = auth;
                     intentNextActivity();
                 }
             }

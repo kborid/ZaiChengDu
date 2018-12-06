@@ -50,16 +50,26 @@ public class BannerImageAdapter extends PagerAdapter {
         ImageView view = new ImageView(context);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(context)
-                .load(R.drawable.iv_banner_simple)
-                .crossFade()
-                .override(750, 480)
-                .into(view);
+
+        final String url = bean.linkurls;
+        if (!TextUtils.isEmpty(url) && !url.contains("Weather.getWeatherInfo.do")) {
+            Glide.with(context)
+                    .load(bean.imgurls)
+                    .crossFade()
+                    .override(750, 480)
+                    .into(view);
+        } else {
+            Glide.with(context)
+                    .load(R.drawable.iv_banner_simple)
+                    .crossFade()
+                    .override(750, 480)
+                    .into(view);
+        }
+
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                String url = bean.linkurls;
                 if (!TextUtils.isEmpty(url) && !url.contains("Weather.getWeatherInfo.do")) {
                     Intent intent = new Intent(context, HtmlActivity.class);
                     intent.putExtra("path", url);

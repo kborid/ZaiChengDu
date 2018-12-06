@@ -424,12 +424,6 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 			JSONObject mJson = JSON.parseObject(response.body.toString());
 			String json = mJson.getString("datalist");
 			List<HomeBannerInfoBean> temp = JSON.parseArray(json, HomeBannerInfoBean.class);
-//			if (null != temp && temp.size() > 0) {
-//			    temp.remove(0);
-//			    for (int i = 0; i < 4; i++) {
-//			        temp.add(new HomeBannerInfoBean());
-//                }
-//            }
             banner_lay.setImageResource(temp);
 		} else if (request.flag == FLAG_ALL_SERVICE) {
 		    mTag.put(FLAG_ALL_SERVICE, FLAG_ALL_SERVICE);

@@ -186,6 +186,9 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
             removeProgressDialog();
             System.out.println(response.body.toString());
             CertUserAuth auth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
+            if (null != SessionContext.mCertUserAuth) {
+                SessionContext.mCertUserAuth.isAuth = auth.isAuth;
+            }
             boolean isAuth = (null != auth && auth.isAuth);
             Intent intent = new Intent(CertificateTwoActivity.this, CertificateThreeActivity.class);
             intent.putExtra("isAuth", isAuth);
