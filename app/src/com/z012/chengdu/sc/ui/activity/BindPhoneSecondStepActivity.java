@@ -149,8 +149,7 @@ public class BindPhoneSecondStepActivity extends BaseActivity implements DataCal
 			case R.id.tv_agreement :
 				Intent mIntent = new Intent(this, WebViewActivity.class);
 				mIntent.putExtra("title", "注册协议");
-				String url = SharedPreferenceUtil.getInstance().getString(AppConst.REGISTER_AGEMENT, "", true);
-				mIntent.putExtra("path", url);
+				mIntent.putExtra("path", NetURL.REGISTER_URL);
 				startActivity(mIntent);
 				break;
 			case R.id.tv_forget_pwd :

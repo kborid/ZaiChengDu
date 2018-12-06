@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * 账户安全
  * 
- * @author LiaoBo
+ * @author kborid
  */
 public class AccountSecurityActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
 	private TextView	tv_certification, tv_phone_number, tv_email, tv_change_password;
@@ -89,10 +89,10 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
             tv_phone_number.setText(Utils.convertHiddenPhoneStars(phone, 3, 8));
         }
 
-		String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
-		if (!TextUtils.isEmpty(data)) {
-			setThirdPartyBind(data, false);
-		}
+        String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
+        if (!TextUtils.isEmpty(data)) {
+            setThirdPartyBind(data, false);
+        }
 		loadThirdPartyBindList();
 
 		mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
@@ -188,7 +188,7 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		RequestBeanBuilder builder = RequestBeanBuilder.create(true);
 
 		ResponseData data = builder.syncRequest(builder);
-		data.path = NetURL.BIND_LIST;// "http://192.168.1.64:8880/cd_portal/service/CW1013";//
+		data.path = NetURL.BIND_LIST;
 		data.flag = 2;
 
 		if (!isProgressShowing()) {
@@ -228,7 +228,7 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 			logout();
 		} else {
 			String message;
-			if (e != null && e instanceof ConnectException) {
+			if (e instanceof ConnectException) {
 				message = getString(R.string.dialog_tip_net_error);
 			} else {
 				message = response != null && response.data != null ? response.data.toString() : getString(R.string.dialog_tip_null_error);
@@ -237,14 +237,14 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		}
 	}
 
-    /**
-     * 设置三方绑定
-     *
-     * @param data
-     * @param isSave
-     */
-    public void setThirdPartyBind(String data, boolean isSave) {
-        if (!TextUtils.isEmpty(data) && !"[]".equals(data)) {
+	/**
+	 * 设置三方绑定
+	 *
+	 * @param data
+	 * @param isSave
+	 */
+	public void setThirdPartyBind(String data, boolean isSave) {
+	    if (!TextUtils.isEmpty(data) && !"[]".equals(data)) {
             List<ThirdPartyBindListBean> temp = JSON.parseArray(data, ThirdPartyBindListBean.class);
             if (temp != null && !temp.isEmpty()) {
                 for (ThirdPartyBindListBean bean : temp) {
@@ -262,7 +262,7 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 
         if (isSave)
             SharedPreferenceUtil.getInstance().setString(AppConst.THIRDPARTYBIND, data, false);
-    }
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
