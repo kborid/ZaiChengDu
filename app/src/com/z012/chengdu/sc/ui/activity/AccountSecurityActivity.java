@@ -77,26 +77,21 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 	@Override
 	public void initParams() {
 		super.initParams();
-		CertUserAuth auth = SessionContext.mCertUserAuth;
-		if (null == auth || !auth.isAuth) {
-			tv_certification.setText("未认证");
-		} else {
-			tv_certification.setText("已认证");
-		}
 
         String phone = SessionContext.mUser.USERAUTH.mobilenum;
         if (StringUtil.notEmpty(phone)) {
             tv_phone_number.setText(Utils.convertHiddenPhoneStars(phone, 3, 8));
         }
 
-        String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
-        if (!TextUtils.isEmpty(data)) {
-            setThirdPartyBind(data, false);
-        }
+		String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
+		if (!TextUtils.isEmpty(data)) {
+			setThirdPartyBind(data, false);
+		}
 		loadThirdPartyBindList();
 
 		mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
 		tv_certification.setText(mIsAuth ? "已认证" : "未认证");
+		requestCertResult();
 	}
 
 	@Override
@@ -198,6 +193,21 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 
 	}
 
+	private void requestCertResult() {
+		RequestBeanBuilder b = RequestBeanBuilder.create(true);
+		b.addBody("uid", SessionContext.mUser.LOCALUSER.id);
+
+		ResponseData d = b.syncRequest(b);
+		d.path = NetURL.CERT_STATUS_BY_UID;
+		d.flag = 3;
+
+		if (!isProgressShowing()) {
+			showProgressDialog("正在加载，请稍候...", true);
+		}
+
+		requestID = DataLoader.getInstance().loadData(this, d);
+	}
+
 	@Override
 	public void onCancel(DialogInterface dialog) {
 		DataLoader.getInstance().clear(requestID);
@@ -218,7 +228,17 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
         } else if (request.flag == 2) {
             removeProgressDialog();
             setThirdPartyBind(response.body.toString(), true);
+        } else if (request.flag == 3) {
+            removeProgressDialog();
+            if (null != response && response.body != null) {
+                System.out.println(response.body.toString());
+                SessionContext.mCertUserAuth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
+                mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
+                tv_certification.setText(mIsAuth ? "已认证" : "未认证");
+                tr_certification.setOnClickListener(mIsAuth ? null : this);
+            }
         }
+
     }
 
 	@Override

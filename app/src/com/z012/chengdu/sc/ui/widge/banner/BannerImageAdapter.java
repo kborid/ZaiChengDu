@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.HomeBannerInfoBean;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 
@@ -51,21 +52,20 @@ public class BannerImageAdapter extends PagerAdapter {
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        final String url = bean.linkurls;
-        if (!TextUtils.isEmpty(url) && !url.contains("Weather.getWeatherInfo.do")) {
+        String imgurl = bean.imgurls;
+        if (!TextUtils.isEmpty(imgurl)) {
+            if (!bean.imgurls.startsWith("http")) {
+                imgurl = NetURL.API_LINK + bean.imgurls;
+            }
             Glide.with(context)
-                    .load(bean.imgurls)
-                    .crossFade()
-                    .override(750, 480)
-                    .into(view);
-        } else {
-            Glide.with(context)
-                    .load(R.drawable.iv_banner_simple)
+                    .load(imgurl)
+                    .placeholder(R.drawable.iv_banner_simple)
                     .crossFade()
                     .override(750, 480)
                     .into(view);
         }
 
+        final String url = bean.linkurls;
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
