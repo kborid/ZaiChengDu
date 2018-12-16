@@ -248,6 +248,11 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         for (int i = 0; i < mCatalogBean.size(); i++) {
             tabs.addTab(tabs.newTab().setText(mCatalogBean.get(i).catalogname));
             final View view = LayoutInflater.from(getActivity()).inflate(R.layout.lv_service_item, null);
+            if (i > 0) {
+                view.setPadding(0, Utils.dip2px(24), 0, 0);
+            } else {
+                view.setPadding(0, 0, 0, 0);
+            }
             service_lay.addView(view);
             TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
             final GridView gridview = (GridView) view.findViewById(R.id.gridview);

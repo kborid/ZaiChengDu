@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,12 +19,13 @@
             android:padding="30dp"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.common.widget.custom.CircleImageView
                 android:id="@+id/iv_photo"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/iv_def_photo" />
+                app:border_width="0dp"
+                app:border_color="@color/transparent"
+                android:scaleType="centerCrop" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -96,7 +98,7 @@
                 android:drawableRight="@drawable/accessory"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="20dp"
+                android:paddingRight="15dp"
                 android:text="账户安全"
                 android:textColor="#333333"
                 android:textSize="17sp" />
@@ -117,7 +119,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="20dp"
+                android:paddingRight="15dp"
                 android:text="地址管理"
                 android:textColor="#333333"
                 android:textSize="17sp" />
@@ -140,7 +142,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="20dp"
+                android:paddingRight="15dp"
                 android:text="邀请好友"
                 android:textColor="#333333"
                 android:textSize="17sp" />
@@ -184,7 +186,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="20dp"
+                android:paddingRight="15dp"
                 android:text="关于我们"
                 android:textColor="#333333"
                 android:textSize="17sp" />

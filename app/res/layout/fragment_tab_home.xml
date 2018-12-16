@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@drawable/iv_service_bg">
+                android:background="@color/white">
 
                 <!-- 热门服务 -->
                 <com.common.widget.custom.MyGridViewWidget
@@ -52,23 +52,39 @@
                     android:verticalSpacing="0dp" />
 
                 <!-- 今日头条 -->
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="15dp" >
+                    android:layout_height="wrap_content" >
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/iv_news" />
-
-                    <com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView
-                        android:id="@+id/marqueeView"
+                    <View
+                        android:id="@+id/newsBgView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp" />
-                </LinearLayout>
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/iv_news_bg"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="14dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="27dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:background="@drawable/iv_news" />
+
+                        <com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView
+                            android:id="@+id/marqueeView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp" />
+                    </LinearLayout>
+
+                </FrameLayout>
             </LinearLayout>
 
             <ScrollView

@@ -326,7 +326,7 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 		builder.addBody("RESIDENCE", tv_address.getText().toString().trim());// 所在地
 
 		ResponseData data = builder.syncRequest(builder);
-		data.path = NetURL.UPDATA_USER_INFO;
+		data.path = NetURL.UPDATE_USER_INFO;
 
 		if (!isProgressShowing()) {
 			showProgressDialog("正在保存，请稍候...", true);

@@ -81,7 +81,7 @@ public class CommonBannerLayout extends RelativeLayout {
     private void findViews() {
         viewpager = (ViewPager) findViewById(R.id.viewpager);
         customViewPagerScroller = new CustomViewPagerScroller(context);
-        customViewPagerScroller.setScrollDuration(1500);
+        customViewPagerScroller.setScrollDuration(800);
         customViewPagerScroller.initViewPagerScroll(viewpager);
         indicator_lay = (LinearLayout) findViewById(R.id.indicator_lay);
     }

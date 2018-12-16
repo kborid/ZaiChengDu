@@ -2,12 +2,14 @@ package com.z012.chengdu.sc.ui.fragment;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,13 +20,13 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.bumptech.glide.Glide;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
+import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
@@ -81,6 +83,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
     private GridView mHotServiceGridView;
     private GridViewAdapter mHotServiceAdapter;
     private List<PushAppBean> mServiceApp = new ArrayList<>();
+    private View newsBgView;
 	private UPMarqueeView marqueeView;
 	private LinearLayout service_lay;
     private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
@@ -120,6 +123,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	protected void initViews(View view) {
 		super.initViews(view);
 		ll_title_panel = (LinearLayout) view.findViewById(R.id.ll_title_panel);
+        newsBgView = view.findViewById(R.id.newsBgView);
         marqueeView = (UPMarqueeView) view.findViewById(R.id.marqueeView);
         mHotServiceGridView = (GridView) view.findViewById(R.id.gridview);
 		tv_center_title = (TextView) view.findViewById(R.id.tv_center_title);
@@ -155,6 +159,11 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         banner_lay.setLayoutParams(weatherRlp);
         banner_lay.setIndicatorLayoutMarginBottom(Utils.dip2px(30));
         banner_lay.setIndicatorLayoutMarginLeft(Utils.dip2px(20));
+
+        FrameLayout.LayoutParams newLlp = (FrameLayout.LayoutParams) newsBgView.getLayoutParams();
+        newLlp.width = Utils.mScreenWidth;
+        newLlp.height = (int) ((float) newLlp.width / 375 * 56);
+        newsBgView.setLayoutParams(newLlp);
 	}
 
 	private void refreshAllService() {
@@ -186,13 +195,25 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
                 service_lay.addView(view, llp);
 
                 //更新内容
-                ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
+                final ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
                 TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
                 GridView gridview = (GridView) view.findViewById(R.id.gridview);
 
-                AppAllServiceInfoBean bean = mAllServiceBean.get(i);
-                String imgUrl = NetURL.API_LINK + bean.imgurls1;
-                Glide.with(getActivity()).load(imgUrl).into(iv_icon);
+                final AppAllServiceInfoBean bean = mAllServiceBean.get(i);
+                String imgUrl = bean.imgurls1;
+                if (!TextUtils.isEmpty(imgUrl)) {
+                	if (!imgUrl.startsWith("http")) {
+                		imgUrl = NetURL.API_LINK + imgUrl;
+					}
+				}
+                ImageLoader.getInstance().loadBitmap(new ImageLoader.ImageCallback() {
+                    @Override
+                    public void imageCallback(Bitmap bm, String url, String imageTag) {
+                        if (null != bm) {
+                            iv_icon.setImageBitmap(bm);
+                        }
+                    }
+                }, imgUrl);
                 tv_name.setText(bean.name);
 
                 ServiceHomeAdapter adapter = new ServiceHomeAdapter(getActivity(), getColumnApp(bean.id, secondGradeList));
