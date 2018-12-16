@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +14,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.constants.Const;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
-import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
-import com.prj.sdk.util.ThumbnailUtil;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
@@ -34,6 +36,7 @@ import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
 import com.z012.chengdu.sc.ui.activity.AboutActivity;
 import com.z012.chengdu.sc.ui.activity.AccountSecurityActivity;
 import com.z012.chengdu.sc.ui.activity.AddressManageActivity;
@@ -149,29 +152,32 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
     public void updateDynamicUserInfo() {
         try {
             if (SessionContext.isLogin()) {
-                String url = SessionContext.mUser.USERBASIC.getHeadphotourl();
-
-                if (url != null && url.length() > 0) {
-                    if (!url.startsWith("http")) {
-                        url = NetURL.API_LINK + url;
-                    }
-                    ImageLoader.getInstance().loadBitmap(new ImageLoader.ImageCallback() {
-                        @Override
-                        public void imageCallback(Bitmap bm, String url,
-                                                  String imageTag) {
-                            if (bm != null) {
-                                iv_photo.setImageBitmap(ThumbnailUtil
-                                        .getRoundImage(bm));
-                            }
-                        }
-
-                    }, url);
+                if ("02".equals(SessionContext.mUser.USERBASIC.sex)) {
+                    iv_photo.setImageResource(R.drawable.iv_def_photo_logined_female);
+                } else {
+                    iv_photo.setImageResource(R.drawable.iv_def_photo_logined_male);
                 }
 
                 tv_name.setText(StringUtil.doEmpty(
                         SessionContext.mUser.USERBASIC.nickname,
                         SessionContext.mUser.USERBASIC.username));
                 tv_login.setVisibility(View.GONE);
+
+                String url = SessionContext.mUser.USERBASIC.getHeadphotourl();
+
+                if (!TextUtils.isEmpty(url)) {
+                    if (!url.startsWith("http")) {
+                        url = NetURL.API_LINK + url;
+                    }
+                }
+                Glide.with(this).load(url).crossFade().into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        if (null != resource) {
+                            iv_photo.setImageDrawable(resource);
+                        }
+                    }
+                });
             } else {
                 iv_photo.setImageResource(R.drawable.iv_def_photo);
                 tv_name.setText("重庆欢迎您");
@@ -205,6 +211,10 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
         Intent mIntent = null;
 		switch (v.getId()) {
             case R.id.tv_login:
+                if (ForbidFastClickUtils.isFastClick()) {
+                    return;
+                }
+
                 if (!SessionContext.isLogin()) {
                     getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
@@ -212,6 +222,10 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 break;
             case R.id.iv_photo:
 //            case R.id.tv_userinfo:// 编辑资料
+                if (ForbidFastClickUtils.isFastClick()) {
+                    return;
+                }
+
                 if (!SessionContext.isLogin()) {
                     getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
@@ -221,6 +235,10 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 getActivity().startActivityForResult(mIntent, MainFragmentActivity.LOGIN_EXIT);
                 break;
             case R.id.tv_account:// 帐号安全
+                if (ForbidFastClickUtils.isFastClick()) {
+                    return;
+                }
+
                 if (!SessionContext.isLogin()) {
                     getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
@@ -231,6 +249,10 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 getActivity().startActivityForResult(mIntent, MainFragmentActivity.LOGIN_EXIT);
                 break;
             case R.id.tv_address:
+                if (ForbidFastClickUtils.isFastClick()) {
+                    return;
+                }
+
                 if (!SessionContext.isLogin()) {
                     getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();
@@ -248,6 +270,10 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 startActivity(mIntent);
                 break;
             case R.id.tv_invite:
+                if (ForbidFastClickUtils.isFastClick()) {
+                    return;
+                }
+
                 if (!SessionContext.isLogin()) {
                     getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
                     updateDynamicUserInfo();

@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="请输入您的真实信息，认证通过后将不能更改"
+        android:text="请输入您的真实信息，认证通过后将不能修改"
         android:textColor="#8d8d8d"
         android:textSize="13sp"
         android:paddingLeft="15dp"
@@ -40,7 +40,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <EditText
+            <com.z012.chengdu.sc.ui.widge.edittext.NameCatchEditText
                 android:id="@+id/et_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -82,7 +82,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <EditText
+            <com.z012.chengdu.sc.ui.widge.edittext.IdCardCatchEditText
                 android:id="@+id/et_id"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -124,7 +124,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <EditText
+            <com.z012.chengdu.sc.ui.widge.edittext.NumberCatchEditText
                 android:id="@+id/et_card"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -166,7 +166,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <EditText
+            <com.z012.chengdu.sc.ui.widge.edittext.NumberCatchEditText
                 android:id="@+id/et_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

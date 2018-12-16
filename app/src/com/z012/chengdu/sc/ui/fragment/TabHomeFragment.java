@@ -41,6 +41,7 @@ import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.net.bean.WeatherForHomeBean;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
+import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
 import com.z012.chengdu.sc.tools.WeatherInfoController;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
@@ -186,9 +187,20 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
                 service_lay.addView(view, llp);
 
                 //更新内容
+                LinearLayout serviceTitleLayout = (LinearLayout) view.findViewById(R.id.serviceTitleLayout);
                 ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
                 TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
                 GridView gridview = (GridView) view.findViewById(R.id.gridview);
+
+                serviceTitleLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (ForbidFastClickUtils.isFastClick()) {
+                            return;
+                        }
+                        LogUtil.i("dw", "service onclick");
+                    }
+                });
 
                 AppAllServiceInfoBean bean = mAllServiceBean.get(i);
                 String imgUrl = NetURL.API_LINK + bean.imgurls1;

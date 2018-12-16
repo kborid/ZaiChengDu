@@ -49,8 +49,6 @@ public class PRJApplication extends Application {
 			JPushInterface.init(this); // 初始化 JPush
 		}
 		
-		LocationManagerBD.getIns().initBaiduLocation(this);
-
 		// 动态注册登录广播
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(UnLoginBroadcastReceiver.ACTION_NAME);

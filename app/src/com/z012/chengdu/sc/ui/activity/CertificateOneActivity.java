@@ -274,25 +274,26 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
     }
 
 	private boolean checkParamsValid() {
-	    if (checkParamsEmpty()) {
-	        CustomToast.show("请填写完整信息", Toast.LENGTH_SHORT);
+	    String name = et_name.getText().toString();
+	    if (TextUtils.isEmpty(name) || name.length() < 2) {
+	        CustomToast.show("姓名录入有误，请重试", Toast.LENGTH_SHORT);
 	        return false;
         }
 
         String id = et_id.getText().toString();
-	    if (id.length() != 18) {
+	    if (TextUtils.isEmpty(id) || !Utils.isIdCard(id)) {
             CustomToast.show("身份证录入有误，请重试", Toast.LENGTH_SHORT);
 	        return false;
         }
 
 	    String card = et_card.getText().toString();
-	    if (!Utils.checkBankCard(card)) {
+	    if (TextUtils.isEmpty(card) || !Utils.checkBankCard(card)) {
             CustomToast.show("银行卡录入有误，请重试", Toast.LENGTH_SHORT);
 	        return false;
         }
 
         String phone = et_phone.getText().toString();
-	    if (!Utils.isMobile(phone)) {
+	    if (TextUtils.isEmpty(phone) || !Utils.isMobile(phone)) {
 	        if (phone.length() < 11) {
                 CustomToast.show("请输入11位手机号码", Toast.LENGTH_SHORT);
                 return false;

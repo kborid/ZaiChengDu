@@ -6,13 +6,10 @@ import com.prj.sdk.BuildConfig;
 
 /**
  * 对android自带日志的一个简单封装，方便调用
- * 
- * @author liao
+ * @author kborid
  * 
  */
 public class LogUtil {
-
-	private static long				startTime	= 0;
 
 	public static boolean isDebug() {
 		return BuildConfig.DEBUG;
@@ -52,21 +49,4 @@ public class LogUtil {
 			Log.e(tag, "{Thread:" + Thread.currentThread().getName() + "}" + msg);
 		}
 	}
-
-	/*
-	 * 记录方法调用的开始时间
-	 */
-	public static void startTime() {
-		startTime = System.currentTimeMillis();
-		d("记录方法调用的开始时间", "start time:" + startTime);
-	}
-
-	/*
-	 * 记录方法调用的使用时间
-	 */
-	public static void useTime() {
-		long endTime = System.currentTimeMillis();
-		d("记录方法调用的使用时间", "use time:" + (endTime - startTime));
-	}
-
 }
