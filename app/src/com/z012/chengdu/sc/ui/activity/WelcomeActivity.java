@@ -12,9 +12,9 @@ import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -67,7 +67,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	private SparseIntArray mTag = new SparseIntArray(); // 请求结束标记，目的是判断是否显示广告
 	private ImageView iv_advertisement;
 	private FrameLayout layoutAd;
-	private Button btn_skip;
+	private TextView tv_skip;
 	private AdvertisementBean mAdvertBean;
 	private boolean isBreak; // 点击广告，终止本页面跳转流程
 
@@ -98,7 +98,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		super.initViews();
 		iv_advertisement = (ImageView) findViewById(R.id.iv_advertisement);
 		layoutAd = (FrameLayout) findViewById(R.id.layoutAd);
-		btn_skip = (Button) findViewById(R.id.btn_skip);
+		tv_skip = (TextView) findViewById(R.id.tv_skip);
 		layoutAd.setVisibility(View.GONE);
 	}
 
@@ -132,7 +132,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		btn_skip.setOnClickListener(this);
+		tv_skip.setOnClickListener(this);
 		iv_advertisement.setOnClickListener(this);
 	}
 
@@ -140,7 +140,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	public void onClick(View v) {
 		// super.onClick(v);
 		switch (v.getId()) {
-		case R.id.btn_skip:
+		case R.id.tv_skip:
 			intentActivity();
 			break;
 		case R.id.iv_advertisement:

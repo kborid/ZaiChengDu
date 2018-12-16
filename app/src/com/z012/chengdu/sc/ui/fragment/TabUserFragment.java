@@ -262,6 +262,10 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 startActivity(mIntent);
                 break;
             case R.id.tv_problem:
+                if (ForbidFastClickUtils.isFastClick()) {
+                    return;
+                }
+
                 mIntent = new Intent(getActivity(), WebViewActivity.class);
                 String url = SharedPreferenceUtil.getInstance().getString(
                         AppConst.PROBLEM, "", true);
@@ -283,6 +287,10 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 startActivity(mIntent);
                 break;
             case R.id.tv_about:
+                if (ForbidFastClickUtils.isFastClick()) {
+                    return;
+                }
+                
                 mIntent = new Intent(getActivity(), AboutActivity.class);
                 startActivity(mIntent);
                 break;

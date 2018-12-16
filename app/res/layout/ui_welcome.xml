@@ -14,19 +14,17 @@
         android:layout_gravity="center"
         android:paddingBottom="100dp" >
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/rl_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true" >
 
             <ProgressBar
-                android:id="@+id/pull_to_refresh_progress"
+                android:id="@+id/iv_busy"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:indeterminate="true"
                 android:indeterminateDrawable="@drawable/welcome_progressbar_rotate_drawable" />
@@ -34,16 +32,16 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="10dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_start_up_logo" />
-        </RelativeLayout>
+        </FrameLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/rl_logo"
             android:layout_centerHorizontal="true"
-            android:paddingTop="14dp"
+            android:layout_marginTop="14dp"
             android:src="@drawable/ic_text" />
     </RelativeLayout>
 
@@ -60,14 +58,18 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY" />
 
-        <Button
-            android:id="@+id/btn_skip"
+        <TextView
+            android:id="@+id/tv_skip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="10dp"
             android:background="@color/transparent10"
-            android:padding="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textSize="14sp"
             android:text="跳过"
             android:textColor="#fff" />
     </FrameLayout>
