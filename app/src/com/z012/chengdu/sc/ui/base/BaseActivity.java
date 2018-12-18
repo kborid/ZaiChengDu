@@ -1,10 +1,11 @@
 package com.z012.chengdu.sc.ui.base;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.ActivityTack;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.ui.activity.WelcomeActivity;
 import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
 
 /**
@@ -21,7 +23,7 @@ import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
  * @author LiaoBo
  * 
  */
-public abstract class BaseActivity extends Activity implements OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements OnClickListener {
 
 	private MyProgressDialog mProgressDialog;
 	protected TextView tv_left_title, tv_center_title, tv_right_title;
@@ -34,8 +36,14 @@ public abstract class BaseActivity extends Activity implements OnClickListener {
 		// getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 		// getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 		// }
-		ActivityTack.getInstanse().addActivity(this);
-		AppContext.mCurrentContext = this;
+		if (null != savedInstanceState) {
+            Intent intent = new Intent(this, WelcomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+		} else {
+            ActivityTack.getInstanse().addActivity(this);
+            AppContext.mCurrentContext = this;
+        }
 	}
 
 	@Override

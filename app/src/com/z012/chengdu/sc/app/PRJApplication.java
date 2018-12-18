@@ -1,6 +1,7 @@
 package com.z012.chengdu.sc.app;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.webkit.WebView;
@@ -30,10 +31,16 @@ public class PRJApplication extends Application {
 	
 	private UnLoginBroadcastReceiver receiver;
 	private static PRJApplication mInstance = null;
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(base);
+		mInstance = this;
+	}
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		mInstance = this;
 		AppContext.init(this);
 		CrashHandler.getInstance().init(this);
 		MobclickAgent.setDebugMode(false);// 普通测试流程，打开调试模式

@@ -28,7 +28,7 @@ import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.ui.adapter.MainFragmentAdapter;
-import com.z012.chengdu.sc.ui.base.BaseFragmentActivity;
+import com.z012.chengdu.sc.ui.base.BaseActivity;
 import com.z012.chengdu.sc.ui.fragment.TabHomeFragment;
 import com.z012.chengdu.sc.ui.fragment.TabServerFragment;
 import com.z012.chengdu.sc.ui.fragment.TabUserFragment;
@@ -41,7 +41,7 @@ import java.util.List;
  *
  * @author kborid
  */
-public class MainFragmentActivity extends BaseFragmentActivity implements OnPageChangeListener, DataCallback {
+public class MainFragmentActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, OnPageChangeListener, DataCallback {
     public static final int PAGE_HOME = 0;
     public static final int PAGE_SERVER = 1;
     public static final int PAGE_USER = 2;
