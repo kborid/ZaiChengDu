@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -33,6 +34,10 @@ import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.ServiceDetailAdapter;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
 import com.z012.chengdu.sc.ui.widge.tablayout.TabLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
@@ -70,6 +75,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 	}
 
 	protected void onInits() {
+        EventBus.getDefault().register(this);
 	}
 
 	protected void onVisible() {
@@ -234,6 +240,31 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         refreshServiceLayout();
 	}
 
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void change(String name) {
+	    if (!TextUtils.isEmpty(name)) {
+            for (int i = 0; i < tabs.getTabCount(); i++) {
+                TabLayout.Tab tab = tabs.getTabAt(i);
+                if (null != tab && !TextUtils.isEmpty(tab.getText())) {
+                    if (name.equals(tab.getText().toString())) {
+                        jumpTabIndex(tab.getPosition());
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+	private void jumpTabIndex(final int position) {
+        tabs.setScrollPosition(position, 0, true);
+        UIHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.smoothScrollTo(0, gridViewLoc[position] - mScrollViewY);
+            }
+        }, 200);
+    }
+
 	private void refreshServiceLayout() {
 	    if (null == mCatalogBean) {
 	        return;
@@ -273,7 +304,13 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         service_lay.addView(getPlaceHolderView());
     }
 
-	@Override
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
 	public void preExecute(ResponseData request) {
 
 	}

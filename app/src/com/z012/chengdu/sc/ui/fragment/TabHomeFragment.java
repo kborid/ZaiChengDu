@@ -44,6 +44,7 @@ import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
 import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
 import com.z012.chengdu.sc.tools.WeatherInfoController;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
+import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.GridViewAdapter;
 import com.z012.chengdu.sc.ui.adapter.ServiceHomeAdapter;
@@ -54,6 +55,8 @@ import com.z012.chengdu.sc.ui.widge.banner.CommonBannerLayout;
 import com.z012.chengdu.sc.ui.widge.maqueue.IUPMarqueeListener;
 import com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeBean;
 import com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
@@ -189,7 +192,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
                 //更新内容
                 LinearLayout serviceTitleLayout = (LinearLayout) view.findViewById(R.id.serviceTitleLayout);
                 ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
-                TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+                final TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
                 GridView gridview = (GridView) view.findViewById(R.id.gridview);
 
                 serviceTitleLayout.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +201,10 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
                         if (ForbidFastClickUtils.isFastClick()) {
                             return;
                         }
-                        LogUtil.i("dw", "service onclick");
+//						EventBus.getDefault().post(tv_name.getText().toString());
+//                        if (null != getActivity()) {
+//                            ((MainFragmentActivity) getActivity()).changeTabService();
+//                        }
                     }
                 });
 
