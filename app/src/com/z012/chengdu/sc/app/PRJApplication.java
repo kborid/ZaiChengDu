@@ -12,12 +12,9 @@ import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
-import com.z012.chengdu.sc.action.LocationManagerBD;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
-import com.z012.chengdu.sc.constants.NetURL;
-
-import java.util.Collections;
+import com.z012.chengdu.sc.permission.PermissionsChecker;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -32,11 +29,13 @@ public class PRJApplication extends Application {
 	private UnLoginBroadcastReceiver receiver;
 	private static PRJApplication mInstance = null;
 
+	private PermissionsChecker mPermissionsChecker;
+
 	@Override
 	protected void attachBaseContext(Context base) {
-		super.attachBaseContext(base);
-		mInstance = this;
-	}
+        super.attachBaseContext(base);
+        mInstance = this;
+    }
 
 	@Override
 	public void onCreate() {
@@ -66,6 +65,8 @@ public class PRJApplication extends Application {
 				WebView.setWebContentsDebuggingEnabled(true);
 			}
 		}
+
+        mPermissionsChecker = new PermissionsChecker(this);
 	}
 
 	@Override
@@ -79,5 +80,10 @@ public class PRJApplication extends Application {
 	public static PRJApplication getInstance() {
 		return mInstance;
 	}
+
+    public static PermissionsChecker getPermissionsChecker(Context context) {
+        PRJApplication app = (PRJApplication) context.getApplicationContext();
+        return app.mPermissionsChecker;
+    }
 
 }

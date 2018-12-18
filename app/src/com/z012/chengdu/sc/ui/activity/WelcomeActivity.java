@@ -36,6 +36,7 @@ import com.prj.sdk.widget.CustomToast;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
+import com.z012.chengdu.sc.app.PRJApplication;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
@@ -46,6 +47,8 @@ import com.z012.chengdu.sc.net.bean.AppListBean;
 import com.z012.chengdu.sc.net.bean.AppOtherInfoBean;
 import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
+import com.z012.chengdu.sc.permission.PermissionsActivity;
+import com.z012.chengdu.sc.permission.PermissionsDef;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.lang.reflect.Field;
@@ -86,6 +89,34 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	protected void onResume() {
 		super.onResume();
 		JPushInterface.onResume(this);// 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在Portal 上展示给开发者
+
+        // 缺少权限时, 进入权限配置页面
+        if (PRJApplication.getPermissionsChecker(this).lacksPermissions(PermissionsDef.LAUNCH_REQUIRE_PERMISSIONS)) {
+            PermissionsActivity.startActivityForResult(this, PermissionsDef.PERMISSION_REQ_CODE, PermissionsDef.LAUNCH_REQUIRE_PERMISSIONS);
+            return;
+        }
+
+        Collections.addAll(DataLoader.getInstance().mCacheUrls, NetURL.CACHE_URL);
+        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+            @Override
+            public void run() {
+                loadCacheData();
+            }
+        });
+
+        if (NetworkUtil.isNetworkAvailable()) {
+            loadAppList();
+            loadAppInfo();
+            loadAppAdvertisement();
+            loadAllProcotol();
+        } else {
+            UIHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    intentActivity();
+                }
+            }, 1000);
+        }
 	}
 
 	@Override
@@ -108,29 +139,6 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		SessionContext.initUserInfo();
 		SessionContext.setAreaCode(getString(R.string.areaCode), getString(R.string.areaName));
 		Utils.initScreenSize(this);// 设置手机屏幕大小
-
-		//TODO:add permission code
-		Collections.addAll(DataLoader.getInstance().mCacheUrls, NetURL.CACHE_URL);
-        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                loadCacheData();
-            }
-        });
-
-		if (NetworkUtil.isNetworkAvailable()) {
-			loadAppList();
-			loadAppInfo();
-			loadAppAdvertisement();
-			loadAllProcotol();
-		} else {
-		    UIHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    intentActivity();
-                }
-            }, 1000);
-        }
 	}
 
 	@Override

@@ -26,6 +26,13 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <!--权限设定Theme-->
+    <style name="AppTheme.PermissionTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
     <!-- ui 最外层风格 -->
     <style name="viewPager">
         <item name="android:orientation">vertical</item>

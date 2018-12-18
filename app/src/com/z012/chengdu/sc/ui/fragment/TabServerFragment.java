@@ -262,7 +262,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
             public void run() {
                 mScrollView.smoothScrollTo(0, gridViewLoc[position] - mScrollViewY);
             }
-        }, 200);
+        }, 100);
     }
 
 	private void refreshServiceLayout() {
