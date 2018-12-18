@@ -44,8 +44,6 @@ public class PRJApplication extends Application {
 		AppContext.init(this);
 		CrashHandler.getInstance().init(this);
 		MobclickAgent.setDebugMode(false);// 普通测试流程，打开调试模式
-		Collections.addAll(DataLoader.getInstance().mCacheUrls,
-				NetURL.CACHE_URL);
 		MobclickAgent.updateOnlineConfig(this);// 友盟统计发送策略，在线参数如配置时间、开关等
 		MobclickAgent.openActivityDurationTrack(false); // 禁止默认的页面统计方式
 		UmengUpdateAgent.setUpdateOnlyWifi(false);// 允许在非wifi下检查更新

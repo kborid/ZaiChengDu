@@ -50,6 +50,7 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.lang.reflect.Field;
 import java.net.ConnectException;
+import java.util.Collections;
 import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
@@ -107,6 +108,9 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		SessionContext.initUserInfo();
 		SessionContext.setAreaCode(getString(R.string.areaCode), getString(R.string.areaName));
 		Utils.initScreenSize(this);// 设置手机屏幕大小
+
+		//TODO:add permission code
+		Collections.addAll(DataLoader.getInstance().mCacheUrls, NetURL.CACHE_URL);
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
             public void run() {
