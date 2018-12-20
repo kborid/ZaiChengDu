@@ -138,7 +138,7 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
 
     private void loadYZM() {
         RequestBeanBuilder builder = RequestBeanBuilder.create(false);
-        builder.addBody("BUSINESSTYPE", "40658");// 业务类型01手机绑定；02邮箱绑定；03注册绑定手机；04找回密码；05市民卡注册绑定；06市民卡实名认证
+        builder.addBody("BUSINESSTYPE", "399087");// 业务类型01手机绑定；02邮箱绑定；03注册绑定手机；04找回密码；05市民卡注册绑定；06市民卡实名认证
         builder.addBody("MOBILENUM", mPhone);
 
         ResponseData data = builder.syncRequest(builder);
@@ -155,7 +155,7 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
     private void requestCert() {
 	    RequestBeanBuilder builder = RequestBeanBuilder.create(true);
 	    builder.addBody("uid", SessionContext.mUser.LOCALUSER.id);
-	    builder.addBody("BUSINESSTYPE", "40658");
+	    builder.addBody("BUSINESSTYPE", "399087");
         builder.addBody("MOBILENUM", mPhone);
 	    builder.addBody("VCODE", et_yzm.getText().toString());
 
