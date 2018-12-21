@@ -29,7 +29,7 @@ import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.DownInfoBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
-import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
+import com.z012.chengdu.sc.tools.ClickUtils;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 import com.z012.chengdu.sc.ui.dialog.CustomDialog;
@@ -105,7 +105,7 @@ public class GridViewAdapter extends BaseAdapter implements DownCallback, ZipExt
 
 			@Override
 			public void onClick(View v) {
-				if (ForbidFastClickUtils.isFastClick()) {
+				if (ClickUtils.isForbidFastClick()) {
 					return;
 				}
 

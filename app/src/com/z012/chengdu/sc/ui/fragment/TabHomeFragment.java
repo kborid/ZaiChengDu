@@ -41,10 +41,9 @@ import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.net.bean.WeatherForHomeBean;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
-import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
+import com.z012.chengdu.sc.tools.ClickUtils;
 import com.z012.chengdu.sc.tools.WeatherInfoController;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
-import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.GridViewAdapter;
 import com.z012.chengdu.sc.ui.adapter.ServiceHomeAdapter;
@@ -55,8 +54,6 @@ import com.z012.chengdu.sc.ui.widge.banner.CommonBannerLayout;
 import com.z012.chengdu.sc.ui.widge.maqueue.IUPMarqueeListener;
 import com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeBean;
 import com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
@@ -198,7 +195,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
                 serviceTitleLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (ForbidFastClickUtils.isFastClick()) {
+                        if (ClickUtils.isForbidFastClick()) {
                             return;
                         }
 //						EventBus.getDefault().post(tv_name.getText().toString());

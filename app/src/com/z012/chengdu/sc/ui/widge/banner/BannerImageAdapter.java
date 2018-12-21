@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.HomeBannerInfoBean;
-import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
+import com.z012.chengdu.sc.tools.ClickUtils;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 
 import java.util.List;
@@ -71,7 +71,7 @@ public class BannerImageAdapter extends PagerAdapter {
 
             @Override
             public void onClick(View v) {
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
 

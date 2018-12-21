@@ -15,7 +15,7 @@ import com.prj.sdk.util.UIHandler;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.AllServiceColumnBean;
-import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
+import com.z012.chengdu.sc.tools.ClickUtils;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 
@@ -69,7 +69,7 @@ public class ServiceDetailAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
 

@@ -37,7 +37,7 @@ import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.CertUserAuth;
-import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
+import com.z012.chengdu.sc.tools.ClickUtils;
 import com.z012.chengdu.sc.ui.activity.AboutActivity;
 import com.z012.chengdu.sc.ui.activity.AccountSecurityActivity;
 import com.z012.chengdu.sc.ui.activity.AddressManageActivity;
@@ -223,7 +223,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
         Intent mIntent = null;
 		switch (v.getId()) {
             case R.id.tv_login:
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
 
@@ -234,7 +234,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 break;
             case R.id.iv_photo:
 //            case R.id.tv_userinfo:// 编辑资料
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
 
@@ -247,7 +247,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 getActivity().startActivityForResult(mIntent, MainFragmentActivity.LOGIN_EXIT);
                 break;
             case R.id.tv_account:// 帐号安全
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
 
@@ -261,7 +261,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 getActivity().startActivityForResult(mIntent, MainFragmentActivity.LOGIN_EXIT);
                 break;
             case R.id.tv_address:
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
 
@@ -274,7 +274,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 startActivity(mIntent);
                 break;
             case R.id.tv_problem:
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
 
@@ -286,7 +286,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 startActivity(mIntent);
                 break;
             case R.id.tv_invite:
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
 
@@ -299,7 +299,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 startActivity(mIntent);
                 break;
             case R.id.tv_about:
-                if (ForbidFastClickUtils.isFastClick()) {
+                if (ClickUtils.isForbidFastClick()) {
                     return;
                 }
                 

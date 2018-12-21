@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.net.bean.AppAllServiceInfoBean;
-import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
+import com.z012.chengdu.sc.tools.ClickUtils;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 
@@ -63,7 +63,7 @@ public class ServiceHomeAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-				if (ForbidFastClickUtils.isFastClick()) {
+				if (ClickUtils.isForbidFastClick()) {
 					return;
 				}
 				if (!temp.linkurls.equals("ShowAllService")) {
