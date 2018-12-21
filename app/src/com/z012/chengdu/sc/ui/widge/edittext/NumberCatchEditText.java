@@ -57,17 +57,11 @@ public class NumberCatchEditText extends EditText {
             if (null != clip) {
                 super.onTextContextMenuItem(id);
                 String text = clip.getPrimaryClip().getItemAt(0).getText().toString();
-                StringBuilder sb = new StringBuilder();
-                for (char c : text.toCharArray()) {
-                    if (!isMatchReg(c)) {
-                        sb = new StringBuilder();
-                        break;
-                    } else {
-                        sb.append(c);
-                    }
+                if (!isMatchReg(text)) {
+                    text = "";
                 }
-                setText(sb.toString());
-                setSelection(sb.length());
+                setText(text);
+                setSelection(text.length());
             }
             return true;
         }
@@ -76,9 +70,5 @@ public class NumberCatchEditText extends EditText {
 
     private boolean isMatchReg(String s) {
         return null != s && s.matches(reg);
-    }
-
-    private boolean isMatchReg(char c) {
-        return isMatchReg(String.valueOf(c));
     }
 }
