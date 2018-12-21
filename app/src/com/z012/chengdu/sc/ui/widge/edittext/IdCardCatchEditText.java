@@ -1,6 +1,7 @@
 package com.z012.chengdu.sc.ui.widge.edittext;
 
 import android.annotation.SuppressLint;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -35,8 +36,7 @@ public class IdCardCatchEditText extends EditText {
             @Override
             public boolean commitText(CharSequence text, int newCursorPosition) {
                 LogUtil.i("dw", "text = " + text.toString());
-                String str = text.toString();
-                if (str.matches(reg)) {
+                if (isMatchReg(text.toString())) {
                     return super.commitText(text, newCursorPosition);
                 }
                 return false;
@@ -47,5 +47,37 @@ public class IdCardCatchEditText extends EditText {
                 return super.sendKeyEvent(event);
             }
         };
+    }
+
+    @Override
+    public boolean onTextContextMenuItem(int id) {
+        if (android.R.id.paste == id) {
+            ClipboardManager clip = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            if (null != clip) {
+                super.onTextContextMenuItem(id);
+                String text = clip.getPrimaryClip().getItemAt(0).getText().toString();
+                StringBuilder sb = new StringBuilder();
+                for (char c : text.toCharArray()) {
+                    if (!isMatchReg(c)) {
+                        sb = new StringBuilder();
+                        break;
+                    } else {
+                        sb.append(c);
+                    }
+                }
+                setText(sb.toString());
+                setSelection(sb.length());
+            }
+            return true;
+        }
+        return super.onTextContextMenuItem(id);
+    }
+
+    private boolean isMatchReg(String s) {
+        return null != s && s.matches(reg);
+    }
+
+    private boolean isMatchReg(char c) {
+        return isMatchReg(String.valueOf(c));
     }
 }
