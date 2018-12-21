@@ -25,6 +25,8 @@ import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.tools.CountDownTimerImpl;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.net.ConnectException;
 
 /**
@@ -198,6 +200,7 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
             }
             tv_yzm.setEnabled(true);
             tv_yzm.setText("获取验证码");
+            EventBus.getDefault().post(auth);
         }
 	}
 

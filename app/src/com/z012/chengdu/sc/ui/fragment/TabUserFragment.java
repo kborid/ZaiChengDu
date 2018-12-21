@@ -36,6 +36,7 @@ import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.net.bean.CertUserAuth;
 import com.z012.chengdu.sc.tools.ForbidFastClickUtils;
 import com.z012.chengdu.sc.ui.activity.AboutActivity;
 import com.z012.chengdu.sc.ui.activity.AccountSecurityActivity;
@@ -45,6 +46,10 @@ import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 import com.z012.chengdu.sc.ui.activity.PersonalDataActivity;
 import com.z012.chengdu.sc.ui.activity.WebViewActivity;
 import com.z012.chengdu.sc.ui.base.BaseFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
 
@@ -70,24 +75,31 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
 	}
 
 	protected void onInits() {
+        EventBus.getDefault().register(this);
 	}
 
 	public void onVisible() {
 		super.onVisible();
-		if (SessionContext.isLogin()) {
-            updateInfoForCert();
-        }
 	}
 
-	private void updateInfoForCert() {
-	    LogUtil.i("dw", "updateInfoForCert()");
-        boolean isAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth && null != SessionContext.mCertUserAuth.userAuth;
-        if (isAuth) {
-            tv_name.setText(SessionContext.mCertUserAuth.userAuth.name);
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void updateCertInfo(CertUserAuth certUserAuth) {
+	    LogUtil.i("dw", "updateCertInfo()");
+	    if (SessionContext.isLogin()) {
+            boolean isAuth = null != certUserAuth && certUserAuth.isAuth && null != certUserAuth.userAuth;
+            if (isAuth) {
+                tv_name.setText(SessionContext.mCertUserAuth.userAuth.name);
+            }
         }
     }
 
-	@Override
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
 	protected void initViews(View view) {
 		super.initViews(view);
         userHeader_lay = (LinearLayout) view.findViewById(R.id.userHeader_lay);
