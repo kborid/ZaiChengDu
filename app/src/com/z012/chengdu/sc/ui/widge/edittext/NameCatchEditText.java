@@ -16,7 +16,7 @@ import com.prj.sdk.util.LogUtil;
 public class NameCatchEditText extends EditText {
 
     private String regChina = "^[\\u4E00-\\u9FFF]+$";
-    private String regEnglish = "^[a-zA-z · ]+$";
+    private String regEnglish = "^[a-zA-z]+$";
     private String regChar = "^ · +$";
 
 
