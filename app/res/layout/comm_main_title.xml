@@ -6,8 +6,8 @@
     android:background="@color/titlecolor"
     android:paddingTop="5dp"
     android:paddingBottom="5dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     android:gravity="center_vertical" >
 
     <LinearLayout
@@ -55,11 +55,13 @@
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/search"
         android:drawablePadding="5dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/index_search"
-        android:text="搜服务"
+        android:layout_marginLeft="15dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/search_home_bg"
+        android:hint="搜服务"
         android:gravity="center_vertical"
-        android:textColor="#bbb"
+        android:textColor="@color/textColor"
+        android:textColorHint="#c7c7c7"
         android:textSize="14sp" />
 
 </LinearLayout>

@@ -98,7 +98,7 @@
                 android:drawableRight="@drawable/accessory"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="20dp"
+                android:paddingRight="15dp"
                 android:text="账户安全"
                 android:textColor="#333333"
                 android:textSize="17sp" />
@@ -119,7 +119,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="20dp"
+                android:paddingRight="15dp"
                 android:text="地址管理"
                 android:textColor="#333333"
                 android:textSize="17sp" />
@@ -142,7 +142,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="20dp"
+                android:paddingRight="15dp"
                 android:text="邀请好友"
                 android:textColor="#333333"
                 android:textSize="17sp" />
@@ -186,7 +186,7 @@
                 android:drawablePadding="15dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
-                android:paddingRight="20dp"
+                android:paddingRight="15dp"
                 android:text="关于我们"
                 android:textColor="#333333"
                 android:textSize="17sp" />

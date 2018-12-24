@@ -52,7 +52,7 @@ public final class NetURL {
 
 	public static final String		GET_TICKET				= PORTAL_SERVICE + "CW9006";											// 登录获取票据
 	public static final String		GET_USER_INFO			= PORTAL_SERVICE + "CW9012";											// 获取用户信息
-	public static final String		UPDATA_USER_INFO		= PORTAL_SERVICE + "CW9013";											// 修改用户信息
+	public static final String		UPDATE_USER_INFO		= PORTAL_SERVICE + "CW9013";											// 修改用户信息
 
 	public static final String		GET_SC_LIST				= APP_SCITY_CN + "/center_appservice/service/CW0207";					// 获取收藏列表
 	public static final String		IS_SC					= APP_SCITY_CN + "/center_appservice/service/CW0210";					// 校验是否收藏

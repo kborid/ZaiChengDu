@@ -2,6 +2,8 @@ package com.z012.chengdu.sc.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.UIHandler;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.NetURL;
@@ -22,8 +25,11 @@ import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 import java.util.List;
 
 public class ServiceDetailAdapter extends BaseAdapter {
-	private Context				mContext;
-	private List<AllServiceColumnBean.AppList>	mBeans;
+
+    private static final int MAX_LENGTH = 6;
+
+	private Context mContext;
+	private List<AllServiceColumnBean.AppList> mBeans;
 
 	public ServiceDetailAdapter(Context context, List<AllServiceColumnBean.AppList> mBeans) {
 		this.mBeans = mBeans;
@@ -63,7 +69,14 @@ public class ServiceDetailAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.tv_title.setText(temp.appname);
+		String name = temp.appname;
+		if (!TextUtils.isEmpty(name)) {
+		    if (name.length() >= MAX_LENGTH) {
+		        name = name.substring(0, 5);
+		        name += "...";
+            }
+        }
+		holder.tv_title.setText(name);
 
 		convertView.setOnClickListener(new OnClickListener() {
 
@@ -93,12 +106,21 @@ public class ServiceDetailAdapter extends BaseAdapter {
                     Glide.with(mContext).load(R.drawable.iv_service_all).into(holder.imageView);
 				} else {
 					String url = null;
-					if (temp.imgurls != null) {
+					if (!TextUtils.isEmpty(temp.imgurls)) {
 						if (!temp.imgurls.startsWith("http")) {
 							url = NetURL.API_LINK + temp.imgurls;
 						}
-						Glide.with(mContext).load(url).placeholder(R.drawable.round_loading).into(holder.imageView);
 					}
+					Glide.with(mContext).load(url).placeholder(R.drawable.round_loading).into(holder.imageView);
+//                    holder.imageView.setImageResource(R.drawable.round_loading);
+//                    ImageLoader.getInstance().loadBitmap(new ImageLoader.ImageCallback() {
+//                        @Override
+//                        public void imageCallback(Bitmap bm, String url, String imageTag) {
+//                            if (null != bm) {
+//                                holder.imageView.setImageBitmap(bm);
+//                            }
+//                        }
+//                    }, url);
 				}
 			}
 		});

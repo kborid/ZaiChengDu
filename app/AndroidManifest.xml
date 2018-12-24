@@ -358,6 +358,10 @@
             </intent-filter>
         </receiver>
 
+        <meta-data
+            android:name="com.z012.chengdu.sc.glide.GlideModuleConfig"
+            android:value="GlideModule" />
+
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
