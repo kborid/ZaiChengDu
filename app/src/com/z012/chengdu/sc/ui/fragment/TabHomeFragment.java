@@ -550,16 +550,14 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 					@Override
 					public void onScrollChanged(int l, int t, int oldl, int oldt) {
 						if (banner_lay != null && banner_lay.getHeight() > 0) {
-							// define it for scroll height
-							int assignHeight = banner_lay.getHeight()
-									- titleHeight;
-							if (t < assignHeight) {
-								int progress = (int) ((float) t / assignHeight * 255);
-								ll_title_panel.getBackground().mutate()
-										.setAlpha(progress);
+							int height = banner_lay.getHeight() - titleHeight;
+							if (t < height) {
+								int progress = (int) ((float) t / height * 255);
+								ll_title_panel.getBackground().mutate().setAlpha(progress);
+                                ll_title_panel.setClickable(false);
 							} else {
-								ll_title_panel.getBackground().mutate()
-										.setAlpha(255);
+								ll_title_panel.getBackground().mutate().setAlpha(255);
+								ll_title_panel.setClickable(true);
 							}
 						}
 					}
