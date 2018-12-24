@@ -197,7 +197,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 
                 //更新内容
                 LinearLayout serviceTitleLayout = (LinearLayout) view.findViewById(R.id.serviceTitleLayout);
-                ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
+                final ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
                 final TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
                 GridView gridview = (GridView) view.findViewById(R.id.gridview);
 
