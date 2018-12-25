@@ -21,7 +21,7 @@ import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
  */
 public class UnLoginBroadcastReceiver extends BroadcastReceiver {
 
-	public static final String	ACTION_NAME			= Const.UNLOGIN_ACTION;
+	public static final String	ACTION_NAME = Const.UNLOGIN_ACTION;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -32,9 +32,9 @@ public class UnLoginBroadcastReceiver extends BroadcastReceiver {
 		}
 		boolean is_show_tip_dialog = intent.getBooleanExtra(Const.IS_SHOW_TIP_DIALOG, false);
 		if (is_show_tip_dialog) {
-			showTip(AppContext.mCurrentContext);
+			showTip(context);
 		} else {
-			intentLogin(AppContext.mCurrentContext);
+			intentLogin(context);
 		}
 
 	}

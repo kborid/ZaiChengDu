@@ -42,7 +42,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
             startActivity(intent);
 		} else {
             ActivityTack.getInstanse().addActivity(this);
-            AppContext.mCurrentContext = this;
         }
 	}
 

@@ -24,18 +24,15 @@ public final class AppContext {
 
 	public static Map<String, Object> mMemoryMap = null; // 提供调用memory存取值
 	public static DBManager mDBManager = null;
-	public static String PROJECT;
 	/*
 	 * 初始化上下问
 	 */
 	public static Context mMainContext = null;
-	public static Context mCurrentContext = null; // 当前Activity的上下文
 
 	public static void init(Context MainContext) {
 		mMainContext = MainContext.getApplicationContext();
 		mMemoryMap = new HashMap<String, Object>();
 		mDBManager = DBManager.getInstance(MainContext, null);
-		PROJECT = getAppMetaData(mMainContext, "PROJECT_BY");
 	}
 
 	/**
