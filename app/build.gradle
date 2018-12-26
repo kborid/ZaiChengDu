@@ -53,7 +53,7 @@ android {
         chongqing {
             dimension "city"
             applicationId "com.z012.chongqing.sc"
-            versionCode 67
+            versionCode 68
             versionName "4.0.2"
         }
     }
