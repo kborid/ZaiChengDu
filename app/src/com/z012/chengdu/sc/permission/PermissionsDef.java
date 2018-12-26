@@ -16,8 +16,8 @@ public class PermissionsDef {
     //App启动所必需的权限
     public static final String[] LAUNCH_REQUIRE_PERMISSIONS = new String[]{
             //存储权限
-            Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
 
             //位置权限
             Manifest.permission.ACCESS_COARSE_LOCATION,

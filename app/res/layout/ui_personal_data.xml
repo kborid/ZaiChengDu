@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <include layout="@layout/comm_title" />
 
@@ -50,7 +50,7 @@
                         android:layout_centerVertical="true"
                         android:src="@drawable/accessory" />
 
-                    <ImageView
+                    <com.common.widget.custom.CircleImageView
                         android:id="@+id/iv_photo"
                         android:layout_width="46dp"
                         android:layout_height="46dp"
@@ -59,7 +59,9 @@
                         android:layout_toLeftOf="@id/iv_accessory"
                         android:gravity="center_vertical"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/iv_def_photo" />
+                        android:src="@drawable/iv_def_photo"
+                        app:border_width="0dp"
+                        app:border_color="@color/transparent"/>
                 </RelativeLayout>
 
                 <View

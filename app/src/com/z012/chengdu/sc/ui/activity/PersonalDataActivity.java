@@ -7,6 +7,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -52,12 +53,12 @@ import java.util.Date;
  * @author LiaoBo
  * 
  */
-public class PersonalDataActivity extends BaseActivity implements DataCallback, OnCheckedChangeListener, DialogInterface.OnCancelListener, DatePickerDialog.OnDateSetListener, AreaWheelCallback {
+public class PersonalDataActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener, DatePickerDialog.OnDateSetListener, AreaWheelCallback {
 	private TextView	tv_birthday, tv_address, tv_marriage, tv_sex;
 	private EditText	et_nickname;
 	private int			mYear	= 1990, mMonth = 1, mDay = 1;
 	private ImageView	iv_photo;
-	private Uri			mCameraFile;
+	private Uri mCameraFile;
 
 	private boolean mIsAuth = false;
 
@@ -232,16 +233,21 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 	public void tailorImg(Uri imageUri) {
 		try {
 			Intent intent = new Intent("com.android.camera.action.CROP");
+
+			//这段代码判断，在安卓7.0以前版本是不需要的。特此注意。不然这里也会抛出异常
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			}
 			intent.setDataAndType(imageUri, "image/*");
-			intent.putExtra("crop", "true");
+			intent.putExtra("circleCrop", "true");
 			// aspectX aspectY 是宽高的比例
-			intent.putExtra("aspectX", 1);
 			intent.putExtra("aspectY", 1);
+			intent.putExtra("aspectX", 1);
 			// outputX outputY 是裁剪图片宽高
-			intent.putExtra("outputX", 240);
-			intent.putExtra("outputY", 240);
-			// intent.putExtra("return-data", true);// 返回值中有图片数据
-			intent.putExtra("output", mCameraFile);
+			intent.putExtra("outputX", 50);
+			intent.putExtra("outputY", 50);
+//        intent.putExtra("scale",true);//自由截取
+			intent.putExtra("return-data", true);
 			startActivityForResult(intent, AppConst.ACTIVITY_TAILOR);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -398,20 +404,18 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 
 	@Override
 	public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
-		removeProgressDialog();
 		if (request.flag == 1) {
 			Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), mCameraFile);
-			if (SessionContext.mUser.USERBASIC.getHeadphotourl() != null && bitmap != null) {
-				ImageLoader.getInstance().remove(SessionContext.mUser.USERBASIC.getHeadphotourl());
-				ImageLoader.getInstance().putDiskBitmap(SessionContext.mUser.USERBASIC.getHeadphotourl(), 
-						ThumbnailUtil.getRoundImage(bitmap));
-			}
+			SessionContext.mUser.USERBASIC.headphotourl = response.body.toString();
 			iv_photo.setImageBitmap(bitmap);
 
+            removeProgressDialog();
 			CustomToast.show("头像上传成功", 0);
 			this.setResult(RESULT_OK, null);
 			return;
 		}
+
+        removeProgressDialog();
 		CustomToast.show("资料修改成功", 0);
 		SessionContext.mUser.USERBASIC.nickname = et_nickname.getText().toString().trim();
 		// SessionContext.mUser.USERBASIC.birthday = DateUtil.str2Date(tv_birthday.getText().toString(), "yyyy-MM-dd").getTime();
@@ -494,22 +498,6 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 				tv_birthday.setText(new StringBuilder().append(mYear).append("-").append(mMonth + 1).append("-").append(mDay).toString());
 			}
 		}
-	}
-
-	@Override
-	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		// switch (checkedId) {
-		// case R.id.rb_nan :
-		// case R.id.rb_nv :
-		// if (!SessionContext.mUser.USERBASIC.level.equals("01")) {
-		// if (SessionContext.mUser.USERBASIC != null && "01".equals(SessionContext.mUser.USERBASIC.sex)) {
-		// rb_nan.setChecked(true);
-		// } else if (SessionContext.mUser.USERBASIC != null && "02".equals(SessionContext.mUser.USERBASIC.sex)) {
-		// rb_nv.setChecked(true);
-		// }
-		// }
-		// break;
-		// }
 	}
 
 	@Override

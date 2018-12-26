@@ -5,7 +5,9 @@ import java.io.File;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.widget.Toast;
 
 import com.prj.sdk.util.GUIDGenerator;
@@ -49,7 +51,13 @@ public class GetPicDialog {
 	 * 获取手机相机图片路径uri
 	 */
 	public Uri getPicPathUri() {
-		return Uri.fromFile(mCameraFile);
+	    Uri uri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            uri = FileProvider.getUriForFile(mAct,"com.z012.chengdu.sc.fileprovider", mCameraFile);
+        }else {
+            uri = Uri.fromFile(mCameraFile);
+        }
+		return uri;
 	}
 	
 	/**
@@ -70,6 +78,7 @@ public class GetPicDialog {
 				if (Utils.isSDCardEnable()) {
 					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 					intent.putExtra(MediaStore.EXTRA_OUTPUT, getPicPathUri());
+                    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 					intent.putExtra("android.intent.extra.screenOrientation", false);
 					mAct.startActivityForResult(intent, AppConst.ACTIVITY_IMAGE_CAPTURE);
 				} else {

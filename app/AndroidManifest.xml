@@ -392,6 +392,16 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <!-- 友盟渠道更新end -->
+
+        <provider
+            android:authorities="com.z012.chengdu.sc.fileprovider"
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
     </application>
 
     <uses-permission android:name="android.permission.GET_TASKS" />
