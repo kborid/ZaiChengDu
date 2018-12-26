@@ -1,8 +1,9 @@
 package com.z012.chengdu.sc.permission;
 
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
+
+import com.z012.chengdu.sc.app.PRJApplication;
 
 /**
  * 检查权限的工具类
@@ -11,17 +12,14 @@ import android.support.v4.content.ContextCompat;
  * @date 2017/9/21.
  */
 public class PermissionsChecker {
-    private final Context mContext;
 
-    public PermissionsChecker(Context context) {
-        mContext = context.getApplicationContext();
-    }
+    private static final String TAG = PermissionsChecker.class.getSimpleName();
 
     // 判断权限集合
-    public boolean lacksPermissions(String... permissions) {
+    public static boolean lackPermissions(String... permissions) {
         boolean hasLack = false;
         for (String permission : permissions) {
-            if (lacksPermission(permission)) {
+            if (lackPermission(permission)) {
                 hasLack = true;
                 break;
             }
@@ -30,7 +28,7 @@ public class PermissionsChecker {
     }
 
     // 判断是否缺少权限
-    private boolean lacksPermission(String permission) {
-        return ContextCompat.checkSelfPermission(mContext, permission) == PackageManager.PERMISSION_DENIED;
+    private static boolean lackPermission(String permission) {
+        return ContextCompat.checkSelfPermission(PRJApplication.getInstance(), permission) == PackageManager.PERMISSION_DENIED;
     }
 }

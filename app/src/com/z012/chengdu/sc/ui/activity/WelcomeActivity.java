@@ -36,7 +36,6 @@ import com.prj.sdk.widget.CustomToast;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
-import com.z012.chengdu.sc.app.PRJApplication;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
@@ -48,6 +47,7 @@ import com.z012.chengdu.sc.net.bean.AppOtherInfoBean;
 import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.permission.PermissionsActivity;
+import com.z012.chengdu.sc.permission.PermissionsChecker;
 import com.z012.chengdu.sc.permission.PermissionsDef;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
@@ -60,9 +60,9 @@ import cn.jpush.android.api.JPushInterface;
 
 /**
  * 欢迎页面
- * 
+ *
  * @author kborid
- * 
+ *
  */
 public class WelcomeActivity extends BaseActivity implements DataCallback {
 	private long start = 0; // 记录启动时间
@@ -91,11 +91,15 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		JPushInterface.onResume(this);// 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在Portal 上展示给开发者
 
         // 缺少权限时, 进入权限配置页面
-        if (PRJApplication.getPermissionsChecker(this).lacksPermissions(PermissionsDef.LAUNCH_REQUIRE_PERMISSIONS)) {
+        if (PermissionsChecker.lackPermissions(PermissionsDef.LAUNCH_REQUIRE_PERMISSIONS)) {
             PermissionsActivity.startActivityForResult(this, PermissionsDef.PERMISSION_REQ_CODE, PermissionsDef.LAUNCH_REQUIRE_PERMISSIONS);
             return;
         }
 
+        startLoading();
+    }
+
+    private void startLoading() {
         Collections.addAll(DataLoader.getInstance().mCacheUrls, NetURL.CACHE_URL);
         AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
             @Override
@@ -160,7 +164,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 			Intent mIntent = new Intent(this, HtmlActivity.class);
 			mIntent.putExtra("id", mAdvertBean.Id);
 			mIntent.putExtra("title", mAdvertBean.adName);
-			mIntent.putExtra("path", mAdvertBean.linkaddress);// temp.entry
+			mIntent.putExtra("path", mAdvertBean.linkaddress);
 			mIntent.putExtra("goBack", "Main");// Html返回处理
 			startActivity(mIntent);
 			this.finish();
@@ -403,8 +407,16 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		}
 	}
 
-	@Override
-	public void preExecute(ResponseData request) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == PermissionsDef.PERMISSIONS_DENIED) {
+            finish();
+        }
+    }
+
+    @Override
+    public void preExecute(ResponseData request) {
 
 	}
 
@@ -469,7 +481,7 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 
 	/**
 	 * 版本更新对话框
-	 * 
+	 *
 	 * @param url
 	 * @param description
 	 */

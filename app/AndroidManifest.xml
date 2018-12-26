@@ -65,10 +65,6 @@
             android:name=".ui.activity.UserGuideActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <!-- 服务超市 -->
-        <activity
-            android:name=".ui.activity.SupermarketActivity"
-            android:screenOrientation="portrait" />
         <!-- 普通html页面 -->
         <activity
             android:name=".ui.activity.WebViewActivity"
@@ -85,10 +81,6 @@
         <!-- 个人资料 -->
         <activity
             android:name=".ui.activity.PersonalDataActivity"
-            android:screenOrientation="portrait" />
-        <!-- 系统设置 -->
-        <activity
-            android:name=".ui.activity.SystemSetActivity"
             android:screenOrientation="portrait" />
         <!-- 我的收藏 -->
         <activity
@@ -170,26 +162,11 @@
         <activity
             android:name=".ui.activity.AccountSecurityActivity"
             android:screenOrientation="portrait" />
-        <!-- 余额查询 -->
-        <activity
-            android:name=".ui.activity.BalanceInquireActivity"
-            android:screenOrientation="portrait" />
         <!-- 绑定银行卡或支护宝 -->
         <activity
             android:name=".ui.activity.BindBankCardActivity"
             android:screenOrientation="portrait" />
         <!-- 选择银行卡 -->
-        <activity
-            android:name=".ui.activity.SelectBankCardActivity"
-            android:screenOrientation="portrait" />
-        <!-- 提现 -->
-        <activity
-            android:name=".ui.activity.CashingActivity"
-            android:screenOrientation="portrait" />
-        <!-- 提现 - 输入验证码 -->
-        <activity
-            android:name=".ui.activity.CashingVerificationCodeActivity"
-            android:screenOrientation="portrait" />
         <!-- 第三方绑定、解绑 -->
         <activity
             android:name=".ui.activity.BindThirdPartyActivity"

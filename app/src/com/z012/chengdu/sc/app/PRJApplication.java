@@ -15,7 +15,6 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
-import com.z012.chengdu.sc.permission.PermissionsChecker;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -29,8 +28,6 @@ public class PRJApplication extends Application {
 	
 	private UnLoginBroadcastReceiver receiver;
 	private static PRJApplication mInstance = null;
-
-	private PermissionsChecker mPermissionsChecker;
 
 	@Override
 	protected void attachBaseContext(Context base) {
@@ -54,7 +51,6 @@ public class PRJApplication extends Application {
 		initJPush();
 		initWebViewDebug();
 		initLeakCanary();
-		mPermissionsChecker = new PermissionsChecker(this);
 	}
 
 	@Override
@@ -68,11 +64,6 @@ public class PRJApplication extends Application {
 	public static PRJApplication getInstance() {
 		return mInstance;
 	}
-
-    public static PermissionsChecker getPermissionsChecker(Context context) {
-        PRJApplication app = (PRJApplication) context.getApplicationContext();
-        return app.mPermissionsChecker;
-    }
 
     private void initUmeng() {
 		MobclickAgent.setDebugMode(AppConst.ISDEVELOP);// 普通测试流程，打开调试模式

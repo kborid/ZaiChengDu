@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.prj.sdk.util.LogUtil;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.app.PRJApplication;
 import com.z012.chengdu.sc.ui.activity.WelcomeActivity;
 import com.z012.chengdu.sc.ui.dialog.CustomDialog;
 
@@ -60,7 +59,7 @@ public class PermissionsActivity extends AppCompatActivity {
         super.onResume();
         if (isRequireCheck) {
             String[] permissions = getPermissions();
-            if (PRJApplication.getPermissionsChecker(this).lacksPermissions(permissions)) {
+            if (PermissionsChecker.lackPermissions(permissions)) {
                 requestPermissions(permissions); //请求权限
             } else {
                 allPermissionsGranted(); //全部权限都已获取
