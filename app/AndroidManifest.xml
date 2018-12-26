@@ -224,7 +224,6 @@
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
@@ -243,7 +242,6 @@
         </activity>
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
-            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
 
