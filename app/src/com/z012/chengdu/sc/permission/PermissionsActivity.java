@@ -129,12 +129,14 @@ public class PermissionsActivity extends AppCompatActivity {
         mDialog.setListeners(new CustomDialog.onCallBackListener() {
             @Override
             public void leftBtn(CustomDialog dialog) {
+                dialog.dismiss();
                 setResult(PermissionsDef.PERMISSIONS_DENIED);
                 finish();
             }
 
             @Override
             public void rightBtn(CustomDialog dialog) {
+                dialog.dismiss();
                 startAppSettings();
             }
         });

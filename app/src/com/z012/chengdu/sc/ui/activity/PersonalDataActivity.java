@@ -176,21 +176,28 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 	 * @param url
 	 */
 	public void setHeadPortrait(String url) {
-		// imgPhoto.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.def_photo_b));
-		if (url != null && url.length() > 0) {
-			if (!url.startsWith("http")) {
-				url = NetURL.API_LINK + url;
-			}
-			ImageLoader.getInstance().loadBitmap(new ImageCallback() {
-				@Override
-				public void imageCallback(Bitmap bm, String url, String imageTag) {
-					if (bm != null) {
-						iv_photo.setImageBitmap(ThumbnailUtil.getRoundImage(bm));
-					}
-				}
+		if (SessionContext.isLogin()) {
+            if ("02".equals(SessionContext.mUser.USERBASIC.sex)) {
+                iv_photo.setImageResource(R.drawable.iv_def_photo_logined_female);
+            } else {
+                iv_photo.setImageResource(R.drawable.iv_def_photo_logined_male);
+            }
 
-			}, url);
-		}
+            if (url != null && url.length() > 0) {
+                if (!url.startsWith("http")) {
+                    url = NetURL.API_LINK + url;
+                }
+                ImageLoader.getInstance().loadBitmap(new ImageCallback() {
+                    @Override
+                    public void imageCallback(Bitmap bm, String url, String imageTag) {
+                        if (bm != null) {
+                            iv_photo.setImageBitmap(bm);
+                        }
+                    }
+
+                }, url);
+            }
+        }
 	}
 
 	@Override

@@ -377,13 +377,21 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
                     removeProgressDialog();
                     showBindedDialog();
                 } else {
-                    requestCertificateInfo();
+                    if (!checkOverCertCount()) {
+                        requestCertificateInfo();
+                    }
                 }
             } else if (request.flag == 3) {
                 removeProgressDialog();
                 LogUtil.i("dw", response.body.toString());
                 CertUserAuth auth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
-                boolean isAuth = (null != auth && auth.isAuth);
+
+                boolean isAuth = false;
+                if (null != auth) {
+                    mTimes = auth.userAuth.times;
+                    isAuth = auth.isAuth;
+                }
+
                 if (!isAuth) {
                     Intent intent = new Intent(CertificateOneActivity.this, CertificateThreeActivity.class);
                     startActivity(intent);

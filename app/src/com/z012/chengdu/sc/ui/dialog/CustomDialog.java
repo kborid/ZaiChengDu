@@ -59,7 +59,7 @@ public class CustomDialog extends Dialog {
 
 	/**
 	 * 设置点击空白区域是否消失
-	 * 
+	 *
 	 * @param bool
 	 */
 	public final void setCanceled(boolean bool) {
@@ -68,7 +68,7 @@ public class CustomDialog extends Dialog {
 
 	/**
 	 * 点击事件
-	 * 
+	 *
 	 * @param mCallBackListener
 	 */
 	public final void setListeners(final onCallBackListener mCallBackListener) {
@@ -89,7 +89,7 @@ public class CustomDialog extends Dialog {
 
 	/**
 	 * 是否显示标题栏
-	 * 
+	 *
 	 * @param mTitle
 	 */
 	public void setTitle(String mTitle) {
@@ -103,7 +103,7 @@ public class CustomDialog extends Dialog {
 
 	/**
 	 * 设置显示文本
-	 * 
+	 *
 	 * @param btn_left
 	 * @param btn_right
 	 */
