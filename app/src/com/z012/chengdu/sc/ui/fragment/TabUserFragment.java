@@ -164,10 +164,12 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
     public void updateDynamicUserInfo() {
         try {
             if (SessionContext.isLogin()) {
-                if ("02".equals(SessionContext.mUser.USERBASIC.sex)) {
+                if ("01".equals(SessionContext.mUser.USERBASIC.sex)) {
+                    iv_photo.setImageResource(R.drawable.iv_def_photo_logined_male);
+                } else if ("02".equals(SessionContext.mUser.USERBASIC.sex)){
                     iv_photo.setImageResource(R.drawable.iv_def_photo_logined_female);
                 } else {
-                    iv_photo.setImageResource(R.drawable.iv_def_photo_logined_male);
+                    iv_photo.setImageResource(R.drawable.iv_def_photo);
                 }
 
                 tv_name.setText(StringUtil.doEmpty(

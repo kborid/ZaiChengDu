@@ -177,11 +177,13 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 	 */
 	public void setHeadPortrait(String url) {
 		if (SessionContext.isLogin()) {
-            if ("02".equals(SessionContext.mUser.USERBASIC.sex)) {
-                iv_photo.setImageResource(R.drawable.iv_def_photo_logined_female);
-            } else {
-                iv_photo.setImageResource(R.drawable.iv_def_photo_logined_male);
-            }
+			if ("01".equals(SessionContext.mUser.USERBASIC.sex)) {
+				iv_photo.setImageResource(R.drawable.iv_def_photo_logined_male);
+			} else if ("02".equals(SessionContext.mUser.USERBASIC.sex)){
+				iv_photo.setImageResource(R.drawable.iv_def_photo_logined_female);
+			} else {
+				iv_photo.setImageResource(R.drawable.iv_def_photo);
+			}
 
             if (url != null && url.length() > 0) {
                 if (!url.startsWith("http")) {
