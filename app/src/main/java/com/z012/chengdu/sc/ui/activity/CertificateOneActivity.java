@@ -17,7 +17,6 @@ import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.LogUtil;
-import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
@@ -286,19 +285,19 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
         }
 
         String id = et_id.getText().toString();
-	    if (TextUtils.isEmpty(id) || !Utils.isIdCard(id)) {
+	    if (TextUtils.isEmpty(id)/* || !Utils.isIdCard(id)*/) {
             CustomToast.show("身份证录入有误，请重试", Toast.LENGTH_SHORT);
 	        return false;
         }
 
 	    String card = et_card.getText().toString();
-	    if (TextUtils.isEmpty(card) || !Utils.checkBankCard(card)) {
+	    if (TextUtils.isEmpty(card)/* || !Utils.checkBankCard(card)*/) {
             CustomToast.show("银行卡录入有误，请重试", Toast.LENGTH_SHORT);
 	        return false;
         }
 
         String phone = et_phone.getText().toString();
-	    if (TextUtils.isEmpty(phone) || !Utils.isMobile(phone)) {
+	    if (TextUtils.isEmpty(phone)/* || !Utils.isMobile(phone)*/) {
 	        if (phone.length() < 11) {
                 CustomToast.show("请输入11位手机号码", Toast.LENGTH_SHORT);
                 return false;
@@ -342,7 +341,7 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
     private void showBindedDialog() {
         CustomDialog mTip = new CustomDialog(this);
         mTip.setBtnText("取消", "确定");
-        mTip.show("该身份信息已绑定账号，\n是否更换绑定账号？");
+        mTip.show(String.format("该身份证%1$s已被其它账号认证，继续操作将会将此信息绑定到当前账号上，是否继续？", et_id.getText().toString()));
         mTip.setCanceledOnTouchOutside(false);
         mTip.setListeners(new CustomDialog.onCallBackListener() {
 
