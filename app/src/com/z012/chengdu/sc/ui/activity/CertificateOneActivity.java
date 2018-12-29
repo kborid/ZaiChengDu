@@ -44,6 +44,11 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
 
 	private int mTimes = 0;
 
+    /**
+     * "舒丹", "6214830115862319","42900419891213430X", "18500349243"
+     */
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -219,7 +224,7 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
 
     private void requestCertificated() {
 	    RequestBeanBuilder b = RequestBeanBuilder.create(true);
-	    b.addBody("idNo", et_card.getText().toString());
+	    b.addBody("idNo", et_id.getText().toString());
 
 	    ResponseData d = b.syncRequest(b);
 	    d.path = NetURL.CERT_STATUS_BY_CID;

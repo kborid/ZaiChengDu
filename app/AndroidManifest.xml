@@ -165,7 +165,6 @@
         <activity
             android:name=".ui.activity.BindBankCardActivity"
             android:screenOrientation="portrait" />
-        <!-- 选择银行卡 -->
         <!-- 第三方绑定、解绑 -->
         <activity
             android:name=".ui.activity.BindThirdPartyActivity"
@@ -221,7 +220,7 @@
         <!-- 微信回调activity -->
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
