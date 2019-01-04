@@ -1,9 +1,6 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +17,8 @@ import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
 /**
  * 意见反馈
  * 
@@ -31,20 +30,13 @@ public class FeedbackActivity extends BaseActivity implements DataCallback, Dial
 	private Button		btn_sbmit;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_feedback_act);
-
-		initViews();
-		initParams();
-		initListeners();
-
+	protected int getLayoutResId() {
+		return R.layout.ui_feedback_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("意见反馈");
 		tv_right_title.setVisibility(View.GONE);
 		et_content = (EditText) findViewById(R.id.et_content);
@@ -52,15 +44,9 @@ public class FeedbackActivity extends BaseActivity implements DataCallback, Dial
 	}
 
 	@Override
-	public void initParams() {
-		super.initParams();
-	}
-
-	@Override
 	public void initListeners() {
 		super.initListeners();
 		btn_sbmit.setOnClickListener(this);
-
 	}
 
 	@Override
@@ -77,9 +63,7 @@ public class FeedbackActivity extends BaseActivity implements DataCallback, Dial
 				} else {
 					CustomToast.show("内容不允许为空", 0);
 				}
-
 				break;
-
 			default :
 				break;
 		}
@@ -105,8 +89,6 @@ public class FeedbackActivity extends BaseActivity implements DataCallback, Dial
 
 	@Override
 	public void preExecute(ResponseData request) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

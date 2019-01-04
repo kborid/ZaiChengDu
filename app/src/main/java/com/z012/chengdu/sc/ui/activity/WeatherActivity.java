@@ -58,20 +58,24 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
     private ArrayList<WeatherFutureInfoBean> list = new ArrayList<WeatherFutureInfoBean>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_weather_act);
-        initViews();
-        dealIntent();
-        initParams();
-        initListeners();
+    protected int getLayoutResId() {
+        return R.layout.ui_weather_act;
     }
 
     @Override
-    public void initViews() {
-        // TODO Auto-generated method stub
-        super.initViews();
+    public void dealIntent() {
+        super.dealIntent();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.getSerializable("weatherInfo") != null) {
+            weatherInfo = (WeatherForHomeBean) bundle
+                    .getSerializable("weatherInfo");
+        }
+        weatherCityCode = getString(R.string.cityId);
+    }
+
+    @Override
+    public void initParams() {
+        super.initParams();
         pullToRefreshSV = (PullToRefreshScrollView) findViewById(R.id.scroll_view);
         weather_lay = (LinearLayout) findViewById(R.id.weather_lay);
         limit_lay = (RelativeLayout) findViewById(R.id.limit_lay);
@@ -84,24 +88,7 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
         tv_weather = (TextView) findViewById(R.id.tv_weather);
         tv_pm = (TextView) findViewById(R.id.tv_pm);
         weather_list = (MyListViewWidget) findViewById(R.id.weather_list);
-    }
 
-    @Override
-    public void dealIntent() {
-        // TODO Auto-generated method stub
-        super.dealIntent();
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.getSerializable("weatherInfo") != null) {
-            weatherInfo = (WeatherForHomeBean) bundle
-                    .getSerializable("weatherInfo");
-        }
-        weatherCityCode = getString(R.string.cityId);
-    }
-
-    @Override
-    public void initParams() {
-        // TODO Auto-generated method stub
-        super.initParams();
         tv_addr.setText(SessionContext.getAreaInfo(0));
         tv_center_title.setText("天气");
         if (weatherInfo != null) {

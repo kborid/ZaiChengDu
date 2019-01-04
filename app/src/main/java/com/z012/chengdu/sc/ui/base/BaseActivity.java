@@ -1,6 +1,5 @@
 package com.z012.chengdu.sc.ui.base;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,32 +9,29 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.ActivityTack;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.ui.activity.WelcomeActivity;
 import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
 
+import butterknife.ButterKnife;
+
 /**
  * 基类提供一些共有属性操作
  * 
- * @author LiaoBo
+ * @author kborid
  * 
  */
 public abstract class BaseActivity extends AppCompatActivity implements OnClickListener {
 
 	private MyProgressDialog mProgressDialog;
-	protected TextView tv_left_title, tv_center_title, tv_right_title;
+    protected TextView tv_left_title, tv_center_title, tv_right_title;
 	protected static String requestID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
-		// getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-		// getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-		// }
 		if (null != savedInstanceState) {
             Intent intent = new Intent(this, WelcomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -43,13 +39,14 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 		} else {
             ActivityTack.getInstanse().addActivity(this);
         }
+        setContentView(getLayoutResId());
+        ButterKnife.bind(this);
+        dealIntent();
+        initParams();
+        initListeners();
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-
-	}
+	protected abstract int getLayoutResId();
 
 	@Override
 	protected void onResume() {
@@ -67,63 +64,45 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 	}
 
 	@Override
-	protected void onStop() {
-		super.onStop();
-
-	}
-
-	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		ActivityTack.getInstanse().removeActivity(this);
+		if (null != mProgressDialog) {
+			mProgressDialog = null;
+		}
 	}
 
-	// 初始化组件
-	public void initViews() {
+    protected void initParams() {
 		tv_left_title = (TextView) findViewById(R.id.tv_left_title);
 		tv_center_title = (TextView) findViewById(R.id.tv_center_title);
 		tv_right_title = (TextView) findViewById(R.id.tv_right_title);
 	}
 
-	public void dealIntent() {
+    protected void dealIntent() {
 	}
 
-	// 参数设置
-	public void initParams() {
+    protected void initListeners() {
+		if (null != tv_left_title) {
+		    tv_left_title.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
 	}
 
-	// 监听设置
-	public void initListeners() {
-		if (tv_left_title != null)
-			tv_left_title.setOnClickListener(this);
-		if (tv_right_title != null)
-			tv_right_title.setOnClickListener(this);
-	}
+    @Override
+    public void onClick(View v) {
+    }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tv_left_title:
-			finish();
-			break;
-		case R.id.tv_right_title:
-
-			break;
-		default:
-			break;
-		}
-	}
-
-	public final void showProgressDialog(String tip, boolean cancelable) {
+    public final void showProgressDialog(String tip, boolean cancelable) {
 		showProgressDialog(this, tip, cancelable, null);
 	}
 
-	/**
-	 * 显示loading对话框
-	 */
-	public final void showProgressDialog(Context cxt, String tip,
+    public final void showProgressDialog(Context cxt, String tip,
 			boolean cancelable, DialogInterface.OnCancelListener mCancel) {
-		if (mProgressDialog == null) {
+		if (null == mProgressDialog) {
 			mProgressDialog = new MyProgressDialog(cxt);
 		}
 		mProgressDialog.setMessage(tip);
@@ -136,19 +115,16 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 		mProgressDialog.show();
 	}
 
-	public final boolean isProgressShowing() {
-		if (mProgressDialog != null) {
+    public final boolean isProgressShowing() {
+		if (null != mProgressDialog) {
 			return mProgressDialog.isShowing();
 		} else {
 			return false;
 		}
 	}
 
-	/**
-	 * 销毁loading对话框
-	 */
-	public final void removeProgressDialog() {
-		if (mProgressDialog != null) {
+    public final void removeProgressDialog() {
+		if (null != mProgressDialog) {
 			mProgressDialog.dismiss();
 		}
 	}

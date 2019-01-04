@@ -1,11 +1,6 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,6 +21,10 @@ import com.z012.chengdu.sc.net.bean.UserAddrs;
 import com.z012.chengdu.sc.ui.adapter.AddressManageAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 地址管理
  * 
@@ -38,28 +37,20 @@ public class AddressManageActivity extends BaseActivity implements DataCallback 
 	private List<UserAddrs>			mUserAddrs;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_addressmanage_act);
-		initViews();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_addressmanage_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("地址管理");
 		tv_right_title.setText("新增");
 		tv_right_title.setVisibility(View.GONE);
 		listView = (ListView) findViewById(R.id.listView);
 		layoutEmptyView = (LinearLayout) findViewById(R.id.layoutEmptyView);
 		btn_add = (LinearLayout) findViewById(R.id.btn_add);
-	}
 
-	@Override
-	public void initParams() {
-		super.initParams();
 		mUserAddrs = new ArrayList<UserAddrs>();
 		mAdapter = new AddressManageAdapter(this, mUserAddrs);
 		listView.setAdapter(mAdapter);

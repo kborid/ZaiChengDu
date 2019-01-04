@@ -85,20 +85,16 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 	private String mPlatform;
 	private String thirdpartusername, thirdpartuserheadphotourl, openid,
 			unionid;
-	private ImageView iv_qq, iv_sina, iv_zhihubao, iv_weixin;
+	private ImageView iv_qq, iv_sina, iv_weixin;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_login);
-		initViews();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_login;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		et_phone = (EditText) findViewById(R.id.login_phone_ed);
 		et_pwd = (EditText) findViewById(R.id.login_pwd);
 		btn_login = (Button) findViewById(R.id.btn_login);
@@ -109,29 +105,14 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 
 		iv_qq = (ImageView) findViewById(R.id.iv_qq);
 		iv_sina = (ImageView) findViewById(R.id.iv_sina);
-		iv_zhihubao = (ImageView) findViewById(R.id.iv_zhihubao);
 		iv_weixin = (ImageView) findViewById(R.id.iv_weixin);
-	}
 
-	@Override
-	public void initParams() {
-		super.initParams();
 		SessionContext.cleanUserInfo();
 		String name = SharedPreferenceUtil.getInstance().getString(
 				AppConst.USERNAME, "", true);
 		if (StringUtil.notEmpty(name)) {
 			et_phone.setText(name);// 设置默认用户名
-			// tv_username.setText(name);
 		}
-		// String photoUrl =
-		// SharedPreferenceUtil.getInstance().getString(AppConst.USER_PHOTO_URL,
-		// "", false);
-		// if (StringUtil.notEmpty(photoUrl)) {
-		// Bitmap bm = ImageLoader.getInstance().getCacheBitmap(photoUrl);
-		// if (bm != null) {
-		// img_photo.setImageBitmap(ThumbnailUtil.getRoundImage(bm));// 设置头像
-		// }
-		// }
 		addQQQZonePlatform();
 		addWXPlatform();
 		// 设置新浪SSO handler
@@ -148,7 +129,6 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 		cb_cancel.setOnClickListener(this);
 		iv_qq.setOnClickListener(this);
 		iv_sina.setOnClickListener(this);
-		iv_zhihubao.setOnClickListener(this);
 		iv_weixin.setOnClickListener(this);
 	}
 
@@ -183,9 +163,6 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 			break;
 		case R.id.iv_sina:
 			login(SHARE_MEDIA.SINA);
-			break;
-		case R.id.iv_zhihubao:
-			// TODO 支护宝的登录方式
 			break;
 		case R.id.iv_weixin:
 			if (WXAPIFactory.createWXAPI(this, null).isWXAppInstalled()) {
@@ -266,21 +243,10 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 				unionid = value.getString("unionid");
 				usertoken = value.getString("access_token");
 				if (!TextUtils.isEmpty(uid)) {
-					// StringBuilder sb = new StringBuilder();
-					// for (String key : value.keySet()) {
-					// sb.append(";  " + key + ":" + value.getString(key));
-					// }
-					// 微博 2 用户名 screen_name，access_token，profile_image_url
-					// 微博1 头像 access_token ，userName
-					// qq 2 profile_image_url 头像 screen_name 名称
-					// qq 1 access_token，
-					// 微信 2 用户名 nickname, headimgurl
-					// 微信 1 access_token
 					getUserInfo(platform);
 				} else {
 					CustomToast.show("授权失败", Toast.LENGTH_SHORT);
 				}
-				// CustomToast.show("授权完成", Toast.LENGTH_SHORT);
 			}
 
 			@Override

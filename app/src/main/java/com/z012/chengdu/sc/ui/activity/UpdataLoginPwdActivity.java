@@ -1,9 +1,6 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +17,8 @@ import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.tools.SHA1;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
 /**
  * 更改登录密码
  * 
@@ -32,19 +31,13 @@ public class UpdataLoginPwdActivity extends BaseActivity implements DataCallback
 	private String		mPassword;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_updata_login_pwd_act);
-
-		initViews();
-		initParams();
-		initListeners();
-
+	protected int getLayoutResId() {
+		return R.layout.ui_register_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("更改登录密码");
 		tv_right_title.setVisibility(View.GONE);
 
@@ -52,11 +45,6 @@ public class UpdataLoginPwdActivity extends BaseActivity implements DataCallback
 		btn_save = (Button) findViewById(R.id.btn_save);
 		et_new_pwd = (EditText) findViewById(R.id.et_new_pwd);
 		et_new_pwd2 = (EditText) findViewById(R.id.et_new_pwd2);
-	}
-
-	@Override
-	public void initParams() {
-		super.initParams();
 	}
 
 	@Override

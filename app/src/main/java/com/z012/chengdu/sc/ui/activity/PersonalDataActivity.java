@@ -8,15 +8,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +43,9 @@ import java.net.ConnectException;
 import java.util.Calendar;
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 个人资料
  * 
@@ -54,41 +53,35 @@ import java.util.Date;
  * 
  */
 public class PersonalDataActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener, DatePickerDialog.OnDateSetListener, AreaWheelCallback {
-	private TextView	tv_birthday, tv_address, tv_marriage, tv_sex;
-	private EditText	et_nickname;
-	private int			mYear	= 1990, mMonth = 1, mDay = 1;
-	private ImageView	iv_photo;
+
+    @BindView(R.id.tv_birthday)
+    TextView tv_birthday;
+	@BindView(R.id.tv_address)
+    TextView tv_address;
+	@BindView(R.id.tv_marriage)
+    TextView tv_marriage;
+	@BindView(R.id.tv_sex)
+    TextView tv_sex;
+	@BindView(R.id.et_nickname)
+	EditText et_nickname;
+	@BindView(R.id.iv_photo)
+	ImageView iv_photo;
+
 	private Uri mCameraFile;
+    private int mYear = 1990, mMonth = 1, mDay = 1;
 
-	private boolean mIsAuth = false;
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_personal_data);
-
-		initViews();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		tv_center_title.setText("编辑资料");
-		tv_right_title.setText("保存");
-		tv_sex = (TextView) findViewById(R.id.tv_sex);
-		et_nickname = (EditText) findViewById(R.id.et_nickname);
-		tv_address = (TextView) findViewById(R.id.tv_address);
-		tv_birthday = (TextView) findViewById(R.id.tv_birthday);
-		tv_marriage = (TextView) findViewById(R.id.tv_marriage);
-		iv_photo = (ImageView) findViewById(R.id.iv_photo);
+    @Override
+	protected int getLayoutResId() {
+		return R.layout.ui_personal_data;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
-		mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
+        tv_center_title.setText("编辑资料");
+        tv_right_title.setText("保存");
+        boolean mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
+		tv_sex.setEnabled(!mIsAuth);
 
 		setHeadPortrait(SessionContext.mUser.USERBASIC.getHeadphotourl());
 
@@ -126,49 +119,42 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 		}
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		iv_photo.setOnClickListener(this);
-		tv_address.setOnClickListener(this);
-		tv_marriage.setOnClickListener(this);
-		tv_birthday.setOnClickListener(this);
-		tv_sex.setOnClickListener(mIsAuth ? null : this);
-	}
+	@OnClick(R.id.tv_birthday)
+    void birthdayClick() {
+        new DatePickerDialog(this, this, mYear, mMonth, mDay).show();
+    }
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.tv_birthday :
-				new DatePickerDialog(this, this, mYear, mMonth, mDay).show();
-				break;
-			case R.id.tv_right_title :
-				if (StringUtil.containsEmoji(et_nickname.getText().toString())) {
-					CustomToast.show("昵称不能包含Emoji表情符号", 0);
-					return;
-				}
-				checkDataAndLoad();
-				break;
-			case R.id.iv_photo :
-				GetPicDialog picDialog = new GetPicDialog(this);
-				mCameraFile = picDialog.getPicPathUri();
-				picDialog.showDialog();
-				break;
-			case R.id.tv_address :
-				AreaWheelDialog dialog = new AreaWheelDialog(this, this);
-				dialog.show();
-				break;
-			case R.id.tv_sex :
-				showSexDialog();
-				break;
-			case R.id.tv_marriage :
-				showMarriageDialog();
-				break;
-			default :
-				break;
-		}
-	}
+    @OnClick(R.id.tv_right_title)
+    void rightTitleClick() {
+        if (StringUtil.containsEmoji(et_nickname.getText().toString())) {
+            CustomToast.show("昵称不能包含Emoji表情符号", 0);
+            return;
+        }
+        checkDataAndLoad();
+    }
+
+    @OnClick(R.id.iv_photo)
+    void photoClick() {
+        GetPicDialog picDialog = new GetPicDialog(this);
+        mCameraFile = picDialog.getPicPathUri();
+        picDialog.showDialog();
+    }
+
+    @OnClick(R.id.tv_address)
+    void addClick() {
+        AreaWheelDialog dialog = new AreaWheelDialog(this, this);
+        dialog.show();
+    }
+
+    @OnClick(R.id.tv_sex)
+    void sexClick() {
+	    showSexDialog();
+    }
+
+    @OnClick(R.id.tv_marriage)
+    void marriageClick() {
+        showMarriageDialog();
+    }
 
 	/**
 	 * 设置头像

@@ -3,7 +3,6 @@ package com.z012.chengdu.sc.ui.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -34,6 +32,7 @@ import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.umeng.analytics.MobclickAgent;
+import com.z012.chengdu.sc.BuildConfig;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.app.SessionContext;
@@ -56,6 +55,8 @@ import java.net.ConnectException;
 import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -69,23 +70,26 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	private final long LOADING_TIME = 1500;
 	private final long AD_TIME = 3000; // 等待广告加载时间
 	private SparseIntArray mTag = new SparseIntArray(); // 请求结束标记，目的是判断是否显示广告
-	private ImageView iv_advertisement;
-	private FrameLayout layoutAd;
-	private TextView tv_skip;
 	private AdvertisementBean mAdvertBean;
 	private boolean isBreak; // 点击广告，终止本页面跳转流程
+
+    @BindView(R.id.iv_advertisement)
+    ImageView iv_advertisement;
+    @BindView(R.id.layoutAd)
+    FrameLayout layoutAd;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_welcome);
-		start = SystemClock.elapsedRealtime();
-		initViews();
-		initParams();
-		initListeners();
+        start = SystemClock.elapsedRealtime();
 	}
 
-	@Override
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.ui_welcome;
+    }
+
+    @Override
 	protected void onResume() {
 		super.onResume();
 		JPushInterface.onResume(this);// 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在Portal 上展示给开发者
@@ -129,53 +133,32 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		JPushInterface.onPause(this);// 用于“用户使用时长”，“活跃用户”，“用户打开次数”的统计，并上报到服务器，在Portal 上展示给开发者
 	}
 
-	@Override
-	public void initViews() {
-		super.initViews();
-		iv_advertisement = (ImageView) findViewById(R.id.iv_advertisement);
-		layoutAd = (FrameLayout) findViewById(R.id.layoutAd);
-		tv_skip = (TextView) findViewById(R.id.tv_skip);
-		layoutAd.setVisibility(View.GONE);
-	}
-
 	public void initParams() {
 		super.initParams();
+        layoutAd.setVisibility(View.GONE);
 		SessionContext.initUserInfo();
 		SessionContext.setAreaCode(getString(R.string.areaCode), getString(R.string.areaName));
 		Utils.initScreenSize(this);// 设置手机屏幕大小
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		tv_skip.setOnClickListener(this);
-		iv_advertisement.setOnClickListener(this);
-	}
+	@OnClick(R.id.tv_skip)
+    void skipClick() {
+        intentActivity();
+    }
 
-	@Override
-	public void onClick(View v) {
-		// super.onClick(v);
-		switch (v.getId()) {
-		case R.id.tv_skip:
-			intentActivity();
-			break;
-		case R.id.iv_advertisement:
-			isBreak = true;
-			Intent mIntent = new Intent(this, HtmlActivity.class);
-			mIntent.putExtra("id", mAdvertBean.Id);
-			mIntent.putExtra("title", mAdvertBean.adName);
-			mIntent.putExtra("path", mAdvertBean.linkaddress);
-			mIntent.putExtra("goBack", "Main");// Html返回处理
-			startActivity(mIntent);
-			this.finish();
-			// 添加友盟自定义事件
-			MobclickAgent.onEvent(this, "OpeningAdTouched");
-			break;
-
-		default:
-			break;
-		}
-	}
+	@OnClick(R.id.iv_advertisement)
+    void adClick() {
+        isBreak = true;
+        Intent mIntent = new Intent(this, HtmlActivity.class);
+        mIntent.putExtra("id", mAdvertBean.Id);
+        mIntent.putExtra("title", mAdvertBean.adName);
+        mIntent.putExtra("path", mAdvertBean.linkaddress);
+        mIntent.putExtra("goBack", "Main");// Html返回处理
+        startActivity(mIntent);
+        finish();
+        // 添加友盟自定义事件
+        MobclickAgent.onEvent(this, "OpeningAdTouched");
+    }
 
 	/**
 	 * 预加载首页缓存数据
@@ -323,21 +306,14 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		// 上次的版本code
 		int last_version = SharedPreferenceUtil.getInstance().getInt(AppConst.LAST_USE_VERSIONCODE, 0);
 		// 当前版本code
-		int current = 0;
-		try {
-			current = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		if (last_version == 0 || last_version < current) {
+		int current = BuildConfig.VERSION_CODE;
+		if (last_version < current) {
 			intent = new Intent(this, UserGuideActivity.class);
 		} else {
 			intent = new Intent(this, MainFragmentActivity.class);
-			String value = "";
-			if (getIntent().getExtras() != null && getIntent().getExtras().getString("path") != null) {
-				value = getIntent().getExtras().getString("path");
-				intent.putExtra("path", value);
-			}
+			if (null != getIntent().getExtras() && null != getIntent().getExtras().getString("path")) {
+			    intent.putExtra("path", getIntent().getExtras().getString("path"));
+            }
 		}
 		startActivity(intent);
 		finish();
@@ -482,8 +458,8 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	/**
 	 * 版本更新对话框
 	 *
-	 * @param url
-	 * @param description
+	 * @param url 下载地址
+	 * @param description 更新描述
 	 */
 	private void showUpdateDialog(final String url, final String description) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);

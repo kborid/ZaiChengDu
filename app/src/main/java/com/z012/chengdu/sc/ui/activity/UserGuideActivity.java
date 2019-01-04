@@ -1,8 +1,6 @@
 package com.z012.chengdu.sc.ui.activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.GestureDetector;
@@ -14,6 +12,7 @@ import android.widget.ImageView;
 
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.Utils;
+import com.z012.chengdu.sc.BuildConfig;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.ui.adapter.ViewPagerAdapter;
@@ -21,43 +20,53 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 用户引导页面
  * 
  * @author kborid
  * 
  */
-public class UserGuideActivity extends BaseActivity implements
-		OnPageChangeListener {
+public class UserGuideActivity extends BaseActivity{
 
-	private ViewPager mViewPager;
-	private ViewPagerAdapter mAdapter;
-	private int flaggingWidth; // 互动翻页所需滚动的长度是当前屏幕宽度的1/3
+	@BindView(R.id.guide_view)
+	ViewPager mViewPager;
+	@BindView(R.id.btn_go)
+	Button btn_go;
+
+    private int flaggingWidth; // 互动翻页所需滚动的长度是当前屏幕宽度的1/3
 	private GestureDetector gestureDetector; // 用户滑动
 	private int currentItem; // 当前位置
-	private Button btn_go;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_user_guide);
-		initViews();
-		initListeners();
-		initParams();
-	}
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.ui_user_guide;
+    }
 
-	@Override
-	public void initViews() {
-		super.initViews();
-		mViewPager = (ViewPager) findViewById(R.id.guide_view);
-		btn_go = (Button) findViewById(R.id.btn_go);
-	}
-
-	@Override
+    @Override
 	public void initListeners() {
 		super.initListeners();
-		mViewPager.setOnPageChangeListener(this);
-		btn_go.setOnClickListener(this);
+		mViewPager.addOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageScrollStateChanged(int arg0) {
+            }
+
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+                if (arg0 == 2) {
+                    btn_go.setVisibility(View.VISIBLE);
+                } else {
+                    btn_go.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int arg0) {
+                currentItem = arg0;
+            }
+        });
 	}
 
 	@Override
@@ -71,24 +80,16 @@ public class UserGuideActivity extends BaseActivity implements
 			view.setBackgroundResource(resId);
 			list.add(view);
 		}
-		mAdapter = new ViewPagerAdapter(list);
+        ViewPagerAdapter mAdapter = new ViewPagerAdapter(list);
 		mViewPager.setAdapter(mAdapter);
 		gestureDetector = new GestureDetector(this, new GuideViewTouch());
 		flaggingWidth = Utils.mScreenWidth / 3;
 	}
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-		case R.id.btn_go:
-			gotoMain();
-			break;
-
-		default:
-			break;
-		}
-	}
+	@OnClick(R.id.btn_go)
+    void goClick() {
+        gotoMain();
+    }
 
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent event) {
@@ -122,40 +123,11 @@ public class UserGuideActivity extends BaseActivity implements
 		}
 	}
 
-	@Override
-	public void onPageScrollStateChanged(int arg0) {
-
-	}
-
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		if (arg0 == 2) {
-			btn_go.setVisibility(View.VISIBLE);
-		} else {
-			btn_go.setVisibility(View.GONE);
-		}
-	}
-
-	@Override
-	public void onPageSelected(int arg0) {
-		currentItem = arg0;
-	}
-
 	/**
 	 * 跳转到首页
 	 */
 	public void gotoMain() {
-		int versionCode = 0;
-		try {
-			versionCode = this.getPackageManager().getPackageInfo(
-					getPackageName(), 0).versionCode;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		SharedPreferenceUtil.getInstance().setInt(
-				AppConst.LAST_USE_VERSIONCODE, versionCode);
-		Intent intent = new Intent(UserGuideActivity.this,
-				MainFragmentActivity.class);
-		startActivity(intent);
+		SharedPreferenceUtil.getInstance().setInt(AppConst.LAST_USE_VERSIONCODE, BuildConfig.VERSION_CODE);
+		startActivity(new Intent(UserGuideActivity.this, MainFragmentActivity.class));
 	}
 }

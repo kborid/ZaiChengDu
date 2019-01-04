@@ -1,21 +1,13 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -29,6 +21,13 @@ import com.z012.chengdu.sc.net.bean.WeatherCityInfo;
 import com.z012.chengdu.sc.tools.PinyinComparator;
 import com.z012.chengdu.sc.ui.adapter.WeatherCityAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class WeatherSelectActivity extends BaseActivity {
 	private TextView tv_location;
@@ -48,32 +47,20 @@ public class WeatherSelectActivity extends BaseActivity {
 	private PinyinComparator pinyinComparator;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_cityselect_act);
-		initViews();
-		initJsonData();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		// TODO Auto-generated method stub
-		super.initViews();
-		pinyinComparator = new PinyinComparator();
-		listview = (MyListViewWidget) findViewById(R.id.listview);
-		tv_location = (TextView) findViewById(R.id.tv_location);
-		et_search = (EditText) findViewById(R.id.et_search);
+	protected int getLayoutResId() {
+		return R.layout.ui_cityselect_act;
 	}
 
 	@Override
 	public void initParams() {
-		// TODO Auto-generated method stub
 		super.initParams();
 		tv_center_title.setText("选择城市");
-		tv_location.setText("正在定位...");
-
+        pinyinComparator = new PinyinComparator();
+        listview = (MyListViewWidget) findViewById(R.id.listview);
+        tv_location = (TextView) findViewById(R.id.tv_location);
+        et_search = (EditText) findViewById(R.id.et_search);
+        tv_location.setText("正在定位...");
+		initJsonData();
 		// 根据a-z进行排序源数据
 		Collections.sort(weatherCityList, pinyinComparator);
 		list.clear();

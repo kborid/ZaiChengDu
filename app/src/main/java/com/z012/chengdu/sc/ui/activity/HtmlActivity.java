@@ -70,8 +70,7 @@ import cmb.pb.util.CMBKeyboardFunc;
  * @date 2014-7-8
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class HtmlActivity extends BaseActivity implements
-        onCancelLoginListener, DataCallback {
+public class HtmlActivity extends BaseActivity implements onCancelLoginListener, DataCallback {
     public final static String CSS_STYLE = "<style>* {font-size:40px;padding:10px;}</style>";
     private WebView mWebView;
     private CommonLoadingWidget common_loading_widget;
@@ -91,22 +90,8 @@ public class HtmlActivity extends BaseActivity implements
     private List<ShareBeanInfo> list = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_web_act);
-        createController();
-        initViews();
-        dealIntent();
-        initParams();
-        initListeners();
-        // important , so that you can use js to call Uemng APIs
-        // new MobclickAgentJSInterface(this, mWebView, new
-        // MyWebChromeClient());
-        if (AppConst.ISDEVELOP) {
-            if (getIntent().getBooleanExtra("ISDEVELOP", false)) {
-                initDevelop();
-            }
-        }
+    protected int getLayoutResId() {
+        return R.layout.ui_web_act;
     }
 
     private void createController() {
@@ -178,16 +163,6 @@ public class HtmlActivity extends BaseActivity implements
         }
     }
 
-    public void initViews() {
-        super.initViews();
-        mWebView = (WebView) findViewById(R.id.webview);
-        common_loading_widget = (CommonLoadingWidget) findViewById(R.id.common_loading_widget);
-        tv_left_title_back = (TextView) findViewById(R.id.tv_left_title_back);
-        tv_left_title_close = (TextView) findViewById(R.id.tv_left_title_close);
-        iv_share = (ImageView) findViewById(R.id.iv_share);
-        customShareView = new CustomShareView(this);
-    }
-
     private void showPopupWindow() {
         if (null == popupWindow) {
             popupWindow = new PopupWindow(customShareView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -256,6 +231,19 @@ public class HtmlActivity extends BaseActivity implements
 
     public void initParams() {
         super.initParams();
+        mWebView = (WebView) findViewById(R.id.webview);
+        common_loading_widget = (CommonLoadingWidget) findViewById(R.id.common_loading_widget);
+        tv_left_title_back = (TextView) findViewById(R.id.tv_left_title_back);
+        tv_left_title_close = (TextView) findViewById(R.id.tv_left_title_close);
+        iv_share = (ImageView) findViewById(R.id.iv_share);
+        customShareView = new CustomShareView(this);
+
+        createController();
+        if (AppConst.ISDEVELOP) {
+            if (getIntent().getBooleanExtra("ISDEVELOP", false)) {
+                initDevelop();
+            }
+        }
         tv_center_title.setText(mTitle);
         LoginActivity.setCancelLogin(this);
         WebSettings webSetting = mWebView.getSettings();

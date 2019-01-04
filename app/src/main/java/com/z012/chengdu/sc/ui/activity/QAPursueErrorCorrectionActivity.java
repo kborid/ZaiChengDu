@@ -1,8 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,6 +14,8 @@ import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
 /**
  * 问答--追问纠错
  * 
@@ -28,20 +27,8 @@ public class QAPursueErrorCorrectionActivity extends BaseActivity implements Dat
 	private String		observeId;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_qa_pursue_error_correcyion_act);
-		initViews();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		et_content = (EditText) findViewById(R.id.et_content);
-		tv_center_title.setText("追问纠错");
-		tv_right_title.setText("完成");
+	protected int getLayoutResId() {
+		return R.layout.ui_qa_pursue_error_correcyion_act;
 	}
 
 	@Override
@@ -53,7 +40,9 @@ public class QAPursueErrorCorrectionActivity extends BaseActivity implements Dat
 	@Override
 	public void initParams() {
 		super.initParams();
-		dealIntent();
+		tv_center_title.setText("追问纠错");
+		tv_right_title.setText("完成");
+		et_content = (EditText) findViewById(R.id.et_content);
 	}
 
 	@Override
@@ -76,8 +65,6 @@ public class QAPursueErrorCorrectionActivity extends BaseActivity implements Dat
 
 	/**
 	 * 加载数据
-	 * 
-	 * @param observeId
 	 */
 	private void loadData() {
 		String content = et_content.getText().toString().trim();

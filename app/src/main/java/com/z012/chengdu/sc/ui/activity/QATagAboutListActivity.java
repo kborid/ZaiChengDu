@@ -1,9 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
-
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -26,6 +22,9 @@ import com.z012.chengdu.sc.net.bean.QAListBean;
 import com.z012.chengdu.sc.ui.adapter.QAListAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+import java.util.ArrayList;
+
 /**
  * 问答--标签相关问题
  * 
@@ -37,21 +36,10 @@ public class QATagAboutListActivity extends BaseActivity implements DataCallback
 	private ArrayList<QAListBean.Result>	mBean	= new ArrayList<QAListBean.Result>();
 	private int								page_index;
 	private String							questionAreaValue, questionTypeValue;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_qa_tag_about_list_act);
-		initViews();
-		initParams();
-		initListeners();
-	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
-		showProgressDialog(getString(R.string.loading), false);
-		tv_center_title.setText("相关问题");
-		listView = (PullToRefreshListView) findViewById(R.id.listView);
+	protected int getLayoutResId() {
+		return R.layout.ui_qa_tag_about_list_act;
 	}
 
 	@Override
@@ -71,7 +59,10 @@ public class QATagAboutListActivity extends BaseActivity implements DataCallback
 	@Override
 	public void initParams() {
 		super.initParams();
-		dealIntent();
+        showProgressDialog(getString(R.string.loading), false);
+        tv_center_title.setText("相关问题");
+        listView = (PullToRefreshListView) findViewById(R.id.listView);
+
 		mAdapter = new QAListAdapter(this, mBean);
 		listView.setAdapter(mAdapter);
 		loadData(false);

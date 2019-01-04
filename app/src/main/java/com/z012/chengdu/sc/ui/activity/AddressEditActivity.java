@@ -1,13 +1,7 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.Calendar;
-import java.util.Date;
-
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,6 +23,13 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 import com.z012.chengdu.sc.ui.dialog.AreaWheelDialog;
 import com.z012.chengdu.sc.ui.dialog.AreaWheelDialog.AreaWheelCallback;
 
+import java.net.ConnectException;
+import java.util.Calendar;
+import java.util.Date;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 地址编辑(新增、编辑)
  * 
@@ -36,34 +37,27 @@ import com.z012.chengdu.sc.ui.dialog.AreaWheelDialog.AreaWheelCallback;
  */
 public class AddressEditActivity extends BaseActivity implements
 		DatePickerDialog.OnDateSetListener, DataCallback, AreaWheelCallback {
-	private EditText et_name, et_phone, et_address;
-	private TextView tv_address_sele, tv_date;
-	private CheckBox checkBox;
+	@BindView(R.id.et_name)
+    EditText et_name;
+	@BindView(R.id.et_phone)
+    EditText et_phone;
+	@BindView(R.id.et_address)
+    EditText et_address;
+	@BindView(R.id.tv_address_sele)
+	TextView tv_address_sele;
+	@BindView(R.id.tv_date)
+    TextView tv_date;
+	@BindView(R.id.checkBox)
+    CheckBox checkBox;
+
 	private final int DATE_DIALOG_ID = 0;
 	private int mYear, mMonth = 11, mDay = 31;
 	private int mType; // 1:新增，2：编辑
-
 	private String province, city, area, id;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_address_edit_act);
-		initViews();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		tv_right_title.setText("保存");
-		et_name = (EditText) findViewById(R.id.et_name);
-		et_phone = (EditText) findViewById(R.id.et_phone);
-		et_address = (EditText) findViewById(R.id.et_address);
-		tv_address_sele = (TextView) findViewById(R.id.tv_address_sele);
-		tv_date = (TextView) findViewById(R.id.tv_date);
-		checkBox = (CheckBox) findViewById(R.id.checkBox);
+	protected int getLayoutResId() {
+		return R.layout.ui_address_edit_act;
 	}
 
 	/**
@@ -93,20 +87,18 @@ public class AddressEditActivity extends BaseActivity implements
 			tv_center_title.setText("新增地址");
 			mType = 1;
 		}
-
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
-		dealIntent();
+        tv_right_title.setText("保存");
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		mYear = c.get(Calendar.YEAR) + 1;// 初始化有效期年
 		StringBuilder date = new StringBuilder().append(mYear).append("-")
 				.append(mMonth + 1).append("-").append(mDay);
 		tv_date.setText(date);
-
 	}
 
 	@Override
@@ -116,25 +108,21 @@ public class AddressEditActivity extends BaseActivity implements
 		tv_date.setOnClickListener(this);
 	}
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-		case R.id.tv_address_sele:
-			AreaWheelDialog dialog = new AreaWheelDialog(this, this);
-			dialog.show();
-			break;
-		case R.id.tv_date:
-			showDialog(DATE_DIALOG_ID);
-			break;
-		case R.id.tv_right_title:
-			// TODO 保存数据
-			submitData();
-			break;
-		default:
-			break;
-		}
-	}
+	@OnClick(R.id.tv_address_sele)
+    void saleClick() {
+        AreaWheelDialog dialog = new AreaWheelDialog(this, this);
+        dialog.show();
+    }
+
+    @OnClick(R.id.tv_date)
+    void dateClick() {
+        showDialog(DATE_DIALOG_ID);
+    }
+
+    @OnClick(R.id.tv_right_title)
+    void rightTitleClick() {
+        submitData();
+    }
 
 	/**
 	 * 当Activity调用showDialog函数时会触发该函数的调用：

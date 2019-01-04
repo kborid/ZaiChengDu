@@ -1,10 +1,7 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +18,8 @@ import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.tools.SHA1;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
 /**
  * 更改手机号
  * 
@@ -33,29 +32,19 @@ public class ChangePhoneNoActivity extends BaseActivity implements DataCallback,
 	private TextView	tv_phone;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_change_phone_number_act);
-
-		initViews();
-		initParams();
-		initListeners();
-
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		tv_center_title.setText("更改手机号");
-		tv_right_title.setVisibility(View.GONE);
-		et_pwd = (EditText) findViewById(R.id.et_pwd);
-		btn_sbmit = (Button) findViewById(R.id.btn_sbmit);
-		tv_phone = (TextView) findViewById(R.id.tv_phone);
+	protected int getLayoutResId() {
+		return R.layout.ui_change_phone_number_act;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
+		tv_center_title.setText("更改手机号");
+		tv_right_title.setVisibility(View.GONE);
+		et_pwd = (EditText) findViewById(R.id.et_pwd);
+		btn_sbmit = (Button) findViewById(R.id.btn_sbmit);
+		tv_phone = (TextView) findViewById(R.id.tv_phone);
+
 		if (getIntent().getExtras() != null && getIntent().getExtras().getString("num") != null) {
 			tv_phone.setText(getIntent().getExtras().getString("num"));
 		}

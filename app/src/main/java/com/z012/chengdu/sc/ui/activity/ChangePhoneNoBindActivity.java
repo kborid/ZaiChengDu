@@ -1,10 +1,7 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +20,8 @@ import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
 /**
  * 修改手机号码绑定
  * 
@@ -36,19 +35,13 @@ public class ChangePhoneNoBindActivity extends BaseActivity implements DataCallb
 	private CountDownTimer	mCountDownTimer;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_change_phone_no_bind_act);
-
-		initViews();
-		initParams();
-		initListeners();
-
+	protected int getLayoutResId() {
+		return R.layout.ui_change_phone_no_bind_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("更改手机号码");
 		tv_right_title.setVisibility(View.GONE);
 		et_yzm = (EditText) findViewById(R.id.et_yzm);
@@ -56,11 +49,7 @@ public class ChangePhoneNoBindActivity extends BaseActivity implements DataCallb
 
 		et_phone_new = (EditText) findViewById(R.id.et_phone_new);
 		btn_getYZM = (Button) findViewById(R.id.btn_getYZM);
-	}
 
-	@Override
-	public void initParams() {
-		super.initParams();
 		setCountDownTimer(60 * 1000, 1000);
 	}
 

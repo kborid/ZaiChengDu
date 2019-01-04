@@ -53,24 +53,16 @@ public class MainFragmentActivity extends BaseActivity implements RadioGroup.OnC
     private long exitTime = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.ui_main_tab);
-        initViews();
-        dealIntent();
-        initParams();
-        initListeners();
-    }
-
-    public void initViews() {
-        super.initViews();
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+    protected int getLayoutResId() {
+        return R.layout.ui_main_tab;
     }
 
     @Override
     public void initParams() {
         super.initParams();
+        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+
         initFragmentView();
         UmengUpdateAgent.update(this);// 友盟渠道版本更新
         if (NetworkUtil.isNetworkAvailable() && SessionContext.isLogin()) {

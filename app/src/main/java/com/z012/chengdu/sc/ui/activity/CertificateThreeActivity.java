@@ -27,13 +27,8 @@ public class CertificateThreeActivity extends BaseActivity {
 	private CountDownTimerImpl countDownTimer;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_certificate_three);
-		initViews();
-		dealIntent();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_certificate_three;
 	}
 
 	@Override
@@ -46,8 +41,8 @@ public class CertificateThreeActivity extends BaseActivity {
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("实名认证");
 		tv_right_title.setVisibility(View.GONE);
 		tv_left_title.setVisibility(View.GONE);
@@ -56,11 +51,7 @@ public class CertificateThreeActivity extends BaseActivity {
 		tv_ret = (TextView) findViewById(R.id.tv_ret);
 		tv_tipsTime = (TextView) findViewById(R.id.tv_tipsTime);
 		btn_next = (Button) findViewById(R.id.btn_next);
-	}
 
-	@Override
-	public void initParams() {
-		super.initParams();
 		if (mAuth) {
 		    iv_icon.setImageResource(R.drawable.iv_cert_succ);
             tv_ret.setText("认证成功");

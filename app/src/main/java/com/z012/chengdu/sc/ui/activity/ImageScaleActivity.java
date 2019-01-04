@@ -1,8 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -26,6 +23,9 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 import com.z012.chengdu.sc.ui.dialog.CustomDialog;
 import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /***
  * 图片缩放预览
  * 
@@ -48,22 +48,8 @@ public class ImageScaleActivity extends BaseActivity implements
 	private CustomDialog mTip;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_image_scale);
-
-		initViews();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		// tv_center_title.setText("图片浏览");
-		mViewPager = (ViewPager) findViewById(R.id.viewpager);
-		mIndicatorLayout = (LinearLayout) findViewById(R.id.point_indicator);
-		tv_right_title_layout = (LinearLayout) findViewById(R.id.tv_right_title_layout);
+	protected int getLayoutResId() {
+		return R.layout.ui_image_scale;
 	}
 
 	@Override
@@ -91,7 +77,10 @@ public class ImageScaleActivity extends BaseActivity implements
 	@Override
 	public void initParams() {
 		super.initParams();
-		dealIntent();
+		mViewPager = (ViewPager) findViewById(R.id.viewpager);
+		mIndicatorLayout = (LinearLayout) findViewById(R.id.point_indicator);
+		tv_right_title_layout = (LinearLayout) findViewById(R.id.tv_right_title_layout);
+
 		mTip = new CustomDialog(this);
 		try {
 			if (imgUrl != null && imgUrl.size() > 0) {

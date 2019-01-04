@@ -1,10 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
-import java.util.List;
-
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -22,6 +17,10 @@ import com.z012.chengdu.sc.net.bean.InviteListBean;
 import com.z012.chengdu.sc.ui.adapter.InviteListAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 邀请人员列表
  * 
@@ -31,25 +30,18 @@ public class InviteListActivity extends BaseActivity implements DataCallback {
 	private ListView				listView;
 	private List<InviteListBean>	mBena	= new ArrayList<InviteListBean>();
 	private InviteListAdapter		mAdpter;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_share_list_act);
-		initViews();
-		initParams();
-		initListeners();
-	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
-		listView = (ListView) findViewById(R.id.listView);
-		tv_center_title.setText("邀请人列表");
+	protected int getLayoutResId() {
+		return R.layout.ui_share_list_act;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
+        tv_center_title.setText("邀请人列表");
+        listView = (ListView) findViewById(R.id.listView);
+
 		mAdpter = new InviteListAdapter(this, mBena);
 		listView.setAdapter(mAdpter);
 		listView.setEmptyView(findViewById(R.id.emptyView));

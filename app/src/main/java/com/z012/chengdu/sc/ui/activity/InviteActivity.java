@@ -2,7 +2,6 @@ package com.z012.chengdu.sc.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,28 +30,20 @@ public class InviteActivity extends BaseActivity {
 	private String			mSMSContent;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_share_act);
-		initViews();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_share_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("邀请好友");
 		tv_right_title.setText("邀请人列表");
 		ly_share_qq = (LinearLayout) findViewById(R.id.ly_share_qq);
 		ly_share_weixin = (LinearLayout) findViewById(R.id.ly_share_weixin);
 		ly_share_sms = (LinearLayout) findViewById(R.id.ly_share_sms);
 		iv_qr_code = (ImageView) findViewById(R.id.iv_qr_code);
-	}
 
-	@Override
-	public void initParams() {
-		super.initParams();
 		ShareUtil.getInstance(this).addQQQZonePlatform();
 		ShareUtil.getInstance(this).addWXPlatform();
 		// ShareUtil.getInstance(this).addSMS();

@@ -1,12 +1,9 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +24,8 @@ import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
 /**
  * 绑定银行卡或支护宝
  * 
@@ -41,34 +40,26 @@ public class BindBankCardActivity extends BaseActivity implements DataCallback {
 	private Button		btn_complete;
 	private boolean		isBindAlipay	= true;	// 默认选择绑定支护宝
 	private int			mCardType;					// 银行卡类型0：银行卡1：支护宝
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_bind_bank_card_act);
-		initViews();
-		initParams();
-		initListeners();
-	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
-		tv_center_title.setText("绑定账户");
-		tr_choice = (TableRow) findViewById(R.id.tr_choice);
-		tv_choice = (TextView) findViewById(R.id.tv_choice);
-		tv_tip = (TextView) findViewById(R.id.tv_tip);
-		et_card_number = (EditText) findViewById(R.id.et_card_number);
-		et_name = (EditText) findViewById(R.id.et_name);
-		tl_band_card = (TableLayout) findViewById(R.id.tl_band_card);
-		tl_alipay = (TableLayout) findViewById(R.id.tl_alipay);
-		et_pay_number = (EditText) findViewById(R.id.et_pay_number);
-		et_pay_name = (EditText) findViewById(R.id.et_pay_name);
-		btn_complete = (Button) findViewById(R.id.btn_complete);
+	protected int getLayoutResId() {
+		return R.layout.ui_bind_bank_card_act;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
+        tv_center_title.setText("绑定账户");
+        tr_choice = (TableRow) findViewById(R.id.tr_choice);
+        tv_choice = (TextView) findViewById(R.id.tv_choice);
+        tv_tip = (TextView) findViewById(R.id.tv_tip);
+        et_card_number = (EditText) findViewById(R.id.et_card_number);
+        et_name = (EditText) findViewById(R.id.et_name);
+        tl_band_card = (TableLayout) findViewById(R.id.tl_band_card);
+        tl_alipay = (TableLayout) findViewById(R.id.tl_alipay);
+        et_pay_number = (EditText) findViewById(R.id.et_pay_number);
+        et_pay_name = (EditText) findViewById(R.id.et_pay_name);
+        btn_complete = (Button) findViewById(R.id.btn_complete);
 	}
 
 	@Override

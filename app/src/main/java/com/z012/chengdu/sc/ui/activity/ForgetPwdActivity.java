@@ -1,9 +1,6 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +19,8 @@ import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.tools.SHA1;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
 /**
  * 忘记密码
  * 
@@ -33,34 +32,25 @@ public class ForgetPwdActivity extends BaseActivity implements DataCallback, Dia
 	private Button			btn_reset, btn_getYZM;
 	private String			mPhoneNum;
 	private CountDownTimer	mCountDownTimer;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_forget_pwd_act);
-
-		initViews();
-		initParams();
-		initListeners();
-
-	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
-		tv_center_title.setText("找回密码");
-		tv_right_title.setVisibility(View.GONE);
-
-		et_yzm = (EditText) findViewById(R.id.et_yzm);
-		btn_reset = (Button) findViewById(R.id.btn_reset);
-		et_phone = (EditText) findViewById(R.id.et_phone);
-		btn_getYZM = (Button) findViewById(R.id.btn_getYZM);
-		et_password = (EditText) findViewById(R.id.et_password);
-		et_password2 = (EditText) findViewById(R.id.et_password2);
+	protected int getLayoutResId() {
+		return R.layout.ui_forget_pwd_act;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
+        tv_center_title.setText("找回密码");
+        tv_right_title.setVisibility(View.GONE);
+
+        et_yzm = (EditText) findViewById(R.id.et_yzm);
+        btn_reset = (Button) findViewById(R.id.btn_reset);
+        et_phone = (EditText) findViewById(R.id.et_phone);
+        btn_getYZM = (Button) findViewById(R.id.btn_getYZM);
+        et_password = (EditText) findViewById(R.id.et_password);
+        et_password2 = (EditText) findViewById(R.id.et_password2);
+
 		setCountDownTimer(60 * 1000, 1000);
 	}
 

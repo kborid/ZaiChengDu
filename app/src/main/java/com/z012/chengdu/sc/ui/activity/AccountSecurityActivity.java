@@ -3,10 +3,8 @@ package com.z012.chengdu.sc.ui.activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -34,50 +32,40 @@ import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 账户安全
  * 
  * @author kborid
  */
 public class AccountSecurityActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
-	private TextView	tv_certification, tv_phone_number, tv_email, tv_change_password;
-	private Button		btn_logout;
-	private TableRow	tr_certification, tr_phone_number, tr_email, tr_third_party, tr_change_password;
-	private ImageView	iv_qq, iv_wx, iv_wb;
 	private final int	MODIFY_THIRD_PARTY	= 100;
 	private boolean mIsAuth = false;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_account_security_act);
-		initViews();
-		initParams();
-		initListeners();
-	}
+
+	@BindView(R.id.tv_certification)
+    TextView tv_certification;
+	@BindView(R.id.tv_phone_number)
+    TextView tv_phone_number;
+    @BindView(R.id.tr_certification)
+    TableRow tr_certification;
+    @BindView(R.id.iv_qq)
+    ImageView iv_qq;
+    @BindView(R.id.iv_wx)
+    ImageView iv_wx;
+    @BindView(R.id.iv_wb)
+    ImageView iv_wb;
 
 	@Override
-	public void initViews() {
-		super.initViews();
-		tv_center_title.setText("账户安全");
-		tv_certification = (TextView) findViewById(R.id.tv_certification);
-		tv_phone_number = (TextView) findViewById(R.id.tv_phone_number);
-		tv_email = (TextView) findViewById(R.id.tv_email);
-		tv_change_password = (TextView) findViewById(R.id.tv_change_password);
-		btn_logout = (Button) findViewById(R.id.btn_logout);
-		tr_certification = (TableRow) findViewById(R.id.tr_certification);
-		tr_phone_number = (TableRow) findViewById(R.id.tr_phone_number);
-		tr_email = (TableRow) findViewById(R.id.tr_email);
-		tr_third_party = (TableRow) findViewById(R.id.tr_third_party);
-		tr_change_password = (TableRow) findViewById(R.id.tr_change_password);
-		iv_qq = (ImageView) findViewById(R.id.iv_qq);
-		iv_wx = (ImageView) findViewById(R.id.iv_wx);
-		iv_wb = (ImageView) findViewById(R.id.iv_wb);
+	protected int getLayoutResId() {
+		return R.layout.ui_account_security_act;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
-
+        tv_center_title.setText("账户安全");
         String phone = SessionContext.mUser.USERAUTH.mobilenum;
         if (StringUtil.notEmpty(phone)) {
             tv_phone_number.setText(Utils.convertHiddenPhoneStars(phone, 3, 8));
@@ -90,59 +78,38 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		loadThirdPartyBindList();
 
 		mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
+		tr_certification.setEnabled(!mIsAuth);
 		tv_certification.setText(mIsAuth ? "已认证" : "未认证");
 		requestCertResult();
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-	@Override
-	public void initListeners() {
-		super.initListeners();
+	@OnClick(R.id.tr_certification)
+    void certClick() {
+	    startActivity(new Intent(this, CertificateOneActivity.class));
+    }
 
-		tr_certification.setOnClickListener(mIsAuth ? null : this);
-		tr_phone_number.setOnClickListener(this);
-		tr_email.setOnClickListener(this);
-		tr_third_party.setOnClickListener(this);
-		tr_change_password.setOnClickListener(this);
-		btn_logout.setOnClickListener(this);
-	}
+	@OnClick(R.id.tr_third_party)
+    void thirdPartyClick() {
+	    Intent intent = new Intent(this, BindThirdPartyActivity.class);
+        startActivityForResult(intent, MODIFY_THIRD_PARTY);
+    }
 
-	@Override
-	public void onClick(View v) {
-		Intent mIntent = null;
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.tr_certification :// 实名认证
-				mIntent = new Intent(this, CertificateOneActivity.class);
-				startActivity(mIntent);
-				break;
-			case R.id.tr_phone_number :
-				mIntent = new Intent(this, ChangePhoneNoActivity.class);
-				mIntent.putExtra("num", tv_phone_number.getText().toString());
-				startActivity(mIntent);
-				break;
-			case R.id.tr_email :
+    @OnClick(R.id.tr_phone_number)
+    void phoneNumClick() {
+        Intent intent = new Intent(this, ChangePhoneNoActivity.class);
+        intent.putExtra("num", tv_phone_number.getText().toString());
+        startActivity(intent);
+    }
 
-				break;
-			case R.id.tr_third_party :
-				mIntent = new Intent(this, BindThirdPartyActivity.class);
-				startActivityForResult(mIntent, MODIFY_THIRD_PARTY);
-				break;
-			case R.id.tr_change_password :
-				mIntent = new Intent(this, UpdataLoginPwdActivity.class);
-				startActivity(mIntent);
-				break;
-			case R.id.btn_logout :
-				cancellationTicket();
-				break;
+    @OnClick(R.id.tr_change_password)
+    void changePwdClick() {
+	    startActivity(new Intent(this, UpdataLoginPwdActivity.class));
+    }
 
-			default :
-				break;
-		}
-	}
+	@OnClick(R.id.btn_logout)
+    void logoutClick() {
+        cancellationTicket();
+    }
 
 	/**
 	 * 退出登录
@@ -216,8 +183,6 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 
 	@Override
 	public void preExecute(ResponseData request) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -235,7 +200,7 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
                 SessionContext.mCertUserAuth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
                 mIsAuth = null != SessionContext.mCertUserAuth && SessionContext.mCertUserAuth.isAuth;
                 tv_certification.setText(mIsAuth ? "已认证" : "未认证");
-                tr_certification.setOnClickListener(mIsAuth ? null : this);
+                tr_certification.setEnabled(!mIsAuth);
             }
         }
 

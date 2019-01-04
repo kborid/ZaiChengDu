@@ -1,10 +1,7 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
@@ -14,8 +11,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import cn.jpush.android.api.JPushInterface;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -37,6 +32,10 @@ import com.z012.chengdu.sc.net.bean.UserInfo;
 import com.z012.chengdu.sc.tools.SHA1;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 绑定手机第二步操作
  * 
@@ -54,17 +53,13 @@ public class BindPhoneSecondStepActivity extends BaseActivity implements DataCal
 	private String			thirdpartusername, thirdpartuserheadphotourl, openid, unionid, mPlatform,usertoken;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_bind_phone_second_step_act);
-		initViews();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_bind_phone_second_step_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("手机绑定");
 		tv_center_title.setTextColor(0xffffffff);
 		findViewById(R.id.comm_title_rl).setBackgroundResource(R.color.transparent);
@@ -81,13 +76,7 @@ public class BindPhoneSecondStepActivity extends BaseActivity implements DataCal
 		layoutYZM = (LinearLayout) findViewById(R.id.layoutYZM);
 		et_pwd = (EditText) findViewById(R.id.et_pwd);
 		et_yzm = (EditText) findViewById(R.id.et_yzm);
-	}
-
-	@Override
-	public void initParams() {
-		super.initParams();
 		setCountDownTimer(60 * 1000, 1000);
-		dealIntent();
 	}
 
 	@Override

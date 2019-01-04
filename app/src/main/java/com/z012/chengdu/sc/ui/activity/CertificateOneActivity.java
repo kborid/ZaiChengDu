@@ -1,7 +1,6 @@
 package com.z012.chengdu.sc.ui.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -47,37 +46,28 @@ public class CertificateOneActivity extends BaseActivity implements DataCallback
      * "舒丹", "6214830115862319","42900419891213430X", "18500349243"
      */
 
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_certificate_one);
-		initViews();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		tv_center_title.setText("实名认证");
-		tv_right_title.setVisibility(View.GONE);
-
-		et_name = (EditText) findViewById(R.id.et_name);
-		et_id = (EditText) findViewById(R.id.et_id);
-		et_card = (EditText) findViewById(R.id.et_card);
-		et_phone = (EditText) findViewById(R.id.et_phone);
-
-		cb_name = (CheckBox) findViewById(R.id.cb_name);
-        cb_id = (CheckBox) findViewById(R.id.cb_id);
-        cb_card = (CheckBox) findViewById(R.id.cb_card);
-        cb_phone = (CheckBox) findViewById(R.id.cb_phone);
-		btn_next = (Button) findViewById(R.id.btn_next);
-	}
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.ui_certificate_one;
+    }
 
 	@Override
 	public void initParams() {
 		super.initParams();
+        tv_center_title.setText("实名认证");
+        tv_right_title.setVisibility(View.GONE);
+
+        et_name = (EditText) findViewById(R.id.et_name);
+        et_id = (EditText) findViewById(R.id.et_id);
+        et_card = (EditText) findViewById(R.id.et_card);
+        et_phone = (EditText) findViewById(R.id.et_phone);
+
+        cb_name = (CheckBox) findViewById(R.id.cb_name);
+        cb_id = (CheckBox) findViewById(R.id.cb_id);
+        cb_card = (CheckBox) findViewById(R.id.cb_card);
+        cb_phone = (CheckBox) findViewById(R.id.cb_phone);
+        btn_next = (Button) findViewById(R.id.btn_next);
+
         CertUserAuth auth = SessionContext.mCertUserAuth;
         if (null != auth && null != auth.userAuth) {
             et_name.setText(auth.userAuth.name);

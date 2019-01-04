@@ -1,13 +1,8 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -48,6 +43,10 @@ import com.z012.chengdu.sc.ui.adapter.QADetailsAdapter;
 import com.z012.chengdu.sc.ui.adapter.QAPicturesAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 有问必答详情
  * 
@@ -82,18 +81,13 @@ public class QADetailsActivity extends BaseActivity implements DataCallback, Tag
 	private Button					btn_qa_more, btn_qa_say;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_ywbd_details);
-
-		initViews();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_ywbd_details;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		showProgressDialog(getString(R.string.loading), true);
 		tv_center_title.setText("问题详情");
 		tv_right_title.setVisibility(View.VISIBLE);
@@ -110,11 +104,6 @@ public class QADetailsActivity extends BaseActivity implements DataCallback, Tag
 		btn_qa_more = (Button) findViewById(R.id.btn_qa_more);
 		btn_qa_say = (Button) findViewById(R.id.btn_qa_say);
 
-	}
-
-	@Override
-	public void initParams() {
-		super.initParams();
 		try {
 			dealIntent();
 			if (SessionContext.isLogin() && !SessionContext.mUser.USERBASIC.id.equals(mItemData.userId)) {
@@ -160,7 +149,7 @@ public class QADetailsActivity extends BaseActivity implements DataCallback, Tag
 	/**
 	 * 设置头像
 	 * 
-	 * @param Url
+	 * @param url
 	 */
 	public void initPhoto(String url) {
 		if (StringUtil.notEmpty(url)) {
@@ -219,8 +208,6 @@ public class QADetailsActivity extends BaseActivity implements DataCallback, Tag
 	}
 	/**
 	 * 加载回复详情
-	 * 
-	 * @param observeId
 	 */
 	private void loadReplyDetail() {
 		if (mItemData.status != null && mItemData.status.equals("04")) {

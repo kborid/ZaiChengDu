@@ -1,10 +1,7 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +17,8 @@ import com.z012.chengdu.sc.api.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+
 /**
  * 手机绑定
  * 
@@ -32,29 +31,19 @@ public class BindPhoneActivity extends BaseActivity implements DataCallback, Dia
 	private String		thirdpartusername, thirdpartuserheadphotourl, openid, unionid, mPlatform,usertoken;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_bind_phone_act);
-		initViews();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_bind_phone_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("手机绑定");
 		tv_center_title.setTextColor(0xffffffff);
 		findViewById(R.id.comm_title_rl).setBackgroundResource(R.color.transparent);
 		tv_right_title.setVisibility(View.GONE);
 		et_login_phone = (EditText) findViewById(R.id.et_login_phone);
 		btn_next = (Button) findViewById(R.id.btn_next);
-	}
-
-	@Override
-	public void initParams() {
-		super.initParams();
-		dealIntent();
 	}
 
 	@Override

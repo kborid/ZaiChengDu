@@ -2,7 +2,6 @@ package com.z012.chengdu.sc.ui.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -61,19 +60,14 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 	private LinearLayout					layout_type;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_my_qa_act);
-		initViews();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_my_qa_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("有问必答");
-//		tv_right_title.setText("其他问答");
 		mReleaseView = getLayoutInflater().inflate(R.layout.view_my_release, null);
 		mAttentionView = getLayoutInflater().inflate(R.layout.view_my_attention, null);
 		mReleListView = (PullToRefreshListView) mReleaseView.findViewById(R.id.listView);
@@ -82,11 +76,7 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 		tv_btn_right = (TextView) findViewById(R.id.tv_btn_right);
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
 		layout_type = (LinearLayout) findViewById(R.id.layout_type);
-	}
 
-	@Override
-	public void initParams() {
-		super.initParams();
 		mURL = NetURL.WG_MY_RELEASED;
 
 		loadData(true);

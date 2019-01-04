@@ -1,11 +1,7 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.HashMap;
-
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
@@ -14,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.jpush.android.api.JPushInterface;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -38,6 +33,11 @@ import com.z012.chengdu.sc.net.bean.UserInfo;
 import com.z012.chengdu.sc.tools.SHA1;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+import java.util.HashMap;
+
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * 注册
  * 
@@ -54,19 +54,13 @@ public class RegisterActivity extends BaseActivity implements DataCallback,
 	private CountDownTimer mCountDownTimer;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_register_act);
-		initViews();
-		initParams();
-		initListeners();
+	protected int getLayoutResId() {
+		return R.layout.ui_register_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
-		// tv_center_title.setText("注册");
-
+	public void initParams() {
+		super.initParams();
 		et_yzm = (EditText) findViewById(R.id.et_yzm);
 		btn_register = (Button) findViewById(R.id.btn_register);
 		checkBox = (CheckBox) findViewById(R.id.checkBox);
@@ -74,11 +68,7 @@ public class RegisterActivity extends BaseActivity implements DataCallback,
 		btn_getYZM = (Button) findViewById(R.id.btn_getYZM);
 		et_password = (EditText) findViewById(R.id.et_password);
 		tv_agreement = (TextView) findViewById(R.id.tv_agreement);
-	}
 
-	@Override
-	public void initParams() {
-		super.initParams();
 		setCountDownTimer(60 * 1000, 1000);
 	}
 

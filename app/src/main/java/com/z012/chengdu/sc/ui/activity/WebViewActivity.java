@@ -41,26 +41,8 @@ public class WebViewActivity extends BaseActivity {
 	private CommonLoadingWidget	common_loading_widget;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_city_hot);
-
-		initViews();
-		dealIntent();
-		initParams();
-		initListeners();
-		// important , so that you can use js to call Uemng APIs
-		new MobclickAgentJSInterface(this, mWebView, new MyWebClient());
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		mWebView = (WebView) findViewById(R.id.webview);
-		tv_right_title.setBackgroundResource(R.drawable.m_refresh);
-		tv_center_title.setText("");
-		tv_right_title.setVisibility(View.GONE);
-		common_loading_widget = (CommonLoadingWidget) findViewById(R.id.common_loading_widget);
+	protected int getLayoutResId() {
+		return R.layout.ui_city_hot;
 	}
 
 	@Override
@@ -82,6 +64,14 @@ public class WebViewActivity extends BaseActivity {
 	@Override
 	public void initParams() {
 		super.initParams();
+        mWebView = (WebView) findViewById(R.id.webview);
+        tv_right_title.setBackgroundResource(R.drawable.m_refresh);
+        tv_center_title.setText("");
+        tv_right_title.setVisibility(View.GONE);
+        common_loading_widget = (CommonLoadingWidget) findViewById(R.id.common_loading_widget);
+
+		// important , so that you can use js to call Uemng APIs
+		new MobclickAgentJSInterface(this, mWebView, new MyWebClient());
 
 		mWebView.clearView();
 		mWebView.loadUrl(mURL);

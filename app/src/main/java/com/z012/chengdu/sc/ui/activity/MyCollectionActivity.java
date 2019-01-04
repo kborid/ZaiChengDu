@@ -35,26 +35,16 @@ public class MyCollectionActivity extends BaseActivity implements DataCallback, 
 	private ArrayList<AppListBean>	mBean	= new ArrayList<AppListBean>();
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_my_collection);
-
-		initViews();
-		initParams();
-		initListeners();
-		tv_center_title.setText("我的收藏");
-		tv_right_title.setVisibility(View.GONE);
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		mListView = (ListView) findViewById(R.id.listView);
+	protected int getLayoutResId() {
+		return R.layout.ui_my_collection;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
+		tv_center_title.setText("我的收藏");
+		tv_right_title.setVisibility(View.GONE);
+        mListView = (ListView) findViewById(R.id.listView);
 		mAdapter = new ColumnAdapter(this, mBean);
 		mListView.setAdapter(mAdapter);
 		mAdapter.isCollection(true);

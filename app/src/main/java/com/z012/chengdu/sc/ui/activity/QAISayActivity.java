@@ -1,9 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,6 +36,10 @@ import com.z012.chengdu.sc.ui.adapter.AddPhotoGrideViewAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 import com.z012.chengdu.sc.ui.dialog.GetPicDialog;
 
+import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 我说说
  * 
@@ -59,30 +59,20 @@ public class QAISayActivity extends BaseActivity implements DataCallback,
 	private final int IMG_PREVIEW_REQUEST = 11;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_isay_act);
-
-		initViews();
-		initParams();
-		initListeners();
-
+	protected int getLayoutResId() {
+		return R.layout.ui_isay_act;
 	}
 
 	@Override
-	public void initViews() {
-		super.initViews();
+	public void initParams() {
+		super.initParams();
 		tv_center_title.setText("有问必答");
 		tv_right_title.setVisibility(View.VISIBLE);
 		tv_right_title.setText("提问");
 
 		et_content = (EditText) findViewById(R.id.et_content);
 		gridView = (GridView) findViewById(R.id.gridView);
-	}
 
-	@Override
-	public void initParams() {
-		super.initParams();
 		if (!LocationManagerBD.getIns().isStart()) {
 			LocationManagerBD.getIns().startBaiduLocation(
 					this.getApplicationContext(), this);
@@ -140,8 +130,6 @@ public class QAISayActivity extends BaseActivity implements DataCallback,
 
 	/**
 	 * 添加图片并刷新视图
-	 * 
-	 * @param file
 	 */
 	public void addImgUri(Uri uri) {
 		mImgUris.add(uri);

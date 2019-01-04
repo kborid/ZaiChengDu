@@ -1,9 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.net.ConnectException;
-import java.util.List;
-import java.util.Map;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -39,6 +35,10 @@ import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.ThirdPartyBindListBean;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.net.ConnectException;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 三方账号绑定
  * 
@@ -54,26 +54,18 @@ public class BindThirdPartyActivity extends BaseActivity implements DataCallback
 	private boolean			isModify;																// 记录进入该页面时已绑定的列表
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_third_party_act);
-		initViews();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		tv_center_title.setText("账户绑定");
-		btn_bind_qq = (Button) findViewById(R.id.btn_bind_qq);
-		btn_bind_wx = (Button) findViewById(R.id.btn_bind_wx);
-		btn_bind_sina = (Button) findViewById(R.id.btn_bind_sina);
+	protected int getLayoutResId() {
+		return R.layout.ui_third_party_act;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
+		tv_center_title.setText("账户绑定");
+		btn_bind_qq = (Button) findViewById(R.id.btn_bind_qq);
+		btn_bind_wx = (Button) findViewById(R.id.btn_bind_wx);
+		btn_bind_sina = (Button) findViewById(R.id.btn_bind_sina);
+
 		String data = SharedPreferenceUtil.getInstance().getString(AppConst.THIRDPARTYBIND, null, false);
 		if (StringUtil.notEmpty(data)) {
 			// 已绑定的列表
@@ -214,10 +206,7 @@ public class BindThirdPartyActivity extends BaseActivity implements DataCallback
 
 	/**
 	 * 授权。
-	 * 
-	 * @param platform
-	 * @param isBind
-	 *            false:如果授权成功，则解绑;true:获取用户信息并绑定
+	 * @param platform 平台
 	 */
 	private void login(final SHARE_MEDIA platform) {
 		mController.doOauthVerify(this, platform, new UMAuthListener() {

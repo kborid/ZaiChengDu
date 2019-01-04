@@ -1,10 +1,6 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.content.SharedPreferences;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -27,6 +23,9 @@ import com.z012.chengdu.sc.net.bean.AppListBean;
 import com.z012.chengdu.sc.ui.adapter.ColumnAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * 搜索服务
  * 
@@ -45,26 +44,19 @@ public class SearchActivity extends BaseActivity implements TextWatcher, OnItemC
 	private View					footView;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_search);
-		initViews();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		mAuto_text = (AutoCompleteTextView) findViewById(R.id.auto_text);
-		mTextView = (TextView) findViewById(R.id.tv_title_right);
-		mListView = (ListView) findViewById(R.id.listView);
-		listHistory = (ListView) findViewById(R.id.listHistory);
-		mAuto_text.requestFocus();
+	protected int getLayoutResId() {
+		return R.layout.ui_search;
 	}
 
 	@Override
 	public void initParams() {
 		super.initParams();
+		mAuto_text = (AutoCompleteTextView) findViewById(R.id.auto_text);
+		mTextView = (TextView) findViewById(R.id.tv_title_right);
+		mListView = (ListView) findViewById(R.id.listView);
+		listHistory = (ListView) findViewById(R.id.listHistory);
+		mAuto_text.requestFocus();
+
 		mAdapter = new ColumnAdapter(this, mBean);
 		mAdapter.isSearchHistory(true);
 		mListView.setAdapter(mAdapter);

@@ -44,31 +44,22 @@ public class CertificateTwoActivity extends BaseActivity implements DataCallback
 	private String mPhone = null;
     private CountDownTimerImpl mCountDownTimer;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ui_certificate_two);
-
-		initViews();
-		initParams();
-		initListeners();
-	}
-
-	@Override
-	public void initViews() {
-		super.initViews();
-		tv_center_title.setText("实名认证");
-		tv_right_title.setVisibility(View.GONE);
-
-		et_yzm = (EditText) findViewById(R.id.et_yzm);
-		tv_phone = (TextView) findViewById(R.id.tv_phone);
-		tv_yzm = (TextView) findViewById(R.id.tv_yzm);
-		btn_next = (Button) findViewById(R.id.btn_next);
-	}
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.ui_certificate_two;
+    }
 
 	@Override
 	public void initParams() {
 		super.initParams();
+        tv_center_title.setText("实名认证");
+        tv_right_title.setVisibility(View.GONE);
+
+        et_yzm = (EditText) findViewById(R.id.et_yzm);
+        tv_phone = (TextView) findViewById(R.id.tv_phone);
+        tv_yzm = (TextView) findViewById(R.id.tv_yzm);
+        btn_next = (Button) findViewById(R.id.btn_next);
+
 		btn_next.setEnabled(false);
 		Bundle bundle = getIntent().getExtras();
 		if (null != bundle) {
