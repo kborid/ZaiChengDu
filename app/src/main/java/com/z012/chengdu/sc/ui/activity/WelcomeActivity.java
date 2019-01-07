@@ -73,10 +73,8 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 	private AdvertisementBean mAdvertBean;
 	private boolean isBreak; // 点击广告，终止本页面跳转流程
 
-    @BindView(R.id.iv_advertisement)
-    ImageView iv_advertisement;
-    @BindView(R.id.layoutAd)
-    FrameLayout layoutAd;
+    @BindView(R.id.iv_advertisement) ImageView iv_advertisement;
+    @BindView(R.id.layoutAd) FrameLayout layoutAd;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -141,13 +139,11 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
 		Utils.initScreenSize(this);// 设置手机屏幕大小
 	}
 
-	@OnClick(R.id.tv_skip)
-    void skipClick() {
+	@OnClick(R.id.tv_skip) void skip() {
         intentActivity();
     }
 
-	@OnClick(R.id.iv_advertisement)
-    void adClick() {
+	@OnClick(R.id.iv_advertisement) void ad() {
         isBreak = true;
         Intent mIntent = new Intent(this, HtmlActivity.class);
         mIntent.putExtra("id", mAdvertBean.Id);

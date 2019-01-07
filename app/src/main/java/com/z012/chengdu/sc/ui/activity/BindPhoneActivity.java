@@ -2,6 +2,7 @@ package com.z012.chengdu.sc.ui.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,16 +20,20 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.net.ConnectException;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 手机绑定
  * 
- * @author LiaoBo
+ * @author kborid
  */
 public class BindPhoneActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
-	private EditText	et_login_phone;
-	private Button		btn_next;
-	private String		phoneNum;
-	private String		thirdpartusername, thirdpartuserheadphotourl, openid, unionid, mPlatform,usertoken;
+
+    @BindView(R.id.et_login_phone) EditText et_login_phone;
+	@BindView(R.id.btn_next) Button btn_next;
+
+	private String phoneNum, thirdpartusername, thirdpartuserheadphotourl, openid, unionid, mPlatform,usertoken;
 
 	@Override
 	protected int getLayoutResId() {
@@ -42,49 +47,30 @@ public class BindPhoneActivity extends BaseActivity implements DataCallback, Dia
 		tv_center_title.setTextColor(0xffffffff);
 		findViewById(R.id.comm_title_rl).setBackgroundResource(R.color.transparent);
 		tv_right_title.setVisibility(View.GONE);
-		et_login_phone = (EditText) findViewById(R.id.et_login_phone);
-		btn_next = (Button) findViewById(R.id.btn_next);
 	}
 
 	@Override
 	public void dealIntent() {
 		super.dealIntent();
-		try {
-			thirdpartusername = getIntent().getExtras().getString("thirdpartusername");
-			thirdpartuserheadphotourl = getIntent().getExtras().getString("thirdpartuserheadphotourl");
-			openid = getIntent().getExtras().getString("openid");
-			unionid = getIntent().getExtras().getString("unionid");
-			mPlatform = getIntent().getExtras().getString("platform");
-			usertoken= getIntent().getExtras().getString("usertoken");
-		} catch (Exception e) {
-		}
+		Bundle bundle = getIntent().getExtras();
+		if (null != bundle) {
+            thirdpartusername = bundle.getString("thirdpartusername");
+            thirdpartuserheadphotourl = bundle.getString("thirdpartuserheadphotourl");
+            openid = bundle.getString("openid");
+            unionid = bundle.getString("unionid");
+            mPlatform = bundle.getString("platform");
+            usertoken = bundle.getString("usertoken");
+        }
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		btn_next.setOnClickListener(this);
-
-	}
-
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.btn_next :
-				phoneNum = et_login_phone.getText().toString();
-				if (!Utils.isMobile(phoneNum)) {
-					CustomToast.show("请输入正确的手机号码", 0);
-					return;
-				}
-				CheckPhoneNumber();
-				break;
-
-			default :
-				break;
-		}
-
-	}
+	@OnClick(R.id.btn_next) void next() {
+        phoneNum = et_login_phone.getText().toString();
+        if (!Utils.isMobile(phoneNum)) {
+            CustomToast.show("请输入正确的手机号码", 0);
+            return;
+        }
+        CheckPhoneNumber();
+    }
 
 	/**
 	 * 检测手机号是否已经注册
@@ -106,8 +92,6 @@ public class BindPhoneActivity extends BaseActivity implements DataCallback, Dia
 
 	@Override
 	public void preExecute(ResponseData request) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -135,7 +119,7 @@ public class BindPhoneActivity extends BaseActivity implements DataCallback, Dia
 		removeProgressDialog();
 
 		String message;
-		if (e != null && e instanceof ConnectException) {
+		if (e instanceof ConnectException) {
 			message = getString(R.string.dialog_tip_net_error);
 		} else {
 			message = response != null && response.data != null ? response.data.toString() : getString(R.string.dialog_tip_null_error);

@@ -32,30 +32,22 @@ public class UnLoginBroadcastReceiver extends BroadcastReceiver {
 		if (!ACTION_NAME.equals(action)) {
 			return;
 		}
-		boolean is_show_tip_dialog = intent.getBooleanExtra(Const.IS_SHOW_TIP_DIALOG, false);
-		if (is_show_tip_dialog) {
-			showTip(context);
+		boolean needShowUnLoginDialog = intent.getBooleanExtra(Const.NEED_SHOW_UNLOGIN_DIALOG, false);
+		if (needShowUnLoginDialog) {
+			showUnLoginDialog(context);
 		} else {
 			intentLogin(context);
 		}
-
 	}
 	/**
 	 * 显示提示
 	 * 
 	 * @param context
 	 */
-	public void showTip(final Context context) {
-
-		String msg = "";
-		if (SessionContext.isLogin()) {
-			msg = "登录信息过期，是否重新登录？";
-		} else {
-			msg = "您还没有登录，是否立即登录？";
-		}
+	public void showUnLoginDialog(final Context context) {
 		// 注销登录状态
 		SessionContext.cleanUserInfo();
-
+		String msg = SessionContext.isLogin() ? "登录信息过期，是否重新登录？" : "您还没有登录，是否立即登录？";
 		CustomDialog dlg = new CustomDialog(context);
         WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -1,11 +1,8 @@
 package com.z012.chengdu.sc.ui.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,41 +34,31 @@ import com.z012.chengdu.sc.ui.base.BaseFragment;
 import java.net.ConnectException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 问答
  * 
  * @author kborid
  */
 public class TabQAFragment extends BaseFragment implements DataCallback, OnRefreshListener2<ListView> {
-	private PullToRefreshListView			listView;
-	private QAListAdapter						mAdapter;
-	private ArrayList<QAListBean.Result>	mBean	= new ArrayList<QAListBean.Result>();
-	private int								page_index;
-	private ImageView						iv_ask_question;
-	private TextView						tv_right_title;
+
+	@BindView(R.id.listView) PullToRefreshListView listView;
+    @BindView(R.id.iv_ask_question) ImageView iv_ask_question;
+    @BindView(R.id.tv_right_title) TextView tv_right_title;
+    private QAListAdapter						mAdapter;
+    private ArrayList<QAListBean.Result>	mBean	= new ArrayList<QAListBean.Result>();
+    private int								page_index;
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		return inflater.inflate(R.layout.fragment_tab_question, container, false);
-	}
-
-	protected void onInits() {
-		initViews(getView());
-		initParams();
-		initListeners();
-	}
-
-	public void onVisible() {
-		super.onVisible();
+	protected int getLayoutResId() {
+		return R.layout.fragment_tab_question;
 	}
 
 	@Override
-	protected void initViews(View view) {
-		super.initViews(view);
-		showProgressDialog(getString(R.string.loading), false);
-		listView = (PullToRefreshListView) view.findViewById(R.id.listView);
-		iv_ask_question = (ImageView) view.findViewById(R.id.iv_ask_question);
-		tv_right_title = (TextView) view.findViewById(R.id.tv_right_title);
+	protected void onInit() {
+        showProgressDialog(getString(R.string.loading), false);
 	}
 
 	@Override
@@ -79,40 +66,25 @@ public class TabQAFragment extends BaseFragment implements DataCallback, OnRefre
 		super.initParams();
 		mAdapter = new QAListAdapter(getActivity(), mBean);
 		listView.setAdapter(mAdapter);
-		loadData(false);
+        listView.setOnRefreshListener(this);
+        loadData(false);
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
+	@OnClick(R.id.iv_ask_question) void ask() {
+        if (!SessionContext.isLogin()) {
+            getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+            return;
+        }
+        startActivity(new Intent(getActivity(), QAISayActivity.class));
+    }
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		listView.setOnRefreshListener(this);
-		iv_ask_question.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (!SessionContext.isLogin()) {
-					getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-					return;
-				}
-				startActivity(new Intent(getActivity(), QAISayActivity.class));
-			}
-		});
-
-		tv_right_title.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (SessionContext.isLogin()) {
-					startActivity(new Intent(getActivity(), MyQAActivity.class));
-				} else {
-					getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-				}
-			}
-		});
-	}
+    @OnClick(R.id.tv_title_right) void add() {
+        if (SessionContext.isLogin()) {
+            startActivity(new Intent(getActivity(), MyQAActivity.class));
+        } else {
+            getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+        }
+    }
 
 	/**
 	 * 设置tag

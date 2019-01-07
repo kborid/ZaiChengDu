@@ -34,10 +34,9 @@ import butterknife.OnClick;
  * @author LiaoBo
  */
 public class AddressManageActivity extends BaseActivity implements DataCallback {
-	@BindView(R.id.listView)
-	ListView listView;
-    @BindView(R.id.layoutEmptyView)
-    LinearLayout layoutEmptyView;
+
+	@BindView(R.id.listView) ListView listView;
+    @BindView(R.id.layoutEmptyView) LinearLayout layoutEmptyView;
 
     private AddressManageAdapter mAdapter;
     private List<UserAddrs> mUserAddrs;
@@ -58,13 +57,11 @@ public class AddressManageActivity extends BaseActivity implements DataCallback 
 		listView.setAdapter(mAdapter);
 	}
 
-	@OnClick(R.id.btn_add)
-    void addClick() {
+	@OnClick(R.id.btn_add) void add() {
         startActivity(new Intent(this, AddressEditActivity.class));
     }
 
-    @OnClick(R.id.tv_right_title)
-    void rightTitleClick() {
+    @OnClick(R.id.tv_right_title) void right() {
         if (StringUtil.empty(tv_right_title.getText())) {
             return;
         }

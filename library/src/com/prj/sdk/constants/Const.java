@@ -24,7 +24,7 @@ public final class Const {
 	public static final String	INSTRUCTIONS		= "INSTRUCTIONS";		// 版本说明
 
 	public static final String	UNLOGIN_ACTION		= "unlogin " + AppContext.mMainContext.getPackageName(); // 未登录广播
-	public static final String	IS_SHOW_TIP_DIALOG	= "is_show_tip_dialog"; // 是否显示登录提示对话框
+	public static final String	NEED_SHOW_UNLOGIN_DIALOG	= "need_show_unlogin_dialog"; // 是否显示登录提示对话框
 	
 	// --------------------项目区分常量----------
 	public static final String CHENGDU = "chengdu";

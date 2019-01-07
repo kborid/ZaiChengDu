@@ -21,10 +21,8 @@ import butterknife.OnClick;
  */
 public class AboutActivity extends BaseActivity {
 
-	@BindView(R.id.btn_develop)
-	Button btn_develop;
-	@BindView(R.id.tv_version)
-	TextView tv_version;
+	@BindView(R.id.btn_develop) Button btn_develop;
+	@BindView(R.id.tv_version) TextView tv_version;
 
 	@Override
 	protected int getLayoutResId() {
@@ -50,16 +48,14 @@ public class AboutActivity extends BaseActivity {
 		tv_version.setText(sb);// 设置版本
 	}
 
-	@OnClick(R.id.btn_about)
-	void aboutClick() {
+	@OnClick(R.id.btn_about) void about() {
 		Intent intent = new Intent(this, WebViewActivity.class);
 		intent.putExtra("path", NetURL.ABOUT_URL);
 		intent.putExtra("title", "关于我们");
 		startActivity(intent);
 	}
 
-	@OnClick(R.id.btn_develop)
-	void developClick() {
+	@OnClick(R.id.btn_develop) void develop() {
 		Intent intent = new Intent(this, HtmlActivity.class);
 		intent.putExtra("ISDEVELOP", AppConst.ISDEVELOP);
 		startActivity(intent);

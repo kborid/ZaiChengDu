@@ -31,10 +31,8 @@ import butterknife.OnClick;
  */
 public class UserGuideActivity extends BaseActivity{
 
-	@BindView(R.id.guide_view)
-	ViewPager mViewPager;
-	@BindView(R.id.btn_go)
-	Button btn_go;
+	@BindView(R.id.guide_view) ViewPager mViewPager;
+	@BindView(R.id.btn_go) Button btn_go;
 
     private int flaggingWidth; // 互动翻页所需滚动的长度是当前屏幕宽度的1/3
 	private GestureDetector gestureDetector; // 用户滑动
@@ -86,8 +84,7 @@ public class UserGuideActivity extends BaseActivity{
 		flaggingWidth = Utils.mScreenWidth / 3;
 	}
 
-	@OnClick(R.id.btn_go)
-    void goClick() {
+	@OnClick(R.id.btn_go) void go() {
         gotoMain();
     }
 

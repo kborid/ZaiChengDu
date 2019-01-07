@@ -2,7 +2,6 @@ package com.z012.chengdu.sc.ui.activity;
 
 import android.content.DialogInterface;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,16 +18,19 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.net.ConnectException;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 更改登录密码
  * 
- * @author LiaoBo
+ * @author kborid
  * 
  */
 public class UpdataLoginPwdActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
-	private EditText	et_old_pwd, et_new_pwd, et_new_pwd2;
-	private Button		btn_save;
-	private String		mPassword;
+	@BindView(R.id.et_old_pwd) EditText et_old_pwd;
+	@BindView(R.id.et_new_pwd) EditText et_new_pwd;
+	@BindView(R.id.et_new_pwd2) EditText et_new_pwd2;
 
 	@Override
 	protected int getLayoutResId() {
@@ -40,31 +42,10 @@ public class UpdataLoginPwdActivity extends BaseActivity implements DataCallback
 		super.initParams();
 		tv_center_title.setText("更改登录密码");
 		tv_right_title.setVisibility(View.GONE);
-
-		et_old_pwd = (EditText) findViewById(R.id.et_old_pwd);
-		btn_save = (Button) findViewById(R.id.btn_save);
-		et_new_pwd = (EditText) findViewById(R.id.et_new_pwd);
-		et_new_pwd2 = (EditText) findViewById(R.id.et_new_pwd2);
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		btn_save.setOnClickListener(this);
-	}
-
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-		case R.id.btn_save:
-			loadData();
-			break;
-
-		default:
-			break;
-		}
-
+	@OnClick(R.id.btn_save) void save() {
+		loadData();
 	}
 
 	/**
@@ -73,7 +54,7 @@ public class UpdataLoginPwdActivity extends BaseActivity implements DataCallback
 	private void loadData() {
 
 		String OLDPWD = et_old_pwd.getText().toString().trim();
-		mPassword = et_new_pwd.getText().toString().trim();
+		String mPassword = et_new_pwd.getText().toString().trim();
 		String NEWPWD2 = et_new_pwd2.getText().toString().trim();
 		if (StringUtil.empty(OLDPWD)) {
 			CustomToast.show("请输入原密码", 0);
@@ -115,8 +96,6 @@ public class UpdataLoginPwdActivity extends BaseActivity implements DataCallback
 
 	@Override
 	public void preExecute(ResponseData request) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -126,7 +105,6 @@ public class UpdataLoginPwdActivity extends BaseActivity implements DataCallback
 			CustomToast.show("修改成功", 0);
 			this.finish();
 		}
-
 	}
 
 	@Override
@@ -134,7 +112,7 @@ public class UpdataLoginPwdActivity extends BaseActivity implements DataCallback
 		removeProgressDialog();
 
 		String message;
-		if (e != null && e instanceof ConnectException) {
+		if (e instanceof ConnectException) {
 			message = getString(R.string.dialog_tip_net_error);
 		} else {
 			message = response != null && response.data != null ? response.data.toString() : getString(R.string.dialog_tip_null_error);

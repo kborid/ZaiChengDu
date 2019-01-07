@@ -4,12 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -53,33 +50,29 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Date;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 用户
  *
  * @author kborid
  */
-public class TabUserFragment extends BaseFragment implements DataCallback, View.OnClickListener {
+public class TabUserFragment extends BaseFragment implements DataCallback {
 
-    private LinearLayout userHeader_lay;
-    private ImageView iv_photo;
-    private TextView tv_name, tv_login, tv_userinfo, tv_account, tv_address, tv_invite, tv_problem, tv_about;
+    @BindView(R.id.userHeader_lay) LinearLayout userHeader_lay;
+    @BindView(R.id.iv_photo) ImageView iv_photo;
+    @BindView(R.id.tv_name) TextView tv_name;
+    @BindView(R.id.tv_login) TextView tv_login;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.fragment_tab_user, container, false);
-        initViews(view);
-        initParams();
-        initListeners();
-		return view;
-	}
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_tab_user;
+    }
 
-	protected void onInits() {
+    @Override
+    protected void onInit() {
         EventBus.getDefault().register(this);
-	}
-
-	public void onVisible() {
-		super.onVisible();
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
@@ -97,22 +90,8 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
     public void onDetach() {
         super.onDetach();
         EventBus.getDefault().unregister(this);
+        LocalBroadcastManager.getInstance(PRJApplication.getInstance()).unregisterReceiver(mBroadcastReceiver);
     }
-
-    @Override
-	protected void initViews(View view) {
-		super.initViews(view);
-        userHeader_lay = (LinearLayout) view.findViewById(R.id.userHeader_lay);
-        iv_photo = (ImageView) view.findViewById(R.id.iv_photo);
-        tv_name = (TextView) view.findViewById(R.id.tv_name);
-        tv_login = (TextView) view.findViewById(R.id.tv_login);
-//        tv_userinfo = (TextView) view.findViewById(R.id.tv_userinfo);
-        tv_account = (TextView) view.findViewById(R.id.tv_account);
-        tv_address = (TextView) view.findViewById(R.id.tv_address);
-        tv_invite = (TextView) view.findViewById(R.id.tv_invite);
-        tv_problem = (TextView) view.findViewById(R.id.tv_problem);
-        tv_about = (TextView) view.findViewById(R.id.tv_about);
-	}
 
 	@Override
 	protected void initParams() {
@@ -128,7 +107,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
                 }
             } else {// 如果没有值，则不是4.0.0版本，需要登录
                 Intent intent = new Intent(Const.UNLOGIN_ACTION);
-                intent.putExtra(Const.IS_SHOW_TIP_DIALOG, true);
+                intent.putExtra(Const.NEED_SHOW_UNLOGIN_DIALOG, true);
                 AppContext.mMainContext.sendBroadcast(intent);// 发送登录广播
             }
         }
@@ -202,134 +181,99 @@ public class TabUserFragment extends BaseFragment implements DataCallback, View.
         }
     }
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
+    @OnClick(R.id.iv_photo) void photo() {
+        if (ClickUtils.isForbidFastClick()) {
+            return;
+        }
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-        iv_photo.setOnClickListener(this);
-		tv_login.setOnClickListener(this);
-//        tv_userinfo.setOnClickListener(this);
-        tv_account.setOnClickListener(this);
-        tv_address.setOnClickListener(this);
-        tv_invite.setOnClickListener(this);
-        tv_problem.setOnClickListener(this);
-        tv_about.setOnClickListener(this);
-	}
+        if (!SessionContext.isLogin()) {
+            getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+            updateDynamicUserInfo();
+            return;
+        }
+        Intent intent = new Intent(getActivity(), PersonalDataActivity.class);
+        getActivity().startActivityForResult(intent, MainFragmentActivity.LOGIN_EXIT);
+    }
 
-	@Override
-	public void onClick(View v) {
-        Intent mIntent = null;
-		switch (v.getId()) {
-            case R.id.tv_login:
-                if (ClickUtils.isForbidFastClick()) {
-                    return;
-                }
+    @OnClick(R.id.tv_login) void login() {
+        if (ClickUtils.isForbidFastClick()) {
+            return;
+        }
 
-                if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-                    updateDynamicUserInfo();
-                }
-                break;
-            case R.id.iv_photo:
-//            case R.id.tv_userinfo:// 编辑资料
-                if (ClickUtils.isForbidFastClick()) {
-                    return;
-                }
+        if (!SessionContext.isLogin()) {
+            getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+            updateDynamicUserInfo();
+        }
+    }
 
-                if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-                    updateDynamicUserInfo();
-                    return;
-                }
-                mIntent = new Intent(getActivity(), PersonalDataActivity.class);
-                getActivity().startActivityForResult(mIntent, MainFragmentActivity.LOGIN_EXIT);
-                break;
-            case R.id.tv_account:// 帐号安全
-                if (ClickUtils.isForbidFastClick()) {
-                    return;
-                }
+    @OnClick(R.id.tv_account) void account() {
+        if (ClickUtils.isForbidFastClick()) {
+            return;
+        }
 
-                if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-                    updateDynamicUserInfo();
-                    return;
-                }
-                mIntent = new Intent(getActivity(), AccountSecurityActivity.class);
-                mIntent.putExtra("Tag", true);
-                getActivity().startActivityForResult(mIntent, MainFragmentActivity.LOGIN_EXIT);
-                break;
-            case R.id.tv_address:
-                if (ClickUtils.isForbidFastClick()) {
-                    return;
-                }
+        if (!SessionContext.isLogin()) {
+            getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+            updateDynamicUserInfo();
+            return;
+        }
+        Intent intent = new Intent(getActivity(), AccountSecurityActivity.class);
+        intent.putExtra("Tag", true);
+        getActivity().startActivityForResult(intent, MainFragmentActivity.LOGIN_EXIT);
+    }
 
-                if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-                    updateDynamicUserInfo();
-                    return;
-                }
-                mIntent = new Intent(getActivity(), AddressManageActivity.class);
-                startActivity(mIntent);
-                break;
-            case R.id.tv_problem:
-                if (ClickUtils.isForbidFastClick()) {
-                    return;
-                }
+    @OnClick(R.id.tv_address) void address() {
+        if (ClickUtils.isForbidFastClick()) {
+            return;
+        }
 
-                mIntent = new Intent(getActivity(), WebViewActivity.class);
-                String url = SharedPreferenceUtil.getInstance().getString(
-                        AppConst.PROBLEM, "", true);
-                mIntent.putExtra("path", url);
-                mIntent.putExtra("title", "常见问题");
-                startActivity(mIntent);
-                break;
-            case R.id.tv_invite:
-                if (ClickUtils.isForbidFastClick()) {
-                    return;
-                }
+        if (!SessionContext.isLogin()) {
+            getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+            updateDynamicUserInfo();
+            return;
+        }
+        startActivity(new Intent(getActivity(), AddressManageActivity.class));
+    }
 
-                if (!SessionContext.isLogin()) {
-                    getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-                    updateDynamicUserInfo();
-                    return;
-                }
-                mIntent = new Intent(getActivity(), InviteActivity.class);
-                startActivity(mIntent);
-                break;
-            case R.id.tv_about:
-                if (ClickUtils.isForbidFastClick()) {
-                    return;
-                }
-                
-                mIntent = new Intent(getActivity(), AboutActivity.class);
-                startActivity(mIntent);
-                break;
-			default :
-				break;
-		}
-	}
+    @OnClick(R.id.tv_invite) void invite() {
+        if (ClickUtils.isForbidFastClick()) {
+            return;
+        }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        LocalBroadcastManager.getInstance(PRJApplication.getInstance()).unregisterReceiver(mBroadcastReceiver);
+        if (!SessionContext.isLogin()) {
+            getActivity().sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+            updateDynamicUserInfo();
+            return;
+        }
+        startActivity(new Intent(getActivity(), InviteActivity.class));
+    }
+
+    @OnClick(R.id.tv_problem) void problem() {
+        if (ClickUtils.isForbidFastClick()) {
+            return;
+        }
+
+        Intent intent = new Intent(getActivity(), WebViewActivity.class);
+        String url = SharedPreferenceUtil.getInstance().getString(AppConst.PROBLEM, "", true);
+        intent.putExtra("path", url);
+        intent.putExtra("title", "常见问题");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.tv_about) void about() {
+        if (ClickUtils.isForbidFastClick()) {
+            return;
+        }
+
+        startActivity(new Intent(getActivity(), AboutActivity.class));
     }
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            try {
-                String action = intent.getAction();
-                LogUtil.d("Broadcast action", action);
-                if (AppConst.ACTION_DYNAMIC_USER_INFO.equals(action)) {
-                    updateDynamicUserInfo();
-                }
-            } catch (Exception e) {
-                // TODO: handle exception
+            String action = intent.getAction();
+            LogUtil.d("Broadcast action", action);
+            if (AppConst.ACTION_DYNAMIC_USER_INFO.equals(action)) {
+                updateDynamicUserInfo();
             }
         }
     };

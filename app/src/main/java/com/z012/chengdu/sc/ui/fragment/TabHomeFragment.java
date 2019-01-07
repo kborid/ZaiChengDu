@@ -3,7 +3,6 @@ package com.z012.chengdu.sc.ui.fragment;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
@@ -61,6 +60,9 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 首页
  * 
@@ -74,41 +76,36 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
     private static final int FLAG_HOT_SERVICE = 3;
     private static final int FLAG_ALL_SERVICE = 4;
 
-    private LinearLayout ll_title_panel;
-    private TextView tv_center_title;
-    private LinearLayout weather_lay;
-    private ImageView iv_weather_icon;
-    private TextView tv_weather_temp, tv_weather_air;
-    private PullToRefreshScrollView mPullToRefreshScrollView;
-    private CommonBannerLayout banner_lay;
-    private GridView mHotServiceGridView;
+    @BindView(R.id.scroll_view) PullToRefreshScrollView mPullToRefreshScrollView;
+    @BindView(R.id.ll_title_panel) LinearLayout ll_title_panel;
+    @BindView(R.id.newsBgView) View newsBgView;
+    @BindView(R.id.weather_lay) LinearLayout weather_lay;
+    @BindView(R.id.iv_weather) ImageView iv_weather_icon;
+    @BindView(R.id.tv_temp) TextView tv_weather_temp;
+    @BindView(R.id.tv_air) TextView tv_weather_air;
+    @BindView(R.id.banner) CommonBannerLayout banner_lay;
+    @BindView(R.id.gridview) GridView mHotServiceGridView;
+    @BindView(R.id.marqueeView) UPMarqueeView marqueeView;
+    @BindView(R.id.service_lay) LinearLayout service_lay;
+
     private GridViewAdapter mHotServiceAdapter;
     private List<PushAppBean> mServiceApp = new ArrayList<>();
-    private View newsBgView;
-	private UPMarqueeView marqueeView;
-	private LinearLayout service_lay;
     private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
     private List<AppAllServiceInfoBean> mAllServiceBean = new ArrayList<>();
 
     private boolean isRefresh;
     private SparseIntArray mTag = new SparseIntArray(); // 全部请求结束标记
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.fragment_tab_home, container,
-				false);
-		initViews(view);
-		initParams();
-		initListeners();
-		return view;
-	}
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_tab_home;
+    }
 
-	protected void onInits() {
-	}
+    @Override
+    protected void onInit() {
+    }
 
-	protected void onVisible() {
+    protected void onVisible() {
 		super.onVisible();
         banner_lay.startBanner();
         marqueeView.startAnimal(SessionContext.getNewsList().size());
@@ -118,23 +115,6 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 		super.onInvisible();
 		banner_lay.stopBanner();
 		marqueeView.stopFlipping();
-	}
-
-	@Override
-	protected void initViews(View view) {
-		super.initViews(view);
-		ll_title_panel = (LinearLayout) view.findViewById(R.id.ll_title_panel);
-        newsBgView = view.findViewById(R.id.newsBgView);
-        marqueeView = (UPMarqueeView) view.findViewById(R.id.marqueeView);
-        mHotServiceGridView = (GridView) view.findViewById(R.id.gridview);
-		tv_center_title = (TextView) view.findViewById(R.id.tv_center_title);
-		mPullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.scroll_view);
-        banner_lay = (CommonBannerLayout) view.findViewById(R.id.banner);
-        weather_lay = (LinearLayout) view.findViewById(R.id.weather_lay);
-        iv_weather_icon = (ImageView) view.findViewById(R.id.iv_weather);
-        tv_weather_temp = (TextView) view.findViewById(R.id.tv_temp);
-        tv_weather_air = (TextView) view.findViewById(R.id.tv_air);
-        service_lay = (LinearLayout) view.findViewById(R.id.service_lay);
 	}
 
 	@Override
@@ -153,6 +133,20 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
             requestHotService();
             requestAllService();
         }
+
+        mPullToRefreshScrollView.setOnRefreshListener(this);
+        marqueeView.setUPMarqueeListener(new IUPMarqueeListener() {
+            @Override
+            public void callback(UPMarqueeBean bean) {
+                if (null != bean && !TextUtils.isEmpty(bean.getUrl())) {
+                    Intent intent = new Intent(getActivity(), HtmlActivity.class);
+                    intent.putExtra("path", bean.getUrl());
+                    intent.putExtra("title", "今日重庆");
+                    intent.putExtra("id", bean.getId());
+                    startActivity(intent);
+                }
+            }
+        });
 
         RelativeLayout.LayoutParams weatherRlp = (RelativeLayout.LayoutParams) banner_lay.getLayoutParams();
         weatherRlp.width = Utils.mScreenWidth;
@@ -313,30 +307,9 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         requestID = DataLoader.getInstance().loadData(this, data);
     }
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		tv_center_title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                startActivity(intent);
-            }
-        });
-		mPullToRefreshScrollView.setOnRefreshListener(this);
-		marqueeView.setUPMarqueeListener(new IUPMarqueeListener() {
-            @Override
-            public void callback(UPMarqueeBean bean) {
-                if (null != bean && !TextUtils.isEmpty(bean.getUrl())) {
-                    Intent intent = new Intent(getActivity(), HtmlActivity.class);
-                    intent.putExtra("path", bean.getUrl());
-                    intent.putExtra("title", "今日重庆");
-                    intent.putExtra("id", bean.getId());
-                    startActivity(intent);
-                }
-            }
-        });
-	}
+    @OnClick(R.id.tv_center_title) void title() {
+        startActivity(new Intent(getActivity(), SearchActivity.class));
+    }
 
 	private void refreshHotService() {
 	    if (null == mHotServiceAdapter) {

@@ -54,18 +54,12 @@ import butterknife.OnClick;
  */
 public class PersonalDataActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener, DatePickerDialog.OnDateSetListener, AreaWheelCallback {
 
-    @BindView(R.id.tv_birthday)
-    TextView tv_birthday;
-	@BindView(R.id.tv_address)
-    TextView tv_address;
-	@BindView(R.id.tv_marriage)
-    TextView tv_marriage;
-	@BindView(R.id.tv_sex)
-    TextView tv_sex;
-	@BindView(R.id.et_nickname)
-	EditText et_nickname;
-	@BindView(R.id.iv_photo)
-	ImageView iv_photo;
+    @BindView(R.id.tv_birthday) TextView tv_birthday;
+	@BindView(R.id.tv_address) TextView tv_address;
+	@BindView(R.id.tv_marriage) TextView tv_marriage;
+	@BindView(R.id.tv_sex) TextView tv_sex;
+	@BindView(R.id.et_nickname) EditText et_nickname;
+	@BindView(R.id.iv_photo) ImageView iv_photo;
 
 	private Uri mCameraFile;
     private int mYear = 1990, mMonth = 1, mDay = 1;
@@ -119,13 +113,11 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
 		}
 	}
 
-	@OnClick(R.id.tv_birthday)
-    void birthdayClick() {
+	@OnClick(R.id.tv_birthday) void birthday() {
         new DatePickerDialog(this, this, mYear, mMonth, mDay).show();
     }
 
-    @OnClick(R.id.tv_right_title)
-    void rightTitleClick() {
+    @OnClick(R.id.tv_right_title) void right() {
         if (StringUtil.containsEmoji(et_nickname.getText().toString())) {
             CustomToast.show("昵称不能包含Emoji表情符号", 0);
             return;
@@ -133,26 +125,22 @@ public class PersonalDataActivity extends BaseActivity implements DataCallback, 
         checkDataAndLoad();
     }
 
-    @OnClick(R.id.iv_photo)
-    void photoClick() {
+    @OnClick(R.id.iv_photo) void photo() {
         GetPicDialog picDialog = new GetPicDialog(this);
         mCameraFile = picDialog.getPicPathUri();
         picDialog.showDialog();
     }
 
-    @OnClick(R.id.tv_address)
-    void addClick() {
+    @OnClick(R.id.tv_address) void address() {
         AreaWheelDialog dialog = new AreaWheelDialog(this, this);
         dialog.show();
     }
 
-    @OnClick(R.id.tv_sex)
-    void sexClick() {
+    @OnClick(R.id.tv_sex) void sex() {
 	    showSexDialog();
     }
 
-    @OnClick(R.id.tv_marriage)
-    void marriageClick() {
+    @OnClick(R.id.tv_marriage) void marriage() {
         showMarriageDialog();
     }
 

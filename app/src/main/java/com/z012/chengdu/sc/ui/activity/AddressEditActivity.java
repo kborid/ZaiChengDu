@@ -37,18 +37,13 @@ import butterknife.OnClick;
  */
 public class AddressEditActivity extends BaseActivity implements
 		DatePickerDialog.OnDateSetListener, DataCallback, AreaWheelCallback {
-	@BindView(R.id.et_name)
-    EditText et_name;
-	@BindView(R.id.et_phone)
-    EditText et_phone;
-	@BindView(R.id.et_address)
-    EditText et_address;
-	@BindView(R.id.tv_address_sele)
-	TextView tv_address_sele;
-	@BindView(R.id.tv_date)
-    TextView tv_date;
-	@BindView(R.id.checkBox)
-    CheckBox checkBox;
+
+	@BindView(R.id.et_name) EditText et_name;
+	@BindView(R.id.et_phone) EditText et_phone;
+	@BindView(R.id.et_address) EditText et_address;
+	@BindView(R.id.tv_address_sele) TextView tv_address_sele;
+	@BindView(R.id.tv_date) TextView tv_date;
+	@BindView(R.id.checkBox) CheckBox checkBox;
 
 	private final int DATE_DIALOG_ID = 0;
 	private int mYear, mMonth = 11, mDay = 31;
@@ -101,19 +96,16 @@ public class AddressEditActivity extends BaseActivity implements
 		tv_date.setText(date);
 	}
 
-	@OnClick(R.id.tv_address_sele)
-    void saleClick() {
+	@OnClick(R.id.tv_address_sele) void address() {
         AreaWheelDialog dialog = new AreaWheelDialog(this, this);
         dialog.show();
     }
 
-    @OnClick(R.id.tv_date)
-    void dateClick() {
+    @OnClick(R.id.tv_date) void date() {
         showDialog(DATE_DIALOG_ID);
     }
 
-    @OnClick(R.id.tv_right_title)
-    void rightTitleClick() {
+    @OnClick(R.id.tv_right_title) void right() {
         submitData();
     }
 

@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.net.http.SslError;
 import android.os.Build;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -28,6 +27,9 @@ import com.umeng.analytics.MobclickAgentJSInterface;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 相关webview 公用页面；如：城市新鲜事、常见问题等
  * 
@@ -38,7 +40,7 @@ public class WebViewActivity extends BaseActivity {
 
 	private WebView	mWebView;
 	private String	mURL	= "file:///android_asset/BusList.html";
-	private CommonLoadingWidget	common_loading_widget;
+	@BindView(R.id.common_loading_widget) CommonLoadingWidget common_loading_widget;
 
 	@Override
 	protected int getLayoutResId() {
@@ -56,7 +58,6 @@ public class WebViewActivity extends BaseActivity {
 			}
 			if (getIntent().getExtras().getString("title") != null) {
 				tv_center_title.setText(getIntent().getExtras().getString("title"));
-
 			}
 		}
 	}
@@ -66,9 +67,7 @@ public class WebViewActivity extends BaseActivity {
 		super.initParams();
         mWebView = (WebView) findViewById(R.id.webview);
         tv_right_title.setBackgroundResource(R.drawable.m_refresh);
-        tv_center_title.setText("");
         tv_right_title.setVisibility(View.GONE);
-        common_loading_widget = (CommonLoadingWidget) findViewById(R.id.common_loading_widget);
 
 		// important , so that you can use js to call Uemng APIs
 		new MobclickAgentJSInterface(this, mWebView, new MyWebClient());
@@ -102,33 +101,21 @@ public class WebViewActivity extends BaseActivity {
 			webSetting.setLoadsImagesAutomatically(false);
 		}
 		// testGeolocationOK();
-	}
-
-	@Override
-	public void initListeners() {
-		super.initListeners();
 		mWebView.setWebViewClient(new MymWebViewClient());
 		mWebView.setWebChromeClient(new MyWebClient());
 	}
 
-	@Override
-	public void onClick(View v) {
-		// super.onClick(v);
-		switch (v.getId()) {
-			case R.id.tv_right_title :
-				mWebView.reload();// 刷新
-				break;
-			case R.id.tv_left_title :
-				if (mWebView.canGoBack()) {
-					mWebView.goBack();
-				} else {
-					this.finish();
-				}
-				break;
-			default :
-				break;
-		}
-	}
+	@OnClick(R.id.tv_right_title) void right() {
+	    mWebView.reload();
+    }
+
+    @OnClick(R.id.tv_left_title) void left() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            finish();
+        }
+    }
 
 	class MymWebViewClient extends WebViewClient {
 		@Override

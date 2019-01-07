@@ -7,6 +7,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
+import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -36,21 +37,24 @@ import com.z012.chengdu.sc.ui.fragment.TabUserFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnCheckedChanged;
+
 /**
  * main
  *
  * @author kborid
  */
-public class MainFragmentActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, OnPageChangeListener, DataCallback {
+public class MainFragmentActivity extends BaseActivity implements DataCallback {
     public static final int PAGE_HOME = 0;
     public static final int PAGE_SERVER = 1;
     public static final int PAGE_USER = 2;
 
     public static final int LOGIN_EXIT = 1000;
-
-    private RadioGroup radioGroup;
-    private ViewPager viewPager;
     private long exitTime = 0;
+
+    @BindView(R.id.radioGroup) RadioGroup radioGroup;
+    @BindView(R.id.viewPager) ViewPager viewPager;
 
     @Override
     protected int getLayoutResId() {
@@ -60,9 +64,6 @@ public class MainFragmentActivity extends BaseActivity implements RadioGroup.OnC
     @Override
     public void initParams() {
         super.initParams();
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-
         initFragmentView();
         UmengUpdateAgent.update(this);// 友盟渠道版本更新
         if (NetworkUtil.isNetworkAvailable() && SessionContext.isLogin()) {
@@ -107,37 +108,47 @@ public class MainFragmentActivity extends BaseActivity implements RadioGroup.OnC
         MainFragmentAdapter mAdapter = new MainFragmentAdapter(getSupportFragmentManager(), mList);
         viewPager.setOffscreenPageLimit(mList.size());
         viewPager.setAdapter(mAdapter);
-    }
+        viewPager.addOnPageChangeListener(new OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    @Override
-    public void initListeners() {
-        super.initListeners();
-        radioGroup.setOnCheckedChangeListener(this);
-        viewPager.setOnPageChangeListener(this);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                radioGroup.getChildAt(position).performClick();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     public void changeTabService() {
         viewPager.setCurrentItem(PAGE_SERVER);
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        try {
-            switch (checkedId) {
-                case R.id.qu_btn_01:
+    @OnCheckedChanged({R.id.qu_btn_01, R.id.qu_btn_02, R.id.qu_btn_03}) void checked(CompoundButton view, boolean isChecked) {
+        switch (view.getId()) {
+            case R.id.qu_btn_01:
+                if (isChecked) {
                     viewPager.setCurrentItem(PAGE_HOME, false);
-                    break;
-                case R.id.qu_btn_02:
+                }
+                break;
+            case R.id.qu_btn_02:
+                if (isChecked) {
                     viewPager.setCurrentItem(PAGE_SERVER, false);
-                    break;
-                case R.id.qu_btn_03:
+                }
+                break;
+            case R.id.qu_btn_03:
+                if (isChecked) {
                     viewPager.setCurrentItem(PAGE_USER, false);
-                    break;
-                default:
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -176,21 +187,6 @@ public class MainFragmentActivity extends BaseActivity implements RadioGroup.OnC
                 break;
         }
 
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int arg0) {
-
-    }
-
-    @Override
-    public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-    }
-
-    @Override
-    public void onPageSelected(int arg0) {
-        radioGroup.getChildAt(arg0).performClick();
     }
 
     private void requestCertResult() {

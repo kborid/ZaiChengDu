@@ -1,7 +1,5 @@
 package com.z012.chengdu.sc.ui.base;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +39,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         }
         setContentView(getLayoutResId());
         ButterKnife.bind(this);
-        dealIntent();
         initParams();
         initListeners();
 	}
@@ -76,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 		tv_left_title = (TextView) findViewById(R.id.tv_left_title);
 		tv_center_title = (TextView) findViewById(R.id.tv_center_title);
 		tv_right_title = (TextView) findViewById(R.id.tv_right_title);
+        dealIntent();
 	}
 
     protected void dealIntent() {
@@ -96,31 +94,18 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
     public void onClick(View v) {
     }
 
-    public final void showProgressDialog(String tip, boolean cancelable) {
-		showProgressDialog(this, tip, cancelable, null);
-	}
-
-    public final void showProgressDialog(Context cxt, String tip,
-			boolean cancelable, DialogInterface.OnCancelListener mCancel) {
+    public final void showProgressDialog(String tip, boolean isCancelable) {
 		if (null == mProgressDialog) {
-			mProgressDialog = new MyProgressDialog(cxt);
+			mProgressDialog = new MyProgressDialog(this);
 		}
 		mProgressDialog.setMessage(tip);
 		mProgressDialog.setCanceledOnTouchOutside(false);
-		// mProgressDialog.setCancelable(cancelable);
 		mProgressDialog.setCancelable(false);
-		if (cancelable) {
-			mProgressDialog.setOnCancelListener(mCancel);
-		}
 		mProgressDialog.show();
 	}
 
     public final boolean isProgressShowing() {
-		if (null != mProgressDialog) {
-			return mProgressDialog.isShowing();
-		} else {
-			return false;
-		}
+		return null != mProgressDialog && mProgressDialog.isShowing();
 	}
 
     public final void removeProgressDialog() {

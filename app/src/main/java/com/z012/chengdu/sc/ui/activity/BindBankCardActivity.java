@@ -5,10 +5,8 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,20 +24,27 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.net.ConnectException;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 绑定银行卡或支护宝
  * 
- * @author LiaoBo
+ * @author kborid
  */
 public class BindBankCardActivity extends BaseActivity implements DataCallback {
-	private TableRow	tr_choice;
-	private TextView	tv_choice, tv_tip;
-	private EditText	et_card_number, et_name;
-	private EditText	et_pay_number, et_pay_name;
-	private TableLayout	tl_band_card, tl_alipay;
-	private Button		btn_complete;
-	private boolean		isBindAlipay	= true;	// 默认选择绑定支护宝
-	private int			mCardType;					// 银行卡类型0：银行卡1：支护宝
+
+    @BindView(R.id.tv_choice) TextView tv_choice;
+    @BindView(R.id.tv_tip) TextView tv_tip;
+    @BindView(R.id.et_card_number) EditText et_card_number;
+    @BindView(R.id.et_name) EditText et_name;
+    @BindView(R.id.et_pay_number) EditText et_pay_number;
+    @BindView(R.id.et_pay_name) EditText et_pay_name;
+	@BindView(R.id.tl_band_card) TableLayout tl_band_card;
+	@BindView(R.id.tl_alipay)TableLayout tl_alipay;
+
+	private boolean isBindAlipay = true;	// 默认选择绑定支护宝
+	private int mCardType;					// 银行卡类型0：银行卡1：支护宝
 
 	@Override
 	protected int getLayoutResId() {
@@ -50,38 +55,14 @@ public class BindBankCardActivity extends BaseActivity implements DataCallback {
 	public void initParams() {
 		super.initParams();
         tv_center_title.setText("绑定账户");
-        tr_choice = (TableRow) findViewById(R.id.tr_choice);
-        tv_choice = (TextView) findViewById(R.id.tv_choice);
-        tv_tip = (TextView) findViewById(R.id.tv_tip);
-        et_card_number = (EditText) findViewById(R.id.et_card_number);
-        et_name = (EditText) findViewById(R.id.et_name);
-        tl_band_card = (TableLayout) findViewById(R.id.tl_band_card);
-        tl_alipay = (TableLayout) findViewById(R.id.tl_alipay);
-        et_pay_number = (EditText) findViewById(R.id.et_pay_number);
-        et_pay_name = (EditText) findViewById(R.id.et_pay_name);
-        btn_complete = (Button) findViewById(R.id.btn_complete);
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		tr_choice.setOnClickListener(this);
-		btn_complete.setOnClickListener(this);
+	@OnClick(R.id.tr_choice) void choice() {
+		showChoiceDialog();
 	}
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.tr_choice :
-				showChoiceDialog();
-				break;
-			case R.id.btn_complete :
-				completet();
-				break;
-			default :
-				break;
-		}
+	@OnClick(R.id.btn_complete) void complete() {
+		completet();
 	}
 
 	/**

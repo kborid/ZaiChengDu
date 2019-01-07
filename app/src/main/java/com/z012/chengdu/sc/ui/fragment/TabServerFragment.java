@@ -1,16 +1,12 @@
 package com.z012.chengdu.sc.ui.fragment;
 
-import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -43,6 +39,10 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.OnTouch;
+
 /**
  * 服务
  * 
@@ -50,31 +50,25 @@ import java.util.List;
  */
 public class TabServerFragment extends BaseFragment implements DataCallback {
 
-	private TextView tv_search;
-	private TabLayout tabs;
-	private ScrollView mScrollView;
-	private LinearLayout service_lay;
-	private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
-	private boolean isFail; // 是否是加载失败
+	@BindView(R.id.tabs) TabLayout tabs;
+	@BindView(R.id.scrollview) ScrollView mScrollView;
+	@BindView(R.id.service_lay) LinearLayout service_lay;
+
+    private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
+    private boolean isFail; // 是否是加载失败
     private int mCurrentPosition = 0;
-    private FrameLayout touchFrame;
     private boolean tabInterceptTouchEventTag = true;
     private int[] gridViewLoc;
     private int[] itemViewLoc, itemViewHeight;
     private int mScrollViewY;
 
-	@RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		super.onCreateView(inflater, container, savedInstanceState);
-		View view = inflater.inflate(R.layout.fragment_tab_service, container, false);
-		initViews(view);
-		initParams();
-		initListeners();
-		return view;
-	}
+    protected int getLayoutResId() {
+        return R.layout.fragment_tab_service;
+    }
 
-	protected void onInits() {
+    @Override
+    protected void onInit() {
         EventBus.getDefault().register(this);
 	}
 
@@ -83,15 +77,6 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 		if (isFail) {// 如果加载失败，回到当前页就重新加载
 			loadData();
 		}
-	}
-	@Override
-	protected void initViews(View view) {
-		super.initViews(view);
-		tv_search = (TextView) view.findViewById(R.id.tv_search);
-		tabs = (TabLayout) view.findViewById(R.id.tabs);
-        mScrollView = (ScrollView) view.findViewById(R.id.scrollview);
-        service_lay = (LinearLayout) view.findViewById(R.id.service_lay);
-        touchFrame = (FrameLayout) view.findViewById(R.id.touchFrame);
 	}
 
 	private View getPlaceHolderView() {
@@ -104,7 +89,8 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
 	    return placeHolderView;
     }
 
-	@Override
+	@TargetApi(Build.VERSION_CODES.M)
+    @Override
 	protected void initParams() {
 		super.initParams();
 
@@ -132,32 +118,8 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
                 mScrollViewY = loc[1];
             }
         }, 100);
-	}
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-	public void initListeners() {
-		super.initListeners();
-		tv_search.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), SearchActivity.class);
-				startActivity(intent);
-			}
-		});
-
-        touchFrame.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (!tabInterceptTouchEventTag) {
-                    tabInterceptTouchEventTag = true;
-                }
-                return false;
-            }
-        });
-
-		tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(final TabLayout.Tab tab) {
                 if(!tabInterceptTouchEventTag){
@@ -186,17 +148,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
             }
         });
 
-		mScrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (tabInterceptTouchEventTag) {
-                    tabInterceptTouchEventTag = false;
-                }
-                return false;
-            }
-        });
-
-		mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+        mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (tabInterceptTouchEventTag) {
@@ -214,6 +166,24 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
             }
         });
 	}
+
+	@OnClick(R.id.tv_search) void search() {
+        startActivity(new Intent(getActivity(), SearchActivity.class));
+    }
+
+    @OnTouch(R.id.touchFrame) boolean touchFrame() {
+        if (!tabInterceptTouchEventTag) {
+            tabInterceptTouchEventTag = true;
+        }
+        return false;
+    }
+
+    @OnTouch(R.id.scrollview) boolean scrollViewTouch() {
+        if (tabInterceptTouchEventTag) {
+            tabInterceptTouchEventTag = false;
+        }
+        return false;
+    }
 
 	/**
 	 * 加载所有栏目和服务
@@ -310,8 +280,8 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDetach() {
+        super.onDetach();
         EventBus.getDefault().unregister(this);
     }
 

@@ -44,18 +44,12 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 	private final int	MODIFY_THIRD_PARTY	= 100;
 	private boolean mIsAuth = false;
 
-	@BindView(R.id.tv_certification)
-    TextView tv_certification;
-	@BindView(R.id.tv_phone_number)
-    TextView tv_phone_number;
-    @BindView(R.id.tr_certification)
-    TableRow tr_certification;
-    @BindView(R.id.iv_qq)
-    ImageView iv_qq;
-    @BindView(R.id.iv_wx)
-    ImageView iv_wx;
-    @BindView(R.id.iv_wb)
-    ImageView iv_wb;
+	@BindView(R.id.tv_certification) TextView tv_certification;
+	@BindView(R.id.tv_phone_number) TextView tv_phone_number;
+    @BindView(R.id.tr_certification) TableRow tr_certification;
+    @BindView(R.id.iv_qq) ImageView iv_qq;
+    @BindView(R.id.iv_wx) ImageView iv_wx;
+    @BindView(R.id.iv_wb) ImageView iv_wb;
 
 	@Override
 	protected int getLayoutResId() {
@@ -83,38 +77,33 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 		requestCertResult();
 	}
 
-	@OnClick(R.id.tr_certification)
-    void certClick() {
+	@OnClick(R.id.tr_certification) void cert() {
 	    startActivity(new Intent(this, CertificateOneActivity.class));
     }
 
-	@OnClick(R.id.tr_third_party)
-    void thirdPartyClick() {
+	@OnClick(R.id.tr_third_party) void thirdParty() {
 	    Intent intent = new Intent(this, BindThirdPartyActivity.class);
         startActivityForResult(intent, MODIFY_THIRD_PARTY);
     }
 
-    @OnClick(R.id.tr_phone_number)
-    void phoneNumClick() {
+    @OnClick(R.id.tr_phone_number) void phoneNum() {
         Intent intent = new Intent(this, ChangePhoneNoActivity.class);
         intent.putExtra("num", tv_phone_number.getText().toString());
         startActivity(intent);
     }
 
-    @OnClick(R.id.tr_change_password)
-    void changePwdClick() {
+    @OnClick(R.id.tr_change_password) void changePwd() {
 	    startActivity(new Intent(this, UpdataLoginPwdActivity.class));
     }
 
-	@OnClick(R.id.btn_logout)
-    void logoutClick() {
+	@OnClick(R.id.btn_logout) void logout() {
         cancellationTicket();
     }
 
 	/**
 	 * 退出登录
 	 */
-	public void logout() {
+	public void logoutEvent() {
 		// 添加友盟自定义事件
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", SessionContext.mUser.USERBASIC.id);
@@ -189,7 +178,7 @@ public class AccountSecurityActivity extends BaseActivity implements DataCallbac
 	public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
         if (request.flag == 1) {
             removeProgressDialog();
-            logout();
+			logoutEvent();
         } else if (request.flag == 2) {
             removeProgressDialog();
             setThirdPartyBind(response.body.toString(), true);

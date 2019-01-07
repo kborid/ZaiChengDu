@@ -1,18 +1,16 @@
 package com.z012.chengdu.sc.ui.base;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.prj.sdk.util.LogUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
+
+import butterknife.ButterKnife;
 
 /**
  * fragment基类，提供公共属性
@@ -20,11 +18,26 @@ import com.z012.chengdu.sc.ui.dialog.MyProgressDialog;
  * @author LiaoBo
  */
 public abstract class BaseFragment extends Fragment {
+
+	private static final String TAG = BaseFragment.class.getSimpleName();
+
 	private MyProgressDialog mProgressDialog;
 	protected static String requestID;
 	/** Fragment当前状态是否可见 */
 	protected boolean isVisible;
 	private boolean isPrepared = false;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        isPrepared = true;
+        View view = inflater.inflate(getLayoutResId(), container, false);
+        ButterKnife.bind(this, view);
+        initParams();
+        return view;
+    }
+
+    protected abstract int getLayoutResId();
 
 	@Override
 	public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -36,7 +49,7 @@ public abstract class BaseFragment extends Fragment {
 
 		if (isPrepared) {
 			isPrepared = false;
-			onInits();
+            onInit();
 		}
 	}
 
@@ -52,49 +65,13 @@ public abstract class BaseFragment extends Fragment {
 	protected void onInvisible() {
 	}
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		isPrepared = true;
-		return super.onCreateView(inflater, container, savedInstanceState);
-	}
-
 	/**
 	 * 初始化方法，只有在显示时才会有且只执行一次
 	 */
-	protected abstract void onInits();
-
-	protected void initViews(View view) {
-	};
-
-	public void dealIntent() {
-	}
+	protected abstract void onInit();
 
 	// 参数设置
 	protected void initParams() {
-	}
-
-	protected void initListeners() {
-	};
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
 	}
 
 	@Override
@@ -128,78 +105,35 @@ public abstract class BaseFragment extends Fragment {
 			isVisible = true;
 			onVisible();
 			MobclickAgent.onPageStart(this.getClass().getName());
-			LogUtil.d(
-					getClass().getSimpleName(),
-					" - display - "
+			LogUtil.d(TAG, " - display - "
 							+ (isHappenedInSetUserVisibleHintMethod ? "setUserVisibleHint"
 							: "onResume"));
 		} else {
 			isVisible = false;
 			onInvisible();
 			MobclickAgent.onPageEnd(this.getClass().getName());
-			LogUtil.d(
-					getClass().getSimpleName(),
-					" - hidden - "
+			LogUtil.d(TAG, " - hidden - "
 							+ (isHappenedInSetUserVisibleHintMethod ? "setUserVisibleHint"
 							: "onPause"));
 		}
 	}
 
-	@Override
-	public void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	public void onDestroyView() {
-		super.onDestroyView();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
-	public void onDetach() {
-		super.onDetach();
-	}
-
-	public final void showProgressDialog(String tip, boolean cancelable) {
-		showProgressDialog(getActivity(), tip, cancelable, null);
-	}
-
-	/**
-	 * 显示loading对话框
-	 */
-	public final void showProgressDialog(Context cxt, String tip,
-			boolean cancelable, DialogInterface.OnCancelListener mCancel) {
-		if (mProgressDialog == null) {
-			mProgressDialog = new MyProgressDialog(cxt);
+	public final void showProgressDialog(String tip, boolean isCancelable) {
+		if (null == mProgressDialog) {
+			mProgressDialog = new MyProgressDialog(getActivity());
 		}
 		mProgressDialog.setMessage(tip);
 		mProgressDialog.setCanceledOnTouchOutside(false);
-		// mProgressDialog.setCancelable(cancelable);
 		mProgressDialog.setCancelable(false);
-		if (cancelable) {
-			mProgressDialog.setOnCancelListener(mCancel);
-		}
 		mProgressDialog.show();
 	}
 
 	public final boolean isProgressShowing() {
-		if (mProgressDialog != null) {
-			return mProgressDialog.isShowing();
-		} else {
-			return false;
-		}
+		return null != mProgressDialog && mProgressDialog.isShowing();
 	}
 
-	/**
-	 * 销毁loading对话框
-	 */
 	public final void removeProgressDialog() {
-		if (mProgressDialog != null) {
+		if (null != mProgressDialog) {
 			mProgressDialog.dismiss();
 		}
 	}
