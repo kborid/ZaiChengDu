@@ -130,7 +130,7 @@ public class CustomDialog extends Dialog {
 	 */
 	public void show(String message) {
 		tip_content.setText(message);
-		super.show();
+		show();
 	}
 
 	/**

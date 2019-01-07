@@ -1,8 +1,5 @@
 package com.prj.sdk.net.http;
 
-import java.io.IOException;
-import java.util.Map;
-
 import com.alibaba.fastjson.JSONObject;
 import com.prj.sdk.constants.InfoType;
 import com.prj.sdk.util.StringUtil;
@@ -25,10 +22,10 @@ public class HttpHelper {
 	public HttpHelper() {
 	}
 
-	public byte[] executeHttpRequest(String url, String httpType, Map<String, Object> header, Object mEntity, boolean isForm) {
+	public byte[] executeHttpRequest(String url, String httpType, Object mEntity, boolean isForm) {
 		ResponseBody mResponseBody = null;
 		try {
-			Response    response = getResponse(url, httpType, header, mEntity, isForm);
+			Response    response = getResponse(url, httpType, mEntity, isForm);
 			mResponseBody = response.isSuccessful() ? response.body() : null;
 			return mResponseBody != null ? mResponseBody.bytes() : null;
 		} catch (Exception e) {
@@ -48,7 +45,7 @@ public class HttpHelper {
 	/**
 	 * 执行 POST 请求，POST 请求的服务器响应
 	 */
-	public Response getResponse(String url, String httpType, Map<String, Object> header, Object mEntity, boolean isForm) {
+	public Response getResponse(String url, String httpType, Object mEntity, boolean isForm) {
 		try {
 			if(mEntity instanceof JSONObject && (InfoType.GET_REQUEST.toString().equals(httpType) || InfoType.DELETE_REQUEST.toString().equals(httpType))) {
 				JSONObject mJson = (JSONObject)mEntity;
@@ -70,45 +67,45 @@ public class HttpHelper {
 			}
 			
 			if (InfoType.GET_REQUEST.toString().equals(httpType)) {
-				request = OkHttpClientUtil.getInstance().buildGetRequest(url, header);
+				request = OkHttpClientUtil.getInstance().buildGetRequest(url);
 			} else if (InfoType.DELETE_REQUEST.toString().equals(httpType)) {
-				request = OkHttpClientUtil.getInstance().buildDeleteRequest(url, header);
+				request = OkHttpClientUtil.getInstance().buildDeleteRequest(url);
 			} else if (InfoType.PUT_REQUEST.toString().equals(httpType)) {
 				if (mEntity instanceof String) {
 					String mJson = (String) mEntity;
-					request = OkHttpClientUtil.getInstance().buildPutRequest(url, header, mJson);
+					request = OkHttpClientUtil.getInstance().buildPutRequest(url, mJson);
 				} else {
 					if (mEntity instanceof JSONObject) {
 						JSONObject mJson = (JSONObject) mEntity;
 						if (isForm) {
-							request = OkHttpClientUtil.getInstance().buildPutMultipartFormRequest(url, header, mJson);
+							request = OkHttpClientUtil.getInstance().buildPutMultipartFormRequest(url, mJson);
 						} else {
-							request = OkHttpClientUtil.getInstance().buildPutFormRequest(url, header, mJson);
+							request = OkHttpClientUtil.getInstance().buildPutFormRequest(url, mJson);
 						}
 					} else if(mEntity instanceof byte[]) {
 						byte[] data = (byte[]) mEntity;
-						request = OkHttpClientUtil.getInstance().buildPutRequest(url, header, data);
+						request = OkHttpClientUtil.getInstance().buildPutRequest(url, data);
 					} else if(mEntity == null) {
-						request = OkHttpClientUtil.getInstance().buildPutRequest(url, header, new byte[]{});
+						request = OkHttpClientUtil.getInstance().buildPutRequest(url, new byte[]{});
 					}
 				}
 			} else {
 				if (mEntity instanceof String) {
 					String mJson = (String) mEntity;
-					request = OkHttpClientUtil.getInstance().buildPostRequest(url, header, mJson);
+					request = OkHttpClientUtil.getInstance().buildPostRequest(url, mJson);
 				} else {
 					if (mEntity instanceof JSONObject) {
 						JSONObject mJson = (JSONObject) mEntity;
 						if (isForm) {
-							request = OkHttpClientUtil.getInstance().buildPostMultipartFormRequest(url, header, mJson);
+							request = OkHttpClientUtil.getInstance().buildPostMultipartFormRequest(url, mJson);
 						} else {
-							request = OkHttpClientUtil.getInstance().buildPostFormRequest(url, header, mJson);
+							request = OkHttpClientUtil.getInstance().buildPostFormRequest(url, mJson);
 						}
 					} else if(mEntity instanceof byte[]) {
 						byte[] data = (byte[]) mEntity;
-						request = OkHttpClientUtil.getInstance().buildPostRequest(url, header, data);
+						request = OkHttpClientUtil.getInstance().buildPostRequest(url, data);
 					} else if(mEntity == null) {
-						request = OkHttpClientUtil.getInstance().buildPostRequest(url, header, new byte[]{});
+						request = OkHttpClientUtil.getInstance().buildPostRequest(url, new byte[]{});
 					}
 				}
 			}

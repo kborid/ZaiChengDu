@@ -297,7 +297,7 @@ public class HttpClientExecutor {
 	/**
 	 * 获取HttpResponse
 	 * 
-	 * @param obj
+	 * @param httpBase
 	 */
 	public HttpResponse getHttpResponse(HttpRequestBase httpBase) throws Exception {
 		HttpResponse httpResponse = newHttpClient().execute(httpBase);

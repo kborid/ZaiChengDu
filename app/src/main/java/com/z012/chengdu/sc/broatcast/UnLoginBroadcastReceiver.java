@@ -3,7 +3,9 @@ package com.z012.chengdu.sc.broatcast;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.WindowManager;
 
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.constants.Const;
@@ -55,6 +57,13 @@ public class UnLoginBroadcastReceiver extends BroadcastReceiver {
 		SessionContext.cleanUserInfo();
 
 		CustomDialog dlg = new CustomDialog(context);
+        WindowManager.LayoutParams lp = dlg.getWindow().getAttributes();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            lp.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            lp.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
+        }
+        dlg.getWindow().setAttributes(lp);
 		dlg.setBtnText("取消", "登录");
 		dlg.show(msg);
 		dlg.setCanceled(false);

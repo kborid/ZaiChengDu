@@ -101,13 +101,6 @@ public class AddressEditActivity extends BaseActivity implements
 		tv_date.setText(date);
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		tv_address_sele.setOnClickListener(this);
-		tv_date.setOnClickListener(this);
-	}
-
 	@OnClick(R.id.tv_address_sele)
     void saleClick() {
         AreaWheelDialog dialog = new AreaWheelDialog(this, this);

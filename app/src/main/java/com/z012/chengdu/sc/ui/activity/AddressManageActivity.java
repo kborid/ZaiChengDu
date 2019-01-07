@@ -25,16 +25,22 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 地址管理
  * 
  * @author LiaoBo
  */
 public class AddressManageActivity extends BaseActivity implements DataCallback {
-	private ListView				listView;
-	private AddressManageAdapter	mAdapter;
-	private LinearLayout			layoutEmptyView, btn_add;
-	private List<UserAddrs>			mUserAddrs;
+	@BindView(R.id.listView)
+	ListView listView;
+    @BindView(R.id.layoutEmptyView)
+    LinearLayout layoutEmptyView;
+
+    private AddressManageAdapter mAdapter;
+    private List<UserAddrs> mUserAddrs;
 
 	@Override
 	protected int getLayoutResId() {
@@ -47,20 +53,23 @@ public class AddressManageActivity extends BaseActivity implements DataCallback 
 		tv_center_title.setText("地址管理");
 		tv_right_title.setText("新增");
 		tv_right_title.setVisibility(View.GONE);
-		listView = (ListView) findViewById(R.id.listView);
-		layoutEmptyView = (LinearLayout) findViewById(R.id.layoutEmptyView);
-		btn_add = (LinearLayout) findViewById(R.id.btn_add);
-
 		mUserAddrs = new ArrayList<UserAddrs>();
 		mAdapter = new AddressManageAdapter(this, mUserAddrs);
 		listView.setAdapter(mAdapter);
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		btn_add.setOnClickListener(this);
-	}
+	@OnClick(R.id.btn_add)
+    void addClick() {
+        startActivity(new Intent(this, AddressEditActivity.class));
+    }
+
+    @OnClick(R.id.tv_right_title)
+    void rightTitleClick() {
+        if (StringUtil.empty(tv_right_title.getText())) {
+            return;
+        }
+        startActivity(new Intent(this, AddressEditActivity.class));
+    }
 
 	@Override
 	protected void onResume() {
@@ -68,13 +77,8 @@ public class AddressManageActivity extends BaseActivity implements DataCallback 
 		if (SessionContext.isLogin()) {
 			loadData();
 		} else {
-			this.finish();
+			finish();
 		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
 	}
 
 	/**
@@ -96,30 +100,7 @@ public class AddressManageActivity extends BaseActivity implements DataCallback 
 	}
 
 	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		Intent mIntent = null;
-		switch (v.getId()) {
-			case R.id.btn_add :
-				mIntent = new Intent(this, AddressEditActivity.class);
-				startActivity(mIntent);
-				break;
-			case R.id.tv_right_title :
-				if (StringUtil.empty(tv_right_title.getText())) {
-					return;
-				}
-				mIntent = new Intent(this, AddressEditActivity.class);
-				startActivity(mIntent);
-				break;
-
-			default :
-				break;
-		}
-	}
-
-	@Override
 	public void preExecute(ResponseData request) {
-
 	}
 
 	@Override

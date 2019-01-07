@@ -1,9 +1,5 @@
 package com.prj.sdk.net.image;
 
-import java.io.File;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.os.Handler;
@@ -20,6 +16,10 @@ import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.ThumbnailUtil;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.util.concurrent.LIFOLinkedBlockingQueue;
+
+import java.io.File;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 数据异步加载
@@ -228,8 +228,8 @@ public class ImageLoader {
 				mLock.lock(request.url);
 				byte[] data = null;
 				if (bm == null && Utils.checkUrl(request.url) && NetworkUtil.isNetworkAvailable()) {							
-//					data = mHttpHelper.executeGet(null, request.url);	
-					data = HttpClientExecutor.getInstance().executeGet(request.url);	
+					data = HttpClientExecutor.getInstance().executeGet(request.url);
+//					data = OkHttpClientUtil.getInstance().sync(OkHttpClientUtil.getInstance().buildGetRequest(request.url)).body().bytes();
 				} else {
 					File mFile = new File(request.url);
 					if(mFile.exists()) {				   
@@ -298,10 +298,7 @@ public class ImageLoader {
 	/**
 	 * 向UI层发送消息
 	 * 
-	 * @param ImageRequest
-	 *            请求参数
-	 * @param mValue
-	 *            请求返回的内容
+	 * @param request 请求参数
 	 */
 	private void handleMessage(final ImageRequest request) {
 		// LoggerUtil.d(TAG, "图片请求返回:" + " url:" + request.url);

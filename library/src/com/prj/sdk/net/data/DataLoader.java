@@ -1,17 +1,5 @@
 package com.prj.sdk.net.data;
 
-import java.io.File;
-import java.net.ConnectException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,10 +18,22 @@ import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
 import com.prj.sdk.util.Utils;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * 数据异步加载
  * 
- * @author Liao
+ * @author kborid
  * 
  */
 public class DataLoader {
@@ -116,7 +116,7 @@ public class DataLoader {
 				mMemCache.put(mCacheUrl, data);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+		    e.printStackTrace();
 		}
 		return data;
 	}
@@ -128,7 +128,7 @@ public class DataLoader {
 			mMemCache.remove(mCacheUrl);
 			mDiskCache.remove(mCacheUrl);
 		} catch (Exception e) {
-			// TODO: handle exception
+            e.printStackTrace();
 		}
 	}
 
@@ -217,32 +217,14 @@ public class DataLoader {
 		}
 
 		private void doExecute() throws Exception {
-			// String mCacheUrl = request.path + (request.data != null ? JSON.toJSONString(request.data) : "");
 			String mCacheUrl = request.path;
 			if (NetworkUtil.isNetworkAvailable()) {
 				if (LogUtil.isDebug()) {
-					LogUtil.d(TAG, "start request:" + "path:" + request.path);
+					LogUtil.d(TAG, "req:" + request.path);
 					if (request.data != null) {
-						LogUtil.d(TAG, "start request:" + "params:" + request.data.toString());
+						LogUtil.d(TAG, "pam:" + request.data.toString());
 					}
 				}
-				// mPostMethod = new PostMethod(request.path);
-				// RequestEntity re = new StringRequestEntity(request.data.toString(), "application/json", "utf-8");
-				// mPostMethod.setRequestEntity(re);
-				// // mPostMethod.setRequestBody(request.data.toString());
-				// // mPostMethod.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET, "utf-8");
-				// if (request.header != null) {
-				// for (String key : request.header.keySet()) {
-				// mPostMethod.setRequestHeader(key, String.valueOf(request.header.get(key)));// 指定请求内容的类型
-				// }
-				// }
-				// mClient.getHttpConnectionManager().getParams().setConnectionTimeout(18 * 1000);
-				// mClient.getHttpConnectionManager().getParams().setSoTimeout(18 * 1000);
-				// mClient.executeMethod(mPostMethod);
-				// String json = null;
-				// if (mPostMethod.getStatusCode() == HttpStatus.SC_OK) {
-				// json = mPostMethod.getResponseBodyAsString();
-				// }
 
 				byte[] data = getDataFromNet();
 
@@ -253,7 +235,7 @@ public class DataLoader {
 					} else {
 						String json = new String(data, "UTF-8");
 						if (LogUtil.isDebug() && request.path != null) {
-							LogUtil.d(TAG, "rec:" + "path:" + request.path + "response:" + json);
+							LogUtil.d(TAG, "res:" + json);
 						}
 						response = JSON.parseObject(json, ResponseData.class);
 					}
@@ -265,18 +247,7 @@ public class DataLoader {
 					}
 				}
 			} else {
-				// if (mCacheUrls.contains(request.path)) {
-				// byte[] data = getCacheData(mCacheUrl);
-				// if (data != null) {
-				// String json = new String(data, "UTF-8");
-				// if (LogUtil.isDebug() && request.path != null) {
-				// LogUtil.d(TAG, "rec:" + "path:" + request.path + "response:" + json);
-				// }
-				// response = JSON.parseObject(json, ResponseData.class);
-				// }
-				// } else {
-				throw new ConnectException("网络连接失败，请检查网络");
-				// }
+                throw new ConnectException("网络连接失败，请检查网络");
 			}
 
 		}
@@ -334,21 +305,8 @@ public class DataLoader {
 		}
 
 		private byte[] getDataFromNet() {
-			byte[] data = null;
-			try {
-				if (NetworkUtil.isNetworkAvailable()) {
-					data = mHttpHelper.executeHttpRequest(request.path, request.type, request.header, request.data, request.isForm);
-
-					if (data == null && request.retry > count) {
-						count++;
-						return getDataFromNet();
-					}
-				}
-			} catch (Exception e) {
-			}
-			return data;
+			return mHttpHelper.executeHttpRequest(request.path, request.type, request.data, request.isForm);
 		}
-
 	}
 
 	/**
