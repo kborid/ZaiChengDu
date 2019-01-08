@@ -74,11 +74,6 @@ public class QATagAboutListActivity extends BaseActivity implements DataCallback
 		listView.setOnRefreshListener(this);
 	}
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-	}
-
 	/**
 	 * 加载问答数据
 	 * 

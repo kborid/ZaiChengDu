@@ -74,20 +74,15 @@ public class SearchActivity extends BaseActivity implements TextWatcher, OnItemC
 
 	@Override
 	public void initListeners() {
-		mTextView.setOnClickListener(this);
 		mAuto_text.addTextChangedListener(this);
 		listHistory.setOnItemClickListener(this);
-	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.tv_title_right :
-				this.finish();
-				break;
-			default :
-				break;
-		}
+		tv_right_title.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
 	@Override

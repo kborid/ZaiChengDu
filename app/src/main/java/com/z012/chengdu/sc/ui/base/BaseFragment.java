@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  * 
  * @author LiaoBo
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements IBaseView {
 
 	private static final String TAG = BaseFragment.class.getSimpleName();
 
@@ -118,21 +118,24 @@ public abstract class BaseFragment extends Fragment {
 		}
 	}
 
-	public final void showProgressDialog(String tip, boolean isCancelable) {
+    @Override
+	public void showProgressDialog(String msg, boolean isCancelable) {
 		if (null == mProgressDialog) {
 			mProgressDialog = new MyProgressDialog(getActivity());
 		}
-		mProgressDialog.setMessage(tip);
-		mProgressDialog.setCanceledOnTouchOutside(false);
+		mProgressDialog.setMessage(msg);
+		mProgressDialog.setCanceledOnTouchOutside(isCancelable);
 		mProgressDialog.setCancelable(false);
 		mProgressDialog.show();
 	}
 
-	public final boolean isProgressShowing() {
-		return null != mProgressDialog && mProgressDialog.isShowing();
-	}
+    @Override
+    public boolean isProgressShowing() {
+        return null != mProgressDialog && mProgressDialog.isShowing();
+    }
 
-	public final void removeProgressDialog() {
+    @Override
+	public void removeProgressDialog() {
 		if (null != mProgressDialog) {
 			mProgressDialog.dismiss();
 		}

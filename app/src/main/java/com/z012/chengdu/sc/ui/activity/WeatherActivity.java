@@ -35,6 +35,8 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.OnClick;
+
 public class WeatherActivity extends BaseActivity implements DataCallback {
 
     private static final int SELECTED_OK = 0x001;
@@ -107,7 +109,6 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
     public void initListeners() {
         // TODO Auto-generated method stub
         super.initListeners();
-        tv_addr.setOnClickListener(this);
         pullToRefreshSV
                 .setOnRefreshListener(new OnRefreshListener<ScrollView>() {
 
@@ -120,18 +121,8 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
                 });
     }
 
-    @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.tv_addr:
-                Intent intent = new Intent(this, WeatherSelectActivity.class);
-                startActivityForResult(intent, SELECTED_OK);
-                break;
-            default:
-                break;
-        }
+    @OnClick(R.id.tv_addr) void address() {
+        startActivityForResult(new Intent(this, WeatherSelectActivity.class), SELECTED_OK);
     }
 
     @Override

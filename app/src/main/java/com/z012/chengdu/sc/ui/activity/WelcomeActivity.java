@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.util.SparseIntArray;
 import android.view.KeyEvent;
@@ -35,6 +36,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.BuildConfig;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.api.RequestBeanBuilder;
+import com.z012.chengdu.sc.app.PRJApplication;
 import com.z012.chengdu.sc.app.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
@@ -123,6 +125,12 @@ public class WelcomeActivity extends BaseActivity implements DataCallback {
                 }
             }, 1000);
         }
+	}
+
+	public static void startWelcomeActivity() {
+		Intent intent = new Intent(PRJApplication.getInstance(), WelcomeActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        ActivityCompat.startActivity(PRJApplication.getInstance(), intent, null);
 	}
 
 	@Override

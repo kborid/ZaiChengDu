@@ -85,20 +85,17 @@ public class BindThirdPartyActivity extends BaseActivity implements DataCallback
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		btn_bind_qq.setOnClickListener(this);
-		btn_bind_wx.setOnClickListener(this);
-		btn_bind_sina.setOnClickListener(this);
-	}
-
-	@Override
-	public void onClick(View v) {
-		// super.onClick(v);
-		switch (v.getId()) {
-			case R.id.tv_left_title :
+		tv_left_title.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				setResult(isModify ? RESULT_OK : RESULT_CANCELED);
 				finish();
-				break;
-			case R.id.btn_bind_qq :
+			}
+		});
+
+		btn_bind_qq.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				mPlatform = "02";
 				if (!mController.getConfig().getSsoHandler(HandlerRequestCode.QQ_REQUEST_CODE).isClientInstalled()) {
 					CustomToast.show("没有安装QQ", 0);
@@ -110,10 +107,14 @@ public class BindThirdPartyActivity extends BaseActivity implements DataCallback
 				} else {// 绑定
 					login(SHARE_MEDIA.QQ);
 				}
-				break;
-			case R.id.btn_bind_wx :
+			}
+		});
+
+		btn_bind_wx.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				mPlatform = "03";
-				if (!WXAPIFactory.createWXAPI(this, null).isWXAppInstalled()) {
+				if (!WXAPIFactory.createWXAPI(BindThirdPartyActivity.this, null).isWXAppInstalled()) {
 					CustomToast.show("没有安装微信", 0);
 					return;
 				}
@@ -124,8 +125,12 @@ public class BindThirdPartyActivity extends BaseActivity implements DataCallback
 				} else {
 					login(SHARE_MEDIA.WEIXIN);
 				}
-				break;
-			case R.id.btn_bind_sina :
+			}
+		});
+
+		btn_bind_sina.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				mPlatform = "01";
 				if ("0".equals(v.getTag())) {// 解绑
 					openid = (String) v.getTag(R.id.tag_key);
@@ -133,11 +138,10 @@ public class BindThirdPartyActivity extends BaseActivity implements DataCallback
 				} else {
 					login(SHARE_MEDIA.SINA);
 				}
-				break;
-			default :
-				break;
-		}
+			}
+		});
 	}
+
 	/**
 	 * 添加qq及qq Zone平台
 	 */

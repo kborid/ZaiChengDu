@@ -1,6 +1,5 @@
 package com.z012.chengdu.sc.ui.base;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -21,7 +20,7 @@ import butterknife.ButterKnife;
  * @author kborid
  * 
  */
-public abstract class BaseActivity extends AppCompatActivity implements OnClickListener {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseView {
 
 	private MyProgressDialog mProgressDialog;
     protected TextView tv_left_title, tv_center_title, tv_right_title;
@@ -31,9 +30,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (null != savedInstanceState) {
-            Intent intent = new Intent(this, WelcomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+            WelcomeActivity.startWelcomeActivity();
 		} else {
             ActivityTack.getInstanse().addActivity(this);
         }
@@ -91,24 +88,23 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
 	}
 
     @Override
-    public void onClick(View v) {
-    }
-
-    public final void showProgressDialog(String tip, boolean isCancelable) {
+    public void showProgressDialog(String msg, boolean isCancelable) {
 		if (null == mProgressDialog) {
 			mProgressDialog = new MyProgressDialog(this);
 		}
-		mProgressDialog.setMessage(tip);
+		mProgressDialog.setMessage(msg);
 		mProgressDialog.setCanceledOnTouchOutside(false);
 		mProgressDialog.setCancelable(false);
 		mProgressDialog.show();
 	}
 
-    public final boolean isProgressShowing() {
+    @Override
+    public boolean isProgressShowing() {
 		return null != mProgressDialog && mProgressDialog.isShowing();
 	}
 
-    public final void removeProgressDialog() {
+    @Override
+    public void removeProgressDialog() {
 		if (null != mProgressDialog) {
 			mProgressDialog.dismiss();
 		}

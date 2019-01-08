@@ -56,15 +56,16 @@ public class ChangePhoneNoBindActivity extends BaseActivity implements DataCallb
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		btn_sbmit.setOnClickListener(this);
-		btn_getYZM.setOnClickListener(this);
-	}
+		btn_sbmit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				submitData();
+			}
+		});
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.btn_getYZM :
+		btn_getYZM.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				mPhoneNum = et_phone_new.getText().toString().trim();
 				if (StringUtil.notEmpty(mPhoneNum)) {
 					if (Utils.isMobile(mPhoneNum)) {
@@ -75,16 +76,8 @@ public class ChangePhoneNoBindActivity extends BaseActivity implements DataCallb
 				} else {
 					CustomToast.show("请输入手机号", 0);
 				}
-
-				break;
-			case R.id.btn_sbmit :
-				submitData();
-				break;
-
-			default :
-				break;
-		}
-
+			}
+		});
 	}
 
 	/**

@@ -48,19 +48,12 @@ public class QAPursueErrorCorrectionActivity extends BaseActivity implements Dat
 	@Override
 	public void initListeners() {
 		super.initListeners();
-	}
-
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.tv_right_title :
+		tv_right_title.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				loadData();
-				break;
-
-			default :
-				break;
-		}
+			}
+		});
 	}
 
 	/**

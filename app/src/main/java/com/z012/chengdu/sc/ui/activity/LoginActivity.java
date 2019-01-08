@@ -9,13 +9,10 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -60,6 +57,8 @@ import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -71,21 +70,19 @@ import cn.jpush.android.api.JPushInterface;
 public class LoginActivity extends BaseActivity implements DataCallback,
 		DialogInterface.OnCancelListener, OnCheckedChangeListener {
 
-	private EditText et_phone, et_pwd;
-	private Button btn_login;
+	@BindView(R.id.login_phone_ed) EditText et_phone;
+	@BindView(R.id.login_pwd) EditText et_pwd;
+    @BindView(R.id.iv_qq) ImageView iv_qq;
+    @BindView(R.id.iv_sina)ImageView iv_sina;
+    @BindView(R.id.iv_weixin) ImageView iv_weixin;
+
 	private String phoneStr, password;
-	private TextView tv_forget_pwd, tv_reigster;
 	private static onCancelLoginListener mCancelLogin;
-	private CheckBox checkBox, cb_cancel;
 	// 整个平台的Controller, 负责管理整个SDK的配置、操作等处理
-	private UMSocialService mController = UMServiceFactory
-			.getUMSocialService("com.umeng.login");
+	private UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.login");
 	private String usertoken;
-	// （01-新浪微博，02-腾讯QQ，03-微信，04-支付宝）
-	private String mPlatform;
-	private String thirdpartusername, thirdpartuserheadphotourl, openid,
-			unionid;
-	private ImageView iv_qq, iv_sina, iv_weixin;
+	private String mPlatform; // （01-新浪微博，02-腾讯QQ，03-微信，04-支付宝）
+	private String thirdpartusername, thirdpartuserheadphotourl, openid, unionid;
 
 	@Override
 	protected int getLayoutResId() {
@@ -95,18 +92,6 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 	@Override
 	public void initParams() {
 		super.initParams();
-		et_phone = (EditText) findViewById(R.id.login_phone_ed);
-		et_pwd = (EditText) findViewById(R.id.login_pwd);
-		btn_login = (Button) findViewById(R.id.btn_login);
-		tv_forget_pwd = (TextView) findViewById(R.id.tv_forget_pwd);
-		tv_reigster = (TextView) findViewById(R.id.tv_reigster);
-		checkBox = (CheckBox) findViewById(R.id.checkBox);
-		cb_cancel = (CheckBox) findViewById(R.id.cb_cancel);
-
-		iv_qq = (ImageView) findViewById(R.id.iv_qq);
-		iv_sina = (ImageView) findViewById(R.id.iv_sina);
-		iv_weixin = (ImageView) findViewById(R.id.iv_weixin);
-
 		SessionContext.cleanUserInfo();
 		String name = SharedPreferenceUtil.getInstance().getString(
 				AppConst.USERNAME, "", true);
@@ -119,64 +104,47 @@ public class LoginActivity extends BaseActivity implements DataCallback,
 		mController.getConfig().setSsoHandler(new SinaSsoHandler());
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		btn_login.setOnClickListener(this);
-		tv_forget_pwd.setOnClickListener(this);
-		tv_reigster.setOnClickListener(this);
-		checkBox.setOnCheckedChangeListener(this);
-		cb_cancel.setOnClickListener(this);
-		iv_qq.setOnClickListener(this);
-		iv_sina.setOnClickListener(this);
-		iv_weixin.setOnClickListener(this);
+	@OnClick(R.id.tv_left_title) void left() {
+        if (mCancelLogin != null) {
+            mCancelLogin.isCancelLogin(true);
+        }
+        finish();
+    }
+
+	@OnClick(R.id.btn_login) void btnLogin() {
+        loadData();
+    }
+
+	@OnClick(R.id.tv_reigster) void register() {
+        startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+	@OnClick(R.id.tv_forget_pwd) void forgetPwd() {
+		startActivity(new Intent(this, ForgetPwdActivity.class));
 	}
 
-	@Override
-	public void onClick(View v) {
-		// super.onClick(v);
-		switch (v.getId()) {
-		case R.id.tv_left_title:
-			if (mCancelLogin != null) {
-				mCancelLogin.isCancelLogin(true);
-			}
-			this.finish();
-			break;
-		case R.id.btn_login:
-			loadData();
-			break;
-		case R.id.tv_reigster:
-			Intent intent = new Intent();
-			intent.setClass(this, RegisterActivity.class);
-			startActivity(intent);
-			break;
-		case R.id.tv_forget_pwd:
-			Intent intent2 = new Intent();
-			intent2.setClass(this, ForgetPwdActivity.class);
-			startActivity(intent2);
-			break;
-		case R.id.cb_cancel:// 置空
-			et_phone.setText("");
-			break;
-		case R.id.iv_qq:
-			login(SHARE_MEDIA.QQ);
-			break;
-		case R.id.iv_sina:
-			login(SHARE_MEDIA.SINA);
-			break;
-		case R.id.iv_weixin:
-			if (WXAPIFactory.createWXAPI(this, null).isWXAppInstalled()) {
-				login(SHARE_MEDIA.WEIXIN);
-			} else {
-				CustomToast.show("没有安装微信", 0);
-			}
-			break;
+	@OnClick(R.id.cb_cancel) void emptyText() {
+		et_phone.setText("");
+	}
+
+	@OnClick(R.id.iv_qq) void qqLogin() {
+		login(SHARE_MEDIA.QQ);
+	}
+
+	@OnClick(R.id.iv_weixin) void wxLogin() {
+		if (WXAPIFactory.createWXAPI(this, null).isWXAppInstalled()) {
+			login(SHARE_MEDIA.WEIXIN);
+		} else {
+			CustomToast.show("没有安装微信", 0);
 		}
+	}
+
+	@OnClick(R.id.iv_sina) void sinaLogin() {
+		login(SHARE_MEDIA.SINA);
 	}
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		if (SessionContext.isLogin()) {
 			this.finish();

@@ -75,45 +75,42 @@ public class RegisterActivity extends BaseActivity implements DataCallback,
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		btn_register.setOnClickListener(this);
-		btn_getYZM.setOnClickListener(this);
-		tv_agreement.setOnClickListener(this);
-	}
-
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-		case R.id.btn_getYZM:
-			mPhoneNum = et_phone.getText().toString().trim();
-			if (StringUtil.notEmpty(mPhoneNum)) {
-				if (Utils.isMobile(mPhoneNum)) {
-					CheckPhoneNumber();
+		btn_register.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (checkBox.isChecked()) {
+					loadData();
 				} else {
-					CustomToast.show("请输入正确的手机号", 0);
+					CustomToast.show("请先阅读《注册协议》", 0);
 				}
-			} else {
-				CustomToast.show("请输入手机号", 0);
 			}
+		});
 
-			break;
-		case R.id.btn_register:
-			if (checkBox.isChecked()) {
-				loadData();
-			} else {
-				CustomToast.show("请先阅读《注册协议》", 0);
+		btn_getYZM.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mPhoneNum = et_phone.getText().toString().trim();
+				if (StringUtil.notEmpty(mPhoneNum)) {
+					if (Utils.isMobile(mPhoneNum)) {
+						CheckPhoneNumber();
+					} else {
+						CustomToast.show("请输入正确的手机号", 0);
+					}
+				} else {
+					CustomToast.show("请输入手机号", 0);
+				}
 			}
-			break;
-		case R.id.tv_agreement:
-			Intent mIntent = new Intent(this, WebViewActivity.class);
-			mIntent.putExtra("title", "注册协议");
-			mIntent.putExtra("path", NetURL.REGISTER_URL);
-			startActivity(mIntent);
-			break;
-		default:
-			break;
-		}
+		});
 
+		tv_agreement.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent mIntent = new Intent(RegisterActivity.this, WebViewActivity.class);
+				mIntent.putExtra("title", "注册协议");
+				mIntent.putExtra("path", NetURL.REGISTER_URL);
+				startActivity(mIntent);
+			}
+		});
 	}
 
 	/**

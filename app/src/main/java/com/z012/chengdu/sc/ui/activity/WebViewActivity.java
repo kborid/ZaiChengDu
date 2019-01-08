@@ -38,9 +38,10 @@ import butterknife.OnClick;
  */
 public class WebViewActivity extends BaseActivity {
 
-	private WebView	mWebView;
-	private String	mURL	= "file:///android_asset/BusList.html";
-	@BindView(R.id.common_loading_widget) CommonLoadingWidget common_loading_widget;
+    @BindView(R.id.webview) WebView	mWebView;
+    @BindView(R.id.common_loading_widget) CommonLoadingWidget common_loading_widget;
+
+    private String	mURL	= "file:///android_asset/BusList.html";
 
 	@Override
 	protected int getLayoutResId() {
@@ -65,7 +66,6 @@ public class WebViewActivity extends BaseActivity {
 	@Override
 	public void initParams() {
 		super.initParams();
-        mWebView = (WebView) findViewById(R.id.webview);
         tv_right_title.setBackgroundResource(R.drawable.m_refresh);
         tv_right_title.setVisibility(View.GONE);
 

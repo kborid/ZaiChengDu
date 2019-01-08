@@ -21,6 +21,9 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.net.ConnectException;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 忘记密码
  * 
@@ -28,10 +31,15 @@ import java.net.ConnectException;
  * 
  */
 public class ForgetPwdActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
-	private EditText		et_yzm, et_phone, et_password, et_password2;
-	private Button			btn_reset, btn_getYZM;
-	private String			mPhoneNum;
-	private CountDownTimer	mCountDownTimer;
+
+    @BindView(R.id.et_yzm) EditText et_yzm;
+	@BindView(R.id.et_phone) EditText et_phone;
+	@BindView(R.id.et_password) EditText et_password;
+	@BindView(R.id.et_password2) EditText et_password2;
+	@BindView(R.id.btn_getYZM) Button btn_getYZM;
+
+	private String mPhoneNum;
+	private CountDownTimer mCountDownTimer;
 
 	@Override
 	protected int getLayoutResId() {
@@ -43,49 +51,24 @@ public class ForgetPwdActivity extends BaseActivity implements DataCallback, Dia
 		super.initParams();
         tv_center_title.setText("找回密码");
         tv_right_title.setVisibility(View.GONE);
-
-        et_yzm = (EditText) findViewById(R.id.et_yzm);
-        btn_reset = (Button) findViewById(R.id.btn_reset);
-        et_phone = (EditText) findViewById(R.id.et_phone);
-        btn_getYZM = (Button) findViewById(R.id.btn_getYZM);
-        et_password = (EditText) findViewById(R.id.et_password);
-        et_password2 = (EditText) findViewById(R.id.et_password2);
-
 		setCountDownTimer(60 * 1000, 1000);
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		btn_reset.setOnClickListener(this);
-		btn_getYZM.setOnClickListener(this);
+	@OnClick(R.id.btn_reset) void reset() {
+		loadData();
 	}
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.btn_getYZM :
-				mPhoneNum = et_phone.getText().toString().trim();
-				if (StringUtil.notEmpty(mPhoneNum)) {
-					if (Utils.isMobile(mPhoneNum)) {
-						loadYZM();
-					} else {
-						CustomToast.show("请输入正确的手机号", 0);
-					}
-				} else {
-					CustomToast.show("请输入手机号", 0);
-				}
-
-				break;
-			case R.id.btn_reset :
-				loadData();
-				break;
-
-			default :
-				break;
+	@OnClick(R.id.btn_getYZM) void getYzm() {
+		mPhoneNum = et_phone.getText().toString().trim();
+		if (StringUtil.notEmpty(mPhoneNum)) {
+			if (Utils.isMobile(mPhoneNum)) {
+				loadYZM();
+			} else {
+				CustomToast.show("请输入正确的手机号", 0);
+			}
+		} else {
+			CustomToast.show("请输入手机号", 0);
 		}
-
 	}
 
 	/**
@@ -159,8 +142,6 @@ public class ForgetPwdActivity extends BaseActivity implements DataCallback, Dia
 
 	@Override
 	public void preExecute(ResponseData request) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -174,7 +155,6 @@ public class ForgetPwdActivity extends BaseActivity implements DataCallback, Dia
 			CustomToast.show("密码已修改", 0);
 			this.finish();
 		}
-
 	}
 
 	@Override

@@ -129,40 +129,31 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 		mReleListView.setOnScrollListener(this);
 		mAtteListView.setOnScrollListener(this);
 
-		tv_btn_left.setOnClickListener(this);
-		tv_btn_right.setOnClickListener(this);
-		mViewPager.setOnPageChangeListener(this);
-	}
-
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		Intent mIntent = new Intent();
-		switch (v.getId()) {
-			case R.id.tv_right_title :
-//				mIntent.setClass(this, QADetailsActivity.class);
-//				startActivity(mIntent);
-//				finish();
-				break;
-			case R.id.tv_btn_left :
+		tv_btn_left.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				if (!SessionContext.isLogin()) {
 					sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
 					return;
 				}
 				mViewPager.setCurrentItem(0);
 				setTextColor(tv_btn_left);
-				break;
-			case R.id.tv_btn_right :
+			}
+		});
+
+		tv_btn_right.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				if (!SessionContext.isLogin()) {
 					sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
 					return;
 				}
 				mViewPager.setCurrentItem(1);
 				setTextColor(tv_btn_right);
-				break;
-			default :
-				break;
-		}
+			}
+		});
+
+		mViewPager.setOnPageChangeListener(this);
 	}
 
 	/**

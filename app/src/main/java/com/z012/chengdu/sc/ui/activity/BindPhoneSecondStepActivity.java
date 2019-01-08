@@ -110,18 +110,9 @@ public class BindPhoneSecondStepActivity extends BaseActivity implements DataCal
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		btn_next.setOnClickListener(this);
-		btn_getYZM.setOnClickListener(this);
-		tv_agreement.setOnClickListener(this);
-		tv_forget_pwd.setOnClickListener(this);
-
-	}
-
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.btn_next :
+		btn_next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				if (isOccupy) {// 绑定新手机
 					if (checkBox.isChecked()) {// 手机号已经注册，直接绑定
 						bindThridAccess();
@@ -131,24 +122,34 @@ public class BindPhoneSecondStepActivity extends BaseActivity implements DataCal
 				} else {//注册然后绑定
 					registerPhone();
 				}
-				break;
-			case R.id.btn_getYZM :
+			}
+		});
+
+		btn_getYZM.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				loadYZM();
-				break;
-			case R.id.tv_agreement :
-				Intent mIntent = new Intent(this, WebViewActivity.class);
+			}
+		});
+
+		tv_agreement.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent mIntent = new Intent(BindPhoneSecondStepActivity.this, WebViewActivity.class);
 				mIntent.putExtra("title", "注册协议");
 				mIntent.putExtra("path", NetURL.REGISTER_URL);
 				startActivity(mIntent);
-				break;
-			case R.id.tv_forget_pwd :
+			}
+		});
+
+		tv_forget_pwd.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				Intent intent2 = new Intent();
-				intent2.setClass(this, ForgetPwdActivity.class);
+				intent2.setClass(BindPhoneSecondStepActivity.this, ForgetPwdActivity.class);
 				startActivity(intent2);
-				break;
-			default :
-				break;
-		}
+			}
+		});
 
 	}
 

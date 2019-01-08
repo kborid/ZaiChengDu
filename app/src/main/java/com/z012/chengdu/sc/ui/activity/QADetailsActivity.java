@@ -245,10 +245,51 @@ public class QADetailsActivity extends BaseActivity implements DataCallback, Tag
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		btn_support.setOnClickListener(this);
-		iv_shrink.setOnClickListener(this);
-		btn_qa_more.setOnClickListener(this);
-		btn_qa_say.setOnClickListener(this);
+		btn_support.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!SessionContext.isLogin()) {
+					sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+					return;
+				}
+				if (v.getTag() != null) {
+					if (Integer.parseInt(v.getTag().toString()) == 1) {// 关注
+						attentionDeal(NetURL.WG_ATTENTION, 2);
+					} else if (Integer.parseInt(v.getTag().toString()) == 2) {// 取消关注
+						attentionDeal(NetURL.WG_CANCEL_ATTENTION, 3);
+					}
+				}
+			}
+		});
+
+		iv_shrink.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				isSpread = !isSpread;
+				shrink();
+			}
+		});
+
+		btn_qa_more.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(QADetailsActivity.this, MainFragmentActivity.class);
+				intent.putExtra("moreQA", true);
+				startActivity(intent);
+			}
+		});
+
+		btn_qa_say.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (!SessionContext.isLogin()) {
+					sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+					return;
+				}
+				Intent intent = new Intent(QADetailsActivity.this, QAISayActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	/**
@@ -264,46 +305,6 @@ public class QADetailsActivity extends BaseActivity implements DataCallback, Tag
 			layoutContent.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 			iv_shrink.setImageResource(R.drawable.ic_shrink_b_1);
 		}
-	}
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		Intent mIntent = null;
-		switch (v.getId()) {
-			case R.id.btn_support :// 关注
-				if (!SessionContext.isLogin()) {
-					sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-					return;
-				}
-				if (v.getTag() != null) {
-					if (Integer.parseInt(v.getTag().toString()) == 1) {// 关注
-						attentionDeal(NetURL.WG_ATTENTION, 2);
-					} else if (Integer.parseInt(v.getTag().toString()) == 2) {// 取消关注
-						attentionDeal(NetURL.WG_CANCEL_ATTENTION, 3);
-					}
-				}
-				break;
-			case R.id.iv_shrink :// 收缩内容
-				isSpread = !isSpread;
-				shrink();
-				break;
-			case R.id.btn_qa_more :
-				mIntent = new Intent(this, MainFragmentActivity.class);
-				mIntent.putExtra("moreQA", true);
-				startActivity(mIntent);
-				break;
-			case R.id.btn_qa_say :
-				if (!SessionContext.isLogin()) {
-					sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
-					return;
-				}
-				mIntent = new Intent(this, QAISayActivity.class);
-				startActivity(mIntent);
-				break;
-			default :
-				break;
-		}
-
 	}
 
 	/**

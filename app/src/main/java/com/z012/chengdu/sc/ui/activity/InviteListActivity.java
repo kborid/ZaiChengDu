@@ -69,11 +69,6 @@ public class InviteListActivity extends BaseActivity implements DataCallback {
 	}
 
 	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-	}
-
-	@Override
 	public void preExecute(ResponseData request) {
 
 	}

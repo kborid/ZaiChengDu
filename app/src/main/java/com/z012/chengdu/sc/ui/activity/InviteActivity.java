@@ -2,9 +2,7 @@ package com.z012.chengdu.sc.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.common.share.ShareUtil;
@@ -19,15 +17,17 @@ import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.net.bean.AppInfoBean;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 邀请好友
  * 
- * @author LiaoBo
+ * @author kborid
  */
 public class InviteActivity extends BaseActivity {
-	private LinearLayout	ly_share_qq, ly_share_weixin, ly_share_sms;
-	private ImageView		iv_qr_code;
-	private String			mSMSContent;
+	@BindView(R.id.iv_qr_code) ImageView iv_qr_code;
+	private String mSMSContent;
 
 	@Override
 	protected int getLayoutResId() {
@@ -39,10 +39,6 @@ public class InviteActivity extends BaseActivity {
 		super.initParams();
 		tv_center_title.setText("邀请好友");
 		tv_right_title.setText("邀请人列表");
-		ly_share_qq = (LinearLayout) findViewById(R.id.ly_share_qq);
-		ly_share_weixin = (LinearLayout) findViewById(R.id.ly_share_weixin);
-		ly_share_sms = (LinearLayout) findViewById(R.id.ly_share_sms);
-		iv_qr_code = (ImageView) findViewById(R.id.iv_qr_code);
 
 		ShareUtil.getInstance(this).addQQQZonePlatform();
 		ShareUtil.getInstance(this).addWXPlatform();
@@ -57,37 +53,20 @@ public class InviteActivity extends BaseActivity {
 		}
 	}
 
-	@Override
-	public void initListeners() {
-		super.initListeners();
-		ly_share_qq.setOnClickListener(this);
-		ly_share_weixin.setOnClickListener(this);
-		ly_share_sms.setOnClickListener(this);
-		tv_right_title.setOnClickListener(this);
+	@OnClick(R.id.ly_share_qq) void shareQQ() {
+		ShareUtil.getInstance(this).directShare(SHARE_MEDIA.QQ);
 	}
 
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-			case R.id.ly_share_qq :
-				ShareUtil.getInstance(this).directShare(SHARE_MEDIA.QQ);
-				break;
-			case R.id.ly_share_weixin :
-				ShareUtil.getInstance(this).directShare(SHARE_MEDIA.WEIXIN);
-				break;
-			case R.id.ly_share_sms :
-				// ShareUtil.getInstance(this).directShare(SHARE_MEDIA.SMS);
-				ShareUtil.getInstance(this).sendSMS(mSMSContent);
-				break;
-			case R.id.tv_right_title :
-				Intent intent = new Intent(this, InviteListActivity.class);
-				startActivity(intent);
-				break;
-			default :
-				break;
-		}
+	@OnClick(R.id.ly_share_weixin) void shareWX() {
+		ShareUtil.getInstance(this).directShare(SHARE_MEDIA.WEIXIN);
+	}
 
+	@OnClick(R.id.ly_share_sms) void shareSMS() {
+		ShareUtil.getInstance(this).sendSMS(mSMSContent);
+	}
+
+	@OnClick(R.id.tv_right_title) void right() {
+		startActivity(new Intent(this, InviteListActivity.class));
 	}
 
 	/**

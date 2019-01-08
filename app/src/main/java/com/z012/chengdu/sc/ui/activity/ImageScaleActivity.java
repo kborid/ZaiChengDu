@@ -26,6 +26,8 @@ import com.z012.chengdu.sc.ui.dialog.CustomDialog.onCallBackListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.OnClick;
+
 /***
  * 图片缩放预览
  * 
@@ -62,7 +64,6 @@ public class ImageScaleActivity extends BaseActivity implements
 			imgUrl = bundle.getStringArrayList("url");
 			if (bundle.getStringArrayList("uri") != null) {
 				tv_right_title_layout.setVisibility(View.VISIBLE);
-				tv_right_title_layout.setOnClickListener(this);
 				imgUri = new ArrayList<Uri>();
 				List<String> listUri = bundle.getStringArrayList("uri");
 				for (int i = 0; i < listUri.size(); i++) {
@@ -160,52 +161,44 @@ public class ImageScaleActivity extends BaseActivity implements
 		mViewPager.setOnPageChangeListener(this);
 	}
 
-	@Override
-	public void onClick(View v) {
-		// super.onClick(v);
-		switch (v.getId()) {
-		case R.id.tv_right_title_layout:
-			mTip.show("是否确定删除这张图片？");
-			mTip.setListeners(new onCallBackListener() {
+	@OnClick(R.id.tv_right_title_layout) void delete() {
+		mTip.show("是否确定删除这张图片？");
+		mTip.setListeners(new onCallBackListener() {
 
-				@Override
-				public void rightBtn(CustomDialog dialog) {
-					dialog.dismiss();
-				}
+			@Override
+			public void rightBtn(CustomDialog dialog) {
+				dialog.dismiss();
+			}
 
-				@Override
-				public void leftBtn(CustomDialog dialog) {
-					try {
-						isModify = true;
-						listUriToString.add(imgUri.get(lastPositon).toString());// 记录删除的图集
-						imgUri.remove(lastPositon);
-						mView.remove(lastPositon);
-						mVPAdapter.notifyDataSetChanged();
+			@Override
+			public void leftBtn(CustomDialog dialog) {
+				try {
+					isModify = true;
+					listUriToString.add(imgUri.get(lastPositon).toString());// 记录删除的图集
+					imgUri.remove(lastPositon);
+					mView.remove(lastPositon);
+					mVPAdapter.notifyDataSetChanged();
 
-						if (mView.size() != 0) {
-							initTopIndicator();
-							updateTopGalleryItem(lastPositon);
-							tv_center_title.setText(new StringBuilder()
-									.append(lastPositon + 1).append("/")
-									.append(mView.size()));
-						} else {
-							executeIntent();
-						}
-
-						dialog.dismiss();
-					} catch (Exception e) {
-						e.printStackTrace();
+					if (mView.size() != 0) {
+						initTopIndicator();
+						updateTopGalleryItem(lastPositon);
+						tv_center_title.setText(new StringBuilder()
+								.append(lastPositon + 1).append("/")
+								.append(mView.size()));
+					} else {
+						executeIntent();
 					}
-				}
-			});
-			break;
-		case R.id.tv_left_title:
-			executeIntent();
-			break;
 
-		default:
-			break;
-		}
+					dialog.dismiss();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	@OnClick(R.id.tv_left_title) void left() {
+		executeIntent();
 	}
 
 	public void executeIntent() {

@@ -85,47 +85,39 @@ public class QAISayActivity extends BaseActivity implements DataCallback,
 	public void initListeners() {
 		super.initListeners();
 		gridView.setOnItemClickListener(this);
-	}
-
-	@Override
-	public void onClick(View v) {
-		super.onClick(v);
-		switch (v.getId()) {
-		case R.id.tv_right_title:
-			try {
-
-				if (!SessionContext.isLogin()) {
-					sendBroadcast(new Intent(
-							UnLoginBroadcastReceiver.ACTION_NAME));
-					return;
-				}
-
-				if (StringUtil.empty(et_content.getText())) {
-					CustomToast.show("请输入内容", 0);
-					return;
-				}
-				if (StringUtil.containsEmoji(et_content.getText().toString())) {
-					CustomToast.show("问题描述不能包含Emoji表情符号", 0);
-					return;
-				}
-
-				if (mImgUris == null || mImgUris.isEmpty()) {
-					loadData();
-				} else {
-					for (int i = 0; i < mImgUris.size(); i++) {
-						Bitmap bm = MediaStore.Images.Media.getBitmap(
-								getContentResolver(), mImgUris.get(i));
-						uploadImg(bm);
+		tv_right_title.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				try {
+					if (!SessionContext.isLogin()) {
+						sendBroadcast(new Intent(
+								UnLoginBroadcastReceiver.ACTION_NAME));
+						return;
 					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			break;
-		default:
-			break;
-		}
 
+					if (StringUtil.empty(et_content.getText())) {
+						CustomToast.show("请输入内容", 0);
+						return;
+					}
+					if (StringUtil.containsEmoji(et_content.getText().toString())) {
+						CustomToast.show("问题描述不能包含Emoji表情符号", 0);
+						return;
+					}
+
+					if (mImgUris == null || mImgUris.isEmpty()) {
+						loadData();
+					} else {
+						for (int i = 0; i < mImgUris.size(); i++) {
+							Bitmap bm = MediaStore.Images.Media.getBitmap(
+									getContentResolver(), mImgUris.get(i));
+							uploadImg(bm);
+						}
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**

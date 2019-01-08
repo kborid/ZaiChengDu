@@ -61,6 +61,7 @@ import com.z012.chengdu.sc.ui.base.BaseActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.OnClick;
 import cmb.pb.util.CMBKeyboardFunc;
 
 /**
@@ -142,25 +143,20 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_left_title_back:
-                if (mWebView.canGoBack()) {
-                    mWebView.goBack();
-                } else {
-                    goBack();
-                }
-                break;
-            case R.id.tv_left_title_close:
-                goBack();
-                break;
-            case R.id.iv_share:
-                showPopupWindow();
-                break;
-            default:
-                break;
+    @OnClick(R.id.tv_left_title_back) void back() {
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            goBack();
         }
+    }
+
+    @OnClick(R.id.tv_left_title_close) void close() {
+        goBack();
+    }
+
+    @OnClick(R.id.iv_share) void share() {
+        showPopupWindow();
     }
 
     private void showPopupWindow() {
@@ -297,9 +293,6 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
         myWebViewClient = new MyWebViewClient(mWebView);
         mWebView.setWebViewClient(myWebViewClient);
         mWebView.setWebChromeClient(new WebChromeClientCompat(this, mCtrl, tv_center_title));
-        tv_left_title_back.setOnClickListener(this);
-        tv_left_title_close.setOnClickListener(this);
-        iv_share.setOnClickListener(this);
         customShareView.setOnDismissListener(listener);
     }
 
