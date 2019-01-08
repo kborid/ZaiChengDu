@@ -22,7 +22,7 @@ import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.CertUserAuth;
-import com.z012.chengdu.sc.tools.CountDownTimerImpl;
+import com.z012.chengdu.sc.impl.CountDownTimerImpl;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import org.greenrobot.eventbus.EventBus;

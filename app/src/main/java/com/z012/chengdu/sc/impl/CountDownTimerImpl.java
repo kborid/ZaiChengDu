@@ -1,4 +1,4 @@
-package com.z012.chengdu.sc.tools;
+package com.z012.chengdu.sc.impl;
 
 import android.os.CountDownTimer;
 

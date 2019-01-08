@@ -6,8 +6,8 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.baidu.location.BDLocation;
-import com.z012.chengdu.sc.action.LocationManagerBD;
-import com.z012.chengdu.sc.action.LocationManagerBD.LocationCallback;
+import com.z012.chengdu.sc.helper.LocationManagerBD;
+import com.z012.chengdu.sc.helper.LocationManagerBD.LocationCallback;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBHandler;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
 

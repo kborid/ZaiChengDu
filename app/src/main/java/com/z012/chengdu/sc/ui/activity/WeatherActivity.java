@@ -28,7 +28,7 @@ import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.WeatherCityInfo;
 import com.z012.chengdu.sc.net.bean.WeatherForHomeBean;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
-import com.z012.chengdu.sc.tools.WeatherInfoController;
+import com.z012.chengdu.sc.helper.WeatherInfoHelper;
 import com.z012.chengdu.sc.ui.adapter.WeatherAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
@@ -167,13 +167,13 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
                 + "º");
         int weatherRes = 0;
         if (DateUtil.getDayOrNight()) {
-            weatherRes = WeatherInfoController.getWeatherResForNight(temp.status2);
+            weatherRes = WeatherInfoHelper.getWeatherResForNight(temp.status2);
         } else {
-            weatherRes = WeatherInfoController.getWeatherResForDay(temp.status1);
+            weatherRes = WeatherInfoHelper.getWeatherResForDay(temp.status1);
         }
         iv_weather.setImageResource(weatherRes);
         tv_weather.setText(temp.status1);
-        weather_lay.setBackgroundResource(WeatherInfoController
+        weather_lay.setBackgroundResource(WeatherInfoHelper
                 .getWeatherInfoBg(temp.status1, temp.status2));
 
         tv_pm.setText(temp.pmdata + temp.pmdesc);

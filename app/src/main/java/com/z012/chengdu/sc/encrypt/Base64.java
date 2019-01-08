@@ -1,4 +1,4 @@
-package com.z012.chengdu.sc.tools;
+package com.z012.chengdu.sc.encrypt;
 
 public class Base64 {
 	static final int		CHUNK_SIZE				= 76;

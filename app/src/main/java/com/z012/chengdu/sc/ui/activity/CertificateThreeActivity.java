@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.tools.CountDownTimerImpl;
+import com.z012.chengdu.sc.impl.CountDownTimerImpl;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 /**

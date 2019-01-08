@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.prj.sdk.util.DateUtil;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
-import com.z012.chengdu.sc.tools.WeatherInfoController;
+import com.z012.chengdu.sc.helper.WeatherInfoHelper;
 
 public class WeatherAdapter extends BaseAdapter {
 	private Context context;
@@ -66,7 +66,7 @@ public class WeatherAdapter extends BaseAdapter {
 		viewHolder.tv_temp1.setText(list.get(position).tmp.min + "º");
 		viewHolder.tv_temp2.setText(list.get(position).tmp.max + "º");
 		// 未来天气只显示白天天气
-		viewHolder.iv_weather.setImageResource(WeatherInfoController
+		viewHolder.iv_weather.setImageResource(WeatherInfoHelper
 				.getWeatherResForDay(list.get(position).cond.txt_d));
 
 		return convertView;

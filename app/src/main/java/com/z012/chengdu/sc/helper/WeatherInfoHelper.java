@@ -1,9 +1,9 @@
-package com.z012.chengdu.sc.tools;
+package com.z012.chengdu.sc.helper;
 
 import com.prj.sdk.util.DateUtil;
 import com.z012.chengdu.sc.R;
 
-public class WeatherInfoController {
+public class WeatherInfoHelper {
 
 	public static int getWeatherInfoBg(String dayInfo, String nightInfo) {
 		int weatherRes = R.drawable.ic_sunny_day_bg;

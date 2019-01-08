@@ -42,8 +42,8 @@ import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.net.bean.WeatherForHomeBean;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
-import com.z012.chengdu.sc.tools.ClickUtils;
-import com.z012.chengdu.sc.tools.WeatherInfoController;
+import com.z012.chengdu.sc.helper.ForbidFastClickHelper;
+import com.z012.chengdu.sc.helper.WeatherInfoHelper;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.GridViewAdapter;
@@ -198,7 +198,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
                 serviceTitleLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (ClickUtils.isForbidFastClick()) {
+                        if (ForbidFastClickHelper.isForbidFastClick()) {
                             return;
                         }
 //						EventBus.getDefault().post(tv_name.getText().toString());
@@ -507,13 +507,13 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 //		tv_date.setText(temp.savedate_weather.replace("-", ".") + " " + week);
 		int weatherRes = 0;
 		if (DateUtil.getDayOrNight()) {
-			weatherRes = WeatherInfoController.getWeatherResForNight(temp.status2);
+			weatherRes = WeatherInfoHelper.getWeatherResForNight(temp.status2);
 		} else {
-			weatherRes = WeatherInfoController.getWeatherResForDay(temp.status1);
+			weatherRes = WeatherInfoHelper.getWeatherResForDay(temp.status1);
 		}
 		iv_weather_icon.setImageResource(weatherRes);
 //		tv_weather.setText(temp.status1);
-//		weather_lay.setBackgroundResource(WeatherInfoController.getWeatherInfoBg(temp.status1, temp.status2));
+//		weather_lay.setBackgroundResource(WeatherInfoHelper.getWeatherInfoBg(temp.status1, temp.status2));
 
 		tv_weather_air.setText("空气" + temp.pmdesc);
 

@@ -15,10 +15,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDLocation;
 import com.common.widget.custom.MyListViewWidget;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.action.LocationManagerBD;
-import com.z012.chengdu.sc.action.LocationManagerBD.LocationCallback;
+import com.z012.chengdu.sc.helper.LocationManagerBD;
+import com.z012.chengdu.sc.helper.LocationManagerBD.LocationCallback;
 import com.z012.chengdu.sc.net.bean.WeatherCityInfo;
-import com.z012.chengdu.sc.tools.PinyinComparator;
+import com.z012.chengdu.sc.helper.PinyinComparator;
 import com.z012.chengdu.sc.ui.adapter.WeatherCityAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 

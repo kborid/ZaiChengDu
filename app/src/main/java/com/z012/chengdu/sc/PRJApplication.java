@@ -13,7 +13,7 @@ import com.prj.sdk.util.SharedPreferenceUtil;
 import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
-import com.z012.chengdu.sc.tools.CrashHandler;
+import com.z012.chengdu.sc.helper.CrashHandler;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 

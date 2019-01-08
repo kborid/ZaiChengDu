@@ -1,6 +1,6 @@
-package com.z012.chengdu.sc.tools;
+package com.z012.chengdu.sc.helper;
 
-public class ClickUtils {
+public class ForbidFastClickHelper {
 
     private static final long MAX_DURATION = 500;
 

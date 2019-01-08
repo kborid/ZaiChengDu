@@ -2,7 +2,6 @@ package com.z012.chengdu.sc.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.UIHandler;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.AllServiceColumnBean;
-import com.z012.chengdu.sc.tools.ClickUtils;
+import com.z012.chengdu.sc.helper.ForbidFastClickHelper;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.MainFragmentActivity;
 
@@ -82,7 +80,7 @@ public class ServiceDetailAdapter extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-                if (ClickUtils.isForbidFastClick()) {
+                if (ForbidFastClickHelper.isForbidFastClick()) {
                     return;
                 }
 

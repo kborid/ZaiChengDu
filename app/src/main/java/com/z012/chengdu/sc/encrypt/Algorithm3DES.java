@@ -1,4 +1,4 @@
-package com.z012.chengdu.sc.tools;
+package com.z012.chengdu.sc.encrypt;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;

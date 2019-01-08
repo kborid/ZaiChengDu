@@ -13,7 +13,7 @@ import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.NetURL;
-import com.z012.chengdu.sc.tools.SHA1;
+import com.z012.chengdu.sc.encrypt.SHA1;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.net.ConnectException;

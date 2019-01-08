@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.tools.ClickUtils;
+import com.z012.chengdu.sc.helper.ForbidFastClickHelper;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class UPMarqueeView extends ViewFlipper {
             item.findViewById(R.id.rl).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (ClickUtils.isForbidFastClick()) {
+                    if (ForbidFastClickHelper.isForbidFastClick()) {
                         return;
                     }
                     UPMarqueeBean bean = datas.get(position);
@@ -74,7 +74,7 @@ public class UPMarqueeView extends ViewFlipper {
                 item.findViewById(R.id.rl2).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (ClickUtils.isForbidFastClick()) {
+                        if (ForbidFastClickHelper.isForbidFastClick()) {
                             return;
                         }
                         UPMarqueeBean bean = datas.get(position + 1);

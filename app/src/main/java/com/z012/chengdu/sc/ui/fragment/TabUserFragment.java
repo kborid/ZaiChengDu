@@ -34,7 +34,7 @@ import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.CertUserAuth;
-import com.z012.chengdu.sc.tools.ClickUtils;
+import com.z012.chengdu.sc.helper.ForbidFastClickHelper;
 import com.z012.chengdu.sc.ui.activity.AboutActivity;
 import com.z012.chengdu.sc.ui.activity.AccountSecurityActivity;
 import com.z012.chengdu.sc.ui.activity.AddressManageActivity;
@@ -182,7 +182,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
     }
 
     @OnClick(R.id.iv_photo) void photo() {
-        if (ClickUtils.isForbidFastClick()) {
+        if (ForbidFastClickHelper.isForbidFastClick()) {
             return;
         }
 
@@ -196,7 +196,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
     }
 
     @OnClick(R.id.tv_login) void login() {
-        if (ClickUtils.isForbidFastClick()) {
+        if (ForbidFastClickHelper.isForbidFastClick()) {
             return;
         }
 
@@ -207,7 +207,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
     }
 
     @OnClick(R.id.tv_account) void account() {
-        if (ClickUtils.isForbidFastClick()) {
+        if (ForbidFastClickHelper.isForbidFastClick()) {
             return;
         }
 
@@ -222,7 +222,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
     }
 
     @OnClick(R.id.tv_address) void address() {
-        if (ClickUtils.isForbidFastClick()) {
+        if (ForbidFastClickHelper.isForbidFastClick()) {
             return;
         }
 
@@ -235,7 +235,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
     }
 
     @OnClick(R.id.tv_invite) void invite() {
-        if (ClickUtils.isForbidFastClick()) {
+        if (ForbidFastClickHelper.isForbidFastClick()) {
             return;
         }
 
@@ -248,7 +248,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
     }
 
     @OnClick(R.id.tv_problem) void problem() {
-        if (ClickUtils.isForbidFastClick()) {
+        if (ForbidFastClickHelper.isForbidFastClick()) {
             return;
         }
 
@@ -260,7 +260,7 @@ public class TabUserFragment extends BaseFragment implements DataCallback {
     }
 
     @OnClick(R.id.tv_about) void about() {
-        if (ClickUtils.isForbidFastClick()) {
+        if (ForbidFastClickHelper.isForbidFastClick()) {
             return;
         }
 
