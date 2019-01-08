@@ -2,7 +2,7 @@ package com.z012.chengdu.sc.constants;
 
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.app.PRJApplication;
+import com.z012.chengdu.sc.PRJApplication;
 
 /**
  * 接口常量地址

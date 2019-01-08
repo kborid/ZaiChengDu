@@ -1,4 +1,4 @@
-package com.z012.chengdu.sc.app;
+package com.z012.chengdu.sc;
 
 import com.alibaba.fastjson.JSON;
 import com.prj.sdk.util.SharedPreferenceUtil;

@@ -18,7 +18,7 @@ import com.prj.sdk.util.DisplayUtil;
 import com.prj.sdk.util.StringUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.net.bean.AppListBean;
 import com.z012.chengdu.sc.ui.adapter.ColumnAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;

@@ -21,7 +21,7 @@ import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.DisplayUtil;
 import com.prj.sdk.util.StringUtil;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.net.bean.WDDetailsBean;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;

@@ -1,9 +1,9 @@
-package com.z012.chengdu.sc.permission;
+package com.z012.chengdu.sc.ui.permission;
 
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 
-import com.z012.chengdu.sc.app.PRJApplication;
+import com.z012.chengdu.sc.PRJApplication;
 
 /**
  * 检查权限的工具类

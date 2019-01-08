@@ -10,7 +10,7 @@ import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.StringUtil;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.api.RequestBeanBuilder;
+import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 

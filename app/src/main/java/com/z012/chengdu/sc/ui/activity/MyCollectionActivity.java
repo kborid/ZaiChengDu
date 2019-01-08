@@ -4,7 +4,6 @@ import java.net.ConnectException;
 import java.util.ArrayList;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -16,8 +15,8 @@ import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.api.RequestBeanBuilder;
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.net.RequestBeanBuilder;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.AppListBean;
 import com.z012.chengdu.sc.ui.adapter.ColumnAdapter;

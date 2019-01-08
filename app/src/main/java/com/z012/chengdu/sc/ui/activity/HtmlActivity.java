@@ -49,7 +49,7 @@ import com.prj.sdk.widget.webview.WebChromeClientCompat;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.action.LocationManagerBD;
 import com.z012.chengdu.sc.action.LocationManagerBD.LocationCallback;
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;

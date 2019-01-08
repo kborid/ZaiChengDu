@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.StringUtil;
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
 

@@ -1,4 +1,4 @@
-package com.z012.chengdu.sc.permission;
+package com.z012.chengdu.sc.ui.permission;
 
 import android.app.Activity;
 import android.content.Intent;

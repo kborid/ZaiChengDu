@@ -9,7 +9,7 @@ import android.view.WindowManager;
 
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.constants.Const;
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.ui.activity.LoginActivity;
 import com.z012.chengdu.sc.ui.dialog.CustomDialog;

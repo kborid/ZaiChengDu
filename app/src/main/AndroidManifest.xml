@@ -11,7 +11,7 @@
         android:smallScreens="true" />
 
     <application
-        android:name=".app.PRJApplication"
+        android:name=".PRJApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
@@ -31,7 +31,7 @@
         </activity>
         <!--权限画面-->
         <activity
-            android:name=".permission.PermissionsActivity"
+            android:name=".ui.permission.PermissionsActivity"
             android:theme="@style/AppTheme.PermissionTheme" />
         <!-- 我的问答 -->
         <activity

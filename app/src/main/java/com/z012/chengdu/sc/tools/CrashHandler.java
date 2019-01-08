@@ -1,4 +1,4 @@
-package com.z012.chengdu.sc.app;
+package com.z012.chengdu.sc.tools;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 

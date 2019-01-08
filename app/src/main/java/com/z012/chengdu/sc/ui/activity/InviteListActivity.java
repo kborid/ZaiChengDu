@@ -1,6 +1,5 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -11,7 +10,7 @@ import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.api.RequestBeanBuilder;
+import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.InviteListBean;
 import com.z012.chengdu.sc.ui.adapter.InviteListAdapter;

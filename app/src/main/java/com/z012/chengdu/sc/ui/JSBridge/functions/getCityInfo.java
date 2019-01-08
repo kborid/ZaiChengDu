@@ -2,7 +2,7 @@ package com.z012.chengdu.sc.ui.JSBridge.functions;
 
 import org.json.JSONObject;
 
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
 
 /**

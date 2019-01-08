@@ -23,7 +23,7 @@ import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.api.RequestBeanBuilder;
+import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.net.bean.AllServiceColumnBean;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;

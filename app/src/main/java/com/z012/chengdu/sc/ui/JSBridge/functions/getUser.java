@@ -1,7 +1,7 @@
 package com.z012.chengdu.sc.ui.JSBridge.functions;
 
 import com.alibaba.fastjson.JSON;
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
 
 /**

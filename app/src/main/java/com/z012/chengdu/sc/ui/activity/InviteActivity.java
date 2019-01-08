@@ -12,7 +12,7 @@ import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.app.SessionContext;
+import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.net.bean.AppInfoBean;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
