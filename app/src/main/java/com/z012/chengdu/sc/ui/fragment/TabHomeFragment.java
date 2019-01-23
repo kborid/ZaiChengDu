@@ -546,15 +546,15 @@ public class TabHomeFragment extends BaseFragment implements DataCallback {
 	 */
 	@SuppressLint("NewApi")
     private void titleShadow() {
-		ll_title_panel.getBackground().mutate().setAlpha(0);
-		final int titleHeight = Utils.dip2px(50);
+        ll_title_panel.getBackground().mutate().setAlpha(0);
         scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int l, int t, int oldScrollX, int oldScrollY) {
                 if (banner_lay != null && banner_lay.getHeight() > 0) {
-                    int height = banner_lay.getHeight() - titleHeight;
-                    if (t < height) {
-                        int progress = (int) ((float) t / height * 255);
+                    int distance = banner_lay.getHeight() - ll_title_panel.getHeight();
+                    if (t < distance) {
+                        if (t < 0) t = 0;
+                        int progress = (int) ((float) t / distance * 255);
                         ll_title_panel.getBackground().mutate().setAlpha(progress);
                         ll_title_panel.setClickable(false);
                     } else {
