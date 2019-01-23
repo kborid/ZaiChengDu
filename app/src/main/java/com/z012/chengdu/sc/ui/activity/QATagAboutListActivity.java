@@ -1,22 +1,17 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.net.bean.QAListBean;
 import com.z012.chengdu.sc.ui.adapter.QAListAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
@@ -29,8 +24,8 @@ import java.util.ArrayList;
  * 
  * @author LiaoBo
  */
-public class QATagAboutListActivity extends BaseActivity implements DataCallback, OnRefreshListener2<ListView> {
-	private PullToRefreshListView			listView;
+public class QATagAboutListActivity extends BaseActivity implements DataCallback/*, OnRefreshListener2<ListView>*/ {
+//	private PullToRefreshListView			listView;
 	private QAListAdapter					mAdapter;
 	private ArrayList<QAListBean.Result>	mBean	= new ArrayList<QAListBean.Result>();
 	private int								page_index;
@@ -60,17 +55,17 @@ public class QATagAboutListActivity extends BaseActivity implements DataCallback
 		super.initParams();
         showProgressDialog(getString(R.string.loading), false);
         tv_center_title.setText("相关问题");
-        listView = (PullToRefreshListView) findViewById(R.id.listView);
+//        listView = (PullToRefreshListView) findViewById(R.id.listView);
 
 		mAdapter = new QAListAdapter(this, mBean);
-		listView.setAdapter(mAdapter);
+//		listView.setAdapter(mAdapter);
 		loadData(false);
 	}
 
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		listView.setOnRefreshListener(this);
+//		listView.setOnRefreshListener(this);
 	}
 
 	/**
@@ -103,7 +98,7 @@ public class QATagAboutListActivity extends BaseActivity implements DataCallback
 	@Override
 	public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
 		removeProgressDialog();
-		listView.onRefreshComplete();
+//		listView.onRefreshComplete();
 		JSONObject mJson = JSON.parseObject(response.body.toString());
 		String json = mJson.getString("page");
 		QAListBean temp = JSON.parseObject(json, QAListBean.class);
@@ -119,16 +114,16 @@ public class QATagAboutListActivity extends BaseActivity implements DataCallback
 
 		if (mBean.size() >= temp.totalCount) {
 			// no more
-			listView.setMode(Mode.PULL_FROM_START);
+//			listView.setMode(Mode.PULL_FROM_START);
 		} else {
-			listView.setMode(Mode.BOTH);
+//			listView.setMode(Mode.BOTH);
 		}
 
 	}
 	@Override
 	public void notifyError(ResponseData request, ResponseData response, Exception e) {
 		removeProgressDialog();
-		listView.onRefreshComplete();
+//		listView.onRefreshComplete();
 		String message;
 		if (e != null && e instanceof ConnectException) {
 			message = getString(R.string.dialog_tip_net_error);
@@ -139,13 +134,13 @@ public class QATagAboutListActivity extends BaseActivity implements DataCallback
 		CustomToast.show(message, Toast.LENGTH_LONG);
 	}
 
-	@Override
-	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-		loadData(false);
-	}
+//	@Override
+//	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+//		loadData(false);
+//	}
 
-	@Override
-	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		loadData(true);
-	}
+//	@Override
+//	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//		loadData(true);
+//	}
 }

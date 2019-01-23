@@ -35,7 +35,7 @@
                 android:textSize="@dimen/title_left_reight_text_size" />
         </RelativeLayout>
 
-        <com.handmark.pulltorefresh.library.PullToRefreshListView
+<!--        <com.handmark.pulltorefresh.library.PullToRefreshListView
             xmlns:pullToRefresh="http://schemas.android.com/apk/res-auto"
             android:id="@+id/listView"
             android:layout_width="fill_parent"
@@ -49,7 +49,7 @@
             pullToRefresh:ptrHeaderTextColor="@color/headerTextColor"
             pullToRefresh:ptrMode="pullFromStart"
             pullToRefresh:ptrShowIndicator="false" >
-        </com.handmark.pulltorefresh.library.PullToRefreshListView>
+        </com.handmark.pulltorefresh.library.PullToRefreshListView>-->
     </LinearLayout>
 
     <ImageView

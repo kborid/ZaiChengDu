@@ -3,110 +3,104 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
-        xmlns:pullToRefresh="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/scroll_view"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/smartRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fadingEdge="none"
-        android:fillViewport="true"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        pullToRefresh:ptrAnimationStyle="flip"
-        pullToRefresh:ptrHeaderTextColor="@color/headerTextColor"
-        pullToRefresh:ptrMode="pullFromStart"
-        pullToRefresh:ptrShowIndicator="false" >
-
-        <RelativeLayout
+        android:layout_height="match_parent">
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clipChildren="false">
-
-            <com.z012.chengdu.sc.ui.widge.banner.CommonBannerLayout
-                android:id="@+id/banner"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"/>
-
-            <LinearLayout
-                android:id="@+id/middle"
-                android:layout_below="@id/banner"
+            android:layout_height="match_parent">
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/white">
+                android:clipChildren="false">
 
-                <!-- 热门服务 -->
-                <com.common.widget.custom.MyGridViewWidget
-                    android:id="@+id/gridview"
+                <com.z012.chengdu.sc.ui.widge.banner.CommonBannerLayout
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+                <LinearLayout
+                    android:id="@+id/middle"
+                    android:layout_below="@id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_home_service"
-                    android:cacheColorHint="#00000000"
-                    android:layout_marginTop="-30dp"
-                    android:columnWidth="90dp"
-                    android:numColumns="4"
-                    android:gravity="center"
-                    android:horizontalSpacing="0dp"
-                    android:scrollbars="none"
-                    android:stretchMode="columnWidth"
-                    android:verticalSpacing="0dp" />
+                    android:orientation="vertical"
+                    android:background="@color/white">
 
-                <!-- 今日头条 -->
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <View
-                        android:id="@+id/newsBgView"
+                    <!-- 热门服务 -->
+                    <com.common.widget.custom.MyGridViewWidget
+                        android:id="@+id/gridview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:background="@drawable/iv_news_bg"/>
+                        android:background="@drawable/bg_home_service"
+                        android:cacheColorHint="#00000000"
+                        android:layout_marginTop="-30dp"
+                        android:columnWidth="90dp"
+                        android:numColumns="4"
+                        android:gravity="center"
+                        android:horizontalSpacing="0dp"
+                        android:scrollbars="none"
+                        android:stretchMode="columnWidth"
+                        android:verticalSpacing="0dp" />
 
-                    <LinearLayout
+                    <!-- 今日头条 -->
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
-                        android:paddingBottom="14dp"
-                        android:paddingLeft="15dp"
-                        android:paddingRight="27dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:background="@drawable/iv_news" />
+                        android:layout_height="wrap_content" >
 
-                        <com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView
-                            android:id="@+id/marqueeView"
+                        <View
+                            android:id="@+id/newsBgView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp" />
-                    </LinearLayout>
+                            android:layout_gravity="bottom"
+                            android:background="@drawable/iv_news_bg"/>
 
-                </FrameLayout>
-            </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="14dp"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="27dp"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
+                                android:background="@drawable/iv_news" />
 
-            <ScrollView
-                android:id="@+id/scrollview"
-                android:layout_below="@id/middle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:layout_marginTop="5dp"
-                android:scrollbars="none" >
-                <LinearLayout
-                    android:id="@+id/service_lay"
+                            <com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView
+                                android:id="@+id/marqueeView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="15dp" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+                </LinearLayout>
+
+                <ScrollView
+                    android:id="@+id/scrollview"
+                    android:layout_below="@id/middle"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:divider="@drawable/common_line_divider_horizontal"
-                    android:showDividers="middle"
-                    android:orientation="vertical"/>
-            </ScrollView>
+                    android:layout_height="match_parent"
+                    android:fillViewport="true"
+                    android:layout_marginTop="5dp"
+                    android:scrollbars="none" >
+                    <LinearLayout
+                        android:id="@+id/service_lay"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:divider="@drawable/common_line_divider_horizontal"
+                        android:showDividers="middle"
+                        android:orientation="vertical"/>
+                </ScrollView>
 
-        </RelativeLayout>
-
-    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
+            </RelativeLayout>
+        </ScrollView>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <include layout="@layout/comm_main_title" />
 </FrameLayout>

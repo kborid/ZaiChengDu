@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    <!--<com.handmark.pulltorefresh.library.PullToRefreshListView
         xmlns:pullToRefresh="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listView"
         android:layout_width="fill_parent"
@@ -17,7 +17,7 @@
         pullToRefresh:ptrAnimationStyle="flip"
         pullToRefresh:ptrHeaderTextColor="@color/headerTextColor"
         pullToRefresh:ptrMode="pullFromStart"
-        pullToRefresh:ptrShowIndicator="false" />
+        pullToRefresh:ptrShowIndicator="false" />-->
 
     <!--
     <LinearLayout
@@ -28,7 +28,8 @@
         android:gravity="center" >
 
         <ProgressBar style="@style/progressBarStyle" />
-    </LinearLayout>
+    </LinearLayout>
+
     -->
 
 </FrameLayout>

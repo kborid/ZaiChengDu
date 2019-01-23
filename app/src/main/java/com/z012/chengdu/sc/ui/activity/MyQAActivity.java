@@ -8,16 +8,11 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.prj.sdk.constants.InfoType;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
@@ -25,11 +20,11 @@ import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.net.bean.QAListBean;
 import com.z012.chengdu.sc.ui.adapter.QAListAdapter;
 import com.z012.chengdu.sc.ui.adapter.ViewPagerAdapter;
@@ -43,9 +38,9 @@ import java.util.ArrayList;
  * 
  * @author LiaoBo
  */
-public class MyQAActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener, OnScrollListener, OnRefreshListener2<ListView>, OnPageChangeListener {
+public class MyQAActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener, OnScrollListener/*, OnRefreshListener2<ListView>*/, OnPageChangeListener {
 
-	private PullToRefreshListView			mReleListView, mAtteListView;
+//	private PullToRefreshListView			mReleListView, mAtteListView;
 	private QAListAdapter					mReleasedAdapter, mAttentionAdapter;
 	private ArrayList<QAListBean.Result>	mFBBean	= new ArrayList<QAListBean.Result>();
 	private ArrayList<QAListBean.Result>	mGZBean	= new ArrayList<QAListBean.Result>();
@@ -70,8 +65,8 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 		tv_center_title.setText("有问必答");
 		mReleaseView = getLayoutInflater().inflate(R.layout.view_my_release, null);
 		mAttentionView = getLayoutInflater().inflate(R.layout.view_my_attention, null);
-		mReleListView = (PullToRefreshListView) mReleaseView.findViewById(R.id.listView);
-		mAtteListView = (PullToRefreshListView) mAttentionView.findViewById(R.id.listView);
+//		mReleListView = (PullToRefreshListView) mReleaseView.findViewById(R.id.listView);
+//		mAtteListView = (PullToRefreshListView) mAttentionView.findViewById(R.id.listView);
 		tv_btn_left = (TextView) findViewById(R.id.tv_btn_left);
 		tv_btn_right = (TextView) findViewById(R.id.tv_btn_right);
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -82,10 +77,10 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 		loadData(true);
 
 		mReleasedAdapter = new QAListAdapter(this, mFBBean);
-		mReleListView.setAdapter(mReleasedAdapter);
+//		mReleListView.setAdapter(mReleasedAdapter);
 
 		mAttentionAdapter = new QAListAdapter(this, mGZBean);
-		mAtteListView.setAdapter(mAttentionAdapter);
+//		mAtteListView.setAdapter(mAttentionAdapter);
 		mView.clear();
 		mView.add(mReleaseView);
 		mView.add(mAttentionView);
@@ -123,11 +118,11 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 	@Override
 	public void initListeners() {
 		super.initListeners();
-		mReleListView.setOnRefreshListener(this);
-		mAtteListView.setOnRefreshListener(this);
+//		mReleListView.setOnRefreshListener(this);
+//		mAtteListView.setOnRefreshListener(this);
 
-		mReleListView.setOnScrollListener(this);
-		mAtteListView.setOnScrollListener(this);
+//		mReleListView.setOnScrollListener(this);
+//		mAtteListView.setOnScrollListener(this);
 
 		tv_btn_left.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -229,47 +224,47 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 		page_index = temp.pageNo + 1;
 
 		if (request.path.equals(NetURL.WG_MY_RELEASED)) {
-			mReleListView.onRefreshComplete();
+//			mReleListView.onRefreshComplete();
 			if (request.flag == 1) {
 				mFBBean.clear();
 				mFBBean.addAll(temp.result);
 				mReleasedAdapter.notifyDataSetChanged();
 				if (mFBBean.size() >= temp.totalCount) {
 					// no more
-					mReleListView.setMode(Mode.PULL_FROM_START);
+//					mReleListView.setMode(Mode.PULL_FROM_START);
 				} else {
-					mReleListView.setMode(Mode.BOTH);
+//					mReleListView.setMode(Mode.BOTH);
 				}
 			} else if (request.flag == 2) {
 				mFBBean.addAll(temp.result);
 				mReleasedAdapter.notifyDataSetChanged();
 				if (mFBBean.size() >= temp.totalCount) {
 					// no more
-					mReleListView.setMode(Mode.PULL_FROM_START);
+//					mReleListView.setMode(Mode.PULL_FROM_START);
 				} else {
-					mReleListView.setMode(Mode.BOTH);
+//					mReleListView.setMode(Mode.BOTH);
 				}
 			}
 		} else if (request.path.equals(NetURL.WG_MY_ATTENTION)) {
-			mAtteListView.onRefreshComplete();
+//			mAtteListView.onRefreshComplete();
 			if (request.flag == 1) {
 				mGZBean.clear();
 				mGZBean.addAll(temp.result);
 				mAttentionAdapter.notifyDataSetChanged();
 				if (mGZBean.size() >= temp.totalCount) {
 					// no more
-					mAtteListView.setMode(Mode.PULL_FROM_START);
+//					mAtteListView.setMode(Mode.PULL_FROM_START);
 				} else {
-					mAtteListView.setMode(Mode.BOTH);
+//					mAtteListView.setMode(Mode.BOTH);
 				}
 			} else if (request.flag == 2) {
 				mGZBean.addAll(temp.result);
 				mAttentionAdapter.notifyDataSetChanged();
 				if (mGZBean.size() >= temp.totalCount) {
 					// no more
-					mAtteListView.setMode(Mode.PULL_FROM_START);
+//					mAtteListView.setMode(Mode.PULL_FROM_START);
 				} else {
-					mAtteListView.setMode(Mode.BOTH);
+//					mAtteListView.setMode(Mode.BOTH);
 				}
 			}
 		}
@@ -278,9 +273,9 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 	public void notifyError(ResponseData request, ResponseData response, Exception e) {
 		removeProgressDialog();
 		if (request.path.equals(NetURL.WG_MY_RELEASED)) {
-			mReleListView.onRefreshComplete();
+//			mReleListView.onRefreshComplete();
 		} else if (request.path.equals(NetURL.WG_MY_ATTENTION)) {
-			mAtteListView.onRefreshComplete();
+//			mAtteListView.onRefreshComplete();
 		}
 
 		String message;
@@ -306,19 +301,19 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 	public void onCancel(DialogInterface dialog) {
 		DataLoader.getInstance().clear(requestID);
 		removeProgressDialog();
-		mReleListView.onRefreshComplete();
-		mAtteListView.onRefreshComplete();
+//		mReleListView.onRefreshComplete();
+//		mAtteListView.onRefreshComplete();
 	}
 
-	@Override
-	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-		loadData(false);
-	}
+//	@Override
+//	public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+//		loadData(false);
+//	}
 
-	@Override
-	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-		loadMoreData();
-	}
+//	@Override
+//	public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//		loadMoreData();
+//	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
@@ -365,8 +360,6 @@ public class MyQAActivity extends BaseActivity implements DataCallback, DialogIn
 
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

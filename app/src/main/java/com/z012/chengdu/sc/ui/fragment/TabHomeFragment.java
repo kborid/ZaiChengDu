@@ -1,5 +1,6 @@
 package com.z012.chengdu.sc.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,9 +20,6 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
@@ -29,12 +27,20 @@ import com.prj.sdk.net.image.ImageLoader;
 import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
+import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
 import com.prj.sdk.widget.CustomToast;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.header.FalsifyHeader;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.helper.ForbidFastClickHelper;
+import com.z012.chengdu.sc.helper.WeatherInfoHelper;
+import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.net.bean.AllServiceColumnBean;
 import com.z012.chengdu.sc.net.bean.AppAllServiceInfoBean;
 import com.z012.chengdu.sc.net.bean.HomeBannerInfoBean;
@@ -42,8 +48,6 @@ import com.z012.chengdu.sc.net.bean.NewsBean;
 import com.z012.chengdu.sc.net.bean.PushAppBean;
 import com.z012.chengdu.sc.net.bean.WeatherForHomeBean;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
-import com.z012.chengdu.sc.helper.ForbidFastClickHelper;
-import com.z012.chengdu.sc.helper.WeatherInfoHelper;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.GridViewAdapter;
@@ -68,7 +72,7 @@ import butterknife.OnClick;
  * 
  * @author kborid
  */
-public class TabHomeFragment extends BaseFragment implements DataCallback, OnRefreshListener2<ScrollView> {
+public class TabHomeFragment extends BaseFragment implements DataCallback {
 
     private static final int FLAG_BANNER = 0;
     private static final int FLAG_NEWS = 1;
@@ -76,7 +80,8 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
     private static final int FLAG_HOT_SERVICE = 3;
     private static final int FLAG_ALL_SERVICE = 4;
 
-    @BindView(R.id.scroll_view) PullToRefreshScrollView mPullToRefreshScrollView;
+    @BindView(R.id.smartRefreshLayout) SmartRefreshLayout smartRefreshLayout;
+    @BindView(R.id.scrollView) ScrollView scrollView;
     @BindView(R.id.ll_title_panel) LinearLayout ll_title_panel;
     @BindView(R.id.newsBgView) View newsBgView;
     @BindView(R.id.weather_lay) LinearLayout weather_lay;
@@ -134,7 +139,22 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
             requestAllService();
         }
 
-        mPullToRefreshScrollView.setOnRefreshListener(this);
+        smartRefreshLayout.setRefreshHeader(new ClassicsHeader(getActivity()));
+        smartRefreshLayout.setEnableLoadMore(false);
+        smartRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                isRefresh = true;
+                ll_title_panel.setVisibility(View.GONE);
+                mTag.clear();
+                requestBanner();
+                requestWeather();
+                requestNews();
+                requestHotService();
+                requestAllService();
+            }
+        });
+
         marqueeView.setUPMarqueeListener(new IUPMarqueeListener() {
             @Override
             public void callback(UPMarqueeBean bean) {
@@ -365,23 +385,6 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	}
 
 	@Override
-	public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-		isRefresh = true;
-		ll_title_panel.setVisibility(View.GONE);
-		mTag.clear();
-		requestBanner();
-		requestWeather();
-		requestNews();
-		requestHotService();
-        requestAllService();
-	}
-
-	@Override
-	public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-
-	}
-
-	@Override
 	public void preExecute(ResponseData request) {
 
 	}
@@ -402,8 +405,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 			WeatherForHomeBean weatherbean = JSON.parseObject(res, WeatherForHomeBean.class);
 			JSONObject json = JSON.parseObject(res);
 			String future = json.getString("future");
-			List<WeatherFutureInfoBean> futureInfo = JSON.parseArray(future,
-					WeatherFutureInfoBean.class);
+			List<WeatherFutureInfoBean> futureInfo = JSON.parseArray(future, WeatherFutureInfoBean.class);
 			SessionContext.setWeatherInfo(futureInfo);
 			setWeather(weatherbean);
 		} else if (request.flag == FLAG_HOT_SERVICE) {// //热门服务
@@ -445,9 +447,7 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
         }
 
 		if (mTag != null && mTag.size() == 5) {// 更新成功标记
-			removeProgressDialog();
-			mPullToRefreshScrollView.onRefreshComplete();
-			ll_title_panel.setVisibility(View.VISIBLE);
+			finishRefresh();
 			if (isRefresh) {
 				isRefresh = false;
 				CustomToast.show("更新成功", 0);
@@ -456,12 +456,21 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 
 	}
 
+	private void finishRefresh() {
+	    removeProgressDialog();
+	    smartRefreshLayout.finishRefresh();
+	    UIHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ll_title_panel.setVisibility(View.VISIBLE);
+            }
+        }, 1000);
+    }
+
 	@Override
 	public void notifyError(ResponseData request, ResponseData response,
 			Exception e) {
-		removeProgressDialog();
-		mPullToRefreshScrollView.onRefreshComplete();
-		ll_title_panel.setVisibility(View.VISIBLE);
+		finishRefresh();
 		String message;
 		if (e != null && e instanceof ConnectException) {
 			message = getString(R.string.dialog_tip_net_error);
@@ -535,26 +544,25 @@ public class TabHomeFragment extends BaseFragment implements DataCallback, OnRef
 	/**
 	 * 使标题栏渐变
 	 */
-	private void titleShadow() {
+	@SuppressLint("NewApi")
+    private void titleShadow() {
 		ll_title_panel.getBackground().mutate().setAlpha(0);
 		final int titleHeight = Utils.dip2px(50);
-		mPullToRefreshScrollView
-				.setOnScrollChangedListener(new PullToRefreshScrollView.OnScrollChangedListener() {
-
-					@Override
-					public void onScrollChanged(int l, int t, int oldl, int oldt) {
-						if (banner_lay != null && banner_lay.getHeight() > 0) {
-							int height = banner_lay.getHeight() - titleHeight;
-							if (t < height) {
-								int progress = (int) ((float) t / height * 255);
-								ll_title_panel.getBackground().mutate().setAlpha(progress);
-                                ll_title_panel.setClickable(false);
-							} else {
-								ll_title_panel.getBackground().mutate().setAlpha(255);
-								ll_title_panel.setClickable(true);
-							}
-						}
-					}
-				});
+        scrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(View v, int l, int t, int oldScrollX, int oldScrollY) {
+                if (banner_lay != null && banner_lay.getHeight() > 0) {
+                    int height = banner_lay.getHeight() - titleHeight;
+                    if (t < height) {
+                        int progress = (int) ((float) t / height * 255);
+                        ll_title_panel.getBackground().mutate().setAlpha(progress);
+                        ll_title_panel.setClickable(false);
+                    } else {
+                        ll_title_panel.getBackground().mutate().setAlpha(255);
+                        ll_title_panel.setClickable(true);
+                    }
+                }
+            }
+        });
 	}
 }

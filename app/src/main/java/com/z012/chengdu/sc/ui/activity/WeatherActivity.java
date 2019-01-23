@@ -6,15 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.common.widget.custom.MyListViewWidget;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
@@ -22,13 +18,13 @@ import com.prj.sdk.util.DateUtil;
 import com.prj.sdk.util.StringUtil;
 import com.prj.sdk.util.UIHandler;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.SessionContext;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.helper.WeatherInfoHelper;
+import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.net.bean.WeatherCityInfo;
 import com.z012.chengdu.sc.net.bean.WeatherForHomeBean;
 import com.z012.chengdu.sc.net.bean.WeatherFutureInfoBean;
-import com.z012.chengdu.sc.helper.WeatherInfoHelper;
 import com.z012.chengdu.sc.ui.adapter.WeatherAdapter;
 import com.z012.chengdu.sc.ui.base.BaseActivity;
 
@@ -41,7 +37,7 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
 
     private static final int SELECTED_OK = 0x001;
 
-    private PullToRefreshScrollView pullToRefreshSV;
+//    private PullToRefreshScrollView pullToRefreshSV;
     private LinearLayout weather_lay;
     private RelativeLayout limit_lay;
     private TextView tv_addr;
@@ -78,7 +74,7 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
     @Override
     public void initParams() {
         super.initParams();
-        pullToRefreshSV = (PullToRefreshScrollView) findViewById(R.id.scroll_view);
+//        pullToRefreshSV = (PullToRefreshScrollView) findViewById(R.id.scroll_view);
         weather_lay = (LinearLayout) findViewById(R.id.weather_lay);
         limit_lay = (RelativeLayout) findViewById(R.id.limit_lay);
         tv_addr = (TextView) findViewById(R.id.tv_addr);
@@ -107,18 +103,16 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
 
     @Override
     public void initListeners() {
-        // TODO Auto-generated method stub
         super.initListeners();
-        pullToRefreshSV
-                .setOnRefreshListener(new OnRefreshListener<ScrollView>() {
-
-                    @Override
-                    public void onRefresh(
-                            PullToRefreshBase<ScrollView> refreshView) {
-                        // TODO Auto-generated method stub
-                        requestWeahterByCity(weatherCityCode);
-                    }
-                });
+//        pullToRefreshSV
+//                .setOnRefreshListener(new OnRefreshListener<ScrollView>() {
+//
+//                    @Override
+//                    public void onRefresh(
+//                            PullToRefreshBase<ScrollView> refreshView) {
+//                        requestWeahterByCity(weatherCityCode);
+//                    }
+//                });
     }
 
     @OnClick(R.id.tv_addr) void address() {
@@ -127,7 +121,6 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
 
     @Override
     protected void onResume() {
-        // TODO Auto-generated method stub
         if (!weatherCityCode.equals(tempCityCode)) {
             if (tempCityCode != null) {
                 weatherCityCode = tempCityCode;
@@ -135,8 +128,7 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
 
                     @Override
                     public void run() {
-                        // TODO Auto-generated method stub
-                        pullToRefreshSV.setRefreshing();
+//                        pullToRefreshSV.setRefreshing();
                     }
                 }, 300);
             }
@@ -146,7 +138,6 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
     }
 
@@ -205,7 +196,6 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case SELECTED_OK:
@@ -224,16 +214,13 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
 
     @Override
     public void preExecute(ResponseData request) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void notifyMessage(ResponseData request, ResponseData response)
             throws Exception {
-        // TODO Auto-generated method stub
         if (request.flag == 1) {
-            pullToRefreshSV.onRefreshComplete();
+//            pullToRefreshSV.onRefreshComplete();
             String res = response.body.toString();
             WeatherForHomeBean bean = JSON.parseObject(res,
                     WeatherForHomeBean.class);
@@ -254,7 +241,6 @@ public class WeatherActivity extends BaseActivity implements DataCallback {
     @Override
     public void notifyError(ResponseData request, ResponseData response,
                             Exception e) {
-        // TODO Auto-generated method stub
-        pullToRefreshSV.onRefreshComplete();
+//        pullToRefreshSV.onRefreshComplete();
     }
 }

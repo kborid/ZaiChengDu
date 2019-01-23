@@ -39,8 +39,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.alibaba:fastjson:1.2.10'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.alibaba:fastjson:1.2.51'
 }
 
 configurations {
