@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -19,7 +17,7 @@ import com.common.widget.wheel.adapters.ArrayWheelAdapter;
 import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.ui.base.BaseActivity;
+import com.z012.chengdu.sc.ui.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

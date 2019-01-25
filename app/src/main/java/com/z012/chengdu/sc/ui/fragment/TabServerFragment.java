@@ -1,6 +1,7 @@
 package com.z012.chengdu.sc.ui.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
@@ -14,28 +15,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.prj.sdk.net.bean.ResponseData;
-import com.prj.sdk.net.data.DataCallback;
+import com.orhanobut.logger.Logger;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.NetworkUtil;
+import com.prj.sdk.util.ToastUtil;
 import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
-import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.constants.NetURL;
-import com.z012.chengdu.sc.net.bean.AllServiceColumnBean;
+import com.z012.chengdu.sc.net.ApiManager;
+import com.z012.chengdu.sc.net.entity.AllServiceInfoBean;
+import com.z012.chengdu.sc.net.entity.AllServiceListBean;
+import com.z012.chengdu.sc.net.exception.ServerException;
+import com.z012.chengdu.sc.net.observe.ObserverImpl;
+import com.z012.chengdu.sc.net.request.RequestBuilder;
+import com.z012.chengdu.sc.ui.BaseFragment;
 import com.z012.chengdu.sc.ui.activity.SearchActivity;
 import com.z012.chengdu.sc.ui.adapter.ServiceDetailAdapter;
-import com.z012.chengdu.sc.ui.base.BaseFragment;
-import com.z012.chengdu.sc.ui.widge.tablayout.TabLayout;
+import com.z012.chengdu.sc.ui.widget.tablayout.TabLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,16 +47,21 @@ import butterknife.OnTouch;
 
 /**
  * 服务
- * 
+ *
  * @author kborid
  */
-public class TabServerFragment extends BaseFragment implements DataCallback {
+public class TabServerFragment extends BaseFragment {
 
-	@BindView(R.id.tabs) TabLayout tabs;
-	@BindView(R.id.scrollview) ScrollView mScrollView;
-	@BindView(R.id.service_lay) LinearLayout service_lay;
+    private static final String TAG = TabServerFragment.class.getSimpleName();
 
-    private List<AllServiceColumnBean> mCatalogBean	= new ArrayList<>();
+    @BindView(R.id.tabs)
+    TabLayout tabs;
+    @BindView(R.id.scrollview)
+    ScrollView mScrollView;
+    @BindView(R.id.service_lay)
+    LinearLayout service_lay;
+
+    private List<AllServiceInfoBean> mCatalogBean = new ArrayList<>();
     private boolean isFail; // 是否是加载失败
     private int mCurrentPosition = 0;
     private boolean tabInterceptTouchEventTag = true;
@@ -68,46 +75,46 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
     }
 
     @Override
-    protected void onInit() {
+    public void onAttach(Context context) {
+        super.onAttach(context);
         EventBus.getDefault().register(this);
-	}
-
-	protected void onVisible() {
-		super.onVisible();
-		if (isFail) {// 如果加载失败，回到当前页就重新加载
-			loadData();
-		}
-	}
-
-	private View getPlaceHolderView() {
-	    View placeHolderView = new View(getActivity());
-	    placeHolderView.setBackgroundResource(R.color.white);
-	    LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-	    llp.height = Utils.mScreenHeight - mScrollViewY - Utils.dip2px(100);
-	    llp.bottomMargin = Utils.dip2px(5);
-	    placeHolderView.setLayoutParams(llp);
-	    return placeHolderView;
     }
 
-	@TargetApi(Build.VERSION_CODES.M)
+    protected void onVisible() {
+        super.onVisible();
+        if (isFail) {// 如果加载失败，回到当前页就重新加载
+            getAllServices();
+        }
+    }
+
+    private View getPlaceHolderView() {
+        View placeHolderView = new View(getActivity());
+        placeHolderView.setBackgroundResource(R.color.white);
+        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        llp.height = Utils.mScreenHeight - mScrollViewY - Utils.dip2px(100);
+        llp.bottomMargin = Utils.dip2px(5);
+        placeHolderView.setLayoutParams(llp);
+        return placeHolderView;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
-	protected void initParams() {
-		super.initParams();
+    protected void initParams() {
+        super.initParams();
 
         try {
             byte[] data = DataLoader.getInstance().getCacheData(NetURL.ALL_SERVICE_COLUMN);
             if (data != null) {
                 String json = new String(data, "UTF-8");
-                ResponseData response = JSON.parseObject(json, ResponseData.class);
-                if (response != null && response.body != null)
-                    refreshData(response.body.toString());
+                AllServiceListBean allServiceListBean = JSON.parseObject(json, AllServiceListBean.class);
+                refreshData(allServiceListBean);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-		if (NetworkUtil.isNetworkAvailable()) {
-		    loadData();
+        if (NetworkUtil.isNetworkAvailable()) {
+            getAllServices();
         }
 
         UIHandler.postDelayed(new Runnable() {
@@ -122,7 +129,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(final TabLayout.Tab tab) {
-                if(!tabInterceptTouchEventTag){
+                if (!tabInterceptTouchEventTag) {
                     return;
                 }
 
@@ -165,54 +172,72 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
                 }
             }
         });
-	}
+    }
 
-	@OnClick(R.id.tv_search) void search() {
+    @OnClick(R.id.tv_search)
+    void search() {
         startActivity(new Intent(getActivity(), SearchActivity.class));
     }
 
-    @OnTouch(R.id.touchFrame) boolean touchFrame() {
+    @OnTouch(R.id.touchFrame)
+    boolean touchFrame() {
         if (!tabInterceptTouchEventTag) {
             tabInterceptTouchEventTag = true;
         }
         return false;
     }
 
-    @OnTouch(R.id.scrollview) boolean scrollViewTouch() {
+    @OnTouch(R.id.scrollview)
+    boolean scrollViewTouch() {
         if (tabInterceptTouchEventTag) {
             tabInterceptTouchEventTag = false;
         }
         return false;
     }
 
-	/**
-	 * 加载所有栏目和服务
-	 */
-	public void loadData() {
-		RequestBeanBuilder builder = RequestBeanBuilder.create(false);
-		// builder.addBody("getConfForMgr", "YES");
-		ResponseData data = builder.syncRequest(builder);
-		data.path = NetURL.ALL_SERVICE_COLUMN;
-		data.flag = 1;
+    /**
+     * 加载所有栏目和服务
+     */
+    public void getAllServices() {
+        if (!isProgressShowing()) {
+            showProgressDialog(getString(R.string.loading), true);
+        }
+        ApiManager.getAllServices(RequestBuilder.create(false).build(), new ObserverImpl<AllServiceListBean>() {
+            @Override
+            public void onNext(AllServiceListBean o) {
+                super.onNext(o);
+                Logger.t(TAG).d(JSON.toJSONString(o));
+                removeProgressDialog();
+                isFail = false;
+                refreshData(o);
+            }
 
-		if (!isProgressShowing())
-			showProgressDialog(getString(R.string.loading), true);
-		requestID = DataLoader.getInstance().loadData(this, data);
-	}
+            @Override
+            public void onError(Throwable e) {
+                super.onError(e);
+                removeProgressDialog();
+                if (e instanceof ServerException) {
+                    ToastUtil.show(getString(R.string.dialog_tip_null_error), Toast.LENGTH_SHORT);
+                } else {
+                    ToastUtil.show(getString(R.string.dialog_tip_net_error), Toast.LENGTH_SHORT);
+                }
+            }
+        });
+    }
 
-	/**
-	 * 刷新数据
-	 */
-	public void refreshData(String responseBody) {
-		JSONObject mJson = JSON.parseObject(responseBody);
-		String json = mJson.getString("list_catalog");
-        mCatalogBean = JSON.parseArray(json, AllServiceColumnBean.class);
-        refreshServiceLayout();
-	}
+    /**
+     * 刷新数据
+     */
+    public void refreshData(AllServiceListBean bean) {
+        if (null != bean) {
+            mCatalogBean = bean.getList_catalog();
+            refreshServiceLayout();
+        }
+    }
 
-	@Subscribe(threadMode = ThreadMode.MAIN)
-	public void change(String name) {
-	    if (!TextUtils.isEmpty(name)) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void change(String name) {
+        if (!TextUtils.isEmpty(name)) {
             for (int i = 0; i < tabs.getTabCount(); i++) {
                 TabLayout.Tab tab = tabs.getTabAt(i);
                 if (null != tab && !TextUtils.isEmpty(tab.getText())) {
@@ -225,7 +250,7 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         }
     }
 
-	private void jumpTabIndex(final int position) {
+    private void jumpTabIndex(final int position) {
         tabs.setScrollPosition(position, 0, true);
         UIHandler.postDelayed(new Runnable() {
             @Override
@@ -235,9 +260,9 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         }, 100);
     }
 
-	private void refreshServiceLayout() {
-	    if (null == mCatalogBean) {
-	        return;
+    private void refreshServiceLayout() {
+        if (null == mCatalogBean) {
+            return;
         }
 
         itemViewLoc = new int[mCatalogBean.size()];
@@ -245,9 +270,9 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         itemViewHeight = new int[mCatalogBean.size()];
 
         tabs.removeAllTabs();
-	    service_lay.removeAllViews();
+        service_lay.removeAllViews();
         for (int i = 0; i < mCatalogBean.size(); i++) {
-            tabs.addTab(tabs.newTab().setText(mCatalogBean.get(i).catalogname));
+            tabs.addTab(tabs.newTab().setText(mCatalogBean.get(i).getCatalogname()));
             final View view = LayoutInflater.from(getActivity()).inflate(R.layout.lv_service_item, null);
             if (i > 0) {
                 view.setPadding(0, Utils.dip2px(24), 0, 0);
@@ -257,8 +282,8 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
             service_lay.addView(view);
             TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
             final GridView gridview = (GridView) view.findViewById(R.id.gridview);
-            tv_name.setText(mCatalogBean.get(i).catalogname);
-            ServiceDetailAdapter adapter = new ServiceDetailAdapter(getActivity(), mCatalogBean.get(i).applist);
+            tv_name.setText(mCatalogBean.get(i).getCatalogname());
+            ServiceDetailAdapter adapter = new ServiceDetailAdapter(getActivity(), mCatalogBean.get(i).getApplist());
             gridview.setAdapter(adapter);
 
             final int finalI = i;
@@ -284,32 +309,4 @@ public class TabServerFragment extends BaseFragment implements DataCallback {
         super.onDetach();
         EventBus.getDefault().unregister(this);
     }
-
-    @Override
-	public void preExecute(ResponseData request) {
-
-	}
-
-	@Override
-	public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
-		removeProgressDialog();
-		if (request.flag == 1) {
-			isFail = false;
-			refreshData(response.body.toString());
-		}
-
-	}
-	@Override
-	public void notifyError(ResponseData request, ResponseData response, Exception e) {
-		removeProgressDialog();
-		String message;
-		isFail = true;
-		if (e instanceof ConnectException) {
-			message = getString(R.string.dialog_tip_net_error);
-			CustomToast.show(message, Toast.LENGTH_LONG);
-		} else {
-			message = response != null && response.data != null ? response.data.toString() : getString(R.string.dialog_tip_null_error);
-		}
-		CustomToast.show(message, Toast.LENGTH_LONG);
-	}
 }

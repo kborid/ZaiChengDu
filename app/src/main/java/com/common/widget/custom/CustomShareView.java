@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.common.share.ShareBeanInfo;
 import com.common.share.ShareControl;
-import com.prj.sdk.widget.CustomToast;
+import com.prj.sdk.util.ToastUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.z012.chengdu.sc.R;
 
@@ -65,9 +65,7 @@ public class CustomShareView extends LinearLayout implements View.OnClickListene
         LayoutInflater.from(context).inflate(R.layout.custom_share_layout, this);
         findViews();
         setOnClickListeners();
-        ShareControl.getInstance(context).addWXPlatform();
-        ShareControl.getInstance(context).addQQQZonePlatform();
-        ShareControl.getInstance(context).addSinaPlatform();
+        ShareControl.init(context);
     }
 
     private void findViews() {
@@ -113,7 +111,7 @@ public class CustomShareView extends LinearLayout implements View.OnClickListene
         this.title = title;
         this.url = url;
         // 更新分享的内容
-        ShareControl.getInstance(context).setShareContent(url, title, url, R.drawable.icon);
+        ShareControl.getInstance().setShareContent(url, title, url, R.drawable.icon);
 
         // 删除所有子view
         menu_layout.removeAllViews();
@@ -174,7 +172,7 @@ public class CustomShareView extends LinearLayout implements View.OnClickListene
             public void onClick(View v) {
                 ClipboardManager cmb = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 cmb.setText(url);
-                CustomToast.show("成功复制到剪贴板", Toast.LENGTH_SHORT);
+                ToastUtil.show("成功复制到剪贴板", Toast.LENGTH_SHORT);
                 dismiss();
             }
         });
@@ -243,7 +241,7 @@ public class CustomShareView extends LinearLayout implements View.OnClickListene
         }
 
         if (sm != null) {
-            ShareControl.getInstance(context).postShare(sm);
+            ShareControl.getInstance().postShare(sm);
 //            ShareControl.getInstance(context).directShare(sm);
         }
         dismiss();

@@ -40,7 +40,9 @@ public final class AppConst {
 	public static final int		ACTIVITY_IMAGE_CAPTURE		= 0x999;
 	public static final int		ACTIVITY_GET_IMAGE			= 0x998;
 	public static final int		ACTIVITY_TAILOR				= 0x997;
+
 	// 广播
 	public static final String	ACTION_DYNAMIC_USER_INFO	= "ACTION_DYNAMIC_USER_INFO";							// 刷新用户信息
 	public static final String	ACTION_PAY_STATUS			= "ACTION_PAY_STATUS";									// 支付状态
+	public static final String 	ACTION_UNLOGIN 				= "com.z012.chengdu.sc.broatcast.unLogin";
 }

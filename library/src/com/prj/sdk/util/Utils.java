@@ -1,30 +1,23 @@
 package com.prj.sdk.util;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Environment;
+import android.text.TextUtils;
+import android.view.Display;
+
+import com.prj.sdk.app.AppContext;
+
+import org.apache.http.NameValuePair;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.http.NameValuePair;
-
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.app.PendingIntent.CanceledException;
-import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.location.LocationManager;
-import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Environment;
-import android.telephony.TelephonyManager;
-import android.text.TextUtils;
-import android.view.Display;
-import android.view.inputmethod.InputMethodManager;
-
-import com.prj.sdk.app.AppContext;
 
 /**
  * 全局公共类
@@ -320,78 +313,6 @@ public class Utils {
         return m.matches();
     }
 
-    /**
-     * 获取手机的imei号
-     *
-     * @return
-     */
-    public static final String getIMEI() {
-        String android_id = "";
-        try {
-            TelephonyManager telManager = (TelephonyManager) AppContext.mMainContext
-                    .getSystemService(Context.TELEPHONY_SERVICE);
-            android_id = telManager.getDeviceId();
-            if (android_id == null) {
-                android_id = android.provider.Settings.System.getString(
-                        AppContext.mMainContext.getContentResolver(),
-                        "android_id");
-            }
-        } catch (Exception e) {
-        }
-        return android_id;
-    }
-
-    /**
-     * 是否为IMEI
-     *
-     * @param IMEI
-     * @return
-     */
-    public static final boolean IsIMEI(String IMEI) {
-        int s = IMEI.length();
-        if (s != 15) {
-            return false;
-        }
-        try {
-            char[] imeiChar = IMEI.toCharArray();
-            int resultInt = 0;
-            for (int i = 0; i < 14; i++) {
-                int a = Integer.parseInt(String.valueOf(imeiChar[i]));
-                i++;
-                final int temp = Integer.parseInt(String.valueOf(imeiChar[i])) * 2;
-                final int b = temp < 10 ? temp : temp - 9;
-                resultInt += a + b;
-            }
-            resultInt %= 10;
-            resultInt = resultInt == 0 ? 0 : 10 - resultInt;
-            if (resultInt == Integer.parseInt(String.valueOf(imeiChar[14]))) {
-                return true;
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-            return false;
-        }
-        return false;
-    }
-
-    /**
-     * 获取WIFI MAC地址
-     */
-    public static String getWifiMac() {
-        WifiInfo wifiInfo = null;
-        try {
-            WifiManager wifiManager = (WifiManager) AppContext.mMainContext
-                    .getSystemService(Context.WIFI_SERVICE);
-            wifiInfo = wifiManager.getConnectionInfo();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (wifiInfo != null && wifiInfo.getMacAddress() != null)
-            return wifiInfo.getMacAddress(); // 获取WIFI_MAC地址
-        else
-            return "";
-    }
-
     /*
      * 提取url中的参数
      */
@@ -545,68 +466,6 @@ public class Utils {
             return true;
         }
         return false;
-    }
-
-    /**
-     * 关闭软键盘
-     *
-     * @param mContext
-     */
-    public static final void closeSoftInputMode(Activity mContext) {
-        InputMethodManager inputMethodManager = (InputMethodManager) mContext
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (inputMethodManager.isActive()) {
-            try {
-                inputMethodManager.hideSoftInputFromWindow((mContext)
-                        .getCurrentFocus().getWindowToken(), 0);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
-        }
-    }
-
-    public static boolean isNull(String str) {
-        if (str == null || str.length() == 0)
-            return true;
-        return false;
-    }
-
-    /**
-     * 判断GPS是否打开
-     *
-     * @return
-     */
-    public static final boolean isGPSOPen() {
-        LocationManager locationManager = (LocationManager) AppContext.mMainContext
-                .getSystemService(Context.LOCATION_SERVICE);
-        // 通过GPS卫星定位，定位级别可以精确到街（通过24颗卫星定位，在室外和空旷的地方定位准确、速度快）
-        boolean gps = locationManager
-                .isProviderEnabled(LocationManager.GPS_PROVIDER);
-        // 通过WLAN或移动网络(3G/2G)确定的位置（也称作AGPS，辅助GPS定位。主要用于在室内或遮盖物（建筑群或茂密的深林等）密集的地方定位）
-        boolean network = locationManager
-                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        if (gps) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * GPS开关
-     */
-    public static final void openGPS() {
-        Intent gpsIntent = new Intent();
-        gpsIntent.setClassName("com.android.settings",
-                "com.android.settings.widget.SettingsAppWidgetProvider");
-        gpsIntent.addCategory("android.intent.category.ALTERNATIVE");
-        gpsIntent.setData(Uri.parse("custom:3"));
-        try {
-            PendingIntent
-                    .getBroadcast(AppContext.mMainContext, 0, gpsIntent, 0)
-                    .send();
-        } catch (CanceledException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

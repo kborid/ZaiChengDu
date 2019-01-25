@@ -2,12 +2,9 @@ package com.common.share;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.widget.Toast;
 
-import com.prj.sdk.widget.CustomToast;
-import com.umeng.socialize.bean.RequestType;
+import com.prj.sdk.util.ToastUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
@@ -25,39 +22,39 @@ import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 import com.z012.chengdu.sc.R;
 
+import java.lang.ref.WeakReference;
+
 /**
  * 分享操作
  */
 public class ShareControl {
     private final UMSocialService mController;
     private static ShareControl mInstance = null;
-    private Context mAct;
+    private WeakReference<Activity> mWeakRefContext;
 
-    private ShareControl(Context context) {
-        mController = UMServiceFactory.getUMSocialService("com.umeng.share", RequestType.SOCIAL);
-        mAct = context;
+    private ShareControl() {
+        mController = UMServiceFactory.getUMSocialService("com.umeng.share");
+    }
+
+    public static void init(Context context) {
+        getInstance().mWeakRefContext = new WeakReference<>((Activity) context);
+        getInstance().addQQPlatform();
+        getInstance().addWXPlatform();
+        getInstance().addSinaPlatform();
     }
 
     /**
      * 获得实例的唯一全局访问点
      */
-    public static ShareControl getInstance(Context context) {
+    public static ShareControl getInstance() {
         if (mInstance == null) {
-            // 增加类锁,保证只初始化一次
             synchronized (ShareControl.class) {
                 if (mInstance == null) {
-                    mInstance = new ShareControl(context);
+                    mInstance = new ShareControl();
                 }
             }
         }
         return mInstance;
-    }
-
-    public UMSocialService getUMServerController() {
-        if (mController != null) {
-            return mController;
-        }
-        return null;
     }
 
     /**
@@ -65,52 +62,35 @@ public class ShareControl {
      * @功能描述 : 添加QQ平台支持 QQ分享的内容， 包含四种类型， 即单纯的文字、图片、音乐、视频. 参数说明 : title, summary, image url中必须至少设置一个, targetUrl必须设置,网页地址必须以"http://"开头 . title : 要分享标题 summary : 要分享的文字概述 image url :
      * 图片地址 [以上三个参数至少填写一个] targetUrl : 用户点击该分享时跳转到的目标地址 [必填] ( 若不填写则默认设置为友盟主页 )
      */
-    public void addQQQZonePlatform() {
-        String appId = mAct.getString(R.string.qq_appid);
-        String appKey = mAct.getString(R.string.qq_appkey);
+    private void addQQPlatform() {
+        String appId = mWeakRefContext.get().getString(R.string.qq_appid);
+        String appKey = mWeakRefContext.get().getString(R.string.qq_appkey);
         // 添加QQ支持, 并且设置QQ分享内容的target url
-        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler((Activity) mAct, appId, appKey);
+        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(mWeakRefContext.get(), appId, appKey);
         qqSsoHandler.setTargetUrl("http://www.umeng.com/social");
         qqSsoHandler.addToSocialSDK();
-
-        // 添加QZone平台
-//        QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler((Activity) mAct, appId, appKey);
-//        qZoneSsoHandler.addToSocialSDK();
     }
 
     /**
      * @return
      * @功能描述 : 添加微信平台分享
      */
-    public void addWXPlatform() {
-        String appId = mAct.getString(R.string.wx_appid);
-        String appSecret = mAct.getString(R.string.wx_appsecret);
+    private void addWXPlatform() {
+        String appId = mWeakRefContext.get().getString(R.string.wx_appid);
+        String appSecret = mWeakRefContext.get().getString(R.string.wx_appsecret);
         // 添加微信平台
-        UMWXHandler wxHandler = new UMWXHandler(mAct, appId, appSecret);
+        UMWXHandler wxHandler = new UMWXHandler(mWeakRefContext.get(), appId, appSecret);
         wxHandler.addToSocialSDK();
 
         // 支持微信朋友圈
-        UMWXHandler wxCircleHandler = new UMWXHandler(mAct, appId, appSecret);
+        UMWXHandler wxCircleHandler = new UMWXHandler(mWeakRefContext.get(), appId, appSecret);
         wxCircleHandler.setToCircle(true);
         wxCircleHandler.addToSocialSDK();
     }
 
-    public void addSinaPlatform() {
+    private void addSinaPlatform() {
         //设置新浪SSO handler
         mController.getConfig().setSsoHandler(new SinaSsoHandler());
-    }
-
-    /**
-     * 发短信：调用系统短信分享，不使用友盟，因为友盟只要进入页面，页面就自动提示分享中、发送成功、分享成功
-     */
-    public void sendSMS(String shareContent) {
-        Uri smsToUri = Uri.parse("smsto:");
-        Intent sendIntent = new Intent(Intent.ACTION_VIEW, smsToUri);
-        // sendIntent.putExtra("address", "123456"); // 电话号码，这行去掉的话，默认就没有电话
-        // 短信内容
-        sendIntent.putExtra("sms_body", shareContent);
-        sendIntent.setType("vnd.android-dir/mms-sms");
-        mAct.startActivity(sendIntent);
     }
 
     /**
@@ -123,7 +103,7 @@ public class ShareControl {
      */
     public void setShareContent(String shareContent, String title, String targetUrl, int imgId) {
         try {
-            UMImage urlImage = new UMImage(mAct, imgId);
+            UMImage urlImage = new UMImage(mWeakRefContext.get(), imgId);
             // 微信
             WeiXinShareContent weixinContent = new WeiXinShareContent();
             weixinContent.setShareContent(shareContent);
@@ -175,7 +155,7 @@ public class ShareControl {
      * @param platform 分享的平台
      */
     public void directShare(SHARE_MEDIA platform) {
-        mController.directShare(mAct, platform, new SnsPostListener() {
+        mController.directShare(mWeakRefContext.get(), platform, new SnsPostListener() {
 
             @Override
             public void onStart() {
@@ -187,13 +167,14 @@ public class ShareControl {
                 if (eCode != StatusCode.ST_CODE_SUCCESSED) {
                     showText = "分享失败 ";
                 }
-                CustomToast.show(showText, Toast.LENGTH_SHORT);
+                ToastUtil.show(showText, Toast.LENGTH_SHORT);
             }
         });
     }
+
     /*弹框分享*/
     public void postShare(SHARE_MEDIA platform) {
-        mController.postShare(mAct, platform, new SnsPostListener() {
+        mController.postShare(mWeakRefContext.get(), platform, new SnsPostListener() {
             @Override
             public void onStart() {
 
@@ -205,15 +186,8 @@ public class ShareControl {
                 if (eCode != StatusCode.ST_CODE_SUCCESSED) {
                     showText = "分享失败 ";
                 }
-                CustomToast.show(showText, Toast.LENGTH_SHORT);
+                ToastUtil.show(showText, Toast.LENGTH_SHORT);
             }
         });
-    }
-
-    /**
-     * 销毁Listeners
-     */
-    public void destroy() {
-        mController.getConfig().cleanListeners();
     }
 }

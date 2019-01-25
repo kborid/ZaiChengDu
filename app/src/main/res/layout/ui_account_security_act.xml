@@ -1,153 +1,157 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/comm_title" />
 
     <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
         android:scrollbars="none" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <!-- 2 -->
+            <LinearLayout
+                android:id="@+id/cert_lay"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:text="实名认证"
+                    android:textColor="@color/textColor"
+                    android:textSize="17sp" />
 
-            <TableLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                <TextView
+                    android:id="@+id/tv_certification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textSize="17sp"
+                    android:textColor="@color/hintColor"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:text="未认证"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/accessory"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/modify_lay"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:stretchColumns="1" >
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:text="登录密码"
+                    android:textColor="@color/textColor"
+                    android:textSize="17sp" />
 
-                <TableRow
-                    android:id="@+id/tr_certification"
-                    android:layout_height="49dp"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="14dp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minWidth="100dp"
-                        android:paddingLeft="15dp"
-                        android:singleLine="true"
-                        android:text="实名认证"
-                        android:textColor="@color/item_value_color"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_certification"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="11dp"
-                        android:drawableRight="@drawable/accessory"
-                        android:gravity="right"
-                        android:paddingRight="11dp"
-                        android:singleLine="true"
-                        android:textColor="@color/item_value_color"
-                        android:textSize="15sp" />
-                </TableRow>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textSize="17sp"
+                    android:textColor="@color/hintColor"
                     android:layout_marginLeft="15dp"
-                    android:background="@color/title_line" />
+                    android:layout_marginRight="15dp"
+                    android:text="修改/找回"/>
 
-                <TableRow
-                    android:id="@+id/tr_phone_number"
-                    android:layout_height="49dp"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/accessory"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="15dp"
-                        android:singleLine="true"
-                        android:text="手机号"
-                        android:textColor="@color/item_value_color"
-                        android:textSize="15sp" />
+            <LinearLayout
+                android:id="@+id/face_lay"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:text="人脸登录"
+                    android:textColor="@color/textColor"
+                    android:textSize="17sp" />
 
-                    <TextView
-                        android:id="@+id/tv_phone_number"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="11dp"
-                        android:drawableRight="@drawable/accessory"
-                        android:gravity="right"
-                        android:paddingRight="11dp"
-                        android:singleLine="true"
-                        android:textColor="@color/item_value_color"
-                        android:textSize="15sp" />
-                </TableRow>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                <TextView
+                    android:id="@+id/tv_face"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textSize="17sp"
+                    android:textColor="@color/hintColor"
                     android:layout_marginLeft="15dp"
-                    android:background="@color/title_line" 
-                    android:visibility="gone"/>
+                    android:layout_marginRight="15dp"
+                    android:text="未开通"/>
 
-                <TableRow
-                    android:id="@+id/tr_email"
-                    android:layout_height="49dp"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp" 
-                    android:visibility="gone">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:src="@drawable/accessory"/>
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:paddingLeft="15dp"
-                        android:singleLine="true"
-                        android:text="邮箱"
-                        android:textColor="@color/item_value_color"
-                        android:textSize="15sp" />
+            <LinearLayout
+                android:id="@+id/third_lay"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/common_item_selector"
+                android:layout_marginTop="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:text="第三方账号绑定"
+                    android:textColor="@color/textColor"
+                    android:textSize="17sp" />
 
-                    <TextView
-                        android:id="@+id/tv_email"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="7dp"
-                        android:drawableRight="@drawable/accessory"
-                        android:gravity="right"
-                        android:paddingRight="11dp"
-                        android:singleLine="true"
-                        android:textColor="@color/item_value_color" />
-                </TableRow>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                <LinearLayout
+                    android:id="@+id/account_lay"
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:background="@color/title_line" />
-
-                <TableRow
-                    android:id="@+id/tr_third_party"
-                    android:layout_height="49dp"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:paddingLeft="15dp"
-                        android:singleLine="true"
-                        android:text="第三方账号"
-                        android:textColor="@color/item_value_color"
-                        android:textSize="15sp" />
-
+                    android:layout_marginRight="15dp">
                     <LinearLayout
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|center_vertical"
                         android:orientation="horizontal" >
@@ -156,6 +160,7 @@
                             android:id="@+id/iv_qq"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
                             android:src="@drawable/ic_bind_qq"
                             android:visibility="gone" />
 
@@ -163,62 +168,24 @@
                             android:id="@+id/iv_wx"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="9dp"
-                            android:paddingRight="9dp"
+                            android:paddingLeft="5dp"
                             android:src="@drawable/ic_bind_wx"
                             android:visibility="gone" />
                         <ImageView
                             android:id="@+id/iv_wb"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="9dp"
-                            android:paddingRight="9dp"
+                            android:paddingLeft="5dp"
                             android:src="@drawable/ic_bind_wb"
                             android:visibility="gone" />
-
-                        <ImageView
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:paddingRight="11dp"
-                            android:src="@drawable/accessory" />
                     </LinearLayout>
-                </TableRow>
+                </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@color/title_line" />
-
-                <TableRow
-                    android:id="@+id/tr_change_password"
-                    android:layout_height="49dp"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:paddingLeft="15dp"
-                        android:singleLine="true"
-                        android:text="修改密码"
-                        android:textColor="@color/item_value_color"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/tv_change_password"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="7dp"
-                        android:drawableRight="@drawable/accessory"
-                        android:gravity="right"
-                        android:paddingRight="11dp"
-                        android:singleLine="true"
-                        android:textColor="@color/item_value_color"
-                        android:textSize="15sp" />
-                </TableRow>
-            </TableLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/accessory"/>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btn_logout"
@@ -228,7 +195,7 @@
                 android:background="@drawable/common_round_rectangle_red_bg"
                 android:text="退出登录"
                 android:textColor="#fff"
-                android:textSize="16sp" />
+                android:textSize="17sp" />
         </LinearLayout>
     </ScrollView>
 

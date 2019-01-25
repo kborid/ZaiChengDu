@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
-import com.prj.sdk.widget.CustomToast;
+import com.prj.sdk.util.ToastUtil;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.bean.SocializeEntity;
 import com.umeng.socialize.bean.StatusCode;
@@ -180,7 +180,7 @@ public class ShareUtil {
 				if (eCode != StatusCode.ST_CODE_SUCCESSED) {
 					showText = "分享失败 ";
 				}
-				CustomToast.show(showText, Toast.LENGTH_SHORT);
+				ToastUtil.show(showText, Toast.LENGTH_SHORT);
 			}
 		});
 	}

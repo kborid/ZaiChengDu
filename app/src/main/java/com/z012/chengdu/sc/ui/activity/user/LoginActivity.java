@@ -1,0 +1,496 @@
+package com.z012.chengdu.sc.ui.activity.user;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ForegroundColorSpan;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.prj.sdk.app.AppContext;
+import com.prj.sdk.net.bean.ResponseData;
+import com.prj.sdk.net.data.DataCallback;
+import com.prj.sdk.net.data.DataLoader;
+import com.prj.sdk.util.DateUtil;
+import com.prj.sdk.util.LogUtil;
+import com.prj.sdk.util.SharedPreferenceUtil;
+import com.prj.sdk.util.StringUtil;
+import com.prj.sdk.util.SystemUtil;
+import com.prj.sdk.util.ToastUtil;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.StatusCode;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener;
+import com.umeng.socialize.controller.listener.SocializeListeners.UMDataListener;
+import com.umeng.socialize.exception.SocializeException;
+import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.z012.chengdu.sc.R;
+import com.z012.chengdu.sc.SessionContext;
+import com.z012.chengdu.sc.constants.AppConst;
+import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.encrypt.SHA1;
+import com.z012.chengdu.sc.impl.CustomClickableSpan;
+import com.z012.chengdu.sc.net.entity.CertUserAuth;
+import com.z012.chengdu.sc.net.entity.UserInfo;
+import com.z012.chengdu.sc.net.request.RequestBeanBuilder;
+import com.z012.chengdu.sc.ui.BaseActivity;
+import com.z012.chengdu.sc.ui.activity.WebViewActivity;
+import com.z012.chengdu.sc.ui.widget.login.ILoginListener;
+import com.z012.chengdu.sc.ui.widget.login.LoginLayout;
+import com.z012.chengdu.sc.ui.widget.login.PasswordLoginLayout;
+import com.z012.chengdu.sc.ui.widget.login.SmsCodeLoginLayout;
+
+import java.net.ConnectException;
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
+
+/**
+ * 登录
+ *
+ * @author kborid
+ */
+public class LoginActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
+
+    @BindView(R.id.iv_close)
+    ImageView iv_close;
+    @BindView(R.id.tv_tips)
+    TextView tv_tips;
+    @BindView(R.id.tv_wx)
+    TextView tv_wx;
+    @BindView(R.id.tv_qq)
+    TextView tv_qq;
+    @BindView(R.id.policy_login_lay)
+    LinearLayout policy_login_lay;
+    private LoginLayout loginLayout = null;
+
+    private static onCancelLoginListener mCancelLogin;
+    // 整个平台的Controller, 负责管理整个SDK的配置、操作等处理
+    private UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.login");
+    //（01-新浪微博，02-腾讯QQ，03-微信，04-支付宝）
+    private String usertoken, mPlatform, thirdpartusername, thirdpartuserheadphotourl, openid, unionid;
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.ui_login;
+    }
+
+    @Override
+    public void initParams() {
+        super.initParams();
+        SessionContext.cleanUserInfo();
+        policy_login_lay.removeAllViews();
+        loginLayout = new PasswordLoginLayout(this);
+        loginLayout.setLoginListener(passwordLoginListener);
+        policy_login_lay.addView(loginLayout);
+        tv_tips.setMovementMethod(LinkMovementMethod.getInstance());
+
+        final String tips = tv_tips.getText().toString();
+        SpannableString ss = new SpannableString(tips);
+        ss.setSpan(new CustomClickableSpan(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent mIntent = new Intent(LoginActivity.this, WebViewActivity.class);
+                mIntent.putExtra("title", "服务协议");
+                mIntent.putExtra("path", NetURL.REGISTER_URL);
+                startActivity(mIntent);
+            }
+        }), 7, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.mainColor)), 7, tips.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tv_tips.setText(ss);
+
+        addQQQZonePlatform();
+        addWXPlatform();
+    }
+
+    private ILoginListener passwordLoginListener = new ILoginListener() {
+        @Override
+        public void onLogin() {
+            requestLogin();
+            LogUtil.i("dw", "password login in LoginActivity");
+        }
+
+        @Override
+        public void onChange() {
+            LogUtil.i("dw", "password change layout in LoginActivity()");
+            loginLayout.destroy();
+            policy_login_lay.removeAllViews();
+            loginLayout = new SmsCodeLoginLayout(LoginActivity.this);
+            loginLayout.setLoginListener(smsCodeLoginListener);
+            loginLayout.setProcessListener(LoginActivity.this);
+            policy_login_lay.addView(loginLayout);
+        }
+    };
+
+    private ILoginListener smsCodeLoginListener = new ILoginListener() {
+        @Override
+        public void onLogin() {
+            LogUtil.i("dw", "code login in LoginActivity");
+        }
+
+        @Override
+        public void onChange() {
+            LogUtil.i("dw", "code change layout in LoginActivity()");
+            loginLayout.destroy();
+            policy_login_lay.removeAllViews();
+            loginLayout = new PasswordLoginLayout(LoginActivity.this);
+            loginLayout.setLoginListener(passwordLoginListener);
+            policy_login_lay.addView(loginLayout);
+        }
+    };
+
+    @OnClick(R.id.iv_close)
+    void close() {
+        if (mCancelLogin != null) {
+            mCancelLogin.isCancelLogin(true);
+        }
+        finish();
+    }
+
+    @OnClick(R.id.tv_qq)
+    void qqLogin() {
+        login(SHARE_MEDIA.QQ);
+    }
+
+    @OnClick(R.id.tv_wx)
+    void wxLogin() {
+        if (WXAPIFactory.createWXAPI(this, null).isWXAppInstalled()) {
+            login(SHARE_MEDIA.WEIXIN);
+        } else {
+            ToastUtil.show("没有安装微信", 0);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (SessionContext.isLogin()) {
+            this.finish();
+        }
+    }
+
+    /**
+     * 授权。如果授权成功，则获取用户信息</br>
+     */
+    private void login(final SHARE_MEDIA platform) {
+        mController.doOauthVerify(this, platform, new UMAuthListener() {
+
+            @Override
+            public void onStart(SHARE_MEDIA platform) {
+                ToastUtil.show("授权开始", 0);
+            }
+
+            @Override
+            public void onError(SocializeException e, SHARE_MEDIA platform) {
+                ToastUtil.show("授权错误", Toast.LENGTH_SHORT);
+            }
+
+            @Override
+            public void onComplete(Bundle value, SHARE_MEDIA platform) {
+                String uid = value.getString("uid");
+                openid = uid;
+                unionid = value.getString("unionid");
+                usertoken = value.getString("access_token");
+                if (!TextUtils.isEmpty(uid)) {
+                    getUserInfo(platform);
+                } else {
+                    ToastUtil.show("授权失败", Toast.LENGTH_SHORT);
+                }
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA platform) {
+                ToastUtil.show("授权取消", Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    /**
+     * 获取授权平台的用户信息</br>
+     */
+    private void getUserInfo(final SHARE_MEDIA platform) {
+        mController.getPlatformInfo(this, platform, new UMDataListener() {
+
+            @Override
+            public void onStart() {
+
+            }
+
+            @Override
+            public void onComplete(int status, Map<String, Object> info) {
+                if (status == StatusCode.ST_CODE_SUCCESSED && info != null) {
+                    try {
+                        if (platform == SHARE_MEDIA.SINA) { // 新浪微博
+                            mPlatform = "01";
+                            thirdpartuserheadphotourl = info.get("profile_image_url").toString();
+                            thirdpartusername = info.get("screen_name").toString();
+                            if (StringUtil.empty(usertoken)) {// 通过web方式登录，需要从用户信息中获取access_token
+                                usertoken = info.get("access_token").toString();
+                            }
+                        } else if (platform == SHARE_MEDIA.QQ) { // QQ
+                            mPlatform = "02";
+                            thirdpartuserheadphotourl = info.get("profile_image_url").toString();
+                            thirdpartusername = info.get("screen_name").toString();
+                        } else if (platform == SHARE_MEDIA.WEIXIN) { // 微信
+                            mPlatform = "03";
+                            thirdpartuserheadphotourl = info.get("headimgurl").toString();
+                            thirdpartusername = info.get("nickname").toString();
+                            unionid = info.get("unionid").toString();
+                        }
+
+                        // StringBuilder sb = new StringBuilder();
+                        // Set<String> keys = info.keySet();
+                        // for (String key : keys) {
+                        // sb.append(key + "=" + info.get(key).toString() +
+                        // "\r\n");
+                        // }
+                        checkThirdLogin();
+                    } catch (Exception e) {
+                        ToastUtil.show("获取用户信息失败", Toast.LENGTH_SHORT);
+                    }
+                } else {
+                    ToastUtil.show("获取用户信息失败", Toast.LENGTH_SHORT);
+                }
+            }
+        });
+    }
+
+    /**
+     * 添加qq及qq Zone平台
+     */
+    private void addQQQZonePlatform() {
+        String appId = getString(R.string.qq_appid);
+        String appKey = getString(R.string.qq_appkey);
+        UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, appId, appKey);
+        qqSsoHandler.addToSocialSDK();
+    }
+
+    /**
+     * 添加微信平台配置
+     */
+    private void addWXPlatform() {
+        String appId = getString(R.string.wx_appid);
+        String appSecret = getString(R.string.wx_appsecret);
+        UMWXHandler wxHandler = new UMWXHandler(this, appId, appSecret);
+        wxHandler.addToSocialSDK();
+    }
+
+    /**
+     * 加载数据
+     */
+    private void requestLogin() {
+        String phone = loginLayout.getPhone();
+        String pwd = loginLayout.getPassword();
+        if (TextUtils.isEmpty(phone)) {
+            ToastUtil.show("用户名不能为空", Toast.LENGTH_SHORT);
+            return;
+        }
+        if (TextUtils.isEmpty(pwd)) {
+            ToastUtil.show("密码不能为空", Toast.LENGTH_SHORT);
+            return;
+        }
+
+        RequestBeanBuilder builder = RequestBeanBuilder.create(false);
+        SHA1 sha1 = new SHA1();
+        pwd = sha1.getDigestOfString(pwd.getBytes());
+        builder.addBody("LOGIN", phone);
+        builder.addBody("USER_PWD", pwd);
+
+        ResponseData data = builder.syncRequest(builder);
+        data.path = NetURL.GET_TICKET;
+        data.flag = 1;
+
+        if (!isProgressShowing()) {
+            showProgressDialog("正在登录，请稍候...", true);
+        }
+        requestID = DataLoader.getInstance().loadData(this, data);
+    }
+
+    /**
+     * 判断是否绑定了三方帐号
+     */
+    private void checkThirdLogin() {
+        RequestBeanBuilder builder = RequestBeanBuilder.create(false);
+        builder.addBody("openid", openid);// openid值为uid
+        builder.addBody("unionid", unionid);
+        builder.addBody("platform", mPlatform);
+        builder.addBody("ip", SystemUtil.getLocalIpAddress());
+        ResponseData data = builder.syncRequest(builder);
+        data.path = NetURL.BIND_CHECK;
+        data.flag = 3;
+
+        if (!isProgressShowing()) {
+            showProgressDialog("正在登录，请稍候...", true);
+        }
+        requestID = DataLoader.getInstance().loadData(this, data);
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @param ticket 票据
+     */
+    private void getUserInfo(String ticket) {
+        RequestBeanBuilder builder = RequestBeanBuilder.create(true);
+        ResponseData data = builder.syncRequest(builder);
+        data.path = NetURL.GET_USER_INFO;
+        data.flag = 2;
+        requestID = DataLoader.getInstance().loadData(this, data);
+    }
+
+    private void requestCertResult() {
+        LogUtil.i("dw", "requestCertResult()");
+        RequestBeanBuilder b = RequestBeanBuilder.create(true);
+        b.addBody("uid", SessionContext.mUser.LOCALUSER.id);
+        ResponseData d = b.syncRequest(b);
+        d.path = NetURL.CERT_STATUS_BY_UID;
+        d.flag = 11;
+        DataLoader.getInstance().loadData(this, d);
+    }
+
+    @Override
+    public void preExecute(ResponseData request) {
+    }
+
+    @Override
+    public void notifyMessage(ResponseData request, ResponseData response)
+            throws Exception {
+        if (request.flag == 1) {
+            JSONObject mJson = JSON.parseObject(response.body.toString());
+            String ticket = mJson.getString("accessTicket");
+            // 记录登录ticket
+            SharedPreferenceUtil.getInstance().setString(AppConst.ACCESS_TICKET, ticket, true);
+            SessionContext.setTicket(ticket);
+            getUserInfo(ticket);
+        } else if (request.flag == 2) {
+            removeProgressDialog();
+            if (StringUtil.empty(response.body.toString()) || response.body.toString().equals("{}")) {
+                ToastUtil.show("获取用户信息失败，请重试", 0);
+                return;
+            }
+
+            SessionContext.mUser = JSON.parseObject(response.body.toString(), UserInfo.class);
+            if (SessionContext.mUser == null || StringUtil.empty(SessionContext.mUser.USERBASIC)) {
+                ToastUtil.show("获取用户信息失败，请重试", 0);
+                return;
+            }
+
+            SharedPreferenceUtil.getInstance().setString(AppConst.USERNAME, loginLayout.getPhone(), true);// 保存用户名
+            SharedPreferenceUtil.getInstance().setString(AppConst.LAST_LOGIN_DATE, DateUtil.getCurDateStr(null), false);// 保存登录时间
+            if (StringUtil.notEmpty(SessionContext.mUser.USERBASIC.headphotourl)) {
+                SharedPreferenceUtil.getInstance().setString(AppConst.USER_PHOTO_URL, SessionContext.mUser.USERBASIC.getHeadphotourl(), false);
+            } else {
+                SharedPreferenceUtil.getInstance().setString(AppConst.USER_PHOTO_URL, "", false);
+            }
+            SharedPreferenceUtil.getInstance().setString(AppConst.USER_INFO, response.body.toString(), true);
+            ToastUtil.show("登录成功", 0);
+            Intent mIntent = new Intent(AppConst.ACTION_DYNAMIC_USER_INFO);
+            LocalBroadcastManager.getInstance(AppContext.mMainContext).sendBroadcast(mIntent);
+            JPushInterface.setAlias(AppContext.mMainContext, SessionContext.mUser.USERAUTH.mobilenum, null);
+            if (mCancelLogin != null) {
+                mCancelLogin.isCancelLogin(false);
+            }
+
+            requestCertResult();
+            // 添加友盟自定义事件
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("userId", SessionContext.mUser.USERBASIC.id);
+            MobclickAgent.onEvent(this, "UserLoginSuccess", map);
+        } else if (request.flag == 3) {// 如果绑定，直接获取用户信息，没有绑定到绑定页面
+            removeProgressDialog();
+            JSONObject mJson = JSON.parseObject(response.body.toString());
+            int flag = mJson.getInteger("flag");
+            if (flag == 1) {// flag:0-未绑定 ，1-已绑定，当flag=1时，还返回accessTicket
+                String accessTicket = mJson.getString("accessTicket");
+                SharedPreferenceUtil.getInstance().setString(AppConst.ACCESS_TICKET, accessTicket, true);// 保存ticket
+                SessionContext.setTicket(accessTicket);
+                getUserInfo(accessTicket);
+            } else {
+                Intent intent = new Intent(this, BindPhoneActivity.class);
+                intent.putExtra("thirdpartusername", thirdpartusername);
+                intent.putExtra("thirdpartuserheadphotourl", thirdpartuserheadphotourl);
+                intent.putExtra("openid", openid);
+                intent.putExtra("unionid", unionid);
+                intent.putExtra("platform", mPlatform);
+                intent.putExtra("usertoken", usertoken);
+                startActivity(intent);
+            }
+        } else if (request.flag == 11) {
+            if (null != response && response.body != null) {
+                LogUtil.i("dw", response.body.toString());
+                SessionContext.mCertUserAuth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
+            }
+            this.finish();
+        }
+    }
+
+    @Override
+    public void notifyError(ResponseData request, ResponseData response, Exception e) {
+        removeProgressDialog();
+        String message;
+        if (e != null && e instanceof ConnectException) {
+            message = getString(R.string.dialog_tip_net_error);
+        } else {
+            message = response != null && response.data != null ? response.data.toString() : getString(R.string.dialog_tip_null_error);
+        }
+        ToastUtil.show(message, Toast.LENGTH_LONG);
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        DataLoader.getInstance().clear(requestID);
+        removeProgressDialog();
+        if (mCancelLogin != null) {
+            mCancelLogin.isCancelLogin(true);
+        }
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if (mCancelLogin != null) {
+                mCancelLogin.isCancelLogin(true);
+            }
+            this.finish();
+            return true;
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
+    /**
+     * 处理取消登录回调接口
+     */
+    public interface onCancelLoginListener {
+        /**
+         * @param isCancel true:取消登录；false:登录成功
+         */
+        public void isCancelLogin(boolean isCancel);
+    }
+
+    /**
+     * 设置登录状态监听
+     *
+     * @param cancelLogin
+     */
+    public static final void setCancelLogin(onCancelLoginListener cancelLogin) {
+        mCancelLogin = cancelLogin;
+    }
+}

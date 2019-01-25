@@ -2,7 +2,7 @@ package com.z012.chengdu.sc.helper;
 
 import java.util.Comparator;
 
-import com.z012.chengdu.sc.net.bean.WeatherCityInfo;
+import com.z012.chengdu.sc.net.entity.WeatherCityInfo;
 
 public class PinyinComparator implements Comparator<WeatherCityInfo> {
 

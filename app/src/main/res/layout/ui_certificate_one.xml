@@ -40,7 +40,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <com.z012.chengdu.sc.ui.widge.edittext.NameCatchEditText
+            <com.z012.chengdu.sc.ui.widget.edittext.NameCatchEditText
                 android:id="@+id/et_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -82,7 +82,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <com.z012.chengdu.sc.ui.widge.edittext.IdCardCatchEditText
+            <com.z012.chengdu.sc.ui.widget.edittext.IdCardCatchEditText
                 android:id="@+id/et_id"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -124,7 +124,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <com.z012.chengdu.sc.ui.widge.edittext.NumberCatchEditText
+            <com.z012.chengdu.sc.ui.widget.edittext.NumberCatchEditText
                 android:id="@+id/et_card"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -166,7 +166,7 @@
                 android:textColor="@color/textColor"
                 android:textSize="16sp" />
 
-            <com.z012.chengdu.sc.ui.widge.edittext.NumberCatchEditText
+            <com.z012.chengdu.sc.ui.widget.edittext.NumberCatchEditText
                 android:id="@+id/et_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

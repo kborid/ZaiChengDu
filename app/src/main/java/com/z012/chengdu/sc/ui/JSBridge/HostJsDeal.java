@@ -1,30 +1,31 @@
 package com.z012.chengdu.sc.ui.JSBridge;
 
-import java.net.ConnectException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.prj.sdk.app.AppContext;
-import com.prj.sdk.constants.InfoType;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
+import com.prj.sdk.util.ToastUtil;
 import com.prj.sdk.util.Utils;
-import com.prj.sdk.widget.CustomToast;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
+import com.z012.chengdu.sc.constants.AppConst;
+import com.z012.chengdu.sc.net.InfoType;
+
+import java.net.ConnectException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.HashMap;
 
 /**
  * 使用addJavascriptInterface接口处理js请求
@@ -48,7 +49,7 @@ public class HostJsDeal {
 	 */
 	@JavascriptInterface
 	public void openLogin() {
-		mContext.sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+		LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(AppConst.ACTION_UNLOGIN));
 	}
 
 	/**
@@ -129,7 +130,7 @@ public class HostJsDeal {
 	@JavascriptInterface
 	public void showToast(String str) {
 		if (str != null) {
-			CustomToast.show(str, 0);
+			ToastUtil.show(str, 0);
 		}
 	}
 
@@ -190,9 +191,8 @@ public class HostJsDeal {
 	/**
 	 * 异步加载数据
 	 * 
-	 * @param webView
+	 * @param flag
 	 * @param url
-	 * @param type
 	 * @param prams
 	 * @param tip
 	 */
@@ -251,7 +251,7 @@ public class HostJsDeal {
 				} else {
 					message = mWebView.getContext().getString(R.string.dialog_tip_null_error);
 				}
-				CustomToast.show(message, Toast.LENGTH_LONG);
+				ToastUtil.show(message, Toast.LENGTH_LONG);
 			}
 		}, data);
 	}

@@ -96,64 +96,6 @@ public class StringUtil {
 		}
 	}
 
-	/**
-	 * 将字符串数组转换成字符串
-	 * 
-	 * @param str
-	 * @param separator
-	 *            各个字符串之间的分隔符
-	 * @return
-	 */
-	public static String stringArrayToString(String[] str, String separator) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < str.length; i++) {
-			sb.append(str[i]);
-			if (str.length != (i + 1)) {
-				sb.append(separator);
-			}
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * 简单的将各个字符数组之间连接起来
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static String stringArrayToString(String[] str) {
-		return stringArrayToString(str, "");
-	}
-
-	/**
-	 * 将字符数组转换成字符串
-	 * 
-	 * @param str
-	 * @param separator
-	 *            各个字符串之间的分隔符
-	 * @return
-	 */
-	public static String charArrayToString(char[] ch, String separator) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < ch.length; i++) {
-			sb.append(ch[i]);
-			if (ch.length != (i + 1)) {
-				sb.append(separator);
-			}
-		}
-		return sb.toString();
-	}
-
-	/**
-	 * 将字符数组转换成字符串
-	 * 
-	 * @param str
-	 * @return
-	 */
-	public static String charArrayToString(char[] ch) {
-		return charArrayToString(ch, " ");
-	}
-
 	public static boolean isEmojiCharacter(char codePoint) {
 		return (codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA)
 				|| (codePoint == 0xD)

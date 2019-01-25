@@ -2,12 +2,13 @@ package com.z012.chengdu.sc.ui.JSBridge.functions;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.StringUtil;
-import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
+import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
 
 /**
@@ -37,7 +38,7 @@ public class handleError implements com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewC
 			String rtnCode = mJson.getString("rtnCode");
 			String rtnMsg = mJson.getString("rtnMsg");
 			if (rtnCode != null && (rtnCode.equals("900902") || rtnCode.equals("310001"))) {// 900902，310001//登陆过期
-				AppContext.mMainContext.sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+				LocalBroadcastManager.getInstance(AppContext.mMainContext).sendBroadcast(new Intent(AppConst.ACTION_UNLOGIN));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

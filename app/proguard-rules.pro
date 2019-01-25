@@ -111,10 +111,6 @@
 -keepclassmembers class * {
    public <init>(org.json.JSONObject);
 }
-#JavascriptInterface的混淆处理
-#-keep class com.yunfei.wh.ui.activity.HtmlActivity$HostJsDeal {
-#    *;
-#}
 
 #友盟分享start
 
@@ -125,8 +121,6 @@
 -dontwarn com.umeng.**
 -dontwarn com.tencent.weibo.sdk.**
 -dontwarn com.facebook.**
-
-#-libraryjars libs/SocialSDK_QQZone_2.jar
 
 -keep enum com.facebook.**
 -keepattributes Exceptions,InnerClasses,Signature
@@ -162,11 +156,37 @@
 
 #友盟分享end
 
-#OkHttp,Okio混淆start
--dontwarn com.squareup.okhttp.**
--keep class com.squareup.okhttp.** { *;}
+#butterknife
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+#EventBus
+-keepclassmembers class ** {
+    public void onEvent*(**);
+}
+-keepclassmembers class ** {
+public void onEventMainThread(**); #所有监听的方法都要列在这里
+}
+
+# okio
 -dontwarn okio.**
-#okhttp混淆end
+-keep class okio.** { *; }
+
+#okhttp
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.okhttp.** { *; }
+
+-dontwarn javax.annotation.**
+-keep class javax.annotation.** { *; }
+-dontwarn org.codehaus.**
+-keep class org.codehaus.** { *; }
 
 #jpush混淆start
 -dontwarn cn.jpush.**
@@ -190,27 +210,6 @@
 -keep class com.alipay.apmobilesecuritysdk.face.**{*;}
 -dontwarn android.net.SSLCertificateSocketFactory
 #支付宝end
-
-#-keepattributes InnerClasses
-#-keep class a
-#-keep class b
-#-keep class c
-#-keep class d
-#-keep class e
-#-keep class f
-#-keep class g
-#-keep class h
-#-keep class i
-#-keep class j
-#-keep class k
-#-keep class l
-#-keep class m
-#-keep class n
-#-keep class o
-#-keep class p
-#-keep class q
-#-keep class r
-#-keep class s
 
 -keep class com.yunfei.wh.net.bean.** {*;}
 

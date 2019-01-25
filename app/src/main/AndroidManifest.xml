@@ -88,7 +88,7 @@
             android:theme="@style/AppTheme.PermissionTheme" />
         <!-- 我的问答 -->
         <activity
-            android:name=".ui.activity.MyQAActivity"
+            android:name=".ui.activity.qa.MyQAActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.MainFragmentActivity"
@@ -96,16 +96,21 @@
             android:screenOrientation="portrait" />
         <!-- 登录 -->
         <activity
-            android:name=".ui.activity.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:name=".ui.activity.user.LoginActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="com.z012.sc.action.Login"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <!-- 天气 -->
         <activity
-            android:name=".ui.activity.WeatherActivity"
+            android:name=".ui.activity.weather.WeatherActivity"
             android:screenOrientation="portrait" />
 
         <!-- 天气城市选择 -->
         <activity
-            android:name=".ui.activity.WeatherSelectActivity"
+            android:name=".ui.activity.weather.WeatherSelectActivity"
             android:screenOrientation="portrait" />
         <!-- h5应用页面 -->
         <activity
@@ -128,15 +133,15 @@
             android:screenOrientation="portrait" />
         <!-- 问答详情 -->
         <activity
-            android:name=".ui.activity.QADetailsActivity"
+            android:name=".ui.activity.qa.QADetailsActivity"
             android:screenOrientation="portrait" />
         <!-- 个人资料 -->
         <activity
-            android:name=".ui.activity.PersonalDataActivity"
+            android:name=".ui.activity.user.PersonalDataActivity"
             android:screenOrientation="portrait" />
         <!-- 我的收藏 -->
         <activity
-            android:name=".ui.activity.MyCollectionActivity"
+            android:name=".ui.activity.user.MyCollectionActivity"
             android:screenOrientation="portrait" />
         <!-- 意见反馈 -->
         <activity
@@ -144,35 +149,35 @@
             android:screenOrientation="portrait" />
         <!-- 更改手机号 -->
         <activity
-            android:name=".ui.activity.ChangePhoneNoActivity"
+            android:name=".ui.activity.user.ChangePhoneNoActivity"
             android:screenOrientation="portrait" />
         <!-- 更改绑定手机号 -->
         <activity
-            android:name=".ui.activity.ChangePhoneNoBindActivity"
+            android:name=".ui.activity.user.ChangePhoneNoBindActivity"
             android:screenOrientation="portrait" />
         <!-- 注册 -->
         <activity
-            android:name=".ui.activity.RegisterActivity"
+            android:name=".ui.activity.user.RegisterActivity"
             android:screenOrientation="portrait" />
         <!-- 忘记密码 -->
         <activity
-            android:name=".ui.activity.ForgetPwdActivity"
+            android:name=".ui.activity.user.ForgetPwdActivity"
             android:screenOrientation="portrait" />
         <!-- 更改登录密码 -->
         <activity
-            android:name=".ui.activity.UpdataLoginPwdActivity"
+            android:name=".ui.activity.user.UpdataLoginPwdActivity"
             android:screenOrientation="portrait" />
         <!-- 实名认证 -->
         <activity
-            android:name=".ui.activity.CertificateOneActivity"
+            android:name=".ui.activity.certificate.CertificateOneActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.activity.CertificateTwoActivity"
+        <activity android:name=".ui.activity.certificate.CertificateTwoActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".ui.activity.CertificateThreeActivity"
+        <activity android:name=".ui.activity.certificate.CertificateThreeActivity"
             android:screenOrientation="portrait"/>
         <!-- 发表问答 -->
         <activity
-            android:name=".ui.activity.QAISayActivity"
+            android:name=".ui.activity.qa.QAISayActivity"
             android:screenOrientation="portrait" />
         <!-- 图片浏览 -->
         <activity
@@ -185,46 +190,46 @@
         </activity>
         <!-- 邀请好友 -->
         <activity
-            android:name=".ui.activity.InviteActivity"
+            android:name=".ui.activity.user.InviteActivity"
             android:screenOrientation="portrait" />
         <!-- 邀请列表 -->
         <activity
-            android:name=".ui.activity.InviteListActivity"
+            android:name=".ui.activity.user.InviteListActivity"
             android:screenOrientation="portrait" />
         <!-- 地址管理 -->
         <activity
-            android:name=".ui.activity.AddressManageActivity"
+            android:name=".ui.activity.address.AddressManageActivity"
             android:screenOrientation="portrait" />
         <!-- 地址编辑 -->
         <activity
-            android:name=".ui.activity.AddressEditActivity"
+            android:name=".ui.activity.address.AddressEditActivity"
             android:screenOrientation="portrait" />
         <!-- 三方登录 的绑定 -->
         <activity
-            android:name=".ui.activity.BindPhoneActivity"
+            android:name=".ui.activity.user.BindPhoneActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.BindPhoneSecondStepActivity"
+            android:name=".ui.activity.user.BindPhoneSecondStepActivity"
             android:screenOrientation="portrait" />
         <!-- 问答 追问纠错 -->
         <activity
-            android:name=".ui.activity.QAPursueErrorCorrectionActivity"
+            android:name=".ui.activity.qa.QAPursueErrorCorrectionActivity"
             android:screenOrientation="portrait" />
         <!-- 账户安全 -->
         <activity
-            android:name=".ui.activity.AccountSecurityActivity"
+            android:name=".ui.activity.user.AccountSecurityActivity"
             android:screenOrientation="portrait" />
         <!-- 绑定银行卡或支护宝 -->
         <activity
-            android:name=".ui.activity.BindBankCardActivity"
+            android:name=".ui.activity.user.BindBankCardActivity"
             android:screenOrientation="portrait" />
         <!-- 第三方绑定、解绑 -->
         <activity
-            android:name=".ui.activity.BindThirdPartyActivity"
+            android:name=".ui.activity.user.BindThirdPartyActivity"
             android:screenOrientation="portrait" />
         <!-- 问答-标签相关问题 -->
         <activity
-            android:name=".ui.activity.QATagAboutListActivity"
+            android:name=".ui.activity.qa.QATagAboutListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="cmb.pb.ui.PBKeyboardActivity"
@@ -441,15 +446,6 @@
         </activity>
         <!-- 友盟渠道更新end -->
 
-        <provider
-            android:authorities="com.z012.chengdu.sc.fileprovider"
-            android:name="android.support.v4.content.FileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
-        </provider>
     </application>
 
 </manifest>

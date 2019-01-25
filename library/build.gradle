@@ -33,17 +33,15 @@ android {
     lintOptions {
         abortOnError false
     }
-
-    publishNonDefault true
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+    //fastjson
     implementation 'com.alibaba:fastjson:1.2.51'
-}
-
-configurations {
-    debug
-    release
+    //logger
+    implementation 'com.orhanobut:logger:2.1.1'
 }

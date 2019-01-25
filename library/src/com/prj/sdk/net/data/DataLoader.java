@@ -6,7 +6,6 @@ import android.os.Looper;
 
 import com.alibaba.fastjson.JSON;
 import com.prj.sdk.app.AppContext;
-import com.prj.sdk.constants.Const;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.cache.DiskLruCache;
 import com.prj.sdk.net.cache.DiskLruCache.DiskCacheType;
@@ -275,8 +274,9 @@ public class DataLoader {
 											response.data = mJson.getString("rtnMsg");// 将错误描述赋值给data，方便调用
 										}
 										if (code != null && (code.equals("900902") || code.equals("310001"))) {// 900902 票据失效
-											Intent intent = new Intent(Const.UNLOGIN_ACTION);
-											intent.putExtra(Const.NEED_SHOW_UNLOGIN_DIALOG, true);
+											Intent intent = new Intent();
+											intent.setAction("com.z012.chengdu.sc.broatcast.unLogin");
+											intent.putExtra("needLogin", true);
 											AppContext.mMainContext.sendBroadcast(intent);// 发送登录广播
 											response.data = "登录超时,请重新登录";
 										}

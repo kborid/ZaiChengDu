@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -35,28 +36,28 @@ import com.common.share.ShareBeanInfo;
 import com.common.widget.custom.CommonLoadingWidget;
 import com.common.widget.custom.CustomShareView;
 import com.prj.sdk.app.AppContext;
-import com.prj.sdk.net.bean.ResponseData;
-import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
+import com.prj.sdk.util.ToastUtil;
 import com.prj.sdk.util.UIHandler;
 import com.prj.sdk.util.Utils;
-import com.prj.sdk.widget.CustomToast;
 import com.prj.sdk.widget.webview.ChooserFileController;
 import com.prj.sdk.widget.webview.WebChromeClientCompat;
+import com.z012.chengdu.sc.BuildConfig;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.helper.LocationManagerBD;
-import com.z012.chengdu.sc.helper.LocationManagerBD.LocationCallback;
 import com.z012.chengdu.sc.SessionContext;
-import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
+import com.z012.chengdu.sc.entity.WebInfoEntity;
+import com.z012.chengdu.sc.helper.LocationManagerBD;
+import com.z012.chengdu.sc.helper.LocationManagerBD.LocationCallback;
+import com.z012.chengdu.sc.ui.BaseActivity;
 import com.z012.chengdu.sc.ui.JSBridge.RegisterHandler;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient;
-import com.z012.chengdu.sc.ui.activity.LoginActivity.onCancelLoginListener;
-import com.z012.chengdu.sc.ui.base.BaseActivity;
+import com.z012.chengdu.sc.ui.activity.user.LoginActivity;
+import com.z012.chengdu.sc.ui.activity.user.LoginActivity.onCancelLoginListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,17 +72,13 @@ import cmb.pb.util.CMBKeyboardFunc;
  * @date 2014-7-8
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class HtmlActivity extends BaseActivity implements onCancelLoginListener, DataCallback {
+public class HtmlActivity extends BaseActivity implements onCancelLoginListener {
     public final static String CSS_STYLE = "<style>* {font-size:40px;padding:10px;}</style>";
     private WebView mWebView;
     private CommonLoadingWidget common_loading_widget;
-    private String URL, mTitle, loginUrl;
-    private LinearLayout layout_test;
     private EditText et_url;
-    private Button btn_go;
-    private TextView tv_cur;
     private ActivityResult mActivityForResult;
-    private String mID;
+    private String loginUrl;
     private TextView tv_left_title_back, tv_left_title_close;
     private ChooserFileController mCtrl;
     private MyWebViewClient myWebViewClient = null;
@@ -89,6 +86,8 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
     private PopupWindow popupWindow = null;
     private CustomShareView customShareView;
     private List<ShareBeanInfo> list = new ArrayList<>();
+
+    private String mId, mTitle, mUrl;
 
     @Override
     protected int getLayoutResId() {
@@ -103,15 +102,15 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
      * 开发者测试
      */
     public void initDevelop() {
-        layout_test = (LinearLayout) findViewById(R.id.layout_test);
+        LinearLayout layout_test = (LinearLayout) findViewById(R.id.layout_test);
         et_url = (EditText) findViewById(R.id.et_url);
-        btn_go = (Button) findViewById(R.id.btn_go);
-        tv_cur = (TextView) findViewById(R.id.tv_cur);
+        Button btn_go = (Button) findViewById(R.id.btn_go);
+        TextView tv_cur = (TextView) findViewById(R.id.tv_cur);
         StringBuilder sb = new StringBuilder();
         sb.append("\nCurrent Environment（")
                 .append(SharedPreferenceUtil.getInstance().getInt(
                         AppConst.APPTYPE, 0)).append("：")
-                .append(NetURL.getApi()).append("）");
+                .append(NetURL.API_LINK).append("）");
         tv_cur.setText(sb);
         tv_cur.setVisibility(View.VISIBLE);
         layout_test.setVisibility(View.VISIBLE);
@@ -119,10 +118,10 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
 
             @Override
             public void onClick(View v) {
-                URL = et_url.getText().toString().trim();
-                if ("0".equals(URL) || "1".equals(URL) || "2".equals(URL)) {
+                mUrl = et_url.getText().toString().trim();
+                if ("0".equals(mUrl) || "1".equals(mUrl) || "2".equals(mUrl)) {
                     SharedPreferenceUtil.getInstance().setInt(AppConst.APPTYPE,
-                            Integer.parseInt(URL));// 保存切换地址类型
+                            Integer.parseInt(mUrl));// 保存切换地址类型
 
                     UIHandler.postDelayed(new Runnable() {
                         @Override
@@ -134,16 +133,17 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
                             ActivityTack.getInstanse().exit();
                         }
                     }, 2000);
-                    CustomToast.show("切换成功，即将退出，请手动重启", 0);
+                    ToastUtil.show("切换成功，即将退出，请手动重启", 0);
                     return;
                 }
 
-                mWebView.loadUrl(URL);
+                mWebView.loadUrl(mUrl);
             }
         });
     }
 
-    @OnClick(R.id.tv_left_title_back) void back() {
+    @OnClick(R.id.tv_left_title_back)
+    void back() {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
         } else {
@@ -151,11 +151,13 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
         }
     }
 
-    @OnClick(R.id.tv_left_title_close) void close() {
+    @OnClick(R.id.tv_left_title_close)
+    void close() {
         goBack();
     }
 
-    @OnClick(R.id.iv_share) void share() {
+    @OnClick(R.id.iv_share)
+    void share() {
         showPopupWindow();
     }
 
@@ -210,19 +212,17 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
     @Override
     public void dealIntent() {
         super.dealIntent();
-        if (getIntent().getExtras() != null
-                && getIntent().getExtras().getString("path") != null) {
-            URL = getIntent().getExtras().getString("path");
+        Bundle bundle = getIntent().getExtras();
+        if (null != bundle) {
+            if (null != bundle.getSerializable("webEntity")) {
+                WebInfoEntity webEntity = (WebInfoEntity) bundle.getSerializable("webEntity");
+                if (null != webEntity) {
+                    mId = webEntity.getId();
+                    mTitle = webEntity.getTitle();
+                    mUrl = webEntity.getUrl();
+                }
+            }
         }
-        if (getIntent().getExtras() != null
-                && getIntent().getExtras().getString("title") != null) {
-            mTitle = getIntent().getExtras().getString("title");
-        }
-        if (getIntent().getExtras() != null
-                && getIntent().getExtras().getString("id") != null) {
-            mID = getIntent().getExtras().getString("id");
-        }
-
     }
 
     public void initParams() {
@@ -246,7 +246,6 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
         webSetting.setJavaScriptEnabled(true);
         webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
         webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
-        // webSetting.setCacheMode(WebSettings.LOAD_CACHE_ONLY);
         webSetting.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);// 自动缩放
         webSetting.setUseWideViewPort(true);// 将图片调整到适合webview的大小
         webSetting.setLoadWithOverviewMode(true);// 充满全屏。
@@ -264,25 +263,14 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
         webSetting.setGeolocationEnabled(true); // 启用地理定位
         webSetting.setDefaultTextEncodingName("utf-8");
         mWebView.setDownloadListener(new MyWebViewDownLoadListener());// 开启文件下载功能
-        try {
-            StringBuilder sb = new StringBuilder();
-            String pkName = this.getPackageName();
-            String versionName = this.getPackageManager().getPackageInfo(
-                    pkName, 0).versionName;
-            sb.append(webSetting.getUserAgentString()).append(" Android/")
-                    .append(pkName).append("/").append(versionName)// 名字+包名+版本号
-                    .append(" ").append("CQSMT_ANDROID/1.0");
-            webSetting.setUserAgentString(sb.toString());// 追加修改ua特征标识（名字+包名+版本号）使得web端正确判断
-            LogUtil.i("dw", "ua = " + webSetting.getUserAgentString());
-        } catch (Exception e) {
-        }
-        if (Build.VERSION.SDK_INT >= 19) { // 控制图片加载处理，提高view加载速度
-            webSetting.setLoadsImagesAutomatically(true);
-        } else {
-            webSetting.setLoadsImagesAutomatically(false);
-        }
-        // URL = "file:///android_asset/index.html";
-        mWebView.loadUrl(URL);
+        StringBuilder sb = new StringBuilder();
+        sb.append(webSetting.getUserAgentString()).append(" Android/")
+                .append(BuildConfig.APPLICATION_ID).append("/").append(BuildConfig.VERSION_NAME)// 名字+包名+版本号
+                .append(" ").append("CQSMT_ANDROID/1.0");
+        webSetting.setUserAgentString(sb.toString());// 追加修改ua特征标识（名字+包名+版本号）使得web端正确判断
+        LogUtil.i("dw", "ua = " + webSetting.getUserAgentString());
+        webSetting.setLoadsImagesAutomatically(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT); // 控制图片加载处理，提高view加载速度
+        mWebView.loadUrl(mUrl);
 
         // 增加接口方法,让html页面调用
         // addJSInterfaces();
@@ -328,7 +316,6 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            // TODO Auto-generated method stub
             // 使用当前的WebView加载页面
             CMBKeyboardFunc kbFunc = new CMBKeyboardFunc(HtmlActivity.this);
             if (kbFunc.HandleUrlCall(view, url) == false) {
@@ -352,8 +339,7 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
                         goBack();
                     } else {
                         loginUrl = Uri.parse(url).getQueryParameter("loginUrl");
-                        sendBroadcast(new Intent(
-                                UnLoginBroadcastReceiver.ACTION_NAME));
+                        LocalBroadcastManager.getInstance(HtmlActivity.this).sendBroadcast(new Intent(AppConst.ACTION_UNLOGIN));
                     }
                 }
             } catch (Exception e) {
@@ -373,31 +359,27 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
                             .append(mLatitude).append(")");
                     executeJavascript(script.toString());
                 } else if (!LocationManagerBD.getIns().isStart()) {
-                    LocationManagerBD.getIns().startBaiduLocation(
-                            HtmlActivity.this.getApplicationContext(),
-                            new LocationCallback() {
-                                @Override
-                                public void onLocationInfo(
-                                        BDLocation locationInfo) {
-                                    if (locationInfo == null) {
-                                        return;
-                                    }
-                                    try {
-                                        mLatitude = locationInfo.getLatitude();
-                                        mLongitude = locationInfo
-                                                .getLongitude();
-                                        LocationManagerBD.getIns()
-                                                .stopBaiduLocation();
-                                        StringBuilder script = new StringBuilder();
-                                        script.append("getic(")
-                                                .append(mLongitude).append(",")
-                                                .append(mLatitude).append(")");
-                                        executeJavascript(script.toString());
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
+                    LocationManagerBD.getIns().startLocation(new LocationCallback() {
+                        @Override
+                        public void onLocationInfo(BDLocation locationInfo) {
+                            if (locationInfo == null) {
+                                return;
+                            }
+                            try {
+                                mLatitude = locationInfo.getLatitude();
+                                mLongitude = locationInfo
+                                        .getLongitude();
+                                LocationManagerBD.getIns().stopLocation();
+                                StringBuilder script = new StringBuilder();
+                                script.append("getic(")
+                                        .append(mLongitude).append(",")
+                                        .append(mLatitude).append(")");
+                                executeJavascript(script.toString());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 }
             }
 
@@ -486,7 +468,7 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
         public void onReceivedSslError(WebView view, SslErrorHandler handler,
                                        SslError error) {
             // 忽略证书的错误继续Load页面内容
-            CustomToast.show("已忽略证书信息继续加载", 0);
+            ToastUtil.show("已忽略证书信息继续加载", 0);
             handler.proceed();// 忽略证书信息继续加载
             // handler.cancel(); // Android默认的处理方式
             // handleMessage(Message msg); // 进行其他处理
@@ -601,28 +583,9 @@ public class HtmlActivity extends BaseActivity implements onCancelLoginListener,
         } else {
             if (loginUrl != null) {// 如果拦截到网页登录，登录成功则跳转到loginUrl
                 mWebView.loadUrl(loginUrl);
-                // loginUrl = null;
             } else {
                 mWebView.reload();// 刷新
             }
         }
     }
-
-    @Override
-    public void preExecute(ResponseData request) {
-
-    }
-
-    @Override
-    public void notifyMessage(ResponseData request, ResponseData response)
-            throws Exception {
-
-    }
-
-    @Override
-    public void notifyError(ResponseData request, ResponseData response,
-                            Exception e) {
-
-    }
-
 }
