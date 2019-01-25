@@ -184,7 +184,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="《注册协议》"
-            android:textColor="@color/titlecolor"
+            android:textColor="@color/mainColor"
             android:textSize="14sp" />
     </LinearLayout>
 

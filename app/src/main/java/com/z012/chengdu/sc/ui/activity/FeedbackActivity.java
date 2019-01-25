@@ -1,105 +1,81 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import android.content.DialogInterface;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.prj.sdk.net.bean.ResponseData;
-import com.prj.sdk.net.data.DataCallback;
-import com.prj.sdk.net.data.DataLoader;
+import com.orhanobut.logger.Logger;
 import com.prj.sdk.util.StringUtil;
-import com.prj.sdk.widget.CustomToast;
+import com.prj.sdk.util.ToastUtil;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.net.RequestBeanBuilder;
 import com.z012.chengdu.sc.SessionContext;
-import com.z012.chengdu.sc.constants.NetURL;
-import com.z012.chengdu.sc.ui.base.BaseActivity;
+import com.z012.chengdu.sc.net.ApiManager;
+import com.z012.chengdu.sc.net.callback.ResponseCallback;
+import com.z012.chengdu.sc.net.request.RequestBuilder;
+import com.z012.chengdu.sc.ui.BaseActivity;
 
-import java.net.ConnectException;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
  * 意见反馈
- * 
+ *
  * @author kborid
- * 
  */
-public class FeedbackActivity extends BaseActivity implements DataCallback, DialogInterface.OnCancelListener {
-	@BindView(R.id.et_content) EditText et_content;
+public class FeedbackActivity extends BaseActivity {
+    private static final String TAG = FeedbackActivity.class.getSimpleName();
 
-	@Override
-	protected int getLayoutResId() {
-		return R.layout.ui_feedback_act;
-	}
+    @BindView(R.id.et_content)
+    EditText et_content;
 
-	@Override
-	public void initParams() {
-		super.initParams();
-		tv_center_title.setText("意见反馈");
-		tv_right_title.setVisibility(View.GONE);
-	}
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.ui_feedback_act;
+    }
 
-	@OnClick(R.id.btn_sbmit) void submit() {
-		if (StringUtil.notEmpty(et_content.getText().toString().trim())) {
-			if (StringUtil.containsEmoji(et_content.getText().toString())) {
-				CustomToast.show("不支持输入Emoji表情符号", 0);
-				return;
-			}
-			loadData();
-		} else {
-			CustomToast.show("内容不允许为空", 0);
-		}
-	}
+    @Override
+    public void initParams() {
+        super.initParams();
+        tv_center_title.setText("意见反馈");
+    }
 
-	/**
-	 * 加载数据
-	 */
-	private void loadData() {
-		RequestBeanBuilder builder = RequestBeanBuilder.create(false);
-		builder.addBody("content", et_content.getText().toString().trim()).addBody("login", StringUtil.doEmpty(SessionContext.mUser.USERAUTH.login));
+    @OnClick(R.id.btn_sbmit)
+    void submit() {
+        if (StringUtil.notEmpty(et_content.getText().toString().trim())) {
+            if (StringUtil.containsEmoji(et_content.getText().toString())) {
+                ToastUtil.show("不支持输入Emoji表情符号", 0);
+                return;
+            }
+            submitRequest();
+        } else {
+            ToastUtil.show("内容不允许为空", 0);
+        }
+    }
 
-		ResponseData requster = builder.syncRequest(builder);
-		requster.flag = 1;
-		requster.path = NetURL.FEEDBACK;
+    private void submitRequest() {
+        if (!isProgressShowing()) {
+            showProgressDialog(getString(R.string.present), true);
+        }
 
-		if (!isProgressShowing()) {
-			showProgressDialog(getString(R.string.present), true);
-		}
-		requestID = DataLoader.getInstance().loadData(this, requster);
-	}
+        HashMap<String, Object> params = RequestBuilder.create(false)
+                .addBody("content", et_content.getText().toString().trim())
+                .addBody("login", StringUtil.doEmpty(SessionContext.mUser.USERAUTH.login))
+                .build();
+        ApiManager.getFeedBack(params, new ResponseCallback<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                Logger.t(TAG).d("onSuccess() " + o.toString());
+                removeProgressDialog();
+                ToastUtil.show("提交成功", Toast.LENGTH_SHORT);
+                finish();
+            }
 
-	@Override
-	public void preExecute(ResponseData request) {
-	}
-
-	@Override
-	public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
-		removeProgressDialog();
-		CustomToast.show("提交成功", 0);
-		this.finish();
-	}
-
-	@Override
-	public void notifyError(ResponseData request, ResponseData response, Exception e) {
-		removeProgressDialog();
-
-		String message;
-		if (e instanceof ConnectException) {
-			message = getString(R.string.dialog_tip_net_error);
-		} else {
-			message = response != null && response.data != null ? response.data.toString() : getString(R.string.dialog_tip_null_error);
-		}
-		CustomToast.show(message, Toast.LENGTH_LONG);
-
-	}
-
-	@Override
-	public void onCancel(DialogInterface dialog) {
-		DataLoader.getInstance().clear(requestID);
-		removeProgressDialog();
-	}
-
+            @Override
+            public void onFail(String msg) {
+                Logger.t(TAG).d("onError()");
+                removeProgressDialog();
+            }
+        });
+    }
 }

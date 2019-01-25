@@ -21,8 +21,6 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.prj.sdk.net.image.StreamUtil;
-
 /**
  * 使用较小的内存，来构建缩略图
  *

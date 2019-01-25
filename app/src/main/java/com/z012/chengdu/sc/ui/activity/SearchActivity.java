@@ -1,12 +1,10 @@
 package com.z012.chengdu.sc.ui.activity;
 
-import android.content.SharedPreferences;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -14,179 +12,142 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.prj.sdk.util.DisplayUtil;
+import com.prj.sdk.util.SharedPreferenceUtil;
 import com.prj.sdk.util.StringUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.z012.chengdu.sc.R;
 import com.z012.chengdu.sc.SessionContext;
-import com.z012.chengdu.sc.net.bean.AppListBean;
+import com.z012.chengdu.sc.net.entity.AppListBean;
+import com.z012.chengdu.sc.ui.BaseActivity;
 import com.z012.chengdu.sc.ui.adapter.ColumnAdapter;
-import com.z012.chengdu.sc.ui.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+
 /**
  * 搜索服务
- * 
+ *
  * @author LiaoBo
- * 
  */
 public class SearchActivity extends BaseActivity implements TextWatcher, OnItemClickListener {
 
-	private AutoCompleteTextView	mAuto_text;
-	private TextView				mTextView, emptyView;
-	private ListView				mListView;
-	private ColumnAdapter			mAdapter;
-	private ArrayList<AppListBean>	mBean	= new ArrayList<AppListBean>();
-	private ArrayAdapter<String>	arr_adapter;
-	private ListView				listHistory;
-	private View					footView;
+    private ColumnAdapter mAdapter;
+    private ArrayList<AppListBean> mBean = new ArrayList<>();
 
-	@Override
-	protected int getLayoutResId() {
-		return R.layout.ui_search;
-	}
+    @BindView(R.id.listView)
+    ListView mListView;
+    @BindView(R.id.listHistory)
+    ListView listHistory;
+    @BindView(R.id.tv_empty)
+    TextView emptyView;
+    @BindView(R.id.auto_text)
+    AutoCompleteTextView mAuto_text;
 
-	@Override
-	public void initParams() {
-		super.initParams();
-		mAuto_text = (AutoCompleteTextView) findViewById(R.id.auto_text);
-		mTextView = (TextView) findViewById(R.id.tv_title_right);
-		mListView = (ListView) findViewById(R.id.listView);
-		listHistory = (ListView) findViewById(R.id.listHistory);
-		mAuto_text.requestFocus();
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.ui_search;
+    }
 
-		mAdapter = new ColumnAdapter(this, mBean);
-		mAdapter.isSearchHistory(true);
-		mListView.setAdapter(mAdapter);
-		emptyView = new TextView(this);
-		emptyView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-		emptyView.setText("暂时没有找到相关服务");
-		emptyView.setTextSize(18);
-		emptyView.setTextColor(0xffbbbbbb);
-		emptyView.setPadding(5, DisplayUtil.dip2px(30), 5, 5);
-		emptyView.setGravity(Gravity.CENTER_HORIZONTAL);
-		emptyView.setVisibility(View.GONE);
-		mListView.setEmptyView(emptyView);
-		showHistory();
-	}
+    @Override
+    public void initParams() {
+        super.initParams();
+        mAuto_text.requestFocus();
+        mAdapter = new ColumnAdapter(this, mBean);
+        mAdapter.isSearchHistory(true);
+        mListView.setAdapter(mAdapter);
+        emptyView.setText("暂时没有找到相关服务");
+        mListView.setEmptyView(emptyView);
+        View footer = LayoutInflater.from(this).inflate(R.layout.view_search_footview, null);
+        listHistory.addFooterView(footer);
+        showHistory();
+    }
 
-	@Override
-	public void initListeners() {
-		mAuto_text.addTextChangedListener(this);
-		listHistory.setOnItemClickListener(this);
+    @Override
+    public void initListeners() {
+        mAuto_text.addTextChangedListener(this);
+        listHistory.setOnItemClickListener(this);
+    }
 
-		tv_right_title.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				finish();
-			}
-		});
-	}
+    @OnClick(R.id.tv_title_right)
+    public void cancelSearch(View view) {
+        finish();
+    }
 
-	@Override
-	public void afterTextChanged(Editable s) {
-		String name = s.toString().trim();
-		mBean.clear();
-		if (name != null && name.length() > 0) {
-			hideListView();
-			for (AppListBean bean : SessionContext.getAllAppList()) {
-				if (bean.appname.contains(name)) {
-					mBean.add(bean);
-				}
-			}
-			mAdapter.notifyDataSetChanged();
-		} else {
-			showHistory();
-		}
-		
-	}
+    @Override
+    public void afterTextChanged(Editable s) {
+        String name = s.toString().trim();
+        mBean.clear();
+        if (!TextUtils.isEmpty(name)) {
+            hideListView();
+            for (AppListBean bean : SessionContext.getAllAppList()) {
+                if (bean.appname.contains(name)) {
+                    mBean.add(bean);
+                }
+            }
+            mAdapter.notifyDataSetChanged();
+        } else {
+            showHistory();
+        }
+    }
 
-	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-	}
+    }
 
-	@Override
-	public void onTextChanged(CharSequence s, int start, int before, int count) {
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-	}
+    }
 
-	/**
-	 * 获取历史
-	 */
-	public void showHistory() {
-		listHistory.setVisibility(View.VISIBLE);
-		mListView.setVisibility(View.GONE);
-		((ViewGroup) mListView.getParent()).removeView(emptyView);
-		if (footView == null) {
-			footView = getLayoutInflater().inflate(R.layout.view_search_footview, null, false);
-			listHistory.addFooterView(footView);
-		}
+    /**
+     * 获取历史
+     */
+    public void showHistory() {
+        listHistory.setVisibility(View.VISIBLE);
+        mListView.setVisibility(View.GONE);
+        // 获取搜索记录文件内容
+        String history = SharedPreferenceUtil.getInstance().getString("history", "", false);
+        if (TextUtils.isEmpty(history)) {
+            hideListView();
+        } else {
+            listHistory.setAdapter(new ArrayAdapter<String>(this, R.layout.lv_searc_history_item, history.split(",")));
+        }
+    }
 
-		// 获取搜索记录文件内容
-		SharedPreferences sp = getSharedPreferences("search_history", 0);
-		String history = sp.getString("history", null);
-		if (history == null) {
-			hideListView();
-			return;
-		}
-		// 用逗号分割内容返回数组
-		String[] history_arr = history.split(",");
-		if (history_arr.length > 0) {
-			arr_adapter = new ArrayAdapter<String>(this, R.layout.lv_searc_history_item, history_arr);
-			// 设置适配器
-			listHistory.setAdapter(arr_adapter);
-		} else {
-			hideListView();
-		}
-	}
+    /**
+     * 隐藏搜索历史listview
+     */
+    private void hideListView() {
+        listHistory.setVisibility(View.GONE);
+        mListView.setVisibility(View.VISIBLE);
+    }
 
-	/**
-	 * 隐藏搜索历史listview
-	 */
-	private void hideListView() {
-		listHistory.setVisibility(View.GONE);
-		mListView.setVisibility(View.VISIBLE);
-		((ViewGroup) mListView.getParent()).removeView(emptyView);//先移除，后添加
-		((ViewGroup) mListView.getParent()).addView(emptyView);
-	}
+    /**
+     * 清除搜索记录
+     */
+    public void cleanHistory(View v) {
+        SharedPreferenceUtil.getInstance().setString("history", "", false);
+        hideListView();
+    }
 
-	/**
-	 * 清除搜索记录
-	 * 
-	 * @param v
-	 */
-	public void cleanHistory(View v) {
-		SharedPreferences sp = getSharedPreferences("search_history", 0);
-		SharedPreferences.Editor editor = sp.edit();
-		editor.clear();
-		editor.commit();
-		hideListView();
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        String keyword = mAuto_text.getText().toString().trim();
+        if (StringUtil.notEmpty(keyword)) {
+            // 添加友盟自定义事件
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("keyword", keyword);
+            MobclickAgent.onEvent(this, "Search", map);
+        }
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		String keyword = mAuto_text.getText().toString().trim();
-		if (StringUtil.notEmpty(keyword)) {
-			// 添加友盟自定义事件
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("keyword", keyword);
-			MobclickAgent.onEvent(this, "Search", map);
-		}
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		try {
-			String temp = (String) arg0.getAdapter().getItem(arg2);
-			mAuto_text.setText(temp);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mAuto_text.setText((String) parent.getAdapter().getItem(position));
+    }
 }

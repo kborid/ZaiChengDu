@@ -19,9 +19,6 @@
 
 package com.common.widget.wheel;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -37,8 +34,11 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
 import com.common.widget.wheel.adapters.WheelViewAdapter;
-import com.prj.sdk.util.Utils;
+import com.thunisoft.ui.util.ScreenUtils;
 import com.z012.chengdu.sc.R;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Numeric wheel view.
@@ -504,7 +504,7 @@ public class WheelView extends View {
 		if (layout != null && layout.getChildAt(0) != null) {
 			itemHeight = layout.getChildAt(0).getMeasuredHeight();
 		} else {
-		    return Utils.dip2px(200);
+		    return ScreenUtils.dp2px(200);
         }
 
 		int desired = itemHeight * visibleItems - itemHeight * ITEM_OFFSET_PERCENT / 50;

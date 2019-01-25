@@ -1,8 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/viewPager"
-    android:background="@color/white"
-    android:gravity="center_horizontal" >
+    android:gravity="center_horizontal">
 
     <include layout="@layout/comm_title" />
 

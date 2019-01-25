@@ -48,7 +48,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="45dp">
-        <com.z012.chengdu.sc.ui.widge.tablayout.TabLayout
+        <com.z012.chengdu.sc.ui.widget.tablayout.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="45dp"

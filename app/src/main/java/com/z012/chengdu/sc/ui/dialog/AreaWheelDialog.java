@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -17,9 +15,9 @@ import com.common.widget.wheel.OnWheelChangedListener;
 import com.common.widget.wheel.WheelView;
 import com.common.widget.wheel.adapters.ArrayWheelAdapter;
 import com.prj.sdk.util.UIHandler;
-import com.prj.sdk.util.Utils;
+import com.thunisoft.ui.util.ScreenUtils;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.ui.base.BaseActivity;
+import com.z012.chengdu.sc.ui.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -98,7 +96,7 @@ public class AreaWheelDialog extends Dialog implements OnWheelChangedListener, V
         setContentView(R.layout.wheel_view);
         getWindow().setBackgroundDrawable(new ColorDrawable(0));// 去除窗口透明部分显示的黑色
         LayoutParams p = getWindow().getAttributes(); // 获取对话框当前的参数值
-        p.width = (int) (Utils.mScreenWidth);
+        p.width = (int) (ScreenUtils.mScreenWidth);
         getWindow().setAttributes(p);
         getWindow().setGravity(Gravity.BOTTOM);
         this.setCanceledOnTouchOutside(false);// 点击空白区域默认消失

@@ -382,7 +382,6 @@ public class WVJBWebViewClient extends WebViewClient {
 			if (url.indexOf(kQueueHasMessage) > 0) {
 				flushMessageQueue();
 			}
-			return true;
 		} else {
 			try {
 				// 调用拨号程序
@@ -419,12 +418,11 @@ public class WVJBWebViewClient extends WebViewClient {
 				// view.loadUrl(url);// 设置点击网页里面的链接还是在当前的webview里跳转
 				// return true;
 				return false;
-			} catch (Exception localException) {
-				while (true) {
-					localException.printStackTrace();
-				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
+		return true;
 	}
 
 	private class WVJBMessage {
@@ -463,6 +461,6 @@ public class WVJBWebViewClient extends WebViewClient {
 		 *            接收到得js的值
 		 */
 		public void onReceiveValue(String value);
-	};
+	}
 
 }

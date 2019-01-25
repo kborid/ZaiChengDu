@@ -1,14 +1,15 @@
 package com.z012.chengdu.sc.ui.JSBridge.functions;
 
-import org.json.JSONObject;
-
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.StringUtil;
 import com.z012.chengdu.sc.SessionContext;
-import com.z012.chengdu.sc.broatcast.UnLoginBroadcastReceiver;
+import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
+
+import org.json.JSONObject;
 
 /**
  * 2.5. 获取访问凭据，Null时为未登录
@@ -26,7 +27,7 @@ public class getUserTicket implements com.z012.chengdu.sc.ui.JSBridge.WVJBWebVie
 					mJson.put("userTicket", SessionContext.getTicket());
 					callback.callback(mJson.toString());
 				} else {
-					AppContext.mMainContext.sendBroadcast(new Intent(UnLoginBroadcastReceiver.ACTION_NAME));
+					LocalBroadcastManager.getInstance(AppContext.mMainContext).sendBroadcast(new Intent(AppConst.ACTION_UNLOGIN));
 				}
 			}
 		} catch (Exception e) {

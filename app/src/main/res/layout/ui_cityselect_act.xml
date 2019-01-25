@@ -60,7 +60,7 @@
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"
-                    android:textColor="@color/titlecolor" />
+                    android:textColor="@color/mainColor" />
             </LinearLayout>
 
             <com.common.widget.custom.MyListViewWidget

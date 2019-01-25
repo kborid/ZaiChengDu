@@ -61,7 +61,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			mContext.startActivity(intent);		*/
 //			MobclickAgent.reportError(mContext, ex);//将己捕获的错误，上传到友盟服务器
 			ActivityTack.getInstanse().exit();
-	        android.os.Process.killProcess(android.os.Process.myPid());  
+	        android.os.Process.killProcess(android.os.Process.myPid());
 	        System.exit(1);  
 		}
 	}

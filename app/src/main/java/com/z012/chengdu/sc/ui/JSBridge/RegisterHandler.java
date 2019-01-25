@@ -44,7 +44,7 @@ public class RegisterHandler {
 		mWVJBWebViewClient.registerHandler("getCityInfo", new com.z012.chengdu.sc.ui.JSBridge.functions.getCityInfo());
 		mWVJBWebViewClient.registerHandler("handleError", new com.z012.chengdu.sc.ui.JSBridge.functions.handleError(mContext));
 		mWVJBWebViewClient.registerHandler("payOrder", new com.z012.chengdu.sc.ui.JSBridge.functions.payOrder(mContext));
-		mWVJBWebViewClient.registerHandler("getLocation", new com.z012.chengdu.sc.ui.JSBridge.functions.getLocation(mContext));
+		mWVJBWebViewClient.registerHandler("getLocation", new com.z012.chengdu.sc.ui.JSBridge.functions.getLocation());
 	}
 
 }

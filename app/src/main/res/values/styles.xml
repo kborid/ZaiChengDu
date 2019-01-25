@@ -1,44 +1,42 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <!-- Base application theme. -->
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--控制window默认背景-->
+        <item name="android:windowBackground">@null</item>
+        <!--控制状态栏显示明暗主题-->
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <item name="android:windowNoTitle">true</item>
+    <!-- App theme. -->
+    <style name="BaseAppTheme.AppTheme">
         <item name="android:windowBackground">@color/defaultBg</item>
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
-
-    <!--act theme-->
-    <style name="ActTheme" parent="AppBaseTheme">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/launch_bg</item>
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
-
-    <!--权限设定Theme-->
-    <style name="AppTheme.PermissionTheme">
-        <item name="android:windowTranslucentStatus">true</item>
+        <!--控制状态栏是否透明（布局内容是否沁入到状态栏），默认false-->
+        <item name="android:windowTranslucentStatus">false</item>
+        <!--控制虚拟导航栏是否透明（布局内容是否沁入到虚拟导航栏），默认false-->
+        <item name="android:windowTranslucentNavigation">false</item>
+        <!--控制window背景是否透明-->
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
+    <!--splashTheme-->
+    <style name="BaseAppTheme.SplashTheme">
+        <item name="android:windowBackground">@drawable/launch_bg</item>
+        <!--控制布局全屏显示-->
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <!-- ui 最外层风格 -->
     <style name="viewPager">
         <item name="android:orientation">vertical</item>
         <item name="android:background">@color/defaultBg</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:baselineAligned">false</item>
     </style>
 

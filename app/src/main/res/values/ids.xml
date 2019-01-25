@@ -2,7 +2,6 @@
 <resources>
     
     <item name="image_url" type="id"/>
-    
     <item name="banner_url" type="id"/>
     <item name="banner_name" type="id"/>
 </resources>

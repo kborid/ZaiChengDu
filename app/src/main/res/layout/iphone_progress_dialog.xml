@@ -13,7 +13,7 @@
         android:id="@+id/progress_wheel"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        wheel:matProg_barColor="@color/titlecolor"
+        wheel:matProg_barColor="@color/mainColor"
         wheel:matProg_rimColor="@color/hintColor"
         wheel:matProg_progressIndeterminate="true"
         wheel:matProg_fillRadius="true" />

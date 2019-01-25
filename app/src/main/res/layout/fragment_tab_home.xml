@@ -16,7 +16,7 @@
                 android:layout_height="wrap_content"
                 android:clipChildren="false">
 
-                <com.z012.chengdu.sc.ui.widge.banner.CommonBannerLayout
+                <com.z012.chengdu.sc.ui.widget.banner.CommonBannerLayout
                     android:id="@+id/banner"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"/>
@@ -71,7 +71,7 @@
                                 android:layout_height="35dp"
                                 android:background="@drawable/iv_news" />
 
-                            <com.z012.chengdu.sc.ui.widge.maqueue.UPMarqueeView
+                            <com.z012.chengdu.sc.ui.widget.maqueue.UPMarqueeView
                                 android:id="@+id/marqueeView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

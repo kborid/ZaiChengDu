@@ -1,20 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/viewPager"
-    android:background="@drawable/we_logo">
+    style="@style/viewPager">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!-- bg -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/we_logo" />
+        <!--copy right-->
+        <FrameLayout
+            android:id="@+id/copyright"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:background="#FDC473"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/iv_copy_right" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- logo -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="150dp"
         android:gravity="center"
-        android:layout_marginTop="75dp"
-        android:layout_gravity="center_horizontal">
+        android:orientation="vertical">
 
         <FrameLayout
             android:id="@+id/rl_logo"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content">
 
             <ProgressBar
                 android:id="@+id/iv_busy"
@@ -26,44 +54,30 @@
                 android:indeterminateDrawable="@drawable/welcome_progressbar_rotate_drawable" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:src="@drawable/ic_start_up_logo" />
         </FrameLayout>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:src="@drawable/ic_text" />
     </LinearLayout>
 
-    <!--copy right-->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="125dp"
-        android:layout_gravity="center_horizontal|bottom" >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/iv_copy_right"
-            android:layout_gravity="center"/>
-    </FrameLayout>
-
-    <!--广告-->
+    <!-- ad -->
     <FrameLayout
         android:id="@+id/layoutAd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/iv_advertisement"
+            android:id="@+id/iv_ad"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tv_skip"
@@ -73,12 +87,12 @@
             android:layout_margin="10dp"
             android:background="@color/transparent10"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:paddingTop="5dp"
+            android:paddingRight="10dp"
             android:paddingBottom="5dp"
-            android:textSize="14sp"
             android:text="跳过"
-            android:textColor="#fff" />
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </FrameLayout>
 
 </FrameLayout>

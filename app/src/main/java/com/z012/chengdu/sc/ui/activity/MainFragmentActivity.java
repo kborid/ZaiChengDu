@@ -1,41 +1,51 @@
 package com.z012.chengdu.sc.ui.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.alibaba.fastjson.JSON;
-import com.prj.sdk.net.bean.ResponseData;
-import com.prj.sdk.net.data.DataCallback;
-import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.ActivityTack;
 import com.prj.sdk.util.LogUtil;
 import com.prj.sdk.util.NetworkUtil;
-import com.prj.sdk.widget.CustomToast;
+import com.prj.sdk.util.ToastUtil;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.z012.chengdu.sc.R;
-import com.z012.chengdu.sc.net.RequestBeanBuilder;
-import com.z012.chengdu.sc.PRJApplication;
 import com.z012.chengdu.sc.SessionContext;
-import com.z012.chengdu.sc.constants.AppConst;
-import com.z012.chengdu.sc.constants.NetURL;
-import com.z012.chengdu.sc.net.bean.CertUserAuth;
+import com.z012.chengdu.sc.entity.WebInfoEntity;
+import com.z012.chengdu.sc.event.CertResultEvent;
+import com.z012.chengdu.sc.net.ApiManager;
+import com.z012.chengdu.sc.net.callback.ResponseCallback;
+import com.z012.chengdu.sc.net.entity.AdvertisementBean;
+import com.z012.chengdu.sc.net.entity.CertUserAuth;
+import com.z012.chengdu.sc.net.request.RequestBuilder;
+import com.z012.chengdu.sc.net.response.ResponseComm;
+import com.z012.chengdu.sc.ui.BaseActivity;
 import com.z012.chengdu.sc.ui.adapter.MainFragmentAdapter;
-import com.z012.chengdu.sc.ui.base.BaseActivity;
 import com.z012.chengdu.sc.ui.fragment.TabHomeFragment;
 import com.z012.chengdu.sc.ui.fragment.TabServerFragment;
 import com.z012.chengdu.sc.ui.fragment.TabUserFragment;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.OnCheckedChanged;
@@ -45,16 +55,20 @@ import butterknife.OnCheckedChanged;
  *
  * @author kborid
  */
-public class MainFragmentActivity extends BaseActivity implements DataCallback {
+public class MainFragmentActivity extends BaseActivity {
+
+    private static final String TAG = MainFragmentActivity.class.getSimpleName();
+
     public static final int PAGE_HOME = 0;
     public static final int PAGE_SERVER = 1;
     public static final int PAGE_USER = 2;
 
-    public static final int LOGIN_EXIT = 1000;
     private long exitTime = 0;
 
-    @BindView(R.id.radioGroup) RadioGroup radioGroup;
-    @BindView(R.id.viewPager) ViewPager viewPager;
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
 
     @Override
     protected int getLayoutResId() {
@@ -67,7 +81,20 @@ public class MainFragmentActivity extends BaseActivity implements DataCallback {
         initFragmentView();
         UmengUpdateAgent.update(this);// 友盟渠道版本更新
         if (NetworkUtil.isNetworkAvailable() && SessionContext.isLogin()) {
-            requestCertResult();
+            ApiManager.getCertResultByUID(RequestBuilder.create(true).addBody("uid", SessionContext.mUser.LOCALUSER.id).build(), new ResponseCallback<ResponseComm<CertUserAuth>>() {
+                @Override
+                public void onSuccess(ResponseComm<CertUserAuth> o) {
+                    LogUtil.i(TAG, o.bodyToString());
+                    SessionContext.mCertUserAuth = o.getBody();
+                }
+
+                @Override
+                public void onFail(String msg) {
+                    List<String> list = Collections.synchronizedList(new LinkedList<>());
+                    Set<String> set = Collections.synchronizedSet(new LinkedHashSet<>());
+                    Map<String, String> map = Collections.synchronizedMap(new LinkedHashMap<>());
+                }
+            });
         }
     }
 
@@ -79,14 +106,16 @@ public class MainFragmentActivity extends BaseActivity implements DataCallback {
             if (bundle.getString("path") != null) {
                 LogUtil.d("JPush", "main value = " + bundle.getString("path"));
                 Intent intent = new Intent(this, HtmlActivity.class);
-                intent.putExtra("path", bundle.getString("path"));
+                intent.putExtra("webEntity", new WebInfoEntity(bundle.getString("path")));
                 startActivity(intent);
             }
-
-            if (bundle.getString("certRet") != null) {
-                CustomToast.show(bundle.getString("certRet"), Toast.LENGTH_SHORT);
-            }
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     protected void onNewIntent(Intent intent) {
@@ -95,6 +124,17 @@ public class MainFragmentActivity extends BaseActivity implements DataCallback {
         // setIntent(Intent) to update it to this new Intent.
         setIntent(intent);
         dealIntent();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe
+    public void certResult(CertResultEvent certResultEvent) {
+        ToastUtil.show(certResultEvent.getRetMsg(), Toast.LENGTH_SHORT);
     }
 
     /**
@@ -130,7 +170,8 @@ public class MainFragmentActivity extends BaseActivity implements DataCallback {
         viewPager.setCurrentItem(PAGE_SERVER);
     }
 
-    @OnCheckedChanged({R.id.qu_btn_01, R.id.qu_btn_02, R.id.qu_btn_03}) void checked(CompoundButton view, boolean isChecked) {
+    @OnCheckedChanged({R.id.qu_btn_01, R.id.qu_btn_02, R.id.qu_btn_03})
+    void checked(CompoundButton view, boolean isChecked) {
         switch (view.getId()) {
             case R.id.qu_btn_01:
                 if (isChecked) {
@@ -157,8 +198,7 @@ public class MainFragmentActivity extends BaseActivity implements DataCallback {
         if (event.getAction() == KeyEvent.ACTION_DOWN
                 && event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次 退出程序",
-                        Toast.LENGTH_SHORT).show();
+                ToastUtil.show("再按一次 退出程序", Toast.LENGTH_SHORT);
                 exitTime = System.currentTimeMillis();
             } else {
                 SessionContext.destroy();
@@ -169,53 +209,5 @@ public class MainFragmentActivity extends BaseActivity implements DataCallback {
 
         }
         return super.dispatchKeyEvent(event);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode != RESULT_OK) {
-            return;
-        }
-        switch (requestCode) {
-            case LOGIN_EXIT:
-                LocalBroadcastManager.getInstance(PRJApplication.getInstance()).sendBroadcast(new Intent(AppConst.ACTION_DYNAMIC_USER_INFO));// 退出登录或编辑资料，重置界面
-                break;
-
-            default:
-                break;
-        }
-
-    }
-
-    private void requestCertResult() {
-        LogUtil.i("dw", "requestCertResult()");
-        RequestBeanBuilder b = RequestBeanBuilder.create(true);
-        b.addBody("uid", SessionContext.mUser.LOCALUSER.id);
-
-        ResponseData d = b.syncRequest(b);
-        d.path = NetURL.CERT_STATUS_BY_UID;
-        d.flag = 11;
-
-        DataLoader.getInstance().loadData(this, d);
-    }
-
-    @Override
-    public void preExecute(ResponseData request) {
-    }
-
-    @Override
-    public void notifyMessage(ResponseData request, ResponseData response) throws Exception {
-        if (request.flag == 11) {
-            if (null != response && response.body != null) {
-                LogUtil.i("dw", response.body.toString());
-                SessionContext.mCertUserAuth = JSON.parseObject(response.body.toString(), CertUserAuth.class);
-            }
-        }
-    }
-
-    @Override
-    public void notifyError(ResponseData request, ResponseData response, Exception e) {
     }
 }

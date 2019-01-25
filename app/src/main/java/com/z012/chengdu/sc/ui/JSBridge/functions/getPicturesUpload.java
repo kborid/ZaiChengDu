@@ -13,13 +13,13 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.prj.sdk.constants.InfoType;
+import com.z012.chengdu.sc.net.InfoType;
 import com.prj.sdk.net.bean.ResponseData;
 import com.prj.sdk.net.data.DataCallback;
 import com.prj.sdk.net.data.DataLoader;
 import com.prj.sdk.util.Base64;
 import com.prj.sdk.util.ThumbnailUtil;
-import com.prj.sdk.widget.CustomToast;
+import com.prj.sdk.util.ToastUtil;
 import com.z012.chengdu.sc.constants.AppConst;
 import com.z012.chengdu.sc.constants.NetURL;
 import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
@@ -88,7 +88,7 @@ public class getPicturesUpload implements ActivityResult, com.z012.chengdu.sc.ui
 						e.printStackTrace();
 					}
 				} else {
-					CustomToast.show("获取图片失败", 0);
+					ToastUtil.show("获取图片失败", 0);
 				}
 				break;
 			case AppConst.ACTIVITY_IMAGE_CAPTURE :// 相机
@@ -150,7 +150,7 @@ public class getPicturesUpload implements ActivityResult, com.z012.chengdu.sc.ui
 	@Override
 	public void notifyError(ResponseData request, ResponseData response, Exception e) {
 		mProgressDialog.dismiss();
-		CustomToast.show("图片上传失败，请重试", 0);
+		ToastUtil.show("图片上传失败，请重试", 0);
 	}
 
 }

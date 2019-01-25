@@ -17,71 +17,57 @@ import com.z012.chengdu.sc.constants.AppConst;
 
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
-	private static final String	TAG	= "MicroMsg.SDKSample.WXPayEntryActivity";
+    private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
 
-	private IWXAPI				api;
+    private IWXAPI api;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.pay_result);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        api = WXAPIFactory.createWXAPI(this, Constants.APPID);
+        api.handleIntent(getIntent(), this);
+    }
 
-		api = WXAPIFactory.createWXAPI(this, Constants.APPID);
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        api.handleIntent(intent, this);
+    }
 
-		api.handleIntent(getIntent(), this);
-	}
+    @Override
+    public void onReq(BaseReq req) {
+    }
 
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		setIntent(intent);
-		api.handleIntent(intent, this);
-	}
+    @Override
+    public void onResp(BaseResp resp) {
+        // 0 成功 -1 失败 -2取消支付
+        LogUtil.d(TAG, "onPayFinish, errCode = " + resp.errCode);
 
-	@Override
-	public void onReq(BaseReq req) {
-	}
+        if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            int code = resp.errCode;
+            String msg;
+            switch (code) {
+                case 0:
+                    msg = "支付成功";
+                    break;
+                case -1:
+                    msg = "支付失败";
+                    break;
+                case -2:
+                    msg = "支付取消";
+                    break;
 
-	@Override
-	public void onResp(BaseResp resp) {
-		// 0 成功 -1 失败 -2取消支付
-		LogUtil.d(TAG, "onPayFinish, errCode = " + resp.errCode);
+                default:
+                    msg = "支付失败";
+                    break;
+            }
 
-		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-			int code = resp.errCode;
-			String msg = "";
-			switch (code) {
-				case 0 :
-					msg = "支付成功";
-					break;
-				case -1 :
-					msg = "支付失败";
-					break;
-				case -2 :
-					msg = "支付取消";
-					break;
-
-				default :
-					msg = "支付失败";
-					break;
-			}
-			
-			Intent mIntent = new Intent(AppConst.ACTION_PAY_STATUS);
-			mIntent.putExtra("code", code);
-			mIntent.putExtra("msg", msg);
-			LocalBroadcastManager.getInstance(this).sendBroadcast(mIntent);
-			this.finish();
-//			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//			builder.setTitle("提示");
-//			builder.setMessage(msg);
-//			builder.setNegativeButton("确定", new OnClickListener() {
-//				@Override
-//				public void onClick(DialogInterface dialog, int which) {
-//					dialog.dismiss();
-//					WXPayEntryActivity.this.finish();
-//				}
-//			});
-//			builder.show();
-		}
-	}
+            Intent mIntent = new Intent(AppConst.ACTION_PAY_STATUS);
+            mIntent.putExtra("code", code);
+            mIntent.putExtra("msg", msg);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(mIntent);
+            this.finish();
+        }
+    }
 }

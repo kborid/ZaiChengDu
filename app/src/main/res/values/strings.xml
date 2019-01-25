@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">在成都</string>
-    <string name="city_name">成都</string>
-    <string name="qr_code_msg">扫描二维码加入“在成都”</string>
-    <string name="bind_phone_tip">请完善手机号码，便于在成都为您提供更优质的服务</string>
-    <string name="bind_phone_second_tip">判断您已经注册过在成都,请登录绑定第三方账号信息</string>
     <string name="exit_tip">是否确定退出？</string>
     <string name="alert_title">提示</string>
     <string name="alert_ok">确认</string>
@@ -28,9 +23,7 @@
 
     <item name="tag_key" type="id"></item>
     
-    <string name="platform_answer">在成都市民融合平台的回答</string>
     <string name="fixed_error">追问纠错</string>
-    <string name="agree">我同意在成都网站的注册协议</string>
     <string name="register">立即注册</string>
     <string name="mid_line">—</string>
 

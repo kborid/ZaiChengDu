@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:mipMap="true"
+    android:tileMode="clamp"
+    android:gravity="center"
+    android:src="@drawable/we_logo">
+
+</bitmap>

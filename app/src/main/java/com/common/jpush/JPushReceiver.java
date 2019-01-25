@@ -13,6 +13,7 @@ import cn.jpush.android.api.JPushInterface;
 import com.alibaba.fastjson.JSONObject;
 import com.prj.sdk.app.AppContext;
 import com.prj.sdk.util.LogUtil;
+import com.z012.chengdu.sc.entity.WebInfoEntity;
 import com.z012.chengdu.sc.ui.activity.HtmlActivity;
 
 public class JPushReceiver extends BroadcastReceiver {
@@ -94,7 +95,7 @@ public class JPushReceiver extends BroadcastReceiver {
 		} else {
 			if (value != null && !value.equals("")) {
 				intent = new Intent(context, HtmlActivity.class);
-				intent.putExtra("path", value);
+				intent.putExtra("webEntity", new WebInfoEntity(value));
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			}
 		}

@@ -31,7 +31,6 @@
     <!-- 服务器地址 -->
     <string name="uattest_server">http://uat.zaichongqing.com:7878/</string>
     <string name="offical_server">http://www.zaichongqing.com/</string>
-    <string name="local_server">http://192.168.1.222/</string>
     <!-- portal -->
     <string name="portal">cq_portal/</string>
     <string name="portal_server">cq_portal/service/</string>

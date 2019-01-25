@@ -60,7 +60,7 @@
                 android:background="@drawable/common_round_rectangle_white_bg"
                 android:gravity="center"
                 android:text="@string/mid_line"
-                android:textColor="@color/titlecolor"
+                android:textColor="@color/mainColor"
                 android:textSize="11sp" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:background="@drawable/common_round_rectangle_white_bg"
                 android:gravity="center"
                 android:text="@string/mid_line"
-                android:textColor="@color/titlecolor"
+                android:textColor="@color/mainColor"
                 android:textSize="11sp" />
         </RelativeLayout>
     </RelativeLayout>

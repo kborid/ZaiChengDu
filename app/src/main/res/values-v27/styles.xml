@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseAppTheme.SplashTheme">
+        <item name="android:windowBackground">@drawable/launch_bg</item>
+        <item name="android:windowFullscreen">true</item>
+        <!--控制布局内容是否显示到刘海屏左右edge区域-->
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+</resources>

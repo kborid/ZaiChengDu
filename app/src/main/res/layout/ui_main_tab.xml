@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@color/home_tab_bg"
+            android:background="@color/white"
             android:checkedButton="@+id/qu_btn_01"
             android:orientation="horizontal"
             android:paddingTop="2dp" >

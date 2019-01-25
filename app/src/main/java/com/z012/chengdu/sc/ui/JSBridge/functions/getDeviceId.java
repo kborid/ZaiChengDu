@@ -1,11 +1,11 @@
 package com.z012.chengdu.sc.ui.JSBridge.functions;
 
-import java.security.MessageDigest;
+import com.prj.sdk.util.SystemUtil;
+import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
 
 import org.json.JSONObject;
 
-import com.prj.sdk.util.Utils;
-import com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewClient.WVJBResponseCallback;
+import java.security.MessageDigest;
 
 /**
  * 3.3 获取设备标识
@@ -35,8 +35,8 @@ public class getDeviceId implements com.z012.chengdu.sc.ui.JSBridge.WVJBWebViewC
 	 */
 	public String getUdid() {
 		try {
-			String imei = Utils.getIMEI();
-			String mac = Utils.getWifiMac();
+			String imei = SystemUtil.getIMEI();
+			String mac = SystemUtil.getWifiMac();
 			String content = imei + mac;
 			MessageDigest md;
 			md = MessageDigest.getInstance("MD5");

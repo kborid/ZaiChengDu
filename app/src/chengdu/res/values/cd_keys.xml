@@ -31,7 +31,6 @@
     <!-- 服务器地址 -->
     <string name="uattest_server">http://uat.zaichengdu.com/</string>
     <string name="offical_server">http://www.zaichengdu.com/</string>
-    <string name="local_server">http://192.168.1.222/</string>
     <!-- portal -->
     <string name="portal">cd_portal/</string>
     <string name="portal_server">cd_portal/service/</string>
